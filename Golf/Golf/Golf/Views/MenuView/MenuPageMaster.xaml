@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             x:Class="Golf.Views.MenuView.MenuPageMaster"
+             Title="Master">
+  <StackLayout>
+    <ListView x:Name="MenuItemsListView"
+              SeparatorVisibility="None"
+              HasUnevenRows="true"
+              ItemsSource="{Binding MenuItems}">
+      <ListView.Header>
+                <Grid x:Name="ImageGrid" 
+                      HeightRequest="200"
+                      RowSpacing="0"
+                      Margin="0"
+                      BackgroundColor="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="menu_banner.jpg"                            
+                           Aspect="AspectFill"
+                           HorizontalOptions="FillAndExpand" 
+                           Grid.RowSpan="2"
+                           VerticalOptions="FillAndExpand"
+                           Margin="0,0,0,5"/>
+                    <Controls:CircleImage Source="profile_pic.jpg"
+                                          Margin="20,20,0,0"
+                                          HeightRequest="80"
+                                          WidthRequest="80"
+                                          HorizontalOptions="Start"
+                                          Grid.Row="0"
+                                          />
+                    <StackLayout Grid.Row="1" Padding="0" Margin="20,20,0,0">
+                        <Label
+                            Text="Santhosh"
+                            TextColor="White"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            />
+                        <Label
+                            Text="santhoshr@apptomate.co"
+                            TextColor="White"
+                            FontSize="Large"
+                            />
+                    </StackLayout>
+                </Grid>
+      </ListView.Header>
+      <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical" >
+                        <Grid   Padding="10,8,0,8" Margin="{Binding ImageMargin}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image   Grid.Column="0" 
+                                   Source="{Binding Icon}"
+                                   WidthRequest="30"  
+                                    HeightRequest="30"  
+                                   VerticalOptions="Center" />
+                            <Label
+                                   Grid.Column="1"
+                                   Margin="{Binding Indentation}"
+                                   Text="{Binding Title}" 
+                                   TextColor="{Binding TextColor}"
+                                   VerticalOptions="Center" 
+                                   FontSize="16"/>
+                        </Grid>
+                        <BoxView VerticalOptions="Center" 
+                                 Margin="10,0,20,0" 
+                                 IsVisible="{Binding IsUnderlined}" 
+                                 Color="{StaticResource TextGrayColor}"
+                                 HeightRequest="1"/>
+                    </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
+</ContentPage>

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
+             x:Class="Golf.Views.LoginPage"
+             BackgroundImage="Login_Background_Image.jpg"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <viewModels:LoginPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowSpacing="0"
+                  Padding="0"
+                  ColumnSpacing="0"
+                  Margin="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Image Source="Login_Logo.png" Grid.Row="0"
+                       Aspect="AspectFit"
+                       HeightRequest="200"
+                       HorizontalOptions="CenterAndExpand"/>
+
+                <Label Text="LOGIN" Grid.Row="1"
+                       Style="{StaticResource HeaderLabelStyleWhite36}"
+                       HorizontalOptions="CenterAndExpand"/>
+
+                <StackLayout Grid.Row="2"
+                             VerticalOptions="FillAndExpand"
+                             Padding="0"
+                             Spacing="0">
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
+                                            Margin="40,40,40,0"
+                                            Placeholder="E-mail"
+                                            Image="gmail.png"
+                                            Text="{Binding UserNameText, Mode = TwoWay}"/>
+
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
+                                            Margin="40,30,40,0"
+                                            Text="{Binding PasswordText, Mode = TwoWay}"
+                                            Placeholder="Password"
+                                            IsPassword="True"
+                                            Image="key.png"/>
+                    <Controls:UnderlineLabel Text="Forgot Password"
+                                             HorizontalOptions="End"
+                                             Margin="0,10,20,0"/>
+                    <Controls:RoundedButton Text="Log In"
+                                            Margin="60,30,60,0"
+                                            x:Name="LoginButton"
+                                            Command="{Binding LoginInCommand}"/>
+
+                    <Label Text="OR" 
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource WhiteColor}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0,30,0,0"/>
+
+                    <StackLayout Orientation="Horizontal" 
+                                 Margin="20,30,20,0"
+                                 HorizontalOptions="FillAndExpand"
+                                 Padding="0"
+                                 Spacing="0">
+
+                        <Controls:RoundedButton Text="Face book"
+                                                Margin="0,0,10,0"
+                                                BackgroundColor="{StaticResource FaceBookBlueColor}"
+                                                Image="facebook.png"
+                                                Padding="0"/>
+                        <Controls:RoundedButton Text="Google"
+                                                Margin="0,0,10,0"
+                                                BackgroundColor="{StaticResource WhiteColor}"
+                                                TextColor="{StaticResource TextGrayColor}"
+                                                Image="google.png"
+                                                Padding="0"/>
+                    </StackLayout>
+
+                    <Controls:UnderlineLabel Text="Dont have an account? Register"
+                                             HorizontalOptions="CenterAndExpand"
+                                             Margin="0,20,0,10">
+                        <Controls:UnderlineLabel.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="RegistrationTabbed"
+                                                  Command="{Binding RegisterCommand}" />
+                        </Controls:UnderlineLabel.GestureRecognizers>
+                    </Controls:UnderlineLabel>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

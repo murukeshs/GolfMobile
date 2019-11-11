@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             x:Class="Golf.Views.CreateTeamPage"
+             Title="Create Team"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Select Logo"
+                   TextColor="{StaticResource LightGreenColor}"
+                   HorizontalOptions="CenterAndExpand" 
+                   Margin="20,20,20,0"
+                   FontSize="{StaticResource FontSize20}"
+                   FontAttributes="Bold"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Controls:CircleImage HorizontalOptions="Center"
+                                      Margin="20,10,20,10"
+                                      Source="profile_pic.jpg"
+                                      HeightRequest="160"
+                                      WidthRequest="160"
+                                      Grid.Row="0"/>
+
+                <Controls:CircleImage HorizontalOptions="Center"
+                                Grid.Row="0"
+                                Margin="100,125,0,0"
+                                Grid.ColumnSpan="1"
+                                Source="camera.png"
+                                WidthRequest="50"   
+                                HeightRequest="50"/>
+            </Grid>
+
+            <Label Text="Add Team Name"
+                   TextColor="{StaticResource LightGreenColor}"
+                   HorizontalOptions="CenterAndExpand" 
+                   Margin="20,30,20,0"
+                   FontSize="{StaticResource FontSize20}"
+                   FontAttributes="Bold"/>
+
+            <Controls:ExtendedEntry Placeholder="Enter Team Name"
+                                    Style="{StaticResource EntryStyleGray}"
+                                    Margin="20,10,20,0"/>
+
+            <StackLayout Orientation="Horizontal" 
+                         Padding="0"
+                         Spacing="0"
+                         Margin="20">
+
+                <Label Text="Created by:"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Start" 
+                       FontSize="{StaticResource FontSize20}"
+                       FontAttributes="Bold"/>
+
+                <Label Text="User Name"
+                       TextColor="{StaticResource BlackColor}"
+                       HorizontalOptions="StartAndExpand" 
+                       FontSize="{StaticResource FontSize20}"
+                       FontAttributes="Bold"
+                       Margin="20,0"/>
+
+            </StackLayout>
+
+            <Controls:RoundedButton Text="Proceed"
+                                    Margin="40,20,40,20"
+                                    x:Name="ProceedButton"
+                                    Clicked="ProceedButton_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

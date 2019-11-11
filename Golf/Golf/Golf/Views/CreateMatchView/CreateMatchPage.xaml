@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Match"
+             x:Class="Golf.Views.CreateMatchView.CreateMatchPage"
+             Title="Create Match"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:CreateMatchPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+       
+        <StackLayout >
+
+            <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout>
+                <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                                        Placeholder="Enter Match Name"
+                                        FontSize="{StaticResource FontSize18}"
+                                        Margin="20,20,20,0"
+                                        />
+            <Label Text="Match Type"
+                   TextColor="{StaticResource BlackColor}"
+                   Margin="20,5,20,0"
+                   FontAttributes="Bold"
+                   FontSize="{StaticResource FontSize18}"/>
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5,20,0"
+                         HorizontalOptions="CenterAndExpand">
+                <controls:CustomRadioButton Text="Teams" 
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            FontSize="{StaticResource FontSize16}"/>
+
+                <controls:CustomRadioButton Text="Player" 
+                                            Margin="30,0"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            FontSize="{StaticResource FontSize16}"/>
+            </StackLayout>
+
+            <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                                    Placeholder="Enter Competition Type"
+                                    Margin="20,5,20,0"
+                                    FontSize="{StaticResource FontSize18}"/>
+
+            <Label Text="Select Rule:"
+                   TextColor="{StaticResource BlackColor}"
+                   FontAttributes="Bold"
+                   Margin="20,5,20,0"
+                   FontSize="{StaticResource FontSize18}"/>
+
+            <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                                    Placeholder="Enter Rule"
+                                    Margin="20,5,20,0"
+                                    FontSize="{StaticResource FontSize18}"/>
+
+            <Label Text="Choose Date and Time"
+                   TextColor="{StaticResource BlackColor}"
+                   Margin="20,5,20,0"
+                   FontSize="{StaticResource FontSize18}"
+                   FontAttributes="Bold"/>
+
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5,20,0"
+                         HorizontalOptions="FillAndExpand">
+                <controls:NullableDatePicker PlaceHolder="Start Date"
+                                             TextColor="{StaticResource TextGrayColor}"
+                                             HorizontalOptions="FillAndExpand"
+                                             FontSize="{StaticResource FontSize18}"/>
+
+                <controls:CustomTimePiker PlaceHolder="Start Time"
+                                          TextColor="{StaticResource TextGrayColor}"
+                                          HorizontalOptions="FillAndExpand"
+                                          FontSize="{StaticResource FontSize18}"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5,20,0"
+                         HorizontalOptions="FillAndExpand">
+                <controls:NullableDatePicker PlaceHolder="End Date"
+                                             TextColor="{StaticResource TextGrayColor}"
+                                             HorizontalOptions="FillAndExpand"
+                                             FontSize="{StaticResource FontSize18}"/>
+
+                <controls:CustomTimePiker PlaceHolder="End Time"
+                                          TextColor="{StaticResource TextGrayColor}"
+                                          HorizontalOptions="FillAndExpand"
+                                          FontSize="{StaticResource FontSize18}"/>
+            </StackLayout>
+
+            <controls:CustomPicker Title="Choose Location" 
+                                       Image="down_arrow.png"
+                                       Margin="20,5,20,0"
+                                    FontSize="{StaticResource FontSize18}"
+                                       TitleColor="{StaticResource TextGrayColor}"
+                                       TextColor="{StaticResource TextGrayColor}"/>
+
+            <Label Text="Set the month fee:"
+                   FontSize="{StaticResource FontSize18}"
+                   TextColor="{StaticResource BlackColor}"
+                   FontAttributes="Bold"
+                   Margin="20,5,20,0"/>
+
+            <controls:CustomEntry IsCurvedCornersEnabled="True"
+                                  CornerRadius="25"
+                                  Margin="20,5,20,0"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"/>
+
+           
+                </StackLayout>
+            </ScrollView>
+
+            <controls:RoundedButton Text="Proceed"
+                                    Margin="40,0,40,10"
+                                    Command="{Binding ProceedCommand}"
+                                    VerticalOptions="EndAndExpand"/>
+        </StackLayout>
+            
+       
+    </ContentPage.Content>
+</ContentPage>

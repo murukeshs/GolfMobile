@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:Golf.Styles"
+             x:Class="Golf.App"
+             xmlns:Controls="clr-namespace:Golf.Controls">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:Colors />
+                <styles:Fonts />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--Styles-->
+            <Style x:Key="EntryStyleWhite" TargetType="{x:Type Controls:ExtendedEntry}">
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}"/>
+                <Setter Property="ImageAlignment" Value="Left"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource WhiteColor}"/>
+                <Setter Property="LineColor" Value="{StaticResource WhiteColor}"/>
+                <Setter Property="ImageHeight" Value="40"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="EntryStyleGray" TargetType="{x:Type Controls:ExtendedEntry}">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}"/>
+                <Setter Property="ImageAlignment" Value="Left"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="LineColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="ImageHeight" Value="40"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <!--Styles-->
+            <Style x:Key="RectangleShapeEntryStyle" TargetType="{x:Type Controls:CustomEntry}">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="BorderColor" Value="{StaticResource BorderColor}"/>
+            </Style>
+
+            <Style x:Key="CustomCheckBoxStyleWhite" TargetType="Controls:CustomCheckBox">
+                <Setter Property="FontSize" Value="{x:StaticResource FontSize18}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource WhiteColor}"/>
+                <Setter Property="BorderColor" Value="{x:StaticResource WhiteColor}"/>
+            </Style>
+
+            <Style x:Key="CustomCheckBoxStyleGray" TargetType="Controls:CustomCheckBox">
+                <Setter Property="FontSize" Value="{x:StaticResource FontSize18}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource TextGrayColor}"/>
+                <Setter Property="BorderColor" Value="{x:StaticResource TextGrayColor}"/>
+            </Style>
+
+            <Style x:Key="HeaderLabelStyleWhite36" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="{x:StaticResource FontSize36}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource WhiteColor}"/>
+            </Style>
+
+            <Style x:Key="HeaderLabelStyleWhite28" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="{x:StaticResource FontSize28}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource WhiteColor}"/>
+            </Style>
+
+            <Style x:Key="TextLabelStyleWhite20" TargetType="Label">
+                <Setter Property="FontSize" Value="{x:StaticResource FontSize20}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource WhiteColor}"/>
+            </Style>
+
+            <Style x:Key="TextLabelStyleGrayColor20" TargetType="Label">
+                <Setter Property="FontSize" Value="{x:StaticResource FontSize20}"/>
+                <Setter Property="TextColor" Value="{x:StaticResource TextGrayColor}"/>
+            </Style>
+
+          
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

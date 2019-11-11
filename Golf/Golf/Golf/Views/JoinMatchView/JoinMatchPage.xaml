@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
+             x:Class="Golf.Views.JoinMatchView.JoinMatchPage"
+             BackgroundColor="{StaticResource AppBackgroundColor}"
+             Title="Join Match">
+
+    <ContentPage.BindingContext>
+        <viewModels:JoinMatchPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeadingsLabel" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="20,5,20,5"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+        <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+            <Label Text="Match ID"
+                   Style="{StaticResource HeadingsLabel}"/>
+            
+            <controls:CustomEntry Text="123789456"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"
+                                  Margin="20,0,20,0"
+                                  FontSize="{StaticResource FontSize18}"/>
+            
+            <Label Text="Competition Type"
+                   Style="{StaticResource HeadingsLabel}"/>
+            
+            <controls:CustomEntry Text="123789456"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"
+                                  Margin="20,0,20,0"
+                                  FontSize="{StaticResource FontSize18}"/>
+
+            <Label Text="Participant Name"
+                   Style="{StaticResource HeadingsLabel}"
+                   />
+
+            <controls:CustomEntry Text="123789456"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"
+                                  BackgroundColor="LightGray"
+                                  Margin="20,0,20,0"
+                                  IsEnabled="False"
+                                  FontSize="{StaticResource FontSize18}"
+                                  IsCurvedCornersEnabled="True"/>
+
+            <Label Text="Participant ID"
+                   Style="{StaticResource HeadingsLabel}"/>
+
+            <controls:CustomEntry Text="123789456"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"
+                                  BackgroundColor="LightGray"
+                                  Margin="20,0,20,0"
+                                  IsEnabled="False"
+                                  FontSize="{StaticResource FontSize18}"
+                                  IsCurvedCornersEnabled="True"/>
+
+            <StackLayout Orientation="Horizontal" 
+                         Margin="30,20,30,0"
+                         HorizontalOptions="FillAndExpand">
+                <controls:UnderlineLabel TextColor="{StaticResource BlackColor}"
+                                         Margin="0"
+                                         Text="Note:"
+                                         WidthRequest="75"
+                                         FontAttributes="Bold"
+                                         VerticalOptions="Center"/>
+                <Label Margin="0"
+                       TextColor="{StaticResource TextGrayColor}"
+                       VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="The fee that needs to be paid to participant in this match is" 
+                                  />
+                            <Span Text=" $20"
+                                  ForegroundColor="{StaticResource LightGreenColor}" 
+                                  FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+
+            <controls:RoundedButton Margin="40,20,40,20"
+                                    Text="Join Match"
+                                    VerticalOptions="EndAndExpand"
+                                    Command="{Binding JoinMatchButtonCommand}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

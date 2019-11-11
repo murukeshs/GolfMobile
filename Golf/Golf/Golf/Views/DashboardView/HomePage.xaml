@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
+             x:Class="Golf.Views.HomePage"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:HomePageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5.0*"/>
+                    <RowDefinition Height="5.0*"/>
+                </Grid.RowDefinitions>
+                <Image Source="menu_banner.jpg"
+                       Aspect="AspectFill"
+                       Grid.Row="0"/>
+                <StackLayout Grid.Row="1" Margin="30,-50,30,30">
+                    
+                    <plugins:PancakeView BackgroundColor="White" 
+                                         HasShadow="True"
+                                         CornerRadius="15"
+                                         Margin="10"
+                                         HeightRequest="70">
+
+                        <plugins:PancakeView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NewMatchCommand}"/>
+                        </plugins:PancakeView.GestureRecognizers>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Image HorizontalOptions="Start"
+                                   Source="new_match.png"
+                                   Margin="0"/>
+                            <Label Text="New Match" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="50,0"/>
+                        </StackLayout>
+
+                    </plugins:PancakeView>
+
+                    <plugins:PancakeView BackgroundColor="White" 
+                                         HasShadow="True"
+                                         CornerRadius="15"
+                                         Margin="10"
+                                         HeightRequest="70">
+                        
+                        <plugins:PancakeView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding JoinMatchCommand}"/>
+                        </plugins:PancakeView.GestureRecognizers>
+                        
+                        <StackLayout Orientation="Horizontal">
+                            <Image HorizontalOptions="Start"
+                                   Source="join_match.png"
+                                    Margin="0"/>
+                            
+                            <Label Text="Join Match" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="50,0"/>
+                        </StackLayout>
+                    </plugins:PancakeView>
+                    
+                    <plugins:PancakeView BackgroundColor="White" 
+                                         HasShadow="True"
+                                         CornerRadius="15"
+                                         Margin="10"
+                                         HeightRequest="70">
+
+                        <plugins:PancakeView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TeamsCommand}"/>
+                        </plugins:PancakeView.GestureRecognizers>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Image HorizontalOptions="Start"
+                                   Source="team.png"
+                                    Margin="0"/>
+                            
+                            <Label Text="Teams" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="50,0"/>
+                        </StackLayout>
+                    </plugins:PancakeView>
+
+                    <plugins:PancakeView BackgroundColor="White" 
+                                         HasShadow="True"
+                                         CornerRadius="15"
+                                         Margin="10"
+                                         HeightRequest="70">
+
+                        <plugins:PancakeView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ParticipantsCommand}"/>
+                        </plugins:PancakeView.GestureRecognizers>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Image HorizontalOptions="Start"
+                                   Source="participants.png"
+                                    Margin="0"/>
+                            
+                            <Label Text="Participants" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="50,0"/>
+                        </StackLayout>
+                    </plugins:PancakeView>
+                    
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

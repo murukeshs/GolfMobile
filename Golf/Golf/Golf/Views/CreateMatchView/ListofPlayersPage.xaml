@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Match"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:behaviors="clr-namespace:Golf.Behaviors"
+             xmlns:Converters="clr-namespace:Golf.Converters"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="Golf.Views.CreateMatchView.ListofPlayersPage"
+             Title="List of Players"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:ListofPlayersPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+          <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                              BorderColor="{StaticResource BorderColor}"
+                              CornerRadius="25"
+                              HasShadow="True"
+                              Margin="20,20,20,0">
+            <controls:CustomSearchBar Placeholder="Search items..."
+                                  Margin="0"
+                                  CornerRadius="25"
+                                  CancelButtonColor="{StaticResource LightGreenColor}"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                  TextColor="{StaticResource BlackColor}"
+                                  HorizontalTextAlignment="Center"
+                                  FontSize="{StaticResource FontSize20}"
+                                  FontAttributes="Italic"
+                                  BackgroundColor="{StaticResource WhiteColor}"/>
+          </plugins:PancakeView>
+
+            <ListView Margin="10,0,10,0"
+                      x:Name="ListView"
+                      ItemsSource="{Binding ParticipantItems}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      >
+                <!--<ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="ItemSelected" 
+                                                      Command="{Binding ItemTappedCommand}"
+                                                      Converter="{StaticResource itemTappedEventArgsConverter}" />
+                </ListView.Behaviors>-->
+                <ListView.ItemTemplate>
+
+                    <DataTemplate>
+                        <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                            <ContentView Padding="5" >
+                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     BorderColor="{StaticResource BorderColor}"
+                                                     HasShadow="True">
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
+                                                                 VerticalOptions="Center"
+                                                                 Margin="10,0"/>
+
+                                        <controls:CircleImage Source="{Binding PlayerProfile}"
+                                                      VerticalOptions="Center"
+                                                      WidthRequest="100"
+                                                      HeightRequest="100"/>
+
+                                        <StackLayout HorizontalOptions="FillAndExpand"
+                                                     Margin="10">
+                                            <Label FontSize="{StaticResource FontSize18}"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding PlayerName}"
+                                               />
+                                            <Label FontSize="{StaticResource FontSize18}"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding PlayerGmail}"
+                                               />
+                                            <StackLayout Orientation="Horizontal"
+                                                         HorizontalOptions="FillAndExpand"
+                                                         Margin="0"
+                                                         Padding="0"
+                                                         Spacing="0">
+
+                                                <Label Margin="0"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="Start"
+                                                       FontSize="{StaticResource FontSize14}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="HCP "/>
+                                                            <Span Text="{Binding HCP}"
+                                                                  ForegroundColor="{StaticResource BlackColor}" 
+                                                                  FontAttributes="Bold"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Margin="0"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="CenterAndExpand"
+                                                       FontSize="{StaticResource FontSize14}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Type "/>
+                                                            <Span Text="{Binding Type}"
+                                                                  ForegroundColor="{StaticResource BlackColor}" 
+                                                                  FontAttributes="Bold"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                
+                                                <Image Source="{Binding Gender}"
+                                                       HeightRequest="25"
+                                                       WidthRequest="25"
+                                                       HorizontalOptions="End"
+                                                       Aspect="AspectFit"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </plugins:PancakeView>
+                            </ContentView>
+                        </controls:UpdateViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+            <ImageButton Source="next_icon.png"
+                                  HeightRequest="50"
+                                  WidthRequest="50" 
+                                  HorizontalOptions="End"
+                                  VerticalOptions="End"
+                                  Margin="0,0,20,10"
+                                  BackgroundColor="Transparent"
+                                  Command="{Binding NextImageButtonCommand}"/>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

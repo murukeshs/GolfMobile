@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             x:Class="Golf.Views.OtpVerificationPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="OtpNumberEntryStyle" TargetType="Controls:ExtendedEntry">
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="Keyboard" Value="Numeric" />
+                <Setter Property="MaxLength" Value="1" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize28}"/>
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}"/>
+                <Setter Property="LineColor" Value="{StaticResource LightGreenColor}"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Image Source="otp_verfication.png"
+                   HeightRequest="200"
+                   WidthRequest="200"
+                   Margin="20"/>
+            
+            <Label Margin="5,10,5,20" 
+                   HorizontalOptions="CenterAndExpand"
+                   Text="We have sent an OTP to your registered&#x0a;email-ID example@gmail.com&#x0a;for verfication"
+                   FontSize="{StaticResource FontSize20}"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource BlackColor}"/>
+
+            <StackLayout Orientation="Horizontal"
+                         Margin="20"
+                         Padding="0"
+                         Spacing="0"
+                         HorizontalOptions="CenterAndExpand">
+                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+
+                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+
+                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+
+                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+
+                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+
+                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="10">
+                <Label Text="Don't receive the OTP?"
+                       VerticalOptions="Center"
+                       Margin="0"
+                       TextColor="{StaticResource LightGreenColor}"/>
+                <Controls:UnderlineLabel Margin="5,0"
+                                         VerticalOptions="Center"
+                                         Text="RESEND OTP"
+                                         TextColor="{StaticResource LightGreenColor}"/>
+            </StackLayout>
+
+            <Controls:RoundedButton Text="Verify"
+                                    Margin="40,20,40,20"
+                                    x:Name="OtpVerifyButton"
+                                    Clicked="OtpVerifyButton_Clicked"/>
+
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="10"
+                         VerticalOptions="End">
+                <Label Text="Show it will expiry in "
+                       VerticalOptions="Center"
+                       Margin="0"
+                       TextColor="{StaticResource LightGreenColor}"/>
+                <Controls:UnderlineLabel Margin="5,0"
+                                         VerticalOptions="Center"
+                                         Text="15 mints"
+                                         TextColor="Red"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

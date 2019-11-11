@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:Converters="clr-namespace:Golf.Converters"
+             xmlns:behaviors="clr-namespace:Golf.Behaviors"
+             xmlns:ViewModel="clr-namespace:Golf.ViewModel"
+             x:Class="Golf.Views.ViewParticipantPage"
+             Title="Participant Listing"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+    
+    <!--Bind Your View Model Class heer to access his properties,functions and fields etc...-->
+    <ContentPage.BindingContext>
+        <ViewModel:ViewParticipantsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        
+        <ResourceDictionary>
+            <Converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout>
+
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="25"
+                                 HasShadow="True"
+                                 Margin="20,20,20,10">
+            <Controls:CustomSearchBar Placeholder="Search items..."
+                                      Margin="0"
+                                      CornerRadius="25"
+                                      CancelButtonColor="{StaticResource LightGreenColor}"
+                                      PlaceholderColor="{StaticResource TextGrayColor}"
+                                      TextColor="{StaticResource BlackColor}"
+                                      HorizontalTextAlignment="Center"
+                                      FontSize="{StaticResource FontSize20}"
+                                      FontAttributes="Italic" 
+                                      BackgroundColor="{StaticResource WhiteColor}"/>
+            </plugins:PancakeView>
+
+            <ListView Margin="20,0,20,20"
+                      x:Name="ListView"
+                      ItemsSource="{Binding ParticipantItems}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      VerticalScrollBarVisibility="Never">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="ItemSelected" 
+                                                      Command="{Binding ItemTappedCommand}"
+                                                      Converter="{StaticResource itemTappedEventArgsConverter}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                        
+                    <DataTemplate>
+                        <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                            <ContentView Padding="5" >
+                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     HasShadow="True">
+                                    <StackLayout>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="0,5,0,0"
+                                                     Padding="0"
+                                                     Spacing="0">
+                                            <Controls:CircleImage Source="profile_pic.png"
+                                                                  HeightRequest="60"
+                                                                  WidthRequest="60"
+                                                                  Margin="10,0"/>
+                                            <StackLayout Margin="5,0,10,0"
+                                                         HorizontalOptions="FillAndExpand">
+                                            <Label FontSize="{StaticResource FontSize20}"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding ParticipantName}"
+                                               Margin="0"/>
+                                        <Label FontSize="{StaticResource FontSize20}"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding ParticipantEmail}"
+                                               Margin="0"/>
+                                            </StackLayout>
+                                        </StackLayout>
+
+                                        <Controls:HorizontalList ListOrientation="Horizontal" 
+                                                                 ItemsSource="{Binding TypeList}" 
+                                                                 Padding="0"
+                                                                 Margin="10,5,0,5"
+                                                                 >
+                                            <Controls:HorizontalList.ItemTemplate>
+                                                <DataTemplate>
+                                                    <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
+                                                                         CornerRadius="25"
+                                                                         Margin="5">
+                                                        <Label Text="{Binding ParticipantType}"
+                                                               TextColor="{StaticResource WhiteColor}"
+                                                               FontSize="{StaticResource FontSize16}"
+                                                               Margin="5"/>
+                                                    </plugins:PancakeView>
+                                                </DataTemplate>
+                                            </Controls:HorizontalList.ItemTemplate>
+                                        </Controls:HorizontalList>
+                                    </StackLayout>
+
+                                </plugins:PancakeView>
+                            </ContentView>
+                        </Controls:UpdateViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Match"
+             x:Class="Golf.Views.MatchDetailsView.MatchListPage"
+             BackgroundColor="{StaticResource AppBackgroundColor}"
+             Title="Match List">
+
+    <ContentPage.BindingContext>
+        <viewModels:MatchListPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+          <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                               BorderColor="{StaticResource BorderColor}"
+                               CornerRadius="25"
+                               HasShadow="True"
+                               Margin="20,20,20,10">
+            <controls:CustomSearchBar Placeholder="Search items..."
+                                  Margin="0"
+                                  CornerRadius="25"
+                                  CancelButtonColor="{StaticResource LightGreenColor}"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                  TextColor="{StaticResource BlackColor}"
+                                  HorizontalTextAlignment="Center"
+                                  FontSize="{StaticResource FontSize20}"
+                                  FontAttributes="Italic"
+                                  BackgroundColor="{StaticResource WhiteColor}"/>
+          </plugins:PancakeView>
+
+            <ListView Margin="10,0,10,10"
+                      x:Name="ListView"
+                      ItemsSource="{Binding MatchListItems}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      VerticalScrollBarVisibility="Never"
+                      ItemTapped="ListView_ItemTapped">
+                <ListView.ItemTemplate>
+
+                    <DataTemplate>
+                        <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                            <ContentView Padding="5" >
+                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     BorderColor="{StaticResource BorderColor}"
+                                                     HasShadow="True">
+                                    <StackLayout Margin="10,10">
+
+                                        <Label Text="{Binding MatchName}"
+                                               TextColor="{StaticResource BlackColor}"
+                                               FontSize="{StaticResource FontSize20}"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center"/>
+
+                                        <Label Margin="0"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               FontSize="{StaticResource FontSize16}"
+                                               VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Code : "/>
+                                                    <Span Text="{Binding MatchCode}"
+                                                          ForegroundColor="{StaticResource DarkGreenColor}" 
+                                                          FontAttributes="Bold"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label Margin="0"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               FontSize="{StaticResource FontSize16}"
+                                               VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Type : "/>
+                                                    <Span Text="{Binding MatchType}"
+                                                          ForegroundColor="{StaticResource DarkGreenColor}" 
+                                                          FontAttributes="Bold"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="0"
+                                                     Padding="0"
+                                                     Spacing="0">
+                                        <Label Margin="0"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               FontSize="{StaticResource FontSize16}"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               Text="{Binding Path=MatchStartDate, StringFormat='Start date : {0:D}'}"/>
+                                            
+                                            <Label Margin="0"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               FontSize="{StaticResource FontSize16}"
+                                               VerticalOptions="Center">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Fee : "/>
+                                                        <Span Text="{Binding MatchFee}"
+                                                              FontSize="{StaticResource FontSize20}"
+                                                              ForegroundColor="{StaticResource LightGreenColor}" 
+                                                              FontAttributes="Bold"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            
+                                            
+                                        </StackLayout>
+                                    </StackLayout>
+                                </plugins:PancakeView>
+                            </ContentView>
+                        </controls:UpdateViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

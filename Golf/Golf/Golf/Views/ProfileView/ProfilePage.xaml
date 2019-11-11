@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
+             x:Class="Golf.Views.ProfilePage"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:ProfilePageViewModel/>
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CheckBoxStyle" 
+                   TargetType="Controls:CustomCheckBox"
+                   BasedOn="{StaticResource CustomCheckBoxStyleGray}">
+                <Setter Property="Margin" Value="60,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand">
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,10,20,0"
+                         Padding="0">
+            <Label Text="My Account"
+                       HorizontalOptions="StartAndExpand"
+                       Margin="0"
+                   VerticalOptions="Center"
+                       FontSize="{StaticResource FontSize24}"
+                       TextColor="{StaticResource BlackColor}"/>
+
+                <Controls:RoundedButton Text="Sign Out"
+                                        BackgroundColor="Transparent"
+                                        TextColor="Red"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center"
+                                        Margin="20,0,20,10"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal"
+                             Margin="20,10,20,10"
+                             HorizontalOptions="FillAndExpand">
+                <Controls:RoundedButton Text="   Personal Info  "
+                                            Margin="0"
+                                            x:Name="PersonalInfoButton"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Clicked="PersonalInfoButton_Clicked"/>
+
+                <Controls:RoundedButton Text="Communication Info"
+                                            Margin="10,0"
+                                            x:Name="CommunicationInfoButton"
+                                            CornerRadius="10"
+                                            BackgroundColor="{StaticResource WhiteColor}"
+                                            TextColor="{StaticResource LightGreenColor}"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Clicked="CommunicationInfoButton_Clicked"/>
+            </StackLayout>
+
+            <BoxView HeightRequest="1"
+                         HorizontalOptions="FillAndExpand"
+                         Color="{StaticResource TextGrayColor}"
+                         Margin="20,10,20,0"/>
+
+            <ScrollView x:Name="PersonalInfoStackLayout"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                <StackLayout >
+                    <Label HorizontalOptions="CenterAndExpand"
+                           Text="example@gmail.com"
+                           TextColor="{StaticResource TextGrayColor}"
+                           Margin="20,10,20,0"
+                           FontAttributes="Bold"/>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Controls:CircleImage HorizontalOptions="Center"
+                                              Margin="20,10,20,10"
+                                              Source="{Binding ProfileImage}"
+                                              HeightRequest="160"
+                                              WidthRequest="160"
+                                              Grid.Row="0"/>
+
+                        <Controls:CircleImage HorizontalOptions="Center"
+                                              Grid.Row="0"
+                                              Margin="100,125,0,0"
+                                              Grid.ColumnSpan="1"
+                                              Source="camera.png"
+                                              WidthRequest="50"   
+                                              HeightRequest="50"/>
+                    </Grid>
+
+                    <Label Text="First Name" 
+                           Margin="20,10,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"/>
+                    
+                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
+                                            Margin="20,5,20,0"
+                                            Placeholder="First Name"
+                                            PlaceholderColor="{StaticResource TextGrayColor}"
+                                            LineColor="{StaticResource BorderColor}"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            />
+
+                    <Label Text="Last Name" 
+                           Margin="20,10,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"/>
+                    
+                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
+                                            Margin="20,5,20,0"
+                                            Placeholder="Last Name"
+                                            PlaceholderColor="{StaticResource TextGrayColor}"
+                                            LineColor="{StaticResource BorderColor}"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            />
+
+                    <Label Text="Date of Birth" 
+                           Margin="20,10,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"/>
+
+                    <Controls:NullableDatePicker Margin="20,5,20,0"
+                                                 PlaceHolder="Date of Birth"
+                                                 TextColor="{StaticResource TextGrayColor}"/>
+
+                    <Label Text="Gender" 
+                           Margin="20,10,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"/>
+                    
+                    <Controls:CustomPicker Title="Gender" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"/>
+
+
+                    <Label Text="User Type" 
+                               Margin="20,0"
+                               VerticalOptions="Center"
+                               FontSize="{StaticResource FontSize20}"
+                               TextColor="{StaticResource TextGrayColor}"/>
+                    <!--<StackLayout Orientation="Horizontal" 
+                                 Margin="20,0" 
+                                 Spacing="0"
+                                 Padding="0">
+                        <Image Source="gmail.png" 
+                               Margin="0" 
+                               HeightRequest="40"/>
+                        <Label Text="User Type" 
+                               Margin="10,0"
+                               VerticalOptions="Center"
+                               FontSize="{StaticResource FontSize20}"
+                               TextColor="{StaticResource TextGrayColor}"/>
+
+                    </StackLayout>-->
+                    <Controls:CustomCheckBox DefaultText="Player"
+                                             Style="{StaticResource CheckBoxStyle}" />
+
+                    <Controls:CustomCheckBox DefaultText="Moderator"
+                                             Style="{StaticResource CheckBoxStyle}" />
+
+                    <Controls:CustomCheckBox DefaultText="Score Keeper"
+                                             Style="{StaticResource CheckBoxStyle}" />
+
+                    <Controls:CustomCheckBox DefaultText="Organizer"
+                                             Style="{StaticResource CheckBoxStyle}" />
+
+                    <Controls:CustomCheckBox DefaultText="Spectator"
+                                             Style="{StaticResource CheckBoxStyle}" />
+
+                </StackLayout>
+            </ScrollView>
+            <ScrollView x:Name="CommunicationInfoStackLayout" 
+                     IsVisible="False"
+                         HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+            <StackLayout>
+
+                <Label Text="Send Partcipant Tournamnet Information" 
+                           Margin="20,10,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"/>
+
+                <StackLayout Orientation="Horizontal"
+                             Margin="20,5,20,0"
+                             HorizontalOptions="CenterAndExpand">
+
+                    <Controls:CustomCheckBox DefaultText="Organizer"
+                                             Style="{StaticResource CheckBoxStyle}"
+                                             Margin="20,0,0,0"/>
+
+                    <Controls:CustomCheckBox DefaultText="Spectator"
+                                             Style="{StaticResource CheckBoxStyle}" 
+                                             Margin="30,0,0,0"/>
+
+                </StackLayout>
+                
+                <!--<Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                                            Margin="20,5,20,0"
+                                            Placeholder="E-mail"
+                                            />-->
+                <Label Text="Address" 
+                           VerticalOptions="Center"
+                       Margin="20,5,20,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+                <Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                                             Margin="20,5,20,0"
+                                            Placeholder="Address"
+                                            />
+
+                <Label Text="State" 
+                           VerticalOptions="Center"
+                       Margin="20,5,20,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+                <Controls:CustomPicker Title="State" 
+                                           Image="down_arrow_gray.png"
+                                            Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"/>
+                <Label Text="City" 
+                           VerticalOptions="Center"
+                       Margin="20,5,20,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+
+                <Controls:CustomPicker Title="City" 
+                                           Image="down_arrow_gray.png"
+                                            Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"/>
+
+                <Label Text="Country" 
+                           VerticalOptions="Center"
+                       Margin="20,5,20,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+                <Controls:CustomPicker Title="Country" 
+                                           Image="down_arrow_gray.png"
+                                            Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"/>
+
+                <StackLayout Orientation="Horizontal"
+                             Margin="20,5,20,0"
+                             HorizontalOptions="FillAndExpand">
+
+                    <Label Text="Is Public Profile" 
+                           VerticalOptions="Center"
+                           Margin="5,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Switch OnColor="{StaticResource LightGreenColor}"
+                            ThumbColor="{StaticResource LightGreenColor}"
+                            HorizontalOptions="End"/>
+
+                </StackLayout>
+            </StackLayout>
+            </ScrollView>
+            <!--<BoxView HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     Color="{StaticResource TextGrayColor}"
+                     Margin="20,0,20,0"
+                     VerticalOptions="EndAndExpand"/>-->
+
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

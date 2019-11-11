@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Page:PopupPage
+    xmlns:Page="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:Golf.Controls"
+    xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Golf.Views.InviteParticipantPage">
+
+    <Page:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CheckBoxStyle" TargetType="Controls:CustomCheckBox"
+                   BasedOn="{StaticResource CustomCheckBoxStyleGray}">
+                <Setter Property="Margin" Value="80,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </Page:PopupPage.Resources>
+    
+    <StackLayout VerticalOptions="Center"  HorizontalOptions="FillAndExpand" 
+                 Margin="20,50,20,50" >
+        <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="15"
+                                 HasShadow="True"
+                                 Margin="0"
+                                 HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="FillAndExpand">
+            
+            <StackLayout Margin="0">
+
+                <Label Text="Invite a Participant"
+                   TextColor="{StaticResource BlackColor}"
+                   Margin="20,10,20,10"
+                   HorizontalTextAlignment="Start"
+                   FontSize="{StaticResource FontSize24}"
+                   FontAttributes="Bold"
+                   HorizontalOptions="FillAndExpand" />
+
+                <ScrollView>
+                    <StackLayout Margin="0" HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="FillAndExpand">
+                <Controls:ExtendedEntry Placeholder="First Name"
+                                    Image="user_green.png"
+                                    Style="{StaticResource EntryStyleGray}"
+                                    Margin="20,0,20,0"/>
+
+                <Controls:ExtendedEntry Placeholder="Last Name"
+                                    Image="user_green.png"
+                                    Style="{StaticResource EntryStyleGray}"
+                                    Margin="20,10,20,0"/>
+
+                <Controls:ExtendedEntry Placeholder="E-mail"
+                                    Image="email_green.png"
+                                    Style="{StaticResource EntryStyleGray}"
+                                    Margin="20,10,20,0"/>
+
+                <Controls:CustomPicker Title="Gender" 
+                                   TextColor="{StaticResource TextGrayColor}"
+                                   TitleColor="{StaticResource TextGrayColor}"
+                                   Image="down_arrow_gray.png"
+                                   Margin="20,10,20,0"/>
+
+                <Controls:ExtendedEntry Placeholder="Phone Number"
+                                    Image="phone_green.png"
+                                    Style="{StaticResource EntryStyleGray}"
+                                    Margin="20,10,20,0"/>
+
+                <StackLayout Orientation="Horizontal" 
+                         Margin="20,0" 
+                         Spacing="0"
+                         Padding="0">
+                    <Image Source="usertype_green.png" 
+                           Margin="0" 
+                           HeightRequest="40"/>
+                    <Label Text="User Type" 
+                       Margin="10,0"
+                       VerticalOptions="Center"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource TextGrayColor}"/>
+
+                </StackLayout>
+                <Controls:CustomCheckBox DefaultText="Player"
+                                     Style="{StaticResource CheckBoxStyle}"/>
+
+                <Controls:CustomCheckBox DefaultText="Moderator"
+                                     Style="{StaticResource CheckBoxStyle}"/>
+
+                <Controls:CustomCheckBox DefaultText="Score Keeper"
+                                     Style="{StaticResource CheckBoxStyle}"/>
+
+                <Controls:CustomCheckBox DefaultText="Organizer"
+                                     Style="{StaticResource CheckBoxStyle}"/>
+
+                <Controls:CustomCheckBox DefaultText="Spectator"
+                                     Style="{StaticResource CheckBoxStyle}"/>
+                   </StackLayout>
+
+                </ScrollView>
+
+                <Controls:RoundedButton Text="Send Invite"
+                                        VerticalOptions="EndAndExpand"
+                                    Margin="40,20,40,20"
+                                    x:Name="SendInviteButton"
+                                    Clicked="SendInviteButton_Clicked"/>
+            </StackLayout>
+            
+        </plugins:PancakeView>
+
+    </StackLayout>
+</Page:PopupPage>

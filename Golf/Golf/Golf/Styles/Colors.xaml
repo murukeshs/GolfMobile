@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Golf.Styles.Colors">
+
+    <!-- Colors -->
+    <Color x:Key="AppBackgroundColor">#f4f4f4</Color>
+    <Color x:Key="TitleColor">#1a1a1a</Color>
+    <Color x:Key="BorderColor">#727272</Color>
+    <Color x:Key="WhiteColor">#FFFFFF</Color>
+    <Color x:Key="BlackColor">#000000</Color>
+    <Color x:Key="TextGrayColor">#414141</Color>
+    <Color x:Key="LightGreenColor">#34a574</Color>
+    <Color x:Key="DarkGreenColor">#11544b</Color>
+    <Color x:Key="LightGrayColor">#D3D3D3</Color>
+    <Color x:Key="FaceBookBlueColor">#3b5999</Color>
+</ResourceDictionary>

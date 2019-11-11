@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Golf.Views.MenuView.MenuPage"
+             xmlns:pages="clr-namespace:Golf.Views.MenuView"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:local="clr-namespace:Golf.Views"
+             ios:Page.UseSafeArea="true"
+             NavigationPage.BackButtonTitle="">
+  <MasterDetailPage.Master>
+    <pages:MenuPageMaster x:Name="MasterPage" />
+  </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <local:HomePage Title="Golf"/>
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             x:Class="Golf.Views.MenuView.RegistrationPageAdmin"
+             BackgroundImageSource="registration.jpg"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CheckBoxStyle" 
+                   TargetType="Controls:CustomCheckBox"
+                   BasedOn="{StaticResource CustomCheckBoxStyleWhite}">
+                <Setter Property="Margin" Value="60,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Image HorizontalOptions="Center"
+                   Margin="20,20,20,10"
+                   Source="cap_green.png"
+                   HeightRequest="150"
+                   WidthRequest="150"/>
+
+                <Label Text="REGISTRATION"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="20,20,20,0"
+                       Style="{StaticResource HeaderLabelStyleWhite28}"/>
+
+                <StackLayout Orientation="Horizontal" 
+                             Margin="20,20,20,0" 
+                             Spacing="0"
+                             Padding="0">
+                    <Image Source="gmail.png"
+                           Margin="0" 
+                           HeightRequest="40"/>
+                    <Label Text="Send Participant Tournament Information" 
+                           Margin="10,0"
+                           VerticalOptions="Center"
+                           FontSize="{StaticResource FontSize18}"
+                           TextColor="{StaticResource WhiteColor}"/>
+
+                </StackLayout>
+                <Controls:CustomCheckBox DefaultText="E-mail"
+                                         Style="{StaticResource CheckBoxStyle}" />
+
+                <Controls:CustomCheckBox DefaultText="SMS"
+                                         Style="{StaticResource CheckBoxStyle}" />
+
+                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
+                                        Margin="20,10,20,0"
+                                        Placeholder="Address"
+                                        Image="gmail.png"/>
+
+                <Controls:CustomPicker Title="State" 
+                                       Image="down_arrow.png"
+                                       Margin="20,10,20,0"
+                                       TitleColor="{StaticResource WhiteColor}"
+                                       TextColor="{StaticResource WhiteColor}"/>
+
+                <Controls:CustomPicker Title="City" 
+                                       Image="down_arrow.png"
+                                       Margin="20,10,20,0"
+                                       TitleColor="{StaticResource WhiteColor}"
+                                       TextColor="{StaticResource WhiteColor}"/>
+
+                <Controls:CustomPicker Title="Country" 
+                                       Image="down_arrow.png"
+                                       Margin="20,10,20,0"
+                                       TitleColor="{StaticResource WhiteColor}"
+                                       TextColor="{StaticResource WhiteColor}"/>
+
+                <Controls:RoundedButton Text="Register"
+                                        Margin="40,20,40,20"
+                                        x:Name="RegisterButton"
+                                        Clicked="RegisterButton_Clicked"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

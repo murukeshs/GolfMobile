@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="Golf.Views.ListOfTeamsPage"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderLabelCellTemplate" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="Small"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Team Listing"
+                   HorizontalOptions="CenterAndExpand" 
+                   FontSize="{StaticResource FontSize28}"
+                   TextColor="{StaticResource BlackColor}"
+                   Margin="20,20,20,0"/>
+
+          <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                               BorderColor="{StaticResource BorderColor}"
+                               CornerRadius="25"
+                               HasShadow="True"
+                               Margin="20,0,20,0">
+            <Controls:CustomSearchBar Placeholder="Search items..."
+                                  Margin="0"
+                                  CornerRadius="25"
+                                  CancelButtonColor="{StaticResource LightGreenColor}"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                  TextColor="{StaticResource BlackColor}"
+                                  HorizontalTextAlignment="Center"
+                                  FontSize="{StaticResource FontSize20}"
+                                  FontAttributes="Italic"
+                                  BackgroundColor="{StaticResource WhiteColor}"/>
+          </plugins:PancakeView>
+
+            <dg:DataGrid x:Name ="DataGridTable" ItemsSource="{Binding TeamItems}" 
+                                 SelectionEnabled="False" RowHeight="50" HeaderHeight="60" 
+                                 BorderColor="#CCCCCC" HeaderBackground="{StaticResource LightGreenColor}" 
+                                 Margin="10" HeaderTextColor="{StaticResource WhiteColor}">
+
+                <x:Arguments>
+                    <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+                </x:Arguments>
+                <dg:DataGrid.HeaderFontSize>
+                    <OnIdiom  x:TypeArguments="x:Double">
+                        <OnIdiom.Tablet>15</OnIdiom.Tablet>
+                        <OnIdiom.Phone>13</OnIdiom.Phone>
+                    </OnIdiom>
+                </dg:DataGrid.HeaderFontSize>
+
+                <dg:DataGrid.Columns>
+                    <dg:DataGridColumn Title="" 
+                                       PropertyName="Profile"  
+                                       HorizontalContentAlignment="Center" >
+                        <dg:DataGridColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--Custom template for columns -->
+                                <Controls:CircleImage Source="{Binding .}"
+                                                      HorizontalOptions="Center"
+                                                      VerticalOptions="Center"
+                                                      WidthRequest="60"
+                                                      HeightRequest="60"/>
+                            </DataTemplate>
+                        </dg:DataGridColumn.CellTemplate>
+                    </dg:DataGridColumn>
+                    <dg:DataGridColumn Title="Team Name" 
+                                       PropertyName="TeamName" 
+                                       HorizontalContentAlignment="Center">
+                        <dg:DataGridColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Text="{Binding .}"  
+                                       Style="{StaticResource HeaderLabelCellTemplate}"/>
+                            </DataTemplate>
+                        </dg:DataGridColumn.CellTemplate>
+                    </dg:DataGridColumn>
+
+                    <dg:DataGridColumn Title="No.of players" 
+                                       PropertyName="Noofplayers" 
+                                       HorizontalContentAlignment="Center">
+                        <dg:DataGridColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--Custom template for columns -->
+                                <Label Text="{Binding .}"  
+                                       Style="{StaticResource HeaderLabelCellTemplate}"/>
+                            </DataTemplate>
+                        </dg:DataGridColumn.CellTemplate>
+                    </dg:DataGridColumn>
+                    <dg:DataGridColumn Title="Created" 
+                                       PropertyName="Created"
+                                       HorizontalContentAlignment="Center">
+
+                        <dg:DataGridColumn.CellTemplate >
+                            <DataTemplate >
+                                <!--Custom template for columns -->
+                                <Label Text="{Binding .}"  
+                                       Style="{StaticResource HeaderLabelCellTemplate}"/>
+                            </DataTemplate>
+                        </dg:DataGridColumn.CellTemplate>
+                    </dg:DataGridColumn>
+                </dg:DataGrid.Columns>
+
+                <dg:DataGrid.RowsBackgroundColorPalette>
+                    <dg:PaletteCollection>
+                        <Color>#FFFFFF</Color>
+                        <Color>#FFFFFF</Color>
+                    </dg:PaletteCollection>
+                </dg:DataGrid.RowsBackgroundColorPalette>
+
+            </dg:DataGrid>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
