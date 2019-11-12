@@ -18,7 +18,7 @@ namespace Golf.Controls
         {
             if (Device.RuntimePlatform == Device.iOS)
             {
-                Padding = new Thickness(1, 0, 0, 1);
+                Padding = new Thickness(5, 0, 0, 5);
             }
 
             BackgroundColor = (Color)App.Current.Resources["LightGreenColor"];

@@ -107,7 +107,7 @@ namespace Golf.ViewModel
                     //App.User.TokenCreateDateTimeUtc = DateTime.UtcNow;
                     //App.SessionManager.EnableMonitor();
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "/JWTAuthentication/login";
+                    string RestURL = App.User.BaseUrl + "JWTAuthentication/login";
                     Uri requestUri = new Uri(RestURL);
 
                     var data = new Login

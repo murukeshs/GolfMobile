@@ -6,6 +6,7 @@ namespace Golf.Models
 {
     public class UserModel
     {
-        internal string BaseUrl = "https://wpcapiservices.azurewebsites.net/api/"; ///Live Url Only build
+        internal string BaseUrl = "https://golfapp.azurewebsites.net/api/";
+        internal string AccessToken { get; set; } = string.Empty;
     }
 }
