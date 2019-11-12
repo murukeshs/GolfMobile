@@ -12,6 +12,7 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
+        <ScrollView>
         <Grid>
             <Grid RowSpacing="0"
                   Padding="0"
@@ -64,28 +65,39 @@
                            HorizontalOptions="CenterAndExpand"
                            Margin="0,30,0,0"/>
 
-                    <StackLayout Orientation="Horizontal" 
-                                 Margin="20,30,20,0"
-                                 HorizontalOptions="FillAndExpand"
-                                 Padding="0"
-                                 Spacing="0">
+                    <Grid  Margin="20,30,20,0"
+                           HorizontalOptions="FillAndExpand"
+                           Padding="0"
+                           >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5.0*"/>
+                                <ColumnDefinition Width="5.0*"/>
+                            </Grid.ColumnDefinitions>
 
                         <Controls:RoundedButton Text="Face book"
-                                                Margin="0,0,10,0"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="0"
                                                 BackgroundColor="{StaticResource FaceBookBlueColor}"
                                                 Image="facebook.png"
                                                 Padding="0"/>
                         <Controls:RoundedButton Text="Google"
-                                                Margin="0,0,10,0"
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="10,0,0,0"
                                                 BackgroundColor="{StaticResource WhiteColor}"
                                                 TextColor="{StaticResource TextGrayColor}"
                                                 Image="google.png"
                                                 Padding="0"/>
-                    </StackLayout>
+                    </Grid>
 
                     <Controls:UnderlineLabel Text="Dont have an account? Register"
                                              HorizontalOptions="CenterAndExpand"
-                                             Margin="0,20,0,10">
+                                             HorizontalTextAlignment="Center"
+                                             Margin="10,20,10,10">
                         <Controls:UnderlineLabel.GestureRecognizers>
                             <TapGestureRecognizer x:Name="RegistrationTabbed"
                                                   Command="{Binding RegisterCommand}" />
@@ -94,5 +106,6 @@
                 </StackLayout>
             </Grid>
         </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
