@@ -16,11 +16,11 @@
         <StackLayout HorizontalOptions="FillAndExpand">
 
             <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
-                                         HorizontalOptions="CenterAndExpand"
+                                         HorizontalOptions="FillAndExpand"
                                          VerticalOptions="CenterAndExpand"
                                          CornerRadius="10"
                                          Padding="2"
-                                         Margin="50,20,50,20">
+                                         Margin="60,100,60,20">
                         <StackLayout Margin="0">
                             <Label Text="Match Code"
                                TextColor="{StaticResource BlackColor}"

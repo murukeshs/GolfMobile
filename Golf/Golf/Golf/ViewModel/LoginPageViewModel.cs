@@ -128,6 +128,7 @@ namespace Golf.ViewModel
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
