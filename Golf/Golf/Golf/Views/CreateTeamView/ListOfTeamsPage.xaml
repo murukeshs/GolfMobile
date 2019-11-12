@@ -1,11 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
              xmlns:Controls="clr-namespace:Golf.Controls"
              xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:viewModel="clr-namespace:Golf.ViewModel"
              x:Class="Golf.Views.ListOfTeamsPage"
+             Title="Team Listing"
              BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModel:ListOfTeamsPageViewModel/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="HeaderLabelCellTemplate" TargetType="Label">
@@ -20,18 +26,18 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Team Listing"
+            <!--<Label Text="Team Listing"
                    HorizontalOptions="CenterAndExpand" 
                    FontSize="{StaticResource FontSize28}"
                    TextColor="{StaticResource BlackColor}"
-                   Margin="20,20,20,0"/>
+                   Margin="20,20,20,0"/>-->
 
           <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                BorderColor="{StaticResource BorderColor}"
                                CornerRadius="25"
                                HasShadow="True"
-                               Margin="20,0,20,0">
-            <Controls:CustomSearchBar Placeholder="Search items..."
+                               Margin="20,20,20,0">
+                <Controls:CustomSearchBar Placeholder="Search Teams..."
                                   Margin="0"
                                   CornerRadius="25"
                                   CancelButtonColor="{StaticResource LightGreenColor}"
@@ -43,80 +49,130 @@
                                   BackgroundColor="{StaticResource WhiteColor}"/>
           </plugins:PancakeView>
 
-            <dg:DataGrid x:Name ="DataGridTable" ItemsSource="{Binding TeamItems}" 
-                                 SelectionEnabled="False" RowHeight="50" HeaderHeight="60" 
-                                 BorderColor="#CCCCCC" HeaderBackground="{StaticResource LightGreenColor}" 
-                                 Margin="10" HeaderTextColor="{StaticResource WhiteColor}">
 
-                <x:Arguments>
-                    <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
-                </x:Arguments>
-                <dg:DataGrid.HeaderFontSize>
-                    <OnIdiom  x:TypeArguments="x:Double">
-                        <OnIdiom.Tablet>15</OnIdiom.Tablet>
-                        <OnIdiom.Phone>13</OnIdiom.Phone>
-                    </OnIdiom>
-                </dg:DataGrid.HeaderFontSize>
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"
+                                   />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <dg:DataGrid.Columns>
-                    <dg:DataGridColumn Title="" 
-                                       PropertyName="Profile"  
-                                       HorizontalContentAlignment="Center" >
-                        <dg:DataGridColumn.CellTemplate>
-                            <DataTemplate>
-                                <!--Custom template for columns -->
-                                <Controls:CircleImage Source="{Binding .}"
-                                                      HorizontalOptions="Center"
-                                                      VerticalOptions="Center"
-                                                      WidthRequest="60"
-                                                      HeightRequest="60"/>
-                            </DataTemplate>
-                        </dg:DataGridColumn.CellTemplate>
-                    </dg:DataGridColumn>
-                    <dg:DataGridColumn Title="Team Name" 
-                                       PropertyName="TeamName" 
-                                       HorizontalContentAlignment="Center">
-                        <dg:DataGridColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Text="{Binding .}"  
-                                       Style="{StaticResource HeaderLabelCellTemplate}"/>
-                            </DataTemplate>
-                        </dg:DataGridColumn.CellTemplate>
-                    </dg:DataGridColumn>
+                <Controls:CircleImage Source="profile_pic.png"
+                                      IsVisible="False"
+                                      VerticalOptions="Center"
+                                      WidthRequest="80"
+                                      HeightRequest="80"
+                                                              Margin="10,0"
+                                                              Grid.Row="0"
+                                                              Grid.Column="0"/>
 
-                    <dg:DataGridColumn Title="No.of players" 
-                                       PropertyName="Noofplayers" 
-                                       HorizontalContentAlignment="Center">
-                        <dg:DataGridColumn.CellTemplate>
-                            <DataTemplate>
-                                <!--Custom template for columns -->
-                                <Label Text="{Binding .}"  
-                                       Style="{StaticResource HeaderLabelCellTemplate}"/>
-                            </DataTemplate>
-                        </dg:DataGridColumn.CellTemplate>
-                    </dg:DataGridColumn>
-                    <dg:DataGridColumn Title="Created" 
-                                       PropertyName="Created"
-                                       HorizontalContentAlignment="Center">
+                <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource BlackColor}"
+                                               Text="Team Name"
+                                               VerticalOptions="Center"
+                                               Grid.Row="0"
+                                               Margin="5,0"
+                                               FontAttributes="Bold"
+                                               Grid.Column="1"/>
 
-                        <dg:DataGridColumn.CellTemplate >
-                            <DataTemplate >
-                                <!--Custom template for columns -->
-                                <Label Text="{Binding .}"  
-                                       Style="{StaticResource HeaderLabelCellTemplate}"/>
-                            </DataTemplate>
-                        </dg:DataGridColumn.CellTemplate>
-                    </dg:DataGridColumn>
-                </dg:DataGrid.Columns>
+                <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource BlackColor}"
+                                               Text="No of Players"
+                                               VerticalOptions="Center"
+                                                Grid.Row="0"
+                                               FontAttributes="Bold"
+                                                              Grid.Column="2"/>
 
-                <dg:DataGrid.RowsBackgroundColorPalette>
-                    <dg:PaletteCollection>
-                        <Color>#FFFFFF</Color>
-                        <Color>#FFFFFF</Color>
-                    </dg:PaletteCollection>
-                </dg:DataGrid.RowsBackgroundColorPalette>
+                <Label FontSize="{StaticResource FontSize16}"
+                                                FontAttributes="Bold"
+                                               TextColor="{StaticResource BlackColor}"
+                                               Text="Created By"
+                                               VerticalOptions="Center"
+                                                Grid.Row="0"
+                                                Grid.Column="3"/>
+            </Grid>
 
-            </dg:DataGrid>
+            <ListView Margin="10,0,10,0"
+                      x:Name="TeamsListView"
+                      ItemsSource="{Binding TeamItems}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      ItemTapped="TeamsListView_ItemTapped"
+                      VerticalScrollBarVisibility="Never">
+                <!--<ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="ItemSelected" 
+                                                      Command="{Binding ItemTappedCommand}"
+                                                      Converter="{StaticResource itemTappedEventArgsConverter}" />
+                </ListView.Behaviors>-->
+                <ListView.ItemTemplate>
+
+                    <DataTemplate>
+                        <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                            <ContentView Padding="5" >
+                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="5"
+                                                     BorderColor="{StaticResource BorderColor}"
+                                                     HasShadow="True">
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Controls:CircleImage Source="{Binding Profile}"
+                                                              VerticalOptions="Center"
+                                                              WidthRequest="80"
+                                                              HeightRequest="80"
+                                                              Margin="10,0"
+                                                              Grid.Row="0"
+                                                              Grid.Column="0"/>
+
+                                        <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource BlackColor}"
+                                               Text="{Binding TeamName}"
+                                               VerticalOptions="Center"
+                                               Grid.Row="0"
+                                               Margin="5,0"
+                                               FontAttributes="Bold"
+                                               Grid.Column="1"/>
+
+                                        <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource BlackColor}"
+                                               Text="{Binding Noofplayers}"
+                                               VerticalOptions="Center"
+                                                Grid.Row="0"
+                                               FontAttributes="Bold"
+                                                              Grid.Column="2"/>
+
+                                        <Label FontSize="{StaticResource FontSize16}"
+                                               
+                                               TextColor="Gray"
+                                               Text="{Binding Created}"
+                                               VerticalOptions="Center"
+                                                Grid.Row="0"
+                                                              Grid.Column="3"/>
+                                    </Grid>
+                                </plugins:PancakeView>
+                            </ContentView>
+                        </Controls:UpdateViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         </StackLayout>
     </ContentPage.Content>

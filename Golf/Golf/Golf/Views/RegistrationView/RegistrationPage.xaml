@@ -33,12 +33,12 @@
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="First Name"
-                                        Image="gmail.png"/>
+                                        Image="user_white.png"/>
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="Last Name"
-                                        Image="gmail.png"/>
+                                        Image="user_white.png"/>
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
@@ -57,13 +57,13 @@
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="Phone Number"
-                                        Image="gmail.png"/>
+                                        Image="phone_white.png"/>
 
                 <StackLayout Orientation="Horizontal" 
                              Margin="20,0" 
                              Spacing="0"
                              Padding="0">
-                    <Image Source="gmail.png" 
+                    <Image Source="usertype_white.png" 
                            Margin="0" 
                            HeightRequest="40"/>
                     <Label Text="User Type" 

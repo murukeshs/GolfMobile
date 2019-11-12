@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Golf.Utils;
+using Golf.Views;
 using Golf.Views.CreateMatchView;
 using Golf.Views.JoinMatchView;
 using System;
@@ -62,7 +63,19 @@ namespace Golf.ViewModel
 
         async Task TeamsAsync()
         {
-
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var view = new ListOfTeamsPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+            
         }
         #endregion Teams Command Functionality
 

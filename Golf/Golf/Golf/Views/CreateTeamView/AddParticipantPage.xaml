@@ -4,20 +4,19 @@
              xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:Controls="clr-namespace:Golf.Controls"
              x:Class="Golf.Views.AddParticipantPage"
-             BackgroundColor="{StaticResource AppBackgroundColor}">
+             BackgroundColor="{StaticResource AppBackgroundColor}"
+             Title="Participants Listing">
     <ContentPage.Content>
         <StackLayout>
 
-            <Controls:RoundedButton Text="Add Participants"
-                                    Margin="20,10,20,0"
-                                    HorizontalOptions="End"/>
+           
             
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource BorderColor}"
                                  CornerRadius="25"
                                  HasShadow="True"
-                                 Margin="20,0,20,0">
-                <Controls:CustomSearchBar Placeholder="Search items..."
+                                 Margin="20,20,20,0">
+                <Controls:CustomSearchBar Placeholder="Search Participants..."
                                       Margin="0"
                                       CornerRadius="25"
                                       CancelButtonColor="{StaticResource LightGreenColor}"
@@ -26,15 +25,40 @@
                                       HorizontalTextAlignment="Center"
                                       FontSize="{StaticResource FontSize20}"
                                       FontAttributes="Italic" 
-                                      BackgroundColor="{StaticResource WhiteColor}"/>
+                                      BackgroundColor="{StaticResource WhiteColor}"
+                                     />
             </plugins:PancakeView>
 
+                <Grid Margin="20,10,20,10">
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="5.0*"/>
+                        <ColumnDefinition Width="5.0*"/>
+                    </Grid.ColumnDefinitions>
+                
             <Label Text="Team Name"
                    TextColor="{StaticResource BlackColor}"
-                   HorizontalOptions="CenterAndExpand"
                    FontSize="{StaticResource FontSize28}"
                    FontAttributes="Bold"
-                   Margin="10"/>
+                   VerticalOptions="Center"
+                   Margin="0"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   HorizontalOptions="FillAndExpand"/>
+
+            <Controls:RoundedButton Text="Add Participants"
+                                    Margin="0"
+                                    Grid.Row="0"
+                                    CornerRadius="10"
+                                    VerticalOptions="Center"
+                                    Grid.Column="1"
+                                    FontSize="Medium"
+                                    HorizontalOptions="FillAndExpand"
+                                    Padding="5,5"/>
+                </Grid>
 
             <ListView Margin="20,0,20,20"
                       x:Name="ListView"
