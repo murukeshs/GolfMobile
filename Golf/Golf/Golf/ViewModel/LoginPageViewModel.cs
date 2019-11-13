@@ -132,8 +132,7 @@ namespace Golf.ViewModel
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
-                        UserNameText = string.Empty;
-                        PasswordText = string.Empty;
+                        resetFormValues();
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -164,6 +163,11 @@ namespace Golf.ViewModel
             }
         }
 
+        public void resetFormValues()
+        {
+            UserNameText = string.Empty;
+            PasswordText = string.Empty;
+        }
 
         #endregion LogIn Command Functionality
 

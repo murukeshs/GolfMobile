@@ -101,6 +101,15 @@ namespace Golf.Controls
             set => SetValue(CheckedTextProperty, value);
         }
 
+        public static readonly BindableProperty DefaultValueProperty =
+          BindableProperty.Create("Text", typeof(string), typeof(CustomRadioButton), string.Empty);
+
+        public string DefaultValue
+        {
+            get => (string)GetValue(DefaultValueProperty);
+            set => SetValue(DefaultValueProperty, value);
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether the control is checked.
         /// </summary>

@@ -12,8 +12,8 @@
         public string profileImage { get; set; }
         public string phoneNumber { get; set; }
         public string password { get; set; }
-        public int countryId { get; set; }
-        public int stateId { get; set; }
+        public int? countryId { get; set; } = 0;
+        public int? stateId { get; set; } = 0;
         public string city { get; set; }
         public string address { get; set; }
         public string pinCode { get; set; }

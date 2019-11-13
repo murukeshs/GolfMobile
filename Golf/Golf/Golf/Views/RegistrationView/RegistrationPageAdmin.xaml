@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
              x:Class="Golf.Views.MenuView.RegistrationPageAdmin"
              BackgroundImageSource="registration.jpg"
              NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <viewModels:RegistrationPageAdminViewModel/>
+    </ContentPage.BindingContext>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -54,30 +59,46 @@
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="Address"
-                                        Image="gmail.png"/>
+                                        Image="gmail.png"
+                                        Text="{Binding Address, Mode = TwoWay}"/>
+
+                <Controls:CustomPicker x:Name="Country"
+                                       Title="Country" 
+                                       Image="down_arrow.png"
+                                       Margin="20,10,20,0"
+                                       TitleColor="{StaticResource WhiteColor}"
+                                       TextColor="{StaticResource WhiteColor}"
+                                       ItemsSource="{Binding CountryList}"
+                                       SelectedIndexChanged="CountryIndexChanged"
+                                       ItemDisplayBinding="{Binding countryName}" 
+                                       SelectedIndex="{Binding countryId}" 
+                                      />
 
                 <Controls:CustomPicker Title="State" 
                                        Image="down_arrow.png"
                                        Margin="20,10,20,0"
                                        TitleColor="{StaticResource WhiteColor}"
-                                       TextColor="{StaticResource WhiteColor}"/>
+                                       TextColor="{StaticResource WhiteColor}"
+                                       ItemsSource="{Binding StateList}"
+                                       SelectedIndexChanged="StateIndexChanged"
+                                       ItemDisplayBinding="{Binding stateName}" 
+                                       SelectedIndex="{Binding stateId}" 
+                                       />
 
-                <Controls:CustomPicker Title="City" 
-                                       Image="down_arrow.png"
-                                       Margin="20,10,20,0"
-                                       TitleColor="{StaticResource WhiteColor}"
-                                       TextColor="{StaticResource WhiteColor}"/>
+                <Controls:ExtendedEntry Placeholder="City"
+                                        Image="down_arrow.png"
+                                        Margin="20,10,20,0"
+                                        LineColor="{StaticResource WhiteColor}"
+                                        TextColor="{StaticResource WhiteColor}"
+                                       PlaceholderColor="{StaticResource WhiteColor}"
+                                        Text="{Binding City, Mode = TwoWay}"/>
 
-                <Controls:CustomPicker Title="Country" 
-                                       Image="down_arrow.png"
-                                       Margin="20,10,20,0"
-                                       TitleColor="{StaticResource WhiteColor}"
-                                       TextColor="{StaticResource WhiteColor}"/>
+               
 
                 <Controls:RoundedButton Text="Register"
                                         Margin="40,20,40,20"
                                         x:Name="RegisterButton"
-                                        Clicked="RegisterButton_Clicked"/>
+                                        Command="{Binding RegisterCommunicationInfoCommand}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

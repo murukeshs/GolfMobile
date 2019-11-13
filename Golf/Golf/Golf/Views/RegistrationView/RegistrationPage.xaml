@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
              x:Class="Golf.Views.RegistrationPage"
              BackgroundImageSource="registration.jpg"
              NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <viewModels:RegistrationPageViewModel/>
+    </ContentPage.BindingContext>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -33,31 +38,41 @@
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="First Name"
+                                        Text="{Binding FirstNameText, Mode = TwoWay}"
                                         Image="user_white.png"/>
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="Last Name"
+                                        Text="{Binding LastNameText, Mode = TwoWay}"
                                         Image="user_white.png"/>
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="E-mail"
+                                        Text="{Binding EmailText, Mode = TwoWay}"
                                         Image="gmail.png"/>
 
-                <Controls:CustomPicker Title="Gender" 
+                <Controls:CustomPicker Title="Gender"
+                                       ItemsSource="{Binding GenderList}"
                                        Image="down_arrow.png"
                                        Margin="20,10,20,0"
-                                       TitleColor="{StaticResource WhiteColor}"/>
+                                       TitleColor="{StaticResource WhiteColor}"
+                                       TextColor="{StaticResource WhiteColor}"
+                                       SelectedIndexChanged="GenderOnchange"/>
 
                 <Controls:NullableDatePicker Margin="20,10,20,0"
                                              PlaceHolder="Date of Birth"
-                                             TextColor="{StaticResource WhiteColor}"/>
+                                             NullableDate="{Binding Nullabledob}"
+                                             TextColor="{StaticResource WhiteColor}"
+                                             x:Name="DobPicker"    
+                                             Date="{Binding dob}"/>
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="Phone Number"
-                                        Image="phone_white.png"/>
+                                        Image="phone_white.png"
+                                        Text="{Binding PhoneNumber, Mode = TwoWay}"/>
 
                 <StackLayout Orientation="Horizontal" 
                              Margin="20,0" 
@@ -73,31 +88,45 @@
                            TextColor="{StaticResource WhiteColor}"/>
 
                 </StackLayout>
-                <Controls:CustomCheckBox DefaultText="Player"
-                                         Style="{StaticResource CheckBoxStyle}"/>
+                <Controls:CustomCheckBox DefaultText="Player" 
+                                         x:Name="PlayerCheckbox"
+                                         Style="{StaticResource CheckBoxStyle}"
+                                         CheckedChanged="UserTypeChanged"
+                                         DefaultValue ="1"/>
 
                 <Controls:CustomCheckBox DefaultText="Moderator"
-                                         Style="{StaticResource CheckBoxStyle}" />
+                                         Style="{StaticResource CheckBoxStyle}"
+                                         CheckedChanged="UserTypeChanged"
+                                         DefaultValue ="2"/>
 
                 <Controls:CustomCheckBox DefaultText="Score Keeper"
-                                         Style="{StaticResource CheckBoxStyle}" />
+                                         Style="{StaticResource CheckBoxStyle}" 
+                                         CheckedChanged="UserTypeChanged"
+                                         DefaultValue ="3"
+                                         />
 
                 <Controls:CustomCheckBox DefaultText="Organizer"
-                                         Style="{StaticResource CheckBoxStyle}" />
+                                         Style="{StaticResource CheckBoxStyle}" 
+                                         DefaultValue ="4"
+                                         CheckedChanged="UserTypeChanged"/>
 
                 <Controls:CustomCheckBox DefaultText="Spectator"
-                                         Style="{StaticResource CheckBoxStyle}" />
+                                         Style="{StaticResource CheckBoxStyle}"
+                                         DefaultValue ="5"
+                                         CheckedChanged="UserTypeChanged"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
+                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}" 
                                         Margin="20,10,20,0"
                                         Placeholder="Password"
                                         IsPassword="True"
-                                        Image="key.png"/>
+                                        Image="key.png"
+                                        Text="{Binding Password, Mode = TwoWay}"/>
 
                 <Controls:RoundedButton Text="Register"
                                         Margin="40,20,40,20"
                                         x:Name="RegisterAdminButton"
-                                        Clicked="RegisterAdminButton_Clicked"/>
+                                        Command="{Binding RegisterCommand}"
+                                        />
 
             </StackLayout>
         </ScrollView>

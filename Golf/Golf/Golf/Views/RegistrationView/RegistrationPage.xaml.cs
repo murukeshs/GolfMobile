@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Golf.ViewModel;
 using Golf.Views.MenuView;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,14 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class RegistrationPage : ContentPage
 	{
-		public RegistrationPage ()
+        RegistrationPageViewModel vm;
+        public RegistrationPage ()
 		{
 			InitializeComponent ();
-		}
+            vm = BindingContext as RegistrationPageViewModel;
+        }
 
-        
+
 
         private async void RegisterAdminButton_Clicked(object sender, EventArgs e)
         {
@@ -28,6 +31,24 @@ namespace Golf.Views
             var navigationPage = ((NavigationPage)App.Current.MainPage);
             await navigationPage.PushAsync(view);
             UserDialogs.Instance.HideLoading();
+        }
+
+        private void GenderOnchange(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            vm.GenderText = picker.SelectedItem.ToString();
+        }
+
+        private void DobPickerSelected(object sender, DateChangedEventArgs e)
+        {
+            vm.dob = DobPicker.Date;
+
+        }
+
+        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
+        {
+            var value = PlayerCheckbox.DefaultValue; 
+            //viewmodel.UserTypeID = 
         }
     }
 }
