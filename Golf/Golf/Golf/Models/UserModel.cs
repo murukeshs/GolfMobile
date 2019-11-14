@@ -12,6 +12,8 @@ namespace Golf.Models
 
         internal string UserName { get; set; } = string.Empty;
 
-        internal string UserEmailId { get; set; } = string.Empty;
+        internal int UserId { get; set; } = 0;
+
+        internal string UserEmail { get; set; } = string.Empty;
     }
 }

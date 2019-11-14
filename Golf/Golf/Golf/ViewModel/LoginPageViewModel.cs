@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Golf.Models;
 using Golf.Models.userModel;
 using Golf.Services;
 using Golf.Utils;
@@ -104,8 +105,6 @@ namespace Golf.ViewModel
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    //App.User.TokenCreateDateTimeUtc = DateTime.UtcNow;
-                    //App.SessionManager.EnableMonitor();
                     UserDialogs.Instance.ShowLoading();
                     string RestURL = App.User.BaseUrl + "JWTAuthentication/login";
                     Uri requestUri = new Uri(RestURL);
@@ -117,17 +116,24 @@ namespace Golf.ViewModel
                         userTypeid = 1
                     };
 
-                    string json = "";
-                    json = JsonConvert.SerializeObject(data);
+                    string json = JsonConvert.SerializeObject(data);
                     var httpClient = new HttpClient();
                     HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
                     string responJsonText = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
+                        var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responJsonText);
+                        App.User.AccessToken = loginResponse.token;
+                        var lastname = (string.IsNullOrEmpty(loginResponse.user.lastName)) ? "" : " " + loginResponse.user.lastName;
+                        App.User.UserName = loginResponse.user.firstName + lastname;
+                        App.User.UserId = loginResponse.user.userId;
+                        App.User.UserEmail = loginResponse.user.email;
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
+                        UserNameText = string.Empty;
+                        PasswordText = string.Empty;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
