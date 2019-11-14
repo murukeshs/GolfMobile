@@ -1,12 +1,7 @@
 ﻿using Golf.Models;
+using Golf.Services;
 using Golf.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,5 +20,26 @@ namespace Golf.Views
         {
             ((ListOfTeamsPageViewModel)BindingContext).TeamListItemsTabbedCommand.Execute(e.Item as MatchTeamItems);
         }
+
+        #region screen adjusting
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
+            }
+        }
+        #endregion
     }
 }

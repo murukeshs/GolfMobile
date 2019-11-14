@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
+using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
 using Golf.Views.MatchDetailsView;
+using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
 using System.Net.Http;
@@ -115,8 +117,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

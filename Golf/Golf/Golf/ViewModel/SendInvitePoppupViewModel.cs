@@ -7,14 +7,12 @@ using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-
+using Golf.Models;
 namespace Golf.ViewModel
 {
     public class SendInvitePoppupViewModel : BaseViewModel
@@ -62,8 +60,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

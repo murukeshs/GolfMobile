@@ -1,14 +1,7 @@
 ﻿using Golf.Models;
+using Golf.Services;
 using Golf.ViewModel.Match;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
-using Xamarin.Forms.PancakeView;
 using Xamarin.Forms.Xaml;
 
 namespace Golf.Views.MatchDetailsView
@@ -26,5 +19,26 @@ namespace Golf.Views.MatchDetailsView
         {
             ((MatchDetailsPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as MatchTeamList);
         }
+
+        #region screen adjusting
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
+            }
+        }
+        #endregion
     }
 }

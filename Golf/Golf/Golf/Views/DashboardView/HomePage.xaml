@@ -11,7 +11,7 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <Grid>
+        <ScrollView>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="5.0*"/>
@@ -112,6 +112,6 @@
                     
                 </StackLayout>
             </Grid>
-        </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

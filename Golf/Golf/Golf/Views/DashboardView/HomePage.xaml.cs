@@ -1,4 +1,4 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using Golf.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,19 +13,25 @@ namespace Golf.Views
             InitializeComponent ();
 		}
 
+        #region screen adjusting
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            MessagingCenter.Subscribe<App>((App)Application.Current, "OpenInvitePoppupPage", (sender) =>
+            if (Device.RuntimePlatform == Device.Android)
             {
-                PopupNavigation.Instance.PushAsync(new InviteParticipantPage());
-            });
+                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+            }
         }
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<HomePage>(this, "OpenInvitePoppupPage");
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
+            }
         }
+        #endregion
     }
 }

@@ -138,8 +138,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Login failed", "Alert", "Ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

@@ -4,9 +4,7 @@ using Golf.Services;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Golf.ViewModel
@@ -59,8 +57,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("api failed", "Alert", "Ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else
@@ -108,8 +107,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("api failed", "Alert", "Ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

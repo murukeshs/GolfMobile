@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -97,7 +96,9 @@ namespace Golf.ViewModel.Match
                     }
                     else
                     {
-                        DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                     
                     UserDialogs.Instance.HideLoading();
@@ -152,9 +153,9 @@ namespace Golf.ViewModel.Match
                     }
                     else
                     {
-                        //var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
-                        DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

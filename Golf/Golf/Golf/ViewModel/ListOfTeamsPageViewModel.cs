@@ -75,7 +75,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
 
                     UserDialogs.Instance.HideLoading();

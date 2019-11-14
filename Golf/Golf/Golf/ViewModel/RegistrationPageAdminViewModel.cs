@@ -91,6 +91,28 @@ namespace Golf.ViewModel
         }
         private int _StateID = 0;
 
+        public bool IsEmailNotification
+        {
+            get { return _IsEmailNotification; }
+            set
+            {
+                _IsEmailNotification = value;
+                OnPropertyChanged(nameof(IsEmailNotification));
+            }
+        }
+        private bool _IsEmailNotification = false;
+
+        public bool IsSMSNotification
+        {
+            get { return _IsSMSNotification; }
+            set
+            {
+                _IsSMSNotification = value;
+                OnPropertyChanged(nameof(IsSMSNotification));
+            }
+        }
+        private bool _IsSMSNotification = false;
+
         public RegistrationPageAdminViewModel()
         {
             loadCountry();
@@ -116,8 +138,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("api failed", "Alert", "Ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else
@@ -152,13 +175,15 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
+                        StateID = 0;
                         StateList = JsonConvert.DeserializeObject<List<State>>(content);
                         UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("api failed", "Alert", "Ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else
@@ -213,6 +238,12 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("City cannot be empty.", "Alert", "Ok");
                 return false;
             }
+            else if (!IsEmailNotification && !IsSMSNotification )
+            {
+                //Notification Type Is Empty
+                UserDialogs.Instance.AlertAsync("Notification Type cannot be empty.", "Alert", "Ok");
+                return false;
+            }
             else
             {
                 //Validation Is Success
@@ -236,14 +267,13 @@ namespace Golf.ViewModel
                         stateId= StateID,
                         countryId= CountryID,
                         city = City,
-                        isEmailNotification= false,
-                        isSMSNotification=false,
+                        isEmailNotification= IsEmailNotification,
+                        isSMSNotification=IsSMSNotification,
                         isPublicProfile=false
                     };
 
                     string json = JsonConvert.SerializeObject(data);
                     var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
                     string responJsonText = await response.Content.ReadAsStringAsync();
 
@@ -257,8 +287,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("api failed", "Alert", "Ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else
@@ -276,8 +307,13 @@ namespace Golf.ViewModel
         public void resetFormValues()
         {
             Address = string.Empty;
+            StateID = 0;
+            CountryID = 0;
             City = string.Empty;
+            IsSMSNotification = false;
+            IsEmailNotification = false;
         }
         #endregion
+
     }
 }
