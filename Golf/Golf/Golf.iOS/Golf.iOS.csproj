@@ -93,6 +93,7 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderer\BoxPickerRenderer.cs" />
     <Compile Include="CustomRenderer\CheckBoxView.cs" />
     <Compile Include="CustomRenderer\CircleImageRenderer.cs" />
     <Compile Include="CustomRenderer\CustomCheckBoxRenderer.cs" />

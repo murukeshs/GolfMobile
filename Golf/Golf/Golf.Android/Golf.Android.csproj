@@ -84,6 +84,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderer\BoxPickerRenderer.cs" />
     <Compile Include="CustomRenderer\CircleImageRenderer.cs" />
     <Compile Include="CustomRenderer\CustomCheckBoxRenderer.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />

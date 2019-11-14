@@ -20,6 +20,8 @@ namespace Golf.ViewModel.Match
     public class MatchDetailsPageViewModel : BaseViewModel
     {
         bool IsSuccess = false;
+
+        public getMatchById MatchDetails;
         //To Hide and UnHide Math details Page
         public bool IsVisibleMatchDetails
         {
@@ -66,9 +68,55 @@ namespace Golf.ViewModel.Match
         }
         private string _MatchCode = string.Empty;
 
+
+        public string CompetitionType
+        {
+            get { return _CompetitionType; }
+            set
+            {
+                _CompetitionType = value;
+                OnPropertyChanged(nameof(CompetitionType));
+            }
+        }
+        private string _CompetitionType = string.Empty;
+
+        public string TypeofGame
+        {
+            get { return _TypeofGame; }
+            set
+            {
+                _TypeofGame = value;
+                OnPropertyChanged(nameof(TypeofGame));
+            }
+        }
+        private string _TypeofGame = string.Empty;
+
+        public string MatchLocation
+        {
+            get { return _MatchLocation; }
+            set
+            {
+                _MatchLocation = value;
+                OnPropertyChanged(nameof(MatchLocation));
+            }
+        }
+        private string _MatchLocation = string.Empty;
+
+        public string ContextSettings
+        {
+            get { return _ContextSettings; }
+            set
+            {
+                _ContextSettings = value;
+                OnPropertyChanged(nameof(ContextSettings));
+            }
+        }
+        private string _ContextSettings = "Dummy";
+
         public MatchDetailsPageViewModel()
         {
-
+            //Using THis Method to Load the Match details
+            getMatchById();
         }
 
         #region Match Details Button Command Functionality
@@ -95,6 +143,10 @@ namespace Golf.ViewModel.Match
             UserDialogs.Instance.HideLoading();
         }
 
+        async Task GetTeamPlayersList()
+        {
+
+        }
 
         #endregion Team Button Command Functionality
 
@@ -217,7 +269,7 @@ namespace Golf.ViewModel.Match
                     {
                         matchName = MatchName,
                         matchCode = MatchCode,
-                        matchId = 5,
+                        matchId = Convert.ToInt32(App.User.MatchId),
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -327,5 +379,51 @@ namespace Golf.ViewModel.Match
         }
 
         #endregion Save Button Command Functionality
+
+
+        async void getMatchById()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Match/getMatchById/" + App.User.MatchId;
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MatchDetails = JsonConvert.DeserializeObject<getMatchById>(content);
+                        MatchName = MatchDetails.matchName;
+                        MatchCode = MatchDetails.matchCode;
+                        CompetitionType = MatchDetails.competitionName;
+                        TypeofGame = MatchDetails.ruleName;
+                        MatchLocation = MatchDetails.matchLocation;
+                        //UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
+                        //var view = new MenuPage();
+                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //await navigationPage.PushAsync(view);
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
     }
 }

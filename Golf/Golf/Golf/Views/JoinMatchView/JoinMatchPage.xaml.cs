@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Golf.Models;
+using Golf.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +18,12 @@ namespace Golf.Views.JoinMatchView
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void BoxPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            var Item = (matchJoinlist)picker.SelectedItem;
+            ((JoinMatchPageViewModel)BindingContext).PickerSelectedCommand.Execute(Item);
+        }
+    }
 }

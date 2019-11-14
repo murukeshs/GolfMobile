@@ -89,7 +89,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="US Open Championship"
+                        <controls:CustomEntry Text="{Binding MatchName}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               FontSize="{StaticResource FontSize18}"
                                               Margin="0,5,0,0"/>
@@ -98,7 +98,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="123456789"
+                        <controls:CustomEntry Text="{Binding MatchCode}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               Margin="0,5,0,0"
                                               FontSize="{StaticResource FontSize18}"/>
@@ -107,7 +107,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="Storke Play"
+                        <controls:CustomEntry Text="{Binding CompetitionType}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
@@ -119,7 +119,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="Scoring Systems"
+                        <controls:CustomEntry Text="{Binding TypeofGame}"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   BackgroundColor="LightGray"
                                   Margin="0,5,0,0"
@@ -131,7 +131,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="PINE VALLEY G.C"
+                        <controls:CustomEntry Text="{Binding MatchLocation}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
@@ -143,7 +143,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="None"
+                        <controls:CustomEntry Text="{Binding ContextSettings}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
@@ -419,11 +419,13 @@
 
                 <controls:RoundedButton Margin="0"
                                         Text="Save"
-                                        HeightRequest="45"/>
+                                        HeightRequest="45"
+                                        Command="{Binding SaveButtonCommand}"/>
 
                 <controls:RoundedButton Margin="10,0"
                                         Text="Save and Notify"
-                                        HeightRequest="45"/>
+                                        HeightRequest="45"
+                                        Command="{Binding SaveAndNotifyButtonCommand}"/>
 
             </StackLayout>
         </StackLayout>

@@ -24,7 +24,7 @@ namespace Golf.Views.MatchDetailsView
 
         private void TeamListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            ((MatchDetailsPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as MatchTeamList);
+            ((MatchDetailsPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as getMatchesDetailsById);
         }
     }
 }

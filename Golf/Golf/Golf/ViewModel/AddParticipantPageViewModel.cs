@@ -2,6 +2,7 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
+using Golf.Views;
 using Golf.Views.MenuView;
 using Golf.Views.PoppupView;
 using Newtonsoft.Json;
@@ -223,7 +224,7 @@ namespace Golf.ViewModel
 
 
         //To Hide and UnHide Players details Page
-       
+
 
 
         //async void UpdateItems(user Items)
@@ -234,6 +235,19 @@ namespace Golf.ViewModel
         //    OnPropertyChanged(nameof(PlayersList));
         //}
         #endregion Toggle Selected Command Functionality
+
+
+        #region AddParticipants Button Selected Command Functionality
+        public ICommand AddParticipantsCommand => new AsyncCommand(AddParticipantsAsync);
+
+        async Task AddParticipantsAsync()
+        {
+            UserDialogs.Instance.ShowLoading();
+            var view = new InviteParticipantPage();
+            await PopupNavigation.Instance.PushAsync(view);
+            UserDialogs.Instance.HideLoading();
+        }
+        #endregion AddParticipants Button Command Functionality
 
     }
 

@@ -29,7 +29,7 @@
             
             <StackLayout Margin="0">
 
-                <Label Text="Invite a Participant"
+                <Label Text="Add a Participant"
                    TextColor="{StaticResource BlackColor}"
                    Margin="20,10,20,10"
                    HorizontalTextAlignment="Start"

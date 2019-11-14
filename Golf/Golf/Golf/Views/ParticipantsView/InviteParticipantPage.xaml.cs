@@ -17,10 +17,5 @@ namespace Golf.Views
 		{
 			InitializeComponent ();
 		}
-
-        private void SendInviteButton_Clicked(object sender, EventArgs e)
-        {
-
-        }
     }
 }

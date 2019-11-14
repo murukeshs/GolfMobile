@@ -107,7 +107,7 @@
                       HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
-                      CachingStrategy="RecycleElement"
+                      CachingStrategy="RecycleElementAndDataTemplate"
                       SelectionMode="Single"
                       ItemTapped="TeamsListView_ItemTapped"
                       VerticalScrollBarVisibility="Never">
