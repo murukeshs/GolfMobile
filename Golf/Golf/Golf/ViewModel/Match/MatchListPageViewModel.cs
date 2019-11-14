@@ -1,17 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
-using Golf.Utils;
 using Golf.Views.MatchDetailsView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -55,7 +51,9 @@ namespace Golf.ViewModel.Match
                     }
                     else
                     {
-                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                     UserDialogs.Instance.HideLoading();
                 }

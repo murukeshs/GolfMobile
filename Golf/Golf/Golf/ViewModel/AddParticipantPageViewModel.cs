@@ -11,10 +11,8 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -164,9 +162,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
-                        var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
-                        DependencyService.Get<IToast>().Show(Item.ErrorMessage);
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

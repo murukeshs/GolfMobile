@@ -1,16 +1,12 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
-using Golf.Utils;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -73,7 +69,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
-                        DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
 
                     UserDialogs.Instance.HideLoading();

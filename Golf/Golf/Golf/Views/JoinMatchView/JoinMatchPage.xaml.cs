@@ -1,6 +1,4 @@
-﻿using Golf.Models;
-using Golf.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +16,28 @@ namespace Golf.Views.JoinMatchView
 		{
 			InitializeComponent ();
 		}
+
+        #region screen adjusting
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
+            }
+        }
+        #endregion
+    }
 
         private void BoxPicker_SelectedIndexChanged(object sender, EventArgs e)
         {

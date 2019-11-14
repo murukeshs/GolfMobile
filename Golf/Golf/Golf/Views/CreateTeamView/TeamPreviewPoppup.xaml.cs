@@ -1,12 +1,7 @@
 ﻿using Golf.Models;
+using Golf.Services;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,7 +17,7 @@ namespace Golf.Views.PoppupView
 
             TeamPreviewList = new ObservableCollection<AddPlayersList>(new[]
              {
-                  new AddPlayersList { PlayerName = "Player 1" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
+                 new AddPlayersList { PlayerName = "Player 1" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
                  new AddPlayersList { PlayerName = "Player 2" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
                  new AddPlayersList { PlayerName = "Player 3" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
                  new AddPlayersList { PlayerName = "Player 4" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=true },
@@ -35,5 +30,26 @@ namespace Golf.Views.PoppupView
               });
             ListView.ItemsSource = TeamPreviewList;
         }
-	}
+
+        #region screen adjusting
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
+            }
+        }
+        #endregion
+    }
 }

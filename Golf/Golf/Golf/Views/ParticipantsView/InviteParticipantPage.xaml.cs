@@ -1,10 +1,6 @@
-﻿using Rg.Plugins.Popup.Pages;
+﻿using Golf.Services;
+using Rg.Plugins.Popup.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,5 +13,31 @@ namespace Golf.Views
 		{
 			InitializeComponent ();
 		}
+
+        private void SendInviteButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        #region screen adjusting
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
+            }
+        }
+        #endregion
     }
 }

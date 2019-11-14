@@ -124,20 +124,6 @@ namespace Golf.ViewModel
         }
         private string _PhoneNumber = string.Empty;
 
-        public string UserTypeID
-        {
-            get
-            {
-                return _UserTypeID;
-            }
-            set
-            {
-                _UserTypeID = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _UserTypeID = string.Empty;
-
         public string Password
         {
             get
@@ -194,10 +180,21 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("Gender cannot be empty.", "Alert", "Ok");
                 return false;
             }
+            else if (dob == null)
+            {
+                //dob Is Empty
+                UserDialogs.Instance.AlertAsync("DOB cannot be empty.", "Alert", "Ok");
+                return false;
+            }
             else if (string.IsNullOrEmpty(PhoneNumber))
             {
                 //PhoneNo Is Empty
                 UserDialogs.Instance.AlertAsync("Phone Number cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if(UserTypeList.Count == 0){
+                //UserType Is Empty
+                UserDialogs.Instance.AlertAsync("User Type cannot be empty.", "Alert", "Ok");
                 return false;
             }
             else if (string.IsNullOrEmpty(Password))
@@ -280,13 +277,13 @@ namespace Golf.ViewModel
             dob = null;
             PhoneNumber = string.Empty;
             Password = string.Empty;
+            UserTypeList.Clear();
         }
         #endregion Register Command Functionality
 
         public List<string> UserTypeList = new List<string>();
-        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBoxAsync);
-
-        async void UserTypeCheckBoxAsync(object parameter)
+        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBox);
+        public void UserTypeCheckBox(object parameter)
         {
             var item = parameter as string;
 

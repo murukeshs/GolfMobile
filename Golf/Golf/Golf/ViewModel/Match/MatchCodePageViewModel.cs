@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Golf.Utils;
 using Golf.Views.CreateMatchView;
-using Rg.Plugins.Popup.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;

@@ -51,9 +51,13 @@
 
                 </StackLayout>
                 <Controls:CustomCheckBox DefaultText="E-mail"
+                                         CheckedChanged="NotificationTypeChanged"
+                                         DefaultValue ="Email"
                                          Style="{StaticResource CheckBoxStyle}" />
 
                 <Controls:CustomCheckBox DefaultText="SMS"
+                                         CheckedChanged="NotificationTypeChanged"
+                                         DefaultValue ="SMS"
                                          Style="{StaticResource CheckBoxStyle}" />
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"

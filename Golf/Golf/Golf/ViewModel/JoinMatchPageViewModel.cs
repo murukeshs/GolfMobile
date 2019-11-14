@@ -130,8 +130,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

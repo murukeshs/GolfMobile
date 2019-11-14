@@ -5,6 +5,7 @@ using Golf.Views.MenuView;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Golf.Controls;
 
 namespace Golf.Views
 {
@@ -36,16 +37,16 @@ namespace Golf.Views
         private void DobPickerSelected(object sender, DateChangedEventArgs e)
         {
             vm.dob = DobPicker.Date;
-
         }
 
         private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
         {
-            var value = PlayerCheckbox.DefaultValue;
-            //viewmodel.UserTypeID = 
-            ((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(value);
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            ((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
         }
 
+        #region screen adjusting
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -64,5 +65,6 @@ namespace Golf.Views
                 DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
             }
         }
+        #endregion
     }
 }
