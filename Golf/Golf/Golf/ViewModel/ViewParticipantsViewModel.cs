@@ -65,7 +65,8 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         var Items = JsonConvert.DeserializeObject<ObservableCollection<ParticipantList>>(content);
-                         ParticipantItems = Items;
+                        ParticipantItems = Items;
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
@@ -73,8 +74,6 @@ namespace Golf.ViewModel
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
-
-                    UserDialogs.Instance.HideLoading();
                 }
                 else
                 {

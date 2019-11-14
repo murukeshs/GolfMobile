@@ -1,4 +1,6 @@
-﻿using Golf.Services;
+﻿using Golf.Controls;
+using Golf.Services;
+using Golf.ViewModel;
 using Rg.Plugins.Popup.Pages;
 using System;
 using Xamarin.Forms;
@@ -13,11 +15,6 @@ namespace Golf.Views
 		{
 			InitializeComponent ();
 		}
-
-        private void SendInviteButton_Clicked(object sender, EventArgs e)
-        {
-
-        }
 
         #region screen adjusting
         protected override void OnAppearing()
@@ -39,5 +36,12 @@ namespace Golf.Views
             }
         }
         #endregion
+
+        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
+        {
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            ((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
+        }
     }
 }

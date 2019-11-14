@@ -132,7 +132,7 @@ namespace Golf.ViewModel.Match
                     var data = new CreateMatchPlayers
                     {
                         type = "Match",
-                        eventId = App.User.UserId,
+                        eventId = App.User.CreateMatchId,
                         teamId = teamPlayerId,
                     };
 

@@ -204,9 +204,9 @@ namespace Golf.ViewModel
                     }
                     else
                     {
-                        //var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
-                        //DependencyService.Get<IToast>().Show(Item.ErrorMessage);
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

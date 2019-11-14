@@ -150,7 +150,7 @@ namespace Golf.ViewModel.Match
         #region Team Item Tabbed Command Functionality
 
         //To Hide and UnHide Players details Page
-        private MatchTeamList _LastSelectedItem;
+      //  private MatchTeamList _LastSelectedItem;
 
         public ICommand TeamItemsTabbedCommand => new Command(HideorShowItems);
 
@@ -187,7 +187,7 @@ namespace Golf.ViewModel.Match
         }
         
 
-        public ObservableCollection<MatchTeamList> MatchTeamsItemsWithPlayers
+        public ObservableCollection<MatchTeamItems> MatchTeamsItemsWithPlayers
         {
             get { return _MatchTeamsItemsWithPlayers; }
             set
@@ -196,7 +196,7 @@ namespace Golf.ViewModel.Match
                 OnPropertyChanged(nameof(MatchTeamsItemsWithPlayers));
             }
         }
-        private ObservableCollection<MatchTeamList> _MatchTeamsItemsWithPlayers = null;
+         private ObservableCollection<MatchTeamItems> _MatchTeamsItemsWithPlayers = null;
         async void LoadTeamListAsync()
         {
             try
@@ -214,7 +214,7 @@ namespace Golf.ViewModel.Match
                     //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
-                        MatchTeamsItemsWithPlayers = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamList>>(content);
+                        MatchTeamsItemsWithPlayers = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamItems>>(content);
                     }
                     else
                     {
@@ -409,8 +409,9 @@ namespace Golf.ViewModel.Match
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else
