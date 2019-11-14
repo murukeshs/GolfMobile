@@ -67,10 +67,10 @@ namespace Golf.Controls
                 p => p.FontName, string.Empty);
 
 
-        /// <summary>
-		/// The checked changed event.
-		/// </summary>
-		public event EventHandler<EventArg<bool>> CheckedChanged;
+        // <summary>
+        /// The checked changed event.
+        /// </summary>
+        public event EventHandler<bool> CheckedChanged;
 
         /// <summary>
         /// Gets or sets a value indicating whether the control is checked.
@@ -82,10 +82,10 @@ namespace Golf.Controls
             get => (bool)GetValue(CheckedProperty);
             set
             {
-                if (Checked != value)
+                if (this.Checked != value)
                 {
                     SetValue(CheckedProperty, value);
-                    //CheckedChanged.Invoke(this, value);
+                    this.CheckedChanged.Invoke(this , true);
                 }
             }
         }

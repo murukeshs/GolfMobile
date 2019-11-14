@@ -24,7 +24,7 @@ namespace Golf.Droid.CustomRenderer
     {
         CustomPicker element;
 
-        public CustomPickerRenderer()
+        public CustomPickerRenderer(Context context) : base(context)
         {
 
         }

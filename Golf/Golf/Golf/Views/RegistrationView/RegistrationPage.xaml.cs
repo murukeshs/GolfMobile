@@ -41,8 +41,9 @@ namespace Golf.Views
 
         private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
         {
-            var value = PlayerCheckbox.DefaultValue; 
+            var value = PlayerCheckbox.DefaultValue;
             //viewmodel.UserTypeID = 
+            ((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(value);
         }
 
         protected override void OnAppearing()

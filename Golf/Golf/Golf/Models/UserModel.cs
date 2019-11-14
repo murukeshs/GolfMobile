@@ -28,6 +28,6 @@ namespace Golf.Models
 
         internal int TeamIdforPlayerListing { get; set; } = 0;
 
-        internal string MatchId { get; set; } = 0;
+        internal string MatchId { get; set; } = string.Empty;
     }
 }

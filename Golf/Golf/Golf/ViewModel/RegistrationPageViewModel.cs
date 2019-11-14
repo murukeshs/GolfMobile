@@ -218,6 +218,7 @@ namespace Golf.ViewModel
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
+                    var UserTypeId = string.Join(",", UserTypeList);
                     UserDialogs.Instance.ShowLoading();
                     string RestURL = App.User.BaseUrl + "User/createUser";
                     Uri requestUri = new Uri(RestURL);
@@ -232,7 +233,7 @@ namespace Golf.ViewModel
                         dob= dob.ToString(),
                         phoneNumber= PhoneNumber,
                         password= Password,
-                        userTypeId= "1"
+                        userTypeId= UserTypeId
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -281,5 +282,30 @@ namespace Golf.ViewModel
             Password = string.Empty;
         }
         #endregion Register Command Functionality
+
+        public List<string> UserTypeList = new List<string>();
+        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBoxAsync);
+
+        async void UserTypeCheckBoxAsync(object parameter)
+        {
+            var item = parameter as string;
+
+            if (UserTypeList.Count > 0)
+            {
+                bool UserIdAleradyExists = UserTypeList.Contains(item);
+                if (UserIdAleradyExists)
+                {
+                    UserTypeList.Remove(item);
+                }
+                else
+                {
+                    UserTypeList.Add(item);
+                }
+            }
+            else
+            {
+                UserTypeList.Add(item);
+            }
+        }
     }
 }
