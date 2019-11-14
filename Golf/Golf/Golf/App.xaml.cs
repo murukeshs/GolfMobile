@@ -13,7 +13,7 @@ namespace Golf
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(new OtpVerificationPage());
             //MainPage = new LoginPage();
             if (Device.RuntimePlatform == Device.iOS)
             {
