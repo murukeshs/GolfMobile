@@ -20,6 +20,7 @@ namespace Golf.Droid.CustomRenderer
 {
     public class CustomTimePikerRenderer : ViewRenderer<CustomTimePiker, EditText>
     {
+        Context CurrentContext => Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
         TimePickerDialog _dialog;
         public CustomTimePikerRenderer(Context context) : base(context)
         {
@@ -100,22 +101,21 @@ namespace Golf.Droid.CustomRenderer
 
         private void ShowDatePicker()
         {
-            CreateDatePickerDialog(Element.Time);
+            CreateDatePickerDialog(Element.Time.Hours,Element.Time.Minutes);
             _dialog.Show();
         }
 
-        void CreateDatePickerDialog(TimeSpan time)
+        void CreateDatePickerDialog(double hours,double minutes)
         {
             CustomTimePiker view = Element;
-            _dialog = new TimePickerDialog(Context, (o, e) =>
+
+            _dialog = new TimePickerDialog(CurrentContext, (o, e) =>
             {
-                view.SetValue(Xamarin.Forms.TimePicker.TimeProperty, time);
-                //view.Time = e.Date;
                 ((IElementController)view).SetValueFromRenderer(VisualElement.IsFocusedProperty, false);
                 Control.ClearFocus();
 
                 _dialog = null;
-            }, time.Hours, time.Minutes, false);
+            }, Element.Time.Hours, Element.Time.Minutes, false);
 
             _dialog.SetButton("Done", (sender, e) =>
             {
@@ -124,6 +124,7 @@ namespace Golf.Droid.CustomRenderer
                 SetDate(Element.Time);
                 //Control.SetTextColor(Android.Graphics.Color.Black);
                 Element.AssignValue();
+                _dialog.UpdateTime(Element.Time.Hours, Element.Time.Minutes);
             });
             _dialog.SetButton2("Clear", (sender, e) =>
             {

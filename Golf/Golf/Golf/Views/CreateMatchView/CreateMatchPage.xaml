@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Golf.Controls"
              xmlns:viewModels="clr-namespace:Golf.ViewModel.Match"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="Golf.Views.CreateMatchView.CreateMatchPage"
              Title="Create Match"
              BackgroundColor="{StaticResource AppBackgroundColor}">
@@ -21,9 +22,10 @@
                 <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
                                         Placeholder="Enter Match Name"
                                         FontSize="{StaticResource FontSize18}"
+                                        Text="{Binding MatchNameText}"
                                         Margin="20,20,20,0"
                                         />
-            <Label Text="Match Type"
+            <!--<Label Text="Match Type"
                    TextColor="{StaticResource BlackColor}"
                    Margin="20,5,20,0"
                    FontAttributes="Bold"
@@ -39,23 +41,62 @@
                                             Margin="30,0"
                                             TextColor="{StaticResource TextGrayColor}"
                                             FontSize="{StaticResource FontSize16}"/>
-            </StackLayout>
+            </StackLayout>-->
 
-            <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
-                                    Placeholder="Enter Competition Type"
+            <controls:CustomPicker  ItemsSource="{Binding CompetitionTypeItems}"
+                                    Title="Select Competition Type"
+                                    Image="down_arrow_gray.png"
                                     Margin="20,5,20,0"
-                                    FontSize="{StaticResource FontSize18}"/>
+                                    VerticalOptions="Center"
+                                    ItemDisplayBinding="{Binding competitionName}" 
+                                    SelectedIndex="{Binding competitionTypeId}" 
+                                    SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
+                                    FontSize="{StaticResource FontSize18}"
+                                    TitleColor="{StaticResource TextGrayColor}"
+                                    TextColor="{StaticResource TextGrayColor}"/>
 
-            <Label Text="Select Rule:"
+            <Label Text="Rule:"
                    TextColor="{StaticResource BlackColor}"
                    FontAttributes="Bold"
                    Margin="20,5,20,0"
                    FontSize="{StaticResource FontSize18}"/>
 
-            <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                         BorderColor="{StaticResource BorderColor}"
+                                         CornerRadius="10"
+                                         HasShadow="True"
+                                         Margin="20,5,20,0">
+                        <controls:HorizontalList ListOrientation="Vertical"
+                                                 HeightRequest="200"
+                                                 Padding="0"
+                                                 Margin="0"
+                                                 BackgroundColor="Transparent"
+                                                 ItemsSource="{Binding RulesItems}">
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
+                                  
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="10,10"
+                                                     Padding="0"
+                                                     Spacing="0">
+
+                                        <CheckBox Color="{StaticResource TextGrayColor}"
+                                                  Margin="20,0"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+                                        <Label Text="{Binding ruleName}"
+                                               FontSize="Small"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Margin="20,0"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </plugins:PancakeView>
+
+                    <!--<controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
                                     Placeholder="Enter Rule"
                                     Margin="20,5,20,0"
-                                    FontSize="{StaticResource FontSize18}"/>
+                                    FontSize="{StaticResource FontSize18}"/>-->
 
             <Label Text="Choose Date and Time"
                    TextColor="{StaticResource BlackColor}"
@@ -67,36 +108,44 @@
                          Margin="20,5,20,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="Start Date"
+                                             Format="yyyy/MM/dd"
+                                             NullableDate="{Binding NullableStartDate}"
                                              TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
-                                             FontSize="{StaticResource FontSize18}"/>
+                                             FontSize="{StaticResource FontSize18}"
+                                             Date="{Binding MatchStartDate}"/>
 
-                <controls:CustomTimePiker PlaceHolder="Start Time"
-                                          TextColor="{StaticResource TextGrayColor}"
+                        <TimePicker       TextColor="{StaticResource TextGrayColor}"
                                           HorizontalOptions="FillAndExpand"
-                                          FontSize="{StaticResource FontSize18}"/>
-            </StackLayout>
+                                          Format="hh:mm tt"
+                                          FontSize="{StaticResource FontSize18}"
+                                          Time="{Binding MatchEndTime}"/>
+                    </StackLayout>
 
             <StackLayout Orientation="Horizontal"
                          Margin="20,5,20,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="End Date"
+                                             Format="yyyy/MM/dd"
+                                             NullableDate="{Binding NullableENdDate}"
+                                             Date="{Binding MatchEndDate}"
                                              TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
                                              FontSize="{StaticResource FontSize18}"/>
 
-                <controls:CustomTimePiker PlaceHolder="End Time"
-                                          TextColor="{StaticResource TextGrayColor}"
+                        <TimePicker       TextColor="{StaticResource TextGrayColor}"
                                           HorizontalOptions="FillAndExpand"
+                                          Time="{Binding MatchStartTime}"
+                                           Format="hh:mm tt"
                                           FontSize="{StaticResource FontSize18}"/>
-            </StackLayout>
+                    </StackLayout>
 
-            <controls:CustomPicker Title="Choose Location" 
+            <!--<controls:CustomPicker Title="Choose Location" 
                                        Image="down_arrow.png"
                                        Margin="20,5,20,0"
                                     FontSize="{StaticResource FontSize18}"
                                        TitleColor="{StaticResource TextGrayColor}"
-                                       TextColor="{StaticResource TextGrayColor}"/>
+                                       TextColor="{StaticResource TextGrayColor}"/>-->
 
             <Label Text="Set the month fee:"
                    FontSize="{StaticResource FontSize18}"
@@ -107,6 +156,7 @@
             <controls:CustomEntry IsCurvedCornersEnabled="True"
                                   CornerRadius="25"
                                   Margin="20,5,20,0"
+                                  Text="{Binding MatchFee}"
                                   Style="{StaticResource RectangleShapeEntryStyle}"/>
 
            

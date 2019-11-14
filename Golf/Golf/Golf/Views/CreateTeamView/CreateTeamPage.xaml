@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
              x:Class="Golf.Views.CreateTeamPage"
              Title="Create Team"
              BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:CreateTeamPageViewModel/>
+    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout>
@@ -45,12 +50,14 @@
 
             <Controls:ExtendedEntry Placeholder="Enter Team Name"
                                     Style="{StaticResource EntryStyleGray}"
-                                    Margin="20,10,20,0"/>
+                                    Margin="30,10,30,0"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding TeamNameText,Mode=TwoWay}"/>
 
             <StackLayout Orientation="Horizontal" 
                          Padding="0"
                          Spacing="0"
-                         Margin="20">
+                         Margin="30">
 
                 <Label Text="Created by:"
                        TextColor="{StaticResource LightGreenColor}"
@@ -58,7 +65,7 @@
                        FontSize="{StaticResource FontSize20}"
                        FontAttributes="Bold"/>
 
-                <Label Text="User Name"
+                <Label Text="{Binding UserNameText}"
                        TextColor="{StaticResource BlackColor}"
                        HorizontalOptions="StartAndExpand" 
                        FontSize="{StaticResource FontSize20}"
@@ -70,7 +77,7 @@
             <Controls:RoundedButton Text="Proceed"
                                     Margin="40,20,40,20"
                                     x:Name="ProceedButton"
-                                    Clicked="ProceedButton_Clicked"/>
+                                    Command="{Binding CreateTeamProccedButtonCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -110,6 +110,8 @@ namespace Golf.Droid.CustomRenderer
                 _dialog = null;
             }, year, month, day);
 
+
+
             _dialog.SetButton("Done", (sender, e) =>
             {
                 Element.Format = Element._originalFormat;

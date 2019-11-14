@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -9,6 +10,7 @@ namespace Golf.Controls
 	/// </summary>
 	public class CustomCheckBox : View
     {
+
         /// <summary>
         /// The checked state property.
         /// </summary>

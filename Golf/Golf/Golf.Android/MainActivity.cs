@@ -7,6 +7,10 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Acr.UserDialogs;
+using Xamarin.Forms;
+using Golf.Services;
+using Plugin.CurrentActivity;
+using Golf.Droid.Services;
 
 namespace Golf.Droid
 {
@@ -19,7 +23,9 @@ namespace Golf.Droid
             SetTheme(Resource.Style.MainTheme); // <-- Added splash screen for android
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            DependencyService.Register<IAdjustScreenSize, AdjustScreenSize>();
             UserDialogs.Init(this);
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

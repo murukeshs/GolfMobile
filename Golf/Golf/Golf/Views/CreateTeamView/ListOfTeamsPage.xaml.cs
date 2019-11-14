@@ -23,7 +23,7 @@ namespace Golf.Views
 
         private void TeamsListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            ((ListOfTeamsPageViewModel)BindingContext).TeamListItemsTabbedCommand.Execute(e.Item as TeamList);
+            ((ListOfTeamsPageViewModel)BindingContext).TeamListItemsTabbedCommand.Execute(e.Item as MatchTeamItems);
         }
     }
 }

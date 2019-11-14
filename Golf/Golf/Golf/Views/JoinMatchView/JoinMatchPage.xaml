@@ -25,12 +25,24 @@
         <Grid>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
-            <Label Text="Match ID"
+
+                <Label Text="Match Name" 
+                   Style="{StaticResource HeadingsLabel}"/>
+
+                <controls:CustomPicker Title="Select Match"
+                                       TitleColor="{StaticResource TextGrayColor}"
+                                       TextColor="{StaticResource TextGrayColor}"
+                                       Margin="20,5,20,5"
+                                       />
+            
+                <Label Text="Match ID"
                    Style="{StaticResource HeadingsLabel}"/>
             
             <controls:CustomEntry Text="123789456"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   Margin="20,0,20,0"
+                                  IsEnabled="False"
+                                  BackgroundColor="LightGray"
                                   FontSize="{StaticResource FontSize18}"/>
             
             <Label Text="Competition Type"
@@ -39,6 +51,8 @@
             <controls:CustomEntry Text="123789456"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   Margin="20,0,20,0"
+                                   IsEnabled="False"
+                                  BackgroundColor="LightGray"
                                   FontSize="{StaticResource FontSize18}"/>
 
             <Label Text="Participant Name"

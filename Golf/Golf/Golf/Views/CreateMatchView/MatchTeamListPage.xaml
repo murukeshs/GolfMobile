@@ -1,46 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:Controls="clr-namespace:Golf.Controls"
              xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:viewModel="clr-namespace:Golf.ViewModel"
+             xmlns:controls="clr-namespace:Golf.Controls"
              xmlns:Converters="clr-namespace:Golf.Converters"
-             x:Class="Golf.Views.ListOfTeamsPage"
-             Title="Team Listing"
-             BackgroundColor="{StaticResource AppBackgroundColor}">
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Match"
+             x:Class="Golf.Views.CreateMatchView.MatchTeamListPage"
+             Title="List of Teams">
 
     <ContentPage.BindingContext>
-        <viewModel:ListOfTeamsPageViewModel/>
+        <viewModels:MatchTeamListPageViewModel/>
     </ContentPage.BindingContext>
     
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="HeaderLabelCellTemplate" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="Center"/>
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="Small"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="0"/>
-            </Style>
-
+            <Converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
             <Converters:TeamProfileConverter x:Key="ProfileImageConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout>
-            <!--<Label Text="Team Listing"
-                   HorizontalOptions="CenterAndExpand" 
-                   FontSize="{StaticResource FontSize28}"
-                   TextColor="{StaticResource BlackColor}"
-                   Margin="20,20,20,0"/>-->
-
-          <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
-                               BorderColor="{StaticResource BorderColor}"
-                               CornerRadius="25"
-                               HasShadow="True"
-                               Margin="20,20,20,0">
-                <Controls:CustomSearchBar Placeholder="Search Teams..."
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                              BorderColor="{StaticResource BorderColor}"
+                              CornerRadius="25"
+                              HasShadow="True"
+                              Margin="20,20,20,0">
+                <controls:CustomSearchBar Placeholder="Search Teams..."
                                   Margin="0"
                                   CornerRadius="25"
                                   CancelButtonColor="{StaticResource LightGreenColor}"
@@ -50,67 +36,18 @@
                                   FontSize="{StaticResource FontSize20}"
                                   FontAttributes="Italic"
                                   BackgroundColor="{StaticResource WhiteColor}"/>
-          </plugins:PancakeView>
-
-
-            <Grid Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"
-                                   />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Controls:CircleImage Source="profile_pic.png"
-                                      IsVisible="False"
-                                      VerticalOptions="Center"
-                                      WidthRequest="80"
-                                      HeightRequest="80"
-                                                              Margin="10,0"
-                                                              Grid.Row="0"
-                                                              Grid.Column="0"/>
-
-                <Label FontSize="{StaticResource FontSize16}"
-                                               TextColor="{StaticResource BlackColor}"
-                                               Text="Team Name"
-                                               VerticalOptions="Center"
-                                               Grid.Row="0"
-                                               Margin="5,0"
-                                               FontAttributes="Bold"
-                                               Grid.Column="1"/>
-
-                <Label FontSize="{StaticResource FontSize16}"
-                                               TextColor="{StaticResource BlackColor}"
-                                               Text="No of Players"
-                                               VerticalOptions="Center"
-                                                Grid.Row="0"
-                                               FontAttributes="Bold"
-                                                              Grid.Column="2"/>
-
-                <Label FontSize="{StaticResource FontSize16}"
-                                                FontAttributes="Bold"
-                                               TextColor="{StaticResource BlackColor}"
-                                               Text="Created By"
-                                               VerticalOptions="Center"
-                                                Grid.Row="0"
-                                                Grid.Column="3"/>
-            </Grid>
+            </plugins:PancakeView>
 
             <ListView Margin="10,0,10,0"
-                      x:Name="TeamsListView"
-                      ItemsSource="{Binding TeamItems}"
+                      x:Name="ListView"
+                      ItemsSource="{Binding MatchTeamsItemsList}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
-                      ItemTapped="TeamsListView_ItemTapped"
-                      VerticalScrollBarVisibility="Never">
+                      >
                 <!--<ListView.Behaviors>
                     <behaviors:EventToCommandBehavior EventName="ItemSelected" 
                                                       Command="{Binding ItemTappedCommand}"
@@ -119,7 +56,7 @@
                 <ListView.ItemTemplate>
 
                     <DataTemplate>
-                        <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                        <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
                             <ContentView Padding="5" >
                                 <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                                      CornerRadius="10"
@@ -127,15 +64,21 @@
                                                      HasShadow="True">
                                     <StackLayout Orientation="Horizontal">
 
-                                        <Controls:CircleImage Source="{Binding teamIcon ,Converter={StaticResource ProfileImageConverter}}"
+                                        <CheckBox Color="{StaticResource TextGrayColor}"
+                                                  HorizontalOptions="Start"
+                                                  VerticalOptions="Center"
+                                                  CheckedChanged="CheckBox_CheckedChanged"
+                                                  Margin="5,0"/>
+
+                                        <controls:CircleImage Source="{Binding teamIcon ,Converter={StaticResource ProfileImageConverter}}"
                                                       VerticalOptions="Center"
                                                       WidthRequest="80"
                                                       HeightRequest="80"
-                                                      Margin="10,0"
+                                                      Margin="5,0"
                                                       Aspect="AspectFit"/>
 
                                         <StackLayout HorizontalOptions="FillAndExpand"
-                                                     Margin="10,5,10,5">
+                                                     Margin="5">
                                             <Label FontSize="{StaticResource FontSize18}"
                                                    HorizontalOptions="FillAndExpand"
                                                    FontAttributes="Bold"
@@ -167,13 +110,27 @@
                                                 </Label.FormattedText>
                                             </Label>
                                         </StackLayout>
+
+                                        <ImageButton HeightRequest="35"
+                                                     WidthRequest="35"
+                                                     Margin="10,0"
+                                                     HorizontalOptions="End"
+                                                     Source="arrow_down.png"
+                                                     BackgroundColor="Transparent"/>
                                     </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>
-                        </Controls:UpdateViewCell>
+                        </controls:UpdateViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+
+            <controls:RoundedButton VerticalOptions="Center"
+                                    Margin="40,10,40,10"
+                                    Text="Save Teams"
+                                    Command="{Binding SaveTeamsCommand}"/>
+
 
         </StackLayout>
     </ContentPage.Content>

@@ -29,7 +29,7 @@
                                  CornerRadius="25"
                                  HasShadow="True"
                                  Margin="20,20,20,10">
-            <Controls:CustomSearchBar Placeholder="Search items..."
+            <Controls:CustomSearchBar Placeholder="Search Players..."
                                       Margin="0"
                                       CornerRadius="25"
                                       CancelButtonColor="{StaticResource LightGreenColor}"
@@ -76,11 +76,11 @@
                                             <Label FontSize="{StaticResource FontSize20}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding ParticipantName}"
+                                               Text="{Binding playerName}"
                                                Margin="0"/>
                                         <Label FontSize="{StaticResource FontSize20}"
                                                TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding ParticipantEmail}"
+                                               Text="{Binding email}"
                                                Margin="0"/>
                                             </StackLayout>
                                         </StackLayout>

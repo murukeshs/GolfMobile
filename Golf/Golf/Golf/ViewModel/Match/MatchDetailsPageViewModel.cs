@@ -1,10 +1,15 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
+using Golf.Services;
 using Golf.Utils;
+using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,6 +19,7 @@ namespace Golf.ViewModel.Match
 {
     public class MatchDetailsPageViewModel : BaseViewModel
     {
+        bool IsSuccess = false;
         //To Hide and UnHide Math details Page
         public bool IsVisibleMatchDetails
         {
@@ -38,84 +44,31 @@ namespace Golf.ViewModel.Match
         }
         private bool _IsVisibleTeamsDetails = false;
 
-        //To Hide and UnHide Players details Page
-        public bool IsVisiblePlayersDetails
+        public string MatchName
         {
-            get { return _IsVisiblePlayersDetails; }
+            get { return _MatchName; }
             set
             {
-                _IsVisiblePlayersDetails = value;
-                OnPropertyChanged(nameof(IsVisiblePlayersDetails));
+                _MatchName = value;
+                OnPropertyChanged(nameof(MatchName));
             }
         }
-        private bool _IsVisiblePlayersDetails = false;
+        private string _MatchName = string.Empty;
 
-        public ObservableCollection<MatchDetailsPlayersList> MatchPlayersItems
+        public string MatchCode
         {
-            get { return _MatchPlayersItems; }
+            get { return _MatchCode; }
             set
             {
-                _MatchPlayersItems = value;
-                OnPropertyChanged(nameof(MatchPlayersItems));
+                _MatchCode = value;
+                OnPropertyChanged(nameof(MatchCode));
             }
         }
-        private ObservableCollection<MatchDetailsPlayersList> _MatchPlayersItems = null;
-
-
-        public ObservableCollection<MatchTeamList> MatchTeamsItems
-        {
-            get { return _MatchTeamsItems; }
-            set
-            {
-                _MatchTeamsItems = value;
-                OnPropertyChanged(nameof(MatchTeamsItems));
-            }
-        }
-        private ObservableCollection<MatchTeamList> _MatchTeamsItems = null;
-
-        public ObservableCollection<MatchTeamList> NewMatchTeamsItems = new ObservableCollection<MatchTeamList>();
-
-
+        private string _MatchCode = string.Empty;
 
         public MatchDetailsPageViewModel()
         {
-            MatchPlayersItems = new ObservableCollection<MatchDetailsPlayersList>(new[]
-            {
-                    new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 1", Id = "ABS12345" ,LinkApproved = true,PaymentSuccess = true},
-                    new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 2", Id = "12345" ,LinkApproved = false,PaymentSuccess = true},
-                    new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 3", Id = "ABS" ,LinkApproved = true,PaymentSuccess = false},
-                    new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 4", Id = "ABS345" ,LinkApproved = true,PaymentSuccess = true},
-                    new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 5", Id = "ABS12345" ,LinkApproved = false,PaymentSuccess = false},
-            });
 
-
-            MatchTeamsItems = new ObservableCollection<MatchTeamList>(new[]
-            {
-                    new MatchTeamList {
-                        MatchTeamName = "Golf 1" , MatchCreaedBy = "Rsk" ,MatchNoofPlayers = "10",IsVisible = false,
-                        Items = new ObservableCollection<MatchDetailsPlayersList>{
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name = "Name 1", Id = "ABS12345", LinkApproved = true, PaymentSuccess = true },
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 2", Id = "12345" ,LinkApproved = false,PaymentSuccess = true},
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 3", Id = "ABS" ,LinkApproved = true,PaymentSuccess = false},
-                        }
-                    },
-                    new MatchTeamList {
-                        MatchTeamName = "Golf 2" , MatchCreaedBy = "Rsk" ,MatchNoofPlayers = "7",IsVisible = false,
-                        Items = new ObservableCollection<MatchDetailsPlayersList>{
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name = "Name 1", Id = "ABS12345", LinkApproved = true, PaymentSuccess = true },
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 2", Id = "12345" ,LinkApproved = false,PaymentSuccess = true},
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 3", Id = "ABS" ,LinkApproved = true,PaymentSuccess = false},
-                        }
-                    },
-                    new MatchTeamList {
-                        MatchTeamName = "Golf 3" , MatchCreaedBy = "Rsk" ,MatchNoofPlayers = "12",IsVisible = false,
-                        Items = new ObservableCollection<MatchDetailsPlayersList>{
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name = "Name 1", Id = "ABS12345", LinkApproved = true, PaymentSuccess = true },
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 2", Id = "12345" ,LinkApproved = false,PaymentSuccess = true},
-                            new MatchDetailsPlayersList { Profile = "profile_pic.png", Name  = "Name 3", Id = "ABS" ,LinkApproved = true,PaymentSuccess = false},
-                        }
-                    },
-            });
         }
 
         #region Match Details Button Command Functionality
@@ -124,21 +77,10 @@ namespace Golf.ViewModel.Match
         async Task MatchDetailsAsync()
         {
             IsVisibleMatchDetails = true;
-            IsVisiblePlayersDetails = false;
             IsVisibleTeamsDetails = false;
         }
         #endregion Match Details Button Command Functionality
 
-        #region Players Button Command Functionality
-        public ICommand PlayersCommand => new AsyncCommand(PlayersAsync);
-
-        async Task PlayersAsync()
-        {
-            IsVisibleMatchDetails = false;
-            IsVisiblePlayersDetails = true;
-            IsVisibleTeamsDetails = false;
-        }
-        #endregion Players Button Command Functionality
 
         #region Team Button Command Functionality
 
@@ -148,7 +90,7 @@ namespace Golf.ViewModel.Match
         {
             UserDialogs.Instance.ShowLoading();
             IsVisibleMatchDetails = false;
-            IsVisiblePlayersDetails = false;
+            //IsVisiblePlayersDetails = false;
             IsVisibleTeamsDetails = true;
             UserDialogs.Instance.HideLoading();
         }
@@ -165,36 +107,225 @@ namespace Golf.ViewModel.Match
 
         async void HideorShowItems(object parameter)
         {
-            var Item = parameter as MatchTeamList;
+            //var Item = parameter as MatchTeamList;
 
-            if(_LastSelectedItem == Item)
-            {
-                Item.IsVisible = !Item.IsVisible;
-                await UpdateItems(Item);
-            }
-            else
-            {
-                if(_LastSelectedItem != null)
-                {
-                    //hide the previous selected item
-                    _LastSelectedItem.IsVisible = false;
-                    await UpdateItems(_LastSelectedItem);
-                }
-                //Or show the selected item
-                Item.IsVisible = true;
-                await UpdateItems(Item);
-            }
-            _LastSelectedItem = Item;
+            //if(_LastSelectedItem == Item)
+            //{
+            //    Item.IsVisible = !Item.IsVisible;
+            //    await UpdateItems(Item);
+            //}
+            //else
+            //{
+            //    if(_LastSelectedItem != null)
+            //    {
+            //        //hide the previous selected item
+            //        _LastSelectedItem.IsVisible = false;
+            //        await UpdateItems(_LastSelectedItem);
+            //    }
+            //    //Or show the selected item
+            //    Item.IsVisible = true;
+            //    await UpdateItems(Item);
+            //}
+            //_LastSelectedItem = Item;
         }
 
-        async Task UpdateItems(MatchTeamList Items)
+        async Task UpdateItems(MatchTeamItems Items)
         {
-            var index = MatchTeamsItems.IndexOf(Items);
-            MatchTeamsItems.Remove(Items);
-            MatchTeamsItems.Insert(index, Items);
-            OnPropertyChanged(nameof(MatchTeamsItems));
+            //var index = MatchTeamsItems.IndexOf(Items);
+            //MatchTeamsItems.Remove(Items);
+            //MatchTeamsItems.Insert(index, Items);
+            //OnPropertyChanged(nameof(MatchTeamsItems));
         }
+        
+
+        public ObservableCollection<MatchTeamList> MatchTeamsItemsWithPlayers
+        {
+            get { return _MatchTeamsItemsWithPlayers; }
+            set
+            {
+                _MatchTeamsItemsWithPlayers = value;
+                OnPropertyChanged(nameof(MatchTeamsItemsWithPlayers));
+            }
+        }
+        private ObservableCollection<MatchTeamList> _MatchTeamsItemsWithPlayers = null;
+        async void LoadTeamListAsync()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    //player type is 1 to get player list
+                    var RestURL = App.User.BaseUrl + "Team/listTeam";
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    //Assign the Values to Listview
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MatchTeamsItemsWithPlayers = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamList>>(content);
+                    }
+                    else
+                    {
+                        DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                    }
+
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+
         #endregion Team Item Tabbed Command Functionality
 
+
+
+        #region Save Button Command Functionality
+
+        public ICommand SaveButtonCommand => new AsyncCommand(SaveButtonAsync);
+
+        async Task SaveButtonAsync()
+        {
+            UserDialogs.Instance.ShowLoading();
+            await updateMatch();
+            UserDialogs.Instance.HideLoading();
+        }
+
+
+        async Task updateMatch()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    string RestURL = App.User.BaseUrl + "Match/updateMatch";
+                    Uri requestUri = new Uri(RestURL);
+
+                    var data = new CreateMatch
+                    {
+                        matchName = MatchName,
+                        matchCode = MatchCode,
+                        matchId = 5,
+                    };
+
+                    string json = JsonConvert.SerializeObject(data);
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
+                        //App.User.CreateTeamId = Item.teamId;
+                        //var view = new MenuPage();
+                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //await navigationPage.PushAsync(view);
+                        ////After the success full api process clear all the values
+                        //Clear();
+                        IsSuccess = true;
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        IsSuccess = false;
+                        var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
+                        UserDialogs.Instance.HideLoading();
+                        DependencyService.Get<IToast>().Show(Item.ErrorMessage);
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
+            }
+        }
+
+
+        #endregion Save Button Command Functionality
+
+
+        #region SaveAndNotify Button Command Functionality
+
+        public ICommand SaveAndNotifyButtonCommand => new AsyncCommand(SaveAndNotifyButtonAsync);
+
+        async Task SaveAndNotifyButtonAsync()
+        {
+            UserDialogs.Instance.ShowLoading();
+            await updateMatch();
+            if(IsSuccess)
+            {
+                SendInviteAPI();
+            }
+            UserDialogs.Instance.HideLoading();
+        }
+
+        async void SendInviteAPI()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Match/inviteMatch/" + App.User.MatchId;
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
+                        //var view = new MenuPage();
+                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //await navigationPage.PushAsync(view);
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+
+        #endregion Save Button Command Functionality
     }
 }

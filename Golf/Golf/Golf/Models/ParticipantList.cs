@@ -7,14 +7,20 @@ namespace Golf.Models
 {
     public class ParticipantList
     {
-        public string ParticipantName { get; set; }
+        public int userId { get; set; }
 
-        public string ParticipantEmail { get; set; }
+        public string playerName { get; set; }
 
-        public ObservableCollection<ParticipantTypes> TypeList { get; set; }
+        public string gender { get; set; }
+
+        public string email { get; set; }
+
+        public ObservableCollection<userType> TypeList { get; set; }
+
+        public bool isScoreKeeper { get; set; }
     }
 
-    public class ParticipantTypes
+    public class userType
     {
         public string ParticipantType { get; set; }
     }

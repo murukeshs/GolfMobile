@@ -14,6 +14,20 @@ namespace Golf.Models
 
         internal int UserId { get; set; } = 0;
 
+        internal int UserWithTypeId { get; set; } = 0;
+
         internal string UserEmail { get; set; } = string.Empty;
+
+        internal int CreateTeamId { get; set; } = 0;
+
+        internal string MatchCode { get; set; } = string.Empty;
+
+        internal string CompetitionType { get; set; } = string.Empty;
+
+        internal int CreateMatchId { get; set; } = 0;
+
+        internal int TeamIdforPlayerListing { get; set; } = 0;
+
+        internal string MatchId { get; set; } = 0;
     }
 }

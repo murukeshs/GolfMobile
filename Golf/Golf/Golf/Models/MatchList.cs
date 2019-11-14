@@ -6,15 +6,15 @@ namespace Golf.Models
 {
     public class MatchList
     {
-        public string MatchName { get; set; }
+        public string matchCode { get; set; }
 
-        public string MatchCode { get; set; }
+        public string matchName { get; set; }
 
-        public string MatchType { get; set; }
+        public string matchStartDate { get; set; }
 
-        public string MatchStartDate { get; set; }
+        public string matchFee { get; set; }
 
-        public string MatchFee { get; set; }
+        public string matchId { get; set; }
     }
 
    

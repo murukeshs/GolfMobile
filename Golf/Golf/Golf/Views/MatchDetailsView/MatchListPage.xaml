@@ -19,7 +19,7 @@
                                CornerRadius="25"
                                HasShadow="True"
                                Margin="20,20,20,10">
-            <controls:CustomSearchBar Placeholder="Search items..."
+            <controls:CustomSearchBar Placeholder="Search Matches..."
                                   Margin="0"
                                   CornerRadius="25"
                                   CancelButtonColor="{StaticResource LightGreenColor}"
@@ -53,7 +53,7 @@
                                                      HasShadow="True">
                                     <StackLayout Margin="10,10">
 
-                                        <Label Text="{Binding MatchName}"
+                                        <Label Text="{Binding matchName}"
                                                TextColor="{StaticResource BlackColor}"
                                                FontSize="{StaticResource FontSize20}"
                                                FontAttributes="Bold"
@@ -66,14 +66,14 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="Code : "/>
-                                                    <Span Text="{Binding MatchCode}"
+                                                    <Span Text="{Binding matchCode}"
                                                           ForegroundColor="{StaticResource DarkGreenColor}" 
                                                           FontAttributes="Bold"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
 
-                                        <Label Margin="0"
+                                        <!--<Label Margin="0"
                                                TextColor="{StaticResource TextGrayColor}"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center">
@@ -85,36 +85,30 @@
                                                           FontAttributes="Bold"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
-                                        </Label>
+                                        </Label>-->
 
-                                        <StackLayout Orientation="Horizontal"
-                                                     Margin="0"
-                                                     Padding="0"
-                                                     Spacing="0">
                                         <Label Margin="0"
                                                TextColor="{StaticResource TextGrayColor}"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center"
                                                HorizontalOptions="FillAndExpand"
-                                               Text="{Binding Path=MatchStartDate, StringFormat='Start date : {0:D}'}"/>
+                                               Text="{Binding Path=matchStartDate, StringFormat='Start date : {0:D}'}"/>
                                             
                                             <Label Margin="0"
-                                               TextColor="{StaticResource TextGrayColor}"
-                                               FontSize="{StaticResource FontSize16}"
-                                               VerticalOptions="Center">
+                                                   TextColor="{StaticResource TextGrayColor}"
+                                                   FontSize="{StaticResource FontSize16}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End">
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="Fee : "/>
-                                                        <Span Text="{Binding MatchFee}"
+                                                        <Span Text="{Binding matchFee}"
                                                               FontSize="{StaticResource FontSize20}"
                                                               ForegroundColor="{StaticResource LightGreenColor}" 
                                                               FontAttributes="Bold"/>
                                                     </FormattedString>
                                                 </Label.FormattedText>
                                             </Label>
-                                            
-                                            
-                                        </StackLayout>
                                     </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>

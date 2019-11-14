@@ -34,13 +34,12 @@
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="StartAndExpand">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5.0*"/>
+                    <ColumnDefinition Width="5.0*"/>
                 </Grid.ColumnDefinitions>
 
                 <controls:RoundedButton Margin="0"
@@ -51,7 +50,7 @@
                                         HeightRequest="45"
                                         Command="{Binding MatchDetailsCommand}"/>
 
-                <controls:RoundedButton Margin="10,0"
+                <!--<controls:RoundedButton Margin="10,0"
                                         Command="{Binding PlayersCommand}"
                                         Text="Players"
                                         Grid.Row="0"
@@ -60,12 +59,12 @@
                                         HeightRequest="45"
                                         BackgroundColor="{StaticResource WhiteColor}"
                                         BorderColor="{StaticResource LightGreenColor}"
-                                        TextColor="{StaticResource LightGreenColor}"/>
+                                        TextColor="{StaticResource LightGreenColor}"/>-->
 
                 <controls:RoundedButton Margin="10,0"
                                         Text="Teams"
                                         Grid.Row="0"
-                                        Grid.Column="2"
+                                        Grid.Column="1"
                                         FontSize="Medium"
                                         HeightRequest="45"
                                         Command="{Binding TeamCommand}"
@@ -156,7 +155,7 @@
             </StackLayout>
 
             <!--Players List View Initially it set to be false-->
-            <ListView Margin="20,10,20,0"
+            <!--<ListView Margin="20,10,20,0"
                       x:Name="PlayersListView"
                       ItemsSource="{Binding MatchPlayersItems}"
                       SeparatorVisibility="None"
@@ -256,7 +255,7 @@
                         </controls:UpdateViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
+            </ListView>-->
 
             <!--Teams List View Initially it set to be false-->
             <ListView Margin="20,10,20,0"

@@ -22,16 +22,9 @@ namespace Golf.Views.MatchDetailsView
 			InitializeComponent ();
         }
 
-        private void PlayersListView_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
-        }
-
         private void TeamListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             ((MatchDetailsPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as MatchTeamList);
         }
-
-       
     }
 }

@@ -11,7 +11,7 @@
     <ContentPage.BindingContext>
         <viewModels:MatchCodePageViewModel/>
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand">
 
@@ -21,8 +21,8 @@
                                          CornerRadius="10"
                                          Padding="2"
                                          Margin="60,100,60,20">
-                        <StackLayout Margin="0">
-                            <Label Text="Match Code"
+                <StackLayout Margin="0">
+                    <Label Text="Match Code"
                                TextColor="{StaticResource BlackColor}"
                                FontSize="{StaticResource FontSize20}"
                                Margin="0,20,0,20"
@@ -31,21 +31,7 @@
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="Center"/>
 
-                            <!--<Label Margin="0"
-                       TextColor="{StaticResource TextGrayColor}"
-                       VerticalOptions="Center">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="New match of the competition type" 
-                                  />
-                                    <Span Text=" AUTO WIN "
-                                  ForegroundColor="{StaticResource WhiteColor}" 
-                                  FontAttributes="Bold"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>-->
-
-                    <Label Text="New match of the competition type &quot; Auto Win &quot; is successfully scheduled. Here is the Match participation code"
+                    <Label Text="{Binding MatchCodeText}"
                                TextColor="{StaticResource WhiteColor}"
                                FontSize="{StaticResource FontSize20}"
                                Margin="20,0,20,0"
@@ -53,20 +39,20 @@
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="Center"/>
 
-                            <BoxView HeightRequest="1"
+                    <BoxView HeightRequest="1"
                                  Color="{StaticResource WhiteColor}"
                                  HorizontalOptions="FillAndExpand"
                                  Margin="0,20,0,0"/>
 
-                            <Label Text="ABS1234567"
+                    <Label Text="{Binding MatchCode}"
                                TextColor="{StaticResource WhiteColor}"
                                FontSize="{StaticResource FontSize36}"
                                Margin="20,20,20,20"
                                     HorizontalTextAlignment="Center"
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="Center"/>
-                        </StackLayout>
-                    </plugins:PancakeView>
+                </StackLayout>
+            </plugins:PancakeView>
 
             <controls:RoundedButton Text="Proceed"
                                     Margin="40,20,40,20"

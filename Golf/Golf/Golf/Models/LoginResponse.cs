@@ -37,5 +37,7 @@ namespace Golf.Models
         public bool? isSMSNotification { get; set; }
         public bool? isPublicProfile { get; set; }
         public string userTypeId { get; set; }
+
+        public bool IsToggled { get; set; } = false;
     }
 }

@@ -30,7 +30,7 @@ namespace Golf.ViewModel
             set
             {
                 _UserNameText = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(UserNameText));
             }
         }
         private string _UserNameText = string.Empty;
@@ -44,7 +44,7 @@ namespace Golf.ViewModel
             set
             {
                 _PasswordText = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PasswordText));
             }
         }
         private string _PasswordText = string.Empty;
@@ -129,6 +129,7 @@ namespace Golf.ViewModel
                         App.User.UserName = loginResponse.user.firstName + lastname;
                         App.User.UserId = loginResponse.user.userId;
                         App.User.UserEmail = loginResponse.user.email;
+                        App.User.UserWithTypeId = loginResponse.user.userWithTypeId;
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);

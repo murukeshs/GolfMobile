@@ -3,9 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
+             xmlns:Converters="clr-namespace:Golf.Converters"
              x:Class="Golf.Views.AddParticipantPage"
              BackgroundColor="{StaticResource AppBackgroundColor}"
              Title="Participants Listing">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converters:ToggledConverter x:Key="toggledConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <viewModels:AddParticipantPageViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
 
@@ -60,12 +72,14 @@
                                     Padding="5,5"/>
                 </Grid>
 
-            <ListView Margin="20,0,20,20"
+            <ListView Margin="20,0,20,0"
                       x:Name="ListView"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
                       CachingStrategy="RecycleElement"
-                      SelectionMode="None">
+                      SelectionMode="None"
+                      VerticalScrollBarVisibility="Never"
+                      ItemsSource="{Binding PlayersList}">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -81,34 +95,45 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="4.0*"/>
                                             <ColumnDefinition Width="2.0*"/>
                                             <ColumnDefinition Width="2.0*"/>
                                             <ColumnDefinition Width="2.0*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Controls:CustomCheckBox Grid.Row="0"
-                                                                 Grid.Column="0"
-                                                                 DefaultText="{Binding PlayerName}"
-                                                                 BorderColor="{StaticResource BlackColor}"
-                                                                 TextColor="{StaticResource BlackColor}"/>
+                                        <CheckBox Grid.Row="0" 
+                                                  Grid.Column="0"
+                                                  Color="{StaticResource TextGrayColor}"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+
                                         <Label  Grid.Row="0"
                                                 Grid.Column="1"
-                                                Text="{Binding PlayerHCP}"
+                                                x:Name="firstNameLabel"
+                                                Text="{Binding firstName}"
+                                                TextColor="{StaticResource BlackColor}"
+                                                VerticalOptions="Center"/>
+                                        
+                                        <Label  Grid.Row="0"
+                                                Grid.Column="2"
+                                                Text="5"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"/>
 
                                         <Label  Grid.Row="0"
-                                                Grid.Column="2"
-                                                Text="{Binding PlayerType}"
+                                                Grid.Column="3"
+                                                Text="P"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"/>
 
                                         <Switch OnColor="{StaticResource LightGrayColor}"
                                                 Grid.Row="0"
-                                                Grid.Column="3"
-                                                IsToggled="{Binding IsStoreKeeper}"
-                                                ThumbColor="{StaticResource LightGreenColor}" />
+                                                Grid.Column="4"
+                                                x:Name="ScoreKeeperSwitch"
+                                                Toggled="Switch_Toggled"
+                                                IsToggled="{Binding Path=IsToggled}"
+                                                ThumbColor="{StaticResource LightGreenColor}" >
+                                        </Switch>
                                     </Grid>
                                 </plugins:PancakeView>
                             </ContentView>
@@ -120,12 +145,13 @@
 
             <StackLayout Orientation="Horizontal" 
                          VerticalOptions="End" 
-                         Margin="20">
+                         Margin="20,10,20,10">
                 <Controls:RoundedButton Text="Preview Team"
-                                        Clicked="RoundedButton_Clicked"/>
+                                        Command="{Binding TeamPreviewCommand}"/>
 
                 <Controls:RoundedButton Text="Create Team"
-                                        Margin="10,0"/>
+                                        Margin="10,0"
+                                        BindingContext="{Binding CreateTeamButtonCommand}"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

@@ -1,10 +1,15 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
+using Golf.Services;
 using Golf.Utils;
 using Golf.Views.MatchDetailsView;
+using Newtonsoft.Json;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,16 +32,44 @@ namespace Golf.ViewModel.Match
 
         public MatchListPageViewModel()
         {
-            MatchListItems = new ObservableCollection<MatchList>(new[]
-             {
-                    new MatchList { MatchName  = "Match 1", MatchCode = "ABS12345" ,MatchType = "Player",MatchStartDate= "11-05-2019" ,MatchFee = "$20"},
-                    new MatchList { MatchName  = "Match 2", MatchCode = "12345678" ,MatchType = "Teams",MatchStartDate= "05-05-2019" ,MatchFee = "$10"},
-                    new MatchList { MatchName  = "Match 3", MatchCode = "ABS12345" ,MatchType = "Player",MatchStartDate= "07-07-2019" ,MatchFee = "$50"},
-                    new MatchList { MatchName  = "Match 4", MatchCode = "12345678" ,MatchType = "Player",MatchStartDate= "20-08-2019" ,MatchFee = "$30"},
-                    new MatchList { MatchName  = "Match 5", MatchCode = "ABS12345" ,MatchType = "Teams",MatchStartDate= "22-09-2019" ,MatchFee = "$40"},
-                    new MatchList { MatchName  = "Match 6", MatchCode = "12345678" ,MatchType = "Teams",MatchStartDate= "11-05-2019" ,MatchFee = "$70"},
-                    new MatchList { MatchName  = "Match 7", MatchCode = "ABS12345" ,MatchType = "Player",MatchStartDate= "11-05-2019" ,MatchFee = "$100"},
-              });
+            //Load the match details list using this api.
+            getMatchList();
+        }
+
+        async void getMatchList()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Match/getMatchList";
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    MatchListItems = JsonConvert.DeserializeObject<ObservableCollection<MatchList>>(content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        //UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                    }
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
         }
 
         #region List ItemTabbed Command Functionality
@@ -47,7 +80,8 @@ namespace Golf.ViewModel.Match
             //ViewModelNavigation.PushAsync(new ItemPageViewModel() { Item = parameter as RssItem });
             UserDialogs.Instance.ShowLoading();
             var Item = parameter as MatchList;
-            var name = Item.MatchName;
+            var name = Item.matchName;
+            App.User.MatchId = Item.matchId;
             var view = new MatchDetailsPage();
             var navigationPage = ((NavigationPage)App.Current.MainPage);
             await navigationPage.PushAsync(view);
