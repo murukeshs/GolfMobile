@@ -17,7 +17,12 @@ namespace Golf.Views.MatchDetailsView
 
         private void TeamListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            ((MatchDetailsPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as getMatchesDetailsById);
+            if (e.Item == null)
+                return;
+            ((MatchDetailsPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as MatchDetailsListTeamList);
+
+            //Deselect the selected Item in the listview
+            ((ListView)sender).SelectedItem = null;
         }
 
         #region screen adjusting

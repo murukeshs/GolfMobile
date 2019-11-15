@@ -63,11 +63,11 @@ namespace Golf.Models
             {
                 if (Expanded)
                 {
-                    return "arrow_down.png";
+                    return "arrow_up.png";
                 }
                 else
                 {
-                    return "arrow_up.png";
+                    return "arrow_down.png";
                 }
             }
         }

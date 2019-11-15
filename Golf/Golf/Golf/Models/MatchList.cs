@@ -12,6 +12,10 @@ namespace Golf.Models
 
         public string matchStartDate { get; set; }
 
+        public string StartDate { get; set; }
+
+        public string StartTime { get; set; }
+
         public string matchFee { get; set; }
 
         public string matchId { get; set; }

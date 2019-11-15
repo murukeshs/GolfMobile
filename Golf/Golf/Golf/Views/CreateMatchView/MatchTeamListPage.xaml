@@ -155,7 +155,7 @@
 
                                                         <StackLayout HorizontalOptions="FillAndExpand"
                                                                      Margin="10,5,0,5">
-                                                            <Label FontSize="{StaticResource FontSize20}"
+                                                            <Label FontSize="{StaticResource FontSize18}"
                                                                    FontAttributes="Bold"
                                                                    TextColor="{StaticResource TextGrayColor}"
                                                                    Text="{Binding username}"/>
@@ -170,12 +170,12 @@
 
                                                                 </Grid.ColumnDefinitions>
 
-                                                                <Label FontSize="{StaticResource FontSize18}"
+                                                                <Label FontSize="{StaticResource FontSize14}"
                                                                        TextColor="{StaticResource TextGrayColor}"
                                                                        Grid.Row="0"
                                                                        Grid.Column="0"
                                                                        Text="{Binding Path = userType ,StringFormat= 'Type : {0:D}'}"/>
-                                                                <Label FontSize="{StaticResource FontSize18}"
+                                                                <Label FontSize="{StaticResource FontSize14}"
                                                                        TextColor="{StaticResource TextGrayColor}"
                                                                        Text="{Binding Path = gender ,StringFormat= 'Gender : {0:D}'}"
                                                                        Grid.Row="0"

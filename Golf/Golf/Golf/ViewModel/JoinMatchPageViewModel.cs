@@ -17,6 +17,11 @@ namespace Golf.ViewModel
 {
     public class JoinMatchPageViewModel : BaseViewModel
     {
+        public JoinMatchPageViewModel()
+        {
+            JoinMatchListAPI();
+        }
+
         public string MatchID
         {
             get { return _MatchID; }
@@ -61,6 +66,17 @@ namespace Golf.ViewModel
         }
         private string _ParticipantID = string.Empty;
 
+        public string MatchFee
+        {
+            get { return _MatchFee; }
+            set
+            {
+                _MatchFee = value;
+                OnPropertyChanged(nameof(MatchFee));
+            }
+        }
+        private string _MatchFee = string.Empty;
+
         public string MatchName
         {
             get { return _MatchName; }
@@ -73,10 +89,6 @@ namespace Golf.ViewModel
         private string _MatchName = string.Empty;
 
 
-        public JoinMatchPageViewModel()
-        {
-            //JoinMatchListAPI();
-        }
 
         #region JoinMatch Button Command Functionality
         public ICommand JoinMatchButtonCommand => new AsyncCommand(JoinMatchAsync);
@@ -160,6 +172,7 @@ namespace Golf.ViewModel
             CompetitionType = Item.CompetitionName;
             ParticipantName = Item.ParticipantName;
             ParticipantID = Item.ParticipantId.ToString();
+            MatchFee = Item.matchFee;
         }
         #endregion Match Picker Selected Command Functionality
 
@@ -181,7 +194,7 @@ namespace Golf.ViewModel
                     {
                        matchId = Convert.ToInt32(MatchID),
                        type = "Match",
-                       playerId = App.User.UserId
+                       playerId = 54
                     };
 
                     string json = JsonConvert.SerializeObject(data);

@@ -88,7 +88,7 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         var Items = JsonConvert.DeserializeObject<ObservableCollection<ParticipantList>>(content);
-                         ParticipantItems = Items;
+                        ParticipantItems = Items;
                         if(Items.Count > 0)
                         {
                             ListViewIsVisible = true;

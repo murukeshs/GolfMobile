@@ -23,18 +23,19 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
+            <ScrollView>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
 
                 <Label Text="Match Name" 
-                   Style="{StaticResource HeadingsLabel}"/>
+                        Style="{StaticResource HeadingsLabel}"/>
 
-                <controls:BoxPicker Title="Select Match"
+                <controls:BoxPicker Title="Select Match Name"
                                     Image="arrow_down.png"
                                     BorderColor="{StaticResource TextGrayColor}"
                                        TitleColor="{StaticResource TextGrayColor}"
                                        TextColor="{StaticResource TextGrayColor}"
-                                       Margin="20,5,20,5"
+                                       Margin="20,0,20,0"
                                     ItemsSource="{Binding MatchList}"
                                     ItemDisplayBinding="{Binding matchName}"
                                     SelectedIndex="{Binding matchId}"
@@ -88,7 +89,19 @@
                                   FontSize="{StaticResource FontSize18}"
                                   IsCurvedCornersEnabled="True"/>
 
-            <StackLayout Orientation="Horizontal" 
+                <Label Text="Match Fee"
+                   Style="{StaticResource HeadingsLabel}"/>
+
+                <controls:CustomEntry Placeholder="Fill the Match Fee"
+                                      Style="{StaticResource RectangleShapeEntryStyle}"
+                                      BackgroundColor="LightGray"
+                                      Margin="20,0,20,0"
+                                      IsEnabled="False"
+                                      Text="{Binding MatchFee ,Mode=TwoWay}"
+                                      FontSize="{StaticResource FontSize18}"
+                                     IsCurvedCornersEnabled="True"/>
+
+                <StackLayout Orientation="Horizontal" 
                          Margin="30,20,30,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:UnderlineLabel TextColor="{StaticResource BlackColor}"
@@ -112,7 +125,7 @@
                 </Label>
             </StackLayout>
         </StackLayout>
-
+            </ScrollView>
             <controls:RoundedButton Margin="40,20,40,20"
                                     Text="Join Match"
                                     VerticalOptions="EndAndExpand"

@@ -60,15 +60,13 @@
                                                VerticalOptions="Center"/>
 
                                         <Label Margin="0"
-                                               TextColor="{StaticResource TextGrayColor}"
+                                               TextColor="Gray"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="Code : "/>
-                                                    <Span Text="{Binding matchCode}"
-                                                          ForegroundColor="{StaticResource DarkGreenColor}" 
-                                                          FontAttributes="Bold"/>
+                                                    <Span Text="{Binding matchCode}"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
@@ -88,22 +86,29 @@
                                         </Label>-->
 
                                         <Label Margin="0"
-                                               TextColor="{StaticResource TextGrayColor}"
+                                               TextColor="Gray"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center"
                                                HorizontalOptions="FillAndExpand"
-                                               Text="{Binding Path=matchStartDate, StringFormat='Start date : {0:D}'}"/>
-                                            
-                                            <Label Margin="0"
-                                                   TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding Path=StartDate, StringFormat='Start date : {0:D}'}"/>
+
+                                        <Label Margin="0"
+                                               TextColor="Gray"
+                                               FontSize="{StaticResource FontSize16}"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Fill"
+                                               Text="{Binding Path=StartTime, StringFormat='Time : {0:D}'}"/>
+
+                                        <Label Margin="0"
+                                                   TextColor="Gray"
                                                    FontSize="{StaticResource FontSize16}"
                                                    VerticalOptions="Center"
-                                                   HorizontalOptions="End">
+                                                   HorizontalOptions="EndAndExpand">
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="Fee : "/>
-                                                        <Span Text="{Binding matchFee}"
-                                                              FontSize="{StaticResource FontSize20}"
+                                                    <Span Text="{Binding Path=matchFee, StringFormat='${0:D}'}"
+                                                              FontSize="{StaticResource FontSize18}"
                                                               ForegroundColor="{StaticResource LightGreenColor}" 
                                                               FontAttributes="Bold"/>
                                                     </FormattedString>

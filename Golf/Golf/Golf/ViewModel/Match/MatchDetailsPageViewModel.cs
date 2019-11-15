@@ -164,7 +164,7 @@ namespace Golf.ViewModel.Match
                 {
                     UserDialogs.Instance.ShowLoading();
                     //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "Match/getMatchesDetailsById" +App.User.MatchId;
+                    var RestURL = App.User.BaseUrl + "Match/getMatchesDetailsById/" +App.User.MatchId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
@@ -353,6 +353,7 @@ namespace Golf.ViewModel.Match
                         //await navigationPage.PushAsync(view);
                         ////After the success full api process clear all the values
                         //Clear();
+                        UserDialogs.Instance.Alert("Match details updated successfully.", "Match Details", "Ok");
                         IsSuccess = true;
                         UserDialogs.Instance.HideLoading();
                     }
@@ -419,7 +420,7 @@ namespace Golf.ViewModel.Match
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
+                        UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Invite", "ok");
                         //var view = new MenuPage();
                         //var navigationPage = ((NavigationPage)App.Current.MainPage);
                         //await navigationPage.PushAsync(view);

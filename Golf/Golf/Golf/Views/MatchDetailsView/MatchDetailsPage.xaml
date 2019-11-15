@@ -91,7 +91,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding MatchName}"
+                        <controls:CustomEntry Text="{Binding MatchName,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               FontSize="{StaticResource FontSize18}"
                                               Margin="0,5,0,0"/>
@@ -100,7 +100,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding MatchCode}"
+                        <controls:CustomEntry Text="{Binding MatchCode,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               Margin="0,5,0,0"
                                               FontSize="{StaticResource FontSize18}"/>
@@ -109,7 +109,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding CompetitionType}"
+                        <controls:CustomEntry Text="{Binding CompetitionType,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
@@ -121,7 +121,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding TypeofGame}"
+                        <controls:CustomEntry Text="{Binding TypeofGame,Mode=TwoWay}"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   BackgroundColor="LightGray"
                                   Margin="0,5,0,0"
@@ -133,7 +133,7 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding MatchLocation}"
+                        <controls:CustomEntry Text="{Binding MatchLocation,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
@@ -145,13 +145,14 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding ContextSettings}"
+                        <controls:CustomEntry Text="{Binding ContextSettings ,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
                                               IsEnabled="False"
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>
+                   
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
@@ -306,22 +307,22 @@
                                             </StackLayout>
 
                                             <ImageButton HorizontalOptions="End"
-                                                     Margin="0,10"
+                                                         VerticalOptions="Center"
+                                                         Margin="0,10"
                                                          Aspect="AspectFit"
-                                                     BackgroundColor="Transparent"
-                                                     Source="arrow_down.png"
-                                                     HeightRequest="30"
-                                                     WidthRequest="30"/>
+                                                         BackgroundColor="Transparent"
+                                                         Source="{Binding StateIcon}"
+                                                         HeightRequest="35"
+                                                         WidthRequest="35"/>
                                         </StackLayout>
                                     </plugins:PancakeView>
 
-                                    <StackLayout IsVisible="{Binding IsVisible,Mode=TwoWay}">
                                     <controls:HorizontalList ListOrientation="Vertical" 
                                                              ItemsSource="{Binding matchPlayerList}" 
                                                              Padding="0"
                                                              BackgroundColor="Transparent"
-                                                             Margin="20,10,20,10"
-                                                             >
+                                                             Margin="5"
+                                                             IsVisible="{Binding Expanded,Mode=TwoWay}">
                                         <controls:HorizontalList.ItemTemplate>
                                             <DataTemplate>
                                                     <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
@@ -345,7 +346,7 @@
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding firstName}"
                                                />
-                                                                <Label FontSize="{StaticResource FontSize18}"
+                                                                <Label FontSize="{StaticResource FontSize12}"
                                                    TextColor="{StaticResource TextGrayColor}"
                                                    Text="{Binding Path = Id ,StringFormat= 'ID : {0:D}'}"/>
 
@@ -407,7 +408,6 @@
                                                 </DataTemplate>
                                         </controls:HorizontalList.ItemTemplate>
                                     </controls:HorizontalList>
-                                </StackLayout>
                                 </StackLayout>
                             </ContentView>
                         </controls:UpdateViewCell>

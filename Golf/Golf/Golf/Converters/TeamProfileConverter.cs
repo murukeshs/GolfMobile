@@ -10,7 +10,7 @@ namespace Golf.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((string)value == string.Empty || (string)value == null)
+            if ((string)value == string.Empty || (string)value == null || (string)value == "")
                 return "profile_defalut_pic.png"; //Paymet is success
             else
             {
