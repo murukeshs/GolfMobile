@@ -47,6 +47,9 @@
                       VerticalOptions="FillAndExpand"
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
+                      VerticalScrollBarVisibility="Never"
+                      ItemTapped="ListView_ItemTapped"
+                      
                       >
                 <!--<ListView.Behaviors>
                     <behaviors:EventToCommandBehavior EventName="ItemSelected" 
@@ -56,69 +59,135 @@
                 <ListView.ItemTemplate>
 
                     <DataTemplate>
-                        <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                        <controls:UpdateViewCell SelectedBackgroundColor="White">
                             <ContentView Padding="5" >
-                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                <StackLayout>
+                                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                                      CornerRadius="10"
                                                      BorderColor="{StaticResource BorderColor}"
                                                      HasShadow="True">
-                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Horizontal">
 
-                                        <CheckBox Color="{StaticResource TextGrayColor}"
+                                            <CheckBox Color="{StaticResource TextGrayColor}"
                                                   HorizontalOptions="Start"
                                                   VerticalOptions="Center"
+                                                  IsChecked="{Binding IsChecked}"
                                                   CheckedChanged="CheckBox_CheckedChanged"
                                                   Margin="5,0"/>
 
-                                        <controls:CircleImage Source="{Binding teamIcon ,Converter={StaticResource ProfileImageConverter}}"
+                                            <controls:CircleImage Source="{Binding teamIcon ,Converter={StaticResource ProfileImageConverter}}"
                                                       VerticalOptions="Center"
                                                       WidthRequest="80"
                                                       HeightRequest="80"
                                                       Margin="5,0"
-                                                      Aspect="AspectFit"/>
+                                                      Aspect="AspectFit"
+                                                                  />
 
-                                        <StackLayout HorizontalOptions="FillAndExpand"
+                                            <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="5">
-                                            <Label FontSize="{StaticResource FontSize18}"
+                                                <Label FontSize="{StaticResource FontSize18}"
                                                    HorizontalOptions="FillAndExpand"
                                                    FontAttributes="Bold"
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding teamName}"
                                                />
-                                            <Label Margin="0"
+                                                <Label Margin="0"
                                                        VerticalOptions="Center"
                                                        TextColor="Gray"
                                                        HorizontalOptions="FillAndExpand"
                                                        FontSize="{StaticResource FontSize14}">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="Created By : "/>
-                                                        <Span Text="{Binding createdName}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                            <Label Margin="0"
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Created By : "/>
+                                                            <Span Text="{Binding createdName}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Margin="0"
                                                    VerticalOptions="Center"
                                                    TextColor="Gray"
                                                    HorizontalOptions="FillAndExpand"
                                                    FontSize="{StaticResource FontSize14}">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="No Of Players : "/>
-                                                        <Span Text="{Binding noOfPlayers}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="No Of Players : "/>
+                                                            <Span Text="{Binding noOfPlayers}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+
+                                            <ImageButton HeightRequest="35"
+                                                         WidthRequest="35"
+                                                         Margin="10,0"
+                                                         Aspect="AspectFit"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="End"
+                                                         Source="{Binding StateIcon}"
+                                                         BackgroundColor="Transparent"/>
                                         </StackLayout>
 
-                                        <ImageButton HeightRequest="35"
-                                                     WidthRequest="35"
-                                                     Margin="10,0"
-                                                     HorizontalOptions="End"
-                                                     Source="arrow_down.png"
-                                                     BackgroundColor="Transparent"/>
-                                    </StackLayout>
-                                </plugins:PancakeView>
+
+                                    </plugins:PancakeView>
+
+                                    <controls:HorizontalList ListOrientation="Vertical" 
+                                                             ItemsSource="{Binding teamplayerList}" 
+                                                             Padding="0"
+                                                             BackgroundColor="Transparent"
+                                                             Margin="10"
+                                                             IsVisible="{Binding Expanded}"
+                                                             >
+                                        <controls:HorizontalList.ItemTemplate>
+                                            <DataTemplate>
+                                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     BorderColor="{StaticResource BorderColor}"
+                                                     HasShadow="True"
+                                                     Margin="5">
+                                                    <StackLayout Orientation="Horizontal"
+                                                                 Margin="10,10"
+                                                                 Padding="0"
+                                                                 Spacing="0">
+                                                        <controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
+                                                      VerticalOptions="Center"
+                                                      WidthRequest="60"
+                                                      HeightRequest="60"/>
+
+                                                        <StackLayout HorizontalOptions="FillAndExpand"
+                                                                     Margin="10,5,0,5">
+                                                            <Label FontSize="{StaticResource FontSize20}"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="{StaticResource TextGrayColor}"
+                                                                   Text="{Binding username}"/>
+
+                                                            <Grid HorizontalOptions="FillAndExpand">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="*"/>
+
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <Label FontSize="{StaticResource FontSize18}"
+                                                                       TextColor="{StaticResource TextGrayColor}"
+                                                                       Grid.Row="0"
+                                                                       Grid.Column="0"
+                                                                       Text="{Binding Path = userType ,StringFormat= 'Type : {0:D}'}"/>
+                                                                <Label FontSize="{StaticResource FontSize18}"
+                                                                       TextColor="{StaticResource TextGrayColor}"
+                                                                       Text="{Binding Path = gender ,StringFormat= 'Gender : {0:D}'}"
+                                                                       Grid.Row="0"
+                                                                       Grid.Column="1"/>
+                                                            </Grid>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </plugins:PancakeView>
+                                            </DataTemplate>
+                                        </controls:HorizontalList.ItemTemplate>
+                                    </controls:HorizontalList>
+                                </StackLayout>
                             </ContentView>
                         </controls:UpdateViewCell>
                     </DataTemplate>

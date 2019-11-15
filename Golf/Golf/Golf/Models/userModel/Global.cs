@@ -1,7 +1,7 @@
 ﻿
 namespace Golf.Models.userModel
 {
-    class Global
+    public class Global
     {
         public static string fileurl;
     }

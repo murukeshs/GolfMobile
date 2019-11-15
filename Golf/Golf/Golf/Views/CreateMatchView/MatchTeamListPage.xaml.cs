@@ -1,4 +1,5 @@
-﻿using Golf.Models;
+﻿using Acr.UserDialogs;
+using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel.Match;
 using Xamarin.Forms;
@@ -16,9 +17,10 @@ namespace Golf.Views.CreateMatchView
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            var item = (sender as CheckBox).BindingContext as MatchTeamItems;
+            var item = (sender as CheckBox).BindingContext as MatchTeamWithPlayers;
 
             ((MatchTeamListPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
+            
         }
 
         #region screen adjusting
@@ -41,5 +43,25 @@ namespace Golf.Views.CreateMatchView
             }
         }
         #endregion
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+                return;
+            var item = (MatchTeamWithPlayers)e.Item;
+
+            if (item.teamplayerList != null)
+            {
+                //TeamItemsTabbedCommand
+                ((MatchTeamListPageViewModel)BindingContext).TeamItemsTabbedCommand.Execute(e.Item as MatchTeamWithPlayers);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert("No Players available for your selected team.","Alert","Ok");
+            }
+
+            //Deselect the selected Item in the listview
+            ((ListView)sender).SelectedItem = null;
+        }
     }
 }

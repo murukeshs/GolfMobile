@@ -192,7 +192,7 @@ namespace Golf.ViewModel
 
 
         #region Toggle Selected Command Functionality
-
+        public user _LastSelectedItem;
         public ICommand ToggleSelectedCommand => new Command(ToggleChangedEvent);
        //private user _LastSelectedItem;
         void ToggleChangedEvent(object parameter)
@@ -200,24 +200,24 @@ namespace Golf.ViewModel
             var item = parameter as user;
             ScoreKeeperId = item.userId;
 
-            //if (_LastSelectedItem == item)
-            //{
-            //    item.IsToggled = !item.IsToggled;
-            //    UpdateItems(item);
-            //}
-            //else
-            //{
-            //    if (_LastSelectedItem != null)
-            //    {
-            //        //hide the previous selected item
-            //        _LastSelectedItem.IsToggled = false;
-            //         UpdateItems(_LastSelectedItem);
-            //    }
-            //    //Or show the selected item
-            //    item.IsToggled = true;
-            //    UpdateItems(item);
-            //}
-            //_LastSelectedItem = item;
+            if (_LastSelectedItem == item)
+            {
+                item.IsToggled = !item.IsToggled;
+                UpdateItems(item);
+            }
+            else
+            {
+                if (_LastSelectedItem != null)
+                {
+                    //hide the previous selected item
+                    _LastSelectedItem.IsToggled = false;
+                    UpdateItems(_LastSelectedItem);
+                }
+                //Or show the selected item
+                item.IsToggled = true;
+                UpdateItems(item);
+            }
+            _LastSelectedItem = item;
         }
 
 
@@ -225,13 +225,13 @@ namespace Golf.ViewModel
 
 
 
-        //async void UpdateItems(user Items)
-        //{
-        //    var index = PlayersList.IndexOf(Items);
-        //    PlayersList.Remove(Items);
-        //    PlayersList.Insert(index, Items);
-        //    OnPropertyChanged(nameof(PlayersList));
-        //}
+        async void UpdateItems(user Items)
+        {
+            var index = PlayersList.IndexOf(Items);
+            PlayersList.Remove(Items);
+            PlayersList.Insert(index, Items);
+            OnPropertyChanged(nameof(PlayersList));
+        }
         #endregion Toggle Selected Command Functionality
 
 

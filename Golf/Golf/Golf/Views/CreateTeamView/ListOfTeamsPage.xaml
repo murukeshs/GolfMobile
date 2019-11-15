@@ -53,7 +53,7 @@
           </plugins:PancakeView>
 
 
-            <Grid Margin="0">
+            <!--<Grid Margin="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"
                                    />
@@ -98,7 +98,7 @@
                                                VerticalOptions="Center"
                                                 Grid.Row="0"
                                                 Grid.Column="3"/>
-            </Grid>
+            </Grid>-->
 
             <ListView Margin="10,0,10,0"
                       x:Name="TeamsListView"

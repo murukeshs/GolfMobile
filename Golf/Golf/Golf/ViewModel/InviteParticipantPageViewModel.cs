@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Golf.Services;
 using Golf.Utils;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Golf.ViewModel
 {

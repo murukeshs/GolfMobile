@@ -23,8 +23,8 @@ namespace Golf.ViewModel.Match
         {
             LoadTeamListAsync();
         }
-
-        public ObservableCollection<MatchTeamItems> MatchTeamsItemsList
+        public ObservableCollection<MatchTeamWithPlayers> matchTeamsItemsList = new ObservableCollection<MatchTeamWithPlayers>();
+        public ObservableCollection<MatchTeamWithPlayers> MatchTeamsItemsList 
         {
             get { return _MatchTeamsItemsList; }
             set
@@ -33,11 +33,22 @@ namespace Golf.ViewModel.Match
                 OnPropertyChanged(nameof(MatchTeamsItemsList));
             }
         }
-        private ObservableCollection<MatchTeamItems> _MatchTeamsItemsList = null;
+        private ObservableCollection<MatchTeamWithPlayers> _MatchTeamsItemsList = null;
+
+        public List<teamplayerList> MatchTeamsPlayerList
+        {
+            get { return _MatchTeamsPlayerList; }
+            set
+            {
+                _MatchTeamsPlayerList = value;
+                OnPropertyChanged(nameof(MatchTeamsPlayerList));
+            }
+        }
+        private List<teamplayerList> _MatchTeamsPlayerList = null;
 
 
         #region SaveTeamButtonCLicked Command Functionality
-      
+
         public ICommand SaveTeamsCommand => new AsyncCommand(SaveTeamButtonCLicked);
 
         private async Task SaveTeamButtonCLicked()
@@ -53,7 +64,7 @@ namespace Golf.ViewModel.Match
 
         void CheckBoxChanged(object parameter)
         {
-            var item = parameter as MatchTeamItems;
+            var item = parameter as MatchTeamWithPlayers;
             var teamId = item.teamId;
             if (TeamIdList.Count > 0)
             {
@@ -92,7 +103,25 @@ namespace Golf.ViewModel.Match
                     if(response.IsSuccessStatusCode)
                     {
                         var Items = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamItems>>(content);
-                        MatchTeamsItemsList = Items;
+                        foreach (var item in Items)
+                        {
+                            MatchTeamsPlayerList = JsonConvert.DeserializeObject<List<teamplayerList>>(item.teamplayerList);
+                            matchTeamsItemsList.Add(new MatchTeamWithPlayers
+                            {
+                                teamId = item.teamId,
+                                teamplayerList = MatchTeamsPlayerList,
+                                createdBy = item.createdBy,
+                                createdName = item.createdName,
+                                createdOn = item.createdOn,
+                                noOfPlayers = item.noOfPlayers,
+                                scoreKeeperID = item.scoreKeeperID,
+                                startingHole = item.startingHole,
+                                teamIcon = item.teamIcon,
+                                teamName = item.teamName,
+                                Expanded = false
+                            });
+                        }
+                        MatchTeamsItemsList = matchTeamsItemsList;
                     }
                     else
                     {
@@ -179,6 +208,48 @@ namespace Golf.ViewModel.Match
                 }
             }
         }
+
+
+        #region Team Item Tabbed Command Functionality
+
+        //To Hide and UnHide Players details Page
+        private MatchTeamWithPlayers _LastSelectedItem;
+
+        public ICommand TeamItemsTabbedCommand => new Command(HideorShowItems);
+
+        async void HideorShowItems(object parameter)
+        {
+            var Item = parameter as MatchTeamWithPlayers;
+
+            if (_LastSelectedItem == Item)
+            {
+                Item.Expanded = !Item.Expanded;
+                await UpdateItems(Item);
+            }
+            else
+            {
+                if (_LastSelectedItem != null)
+                {
+                    //hide the previous selected item
+                    _LastSelectedItem.Expanded = false;
+                    await UpdateItems(_LastSelectedItem);
+                }
+                //Or show the selected item
+                Item.Expanded = true;
+                await UpdateItems(Item);
+            }
+            _LastSelectedItem = Item;
+        }
+
+        async Task UpdateItems(MatchTeamWithPlayers Items)
+        {
+            var index = MatchTeamsItemsList.IndexOf(Items);
+            MatchTeamsItemsList.Remove(Items);
+            MatchTeamsItemsList.Insert(index, Items);
+            OnPropertyChanged(nameof(MatchTeamsItemsList));
+        }
+
+        #endregion Team Item Tabbed Command Functionality
 
     }
 }

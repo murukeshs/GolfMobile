@@ -271,7 +271,7 @@
                       ItemTapped="TeamListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <controls:UpdateViewCell SelectedBackgroundColor="Transparent">
+                        <controls:UpdateViewCell SelectedBackgroundColor="#ffffff">
                             <ContentView Padding="5" >
                                 <StackLayout>
                                     <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
@@ -305,6 +305,7 @@
 
                                             <ImageButton HorizontalOptions="End"
                                                      Margin="0,10"
+                                                         Aspect="AspectFit"
                                                      BackgroundColor="Transparent"
                                                      Source="arrow_down.png"
                                                      HeightRequest="30"

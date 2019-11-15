@@ -24,12 +24,15 @@
     <ContentPage.Content>
         <StackLayout>
 
+          
+
+
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource BorderColor}"
                                  CornerRadius="25"
                                  HasShadow="True"
                                  Margin="20,20,20,10">
-            <Controls:CustomSearchBar Placeholder="Search Players..."
+            <Controls:CustomSearchBar Placeholder="Search Participants..."
                                       Margin="0"
                                       CornerRadius="25"
                                       CancelButtonColor="{StaticResource LightGreenColor}"
@@ -41,6 +44,22 @@
                                       BackgroundColor="{StaticResource WhiteColor}"/>
             </plugins:PancakeView>
 
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="25"
+                                 HasShadow="True"
+                                 HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Margin="20,0,20,20"
+                                 Padding="20"
+                                 IsVisible="{Binding NoRecordsFoundLabel ,Mode=TwoWay}">
+                <Label Text="No participants available for your selected team."
+                       FontSize="{StaticResource FontSize24}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </plugins:PancakeView>
+
             <ListView Margin="20,0,20,20"
                       x:Name="ListView"
                       ItemsSource="{Binding ParticipantItems}"
@@ -48,7 +67,8 @@
                       HasUnevenRows="True"
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
-                      VerticalScrollBarVisibility="Never">
+                      VerticalScrollBarVisibility="Never"
+                      IsVisible="{Binding ListViewIsVisible,Mode=TwoWay}">
                 <ListView.Behaviors>
                     <behaviors:EventToCommandBehavior EventName="ItemSelected" 
                                                       Command="{Binding ItemTappedCommand}"

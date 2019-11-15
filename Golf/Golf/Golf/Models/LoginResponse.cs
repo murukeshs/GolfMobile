@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Golf.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace Golf.Models
         public user user { get; set; }
         public string token { get; set; }
     }
-    public class user
+    public class user : BaseViewModel
     {
         public string userType { get; set; }
         public string countryName { get; set; }
@@ -38,6 +39,7 @@ namespace Golf.Models
         public bool? isPublicProfile { get; set; }
         public string userTypeId { get; set; }
 
+        public bool IsChecked { get; set; } = false;
         public bool IsToggled { get; set; } = false;
     }
 }

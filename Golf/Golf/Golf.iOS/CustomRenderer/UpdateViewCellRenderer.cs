@@ -18,7 +18,7 @@ namespace Golf.iOS.CustomRenderer
             {
                 BackgroundColor = view.SelectedBackgroundColor.ToUIColor(),
             };
-            //reusableCell.CellLayoutMarginsFollowReadableWidth = false;
+
             return cell;
         }
     }

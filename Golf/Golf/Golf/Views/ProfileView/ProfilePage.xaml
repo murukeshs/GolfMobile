@@ -99,6 +99,24 @@
                                               HeightRequest="50"/>
                     </Grid>
 
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="20,10,20,10"
+                                 HorizontalOptions="FillAndExpand">
+
+                        <Controls:RoundedButton Text="Take Picture"
+                                            Margin="0"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding TakeCaptureCommand}"/>
+
+                        <Controls:RoundedButton Text="Gallery"
+                                            Margin="10,0"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding GalleryCommand}"/>
+
+                    </StackLayout>
+
                     <Label Text="First Name" 
                            Margin="20,10,20,0"
                            VerticalOptions="Center"

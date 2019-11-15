@@ -25,7 +25,30 @@ namespace Golf.ViewModel
             }
         }
         private ObservableCollection<ParticipantList> _ParticipantItems = null;
-       
+
+        public bool NoRecordsFoundLabel
+        {
+            get { return _NoRecordsFoundLabel; }
+            set
+            {
+                _NoRecordsFoundLabel = value;
+                OnPropertyChanged("NoRecordsFoundLabel");
+            }
+        }
+        private bool _NoRecordsFoundLabel = false;
+
+        public bool ListViewIsVisible
+        {
+            get { return _ListViewIsVisible; }
+            set
+            {
+                _ListViewIsVisible = value;
+                OnPropertyChanged("ListViewIsVisible");
+            }
+        }
+        private bool _ListViewIsVisible = false;
+
+
         public ICommand ItemTappedCommand { get; private set; }
 
         public ViewParticipantsViewModel()
@@ -66,6 +89,16 @@ namespace Golf.ViewModel
                     {
                         var Items = JsonConvert.DeserializeObject<ObservableCollection<ParticipantList>>(content);
                          ParticipantItems = Items;
+                        if(Items.Count > 0)
+                        {
+                            ListViewIsVisible = true;
+                            NoRecordsFoundLabel = false;
+                        }
+                        else
+                        {
+                            ListViewIsVisible = false;
+                            NoRecordsFoundLabel = true;
+                        }
                     }
                     else
                     {
