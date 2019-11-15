@@ -150,7 +150,7 @@ namespace Golf.ViewModel.Match
         #region Team Item Tabbed Command Functionality
 
         //To Hide and UnHide Players details Page
-        //private MatchTeamList _LastSelectedItem;
+      //  private MatchTeamList _LastSelectedItem;
 
         public ICommand TeamItemsTabbedCommand => new Command(HideorShowItems);
 
@@ -409,8 +409,9 @@ namespace Golf.ViewModel.Match
                     }
                     else
                     {
+                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Something went wrong, please try again later", "ok");
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

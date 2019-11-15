@@ -203,7 +203,7 @@ namespace Golf.ViewModel.Match
                 await CreateMatchAsync();
                 try
                 {
-                   
+
                 }
                 catch (Exception ex)
                 {

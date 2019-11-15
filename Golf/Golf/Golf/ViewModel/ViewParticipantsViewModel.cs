@@ -106,8 +106,6 @@ namespace Golf.ViewModel
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
-
-                    UserDialogs.Instance.HideLoading();
                 }
                 else
                 {
