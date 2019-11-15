@@ -46,12 +46,12 @@
 
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource BorderColor}"
-                                 CornerRadius="25"
+                                 CornerRadius="10"
                                  HasShadow="True"
                                  HorizontalOptions="CenterAndExpand"
                                  VerticalOptions="CenterAndExpand"
                                  Margin="20,0,20,20"
-                                 Padding="20"
+                                 Padding="15"
                                  IsVisible="{Binding NoRecordsFoundLabel ,Mode=TwoWay}">
                 <Label Text="No participants available for your selected team."
                        FontSize="{StaticResource FontSize24}"

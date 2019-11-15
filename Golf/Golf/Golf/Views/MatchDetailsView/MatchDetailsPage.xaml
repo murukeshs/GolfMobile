@@ -19,6 +19,8 @@
             <Converters:PaymentImageConverter x:Key="PaymentConverter" />
             <Converters:LinkApprovedImageConverter x:Key="LinkApprovedConverter" />
 
+            <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
+
             <Style x:Key="HeadingsLabel" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="Margin" Value="0,5,0,0"/>
@@ -260,7 +262,7 @@
             <!--Teams List View Initially it set to be false-->
             <ListView Margin="20,10,20,0"
                       x:Name="TeamListView"
-                      ItemsSource="{Binding MatchTeamsItems}"
+                      ItemsSource="{Binding MatchTeamsItemsList}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
                       VerticalScrollBarVisibility="Never"
@@ -282,7 +284,7 @@
                                                  Margin="10,5,10,5"
                                                  Padding="0"
                                                  Spacing="0">
-                                            <controls:CircleImage Source="profile_defalut_pic.png"
+                                            <controls:CircleImage Source="{Binding teamIcon,Converter={StaticResource ProfileImageConverter}}"
                                                       VerticalOptions="Center"
                                                       WidthRequest="80"
                                                       HeightRequest="80"/>
@@ -292,15 +294,15 @@
                                                 <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding MatchTeamName}"
+                                               Text="{Binding teamName}"
                                                />
-                                                <Label FontSize="{StaticResource FontSize18}"
+                                                <Label FontSize="{StaticResource FontSize16}"
                                                    TextColor="{StaticResource TextGrayColor}"
                                                    Text="{Binding Path = MatchCreaedBy ,StringFormat= 'Creaed By : {0:D}'}"/>
                                                 <Label Text="{Binding Path = MatchNoofPlayers  ,StringFormat= 'No of Players : {0:D}'}"
-                                                   Margin="0"
-                                                   VerticalOptions="Center"
-                                                   FontSize="{StaticResource FontSize14}"/>
+                                                       Margin="0"
+                                                       VerticalOptions="Center"
+                                                       FontSize="{StaticResource FontSize16}"/>
                                             </StackLayout>
 
                                             <ImageButton HorizontalOptions="End"
@@ -315,7 +317,7 @@
 
                                     <StackLayout IsVisible="{Binding IsVisible,Mode=TwoWay}">
                                     <controls:HorizontalList ListOrientation="Vertical" 
-                                                             ItemsSource="{Binding Items}" 
+                                                             ItemsSource="{Binding matchPlayerList}" 
                                                              Padding="0"
                                                              BackgroundColor="Transparent"
                                                              Margin="20,10,20,10"
@@ -331,7 +333,7 @@
                                                  Margin="10,10"
                                                  Padding="0"
                                                  Spacing="0">
-                                                            <controls:CircleImage Source="{Binding Profile}"
+                                                            <controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
                                                       VerticalOptions="Center"
                                                       WidthRequest="80"
                                                       HeightRequest="80"/>
@@ -341,7 +343,7 @@
                                                                 <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding Name}"
+                                               Text="{Binding firstName}"
                                                />
                                                                 <Label FontSize="{StaticResource FontSize18}"
                                                    TextColor="{StaticResource TextGrayColor}"
@@ -369,7 +371,7 @@
                                                        VerticalOptions="Center"
                                                        FontSize="{StaticResource FontSize12}"/>
 
-                                                                        <Image Source="{Binding LinkApproved , Converter={StaticResource LinkApprovedConverter}}"
+                                                                        <Image Source="{Binding isInvitationAccept , Converter={StaticResource LinkApprovedConverter}}"
                                                        HeightRequest="25"
                                                        WidthRequest="25"
                                                        VerticalOptions="Center"
@@ -391,7 +393,7 @@
                                                            VerticalOptions="Center"
                                                            FontSize="{StaticResource FontSize12}"/>
 
-                                                                        <Image Source="{Binding PaymentSuccess , Converter={StaticResource PaymentConverter}}"
+                                                                        <Image Source="{Binding isPaymentMade , Converter={StaticResource PaymentConverter}}"
                                                            HeightRequest="25"
                                                            WidthRequest="25"
                                                            VerticalOptions="Center"

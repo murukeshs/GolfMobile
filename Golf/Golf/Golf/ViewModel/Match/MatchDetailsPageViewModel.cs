@@ -5,6 +5,7 @@ using Golf.Utils;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -114,6 +115,8 @@ namespace Golf.ViewModel.Match
         {
             //Using THis Method to Load the Match details
             getMatchById();
+            //Using THis Method to Load the Match Team And Players List From an API.
+            getMatchesDetailsById();
         }
 
         #region Match Details Button Command Functionality
@@ -140,9 +143,73 @@ namespace Golf.ViewModel.Match
             UserDialogs.Instance.HideLoading();
         }
 
-        async Task GetTeamPlayersList()
-        {
+        public ObservableCollection<MatchDetailsListTeamList> matchTeamsItemsList = new ObservableCollection<MatchDetailsListTeamList>();
 
+        public ObservableCollection<MatchDetailsListTeamList> MatchTeamsItemsList
+        {
+            get { return _MatchTeamsItemsList; }
+            set
+            {
+                _MatchTeamsItemsList = value;
+                OnPropertyChanged(nameof(MatchTeamsItemsList));
+            }
+        }
+        private ObservableCollection<MatchDetailsListTeamList> _MatchTeamsItemsList = null;
+
+        async void getMatchesDetailsById()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    //player type is 1 to get player list
+                    var RestURL = App.User.BaseUrl + "Match/getMatchesDetailsById" +App.User.MatchId;
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    //Assign the Values to Listview
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Items = JsonConvert.DeserializeObject<ObservableCollection<getMatchesDetailsById>>(content);
+                        foreach (var item in Items)
+                        {
+                            var MatchTeamsPlayerList = JsonConvert.DeserializeObject<List<matchPlayerList>>(item.matchPlayerList);
+                            matchTeamsItemsList.Add(new MatchDetailsListTeamList
+                            {
+                                teamId = item.teamId,
+                                matchPlayerList = MatchTeamsPlayerList,
+                                //createdName = item.createdName,
+                                //noOfPlayers = item.noOfPlayers,
+                                teamIcon = item.teamIcon,
+                                teamName = item.teamName,
+                                Expanded = false
+                            });
+                        }
+                        MatchTeamsItemsList = matchTeamsItemsList;
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
         }
 
         #endregion Team Button Command Functionality
@@ -150,42 +217,42 @@ namespace Golf.ViewModel.Match
         #region Team Item Tabbed Command Functionality
 
         //To Hide and UnHide Players details Page
-      //  private MatchTeamList _LastSelectedItem;
+        private MatchDetailsListTeamList _LastSelectedItem;
 
         public ICommand TeamItemsTabbedCommand => new Command(HideorShowItems);
 
         async void HideorShowItems(object parameter)
         {
-            //var Item = parameter as MatchTeamList;
+            var Item = parameter as MatchDetailsListTeamList;
 
-            //if(_LastSelectedItem == Item)
-            //{
-            //    Item.IsVisible = !Item.IsVisible;
-            //    await UpdateItems(Item);
-            //}
-            //else
-            //{
-            //    if(_LastSelectedItem != null)
-            //    {
-            //        //hide the previous selected item
-            //        _LastSelectedItem.IsVisible = false;
-            //        await UpdateItems(_LastSelectedItem);
-            //    }
-            //    //Or show the selected item
-            //    Item.IsVisible = true;
-            //    await UpdateItems(Item);
-            //}
-            //_LastSelectedItem = Item;
+            if (_LastSelectedItem == Item)
+            {
+                Item.Expanded = !Item.Expanded;
+                await UpdateItems(Item);
+            }
+            else
+            {
+                if (_LastSelectedItem != null)
+                {
+                    //hide the previous selected item
+                    _LastSelectedItem.Expanded = false;
+                    await UpdateItems(_LastSelectedItem);
+                }
+                //Or show the selected item
+                Item.Expanded = true;
+                await UpdateItems(Item);
+            }
+            _LastSelectedItem = Item;
         }
 
-        async Task UpdateItems(MatchTeamItems Items)
+        async Task UpdateItems(MatchDetailsListTeamList Items)
         {
-            //var index = MatchTeamsItems.IndexOf(Items);
-            //MatchTeamsItems.Remove(Items);
-            //MatchTeamsItems.Insert(index, Items);
-            //OnPropertyChanged(nameof(MatchTeamsItems));
+            var index = MatchTeamsItemsList.IndexOf(Items);
+            MatchTeamsItemsList.Remove(Items);
+            MatchTeamsItemsList.Insert(index, Items);
+            OnPropertyChanged(nameof(MatchTeamsItemsList));
         }
-        
+
 
         public ObservableCollection<MatchTeamItems> MatchTeamsItemsWithPlayers
         {
