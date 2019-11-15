@@ -1,30 +1,31 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
-using Golf.Views.MatchDetailsView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Golf.ViewModel.Match
+namespace Golf.ViewModel
 {
-    public class MatchListPageViewModel : BaseViewModel
+    public class ViewAllParticipantsViewModel : BaseViewModel
     {
-        public ObservableCollection<MatchList> MatchListItems
+        public ObservableCollection<AllParticipantsResponse> ParticipantItems
         {
-            get { return _MatchListItems; }
+            get { return _ParticipantItems; }
             set
             {
-                _MatchListItems = value;
-                OnPropertyChanged(nameof(MatchListItems));
+                _ParticipantItems = value;
+                OnPropertyChanged(nameof(ParticipantItems));
             }
         }
-        private ObservableCollection<MatchList> _MatchListItems = null;
+        private ObservableCollection<AllParticipantsResponse> _ParticipantItems = null;
 
         public bool NoRecordsFoundLabel
         {
@@ -48,28 +49,30 @@ namespace Golf.ViewModel.Match
         }
         private bool _ListViewIsVisible = false;
 
-        public MatchListPageViewModel()
+        public ViewAllParticipantsViewModel()
         {
-            //Load the match details list using this api.
-            getMatchList();
+            GetParticipantsList();
         }
 
-        async void getMatchList()
+        async void GetParticipantsList()
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Match/getMatchList";
+                    //player type is 1 to get player list
+                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=1";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
+
+                    //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
-                        MatchListItems = JsonConvert.DeserializeObject<ObservableCollection<MatchList>>(content);
-                        if (MatchListItems.Count > 0)
+                        ParticipantItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        if (ParticipantItems.Count > 0)
                         {
                             ListViewIsVisible = true;
                             NoRecordsFoundLabel = false;
@@ -86,7 +89,6 @@ namespace Golf.ViewModel.Match
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
-                    UserDialogs.Instance.HideLoading();
                 }
                 else
                 {
@@ -100,22 +102,5 @@ namespace Golf.ViewModel.Match
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
-
-        #region List ItemTabbed Command Functionality
-        public ICommand ListItemTabbedCommand => new Command(HandleItemSelected);
-
-        private async void HandleItemSelected(object parameter)
-        {
-            //ViewModelNavigation.PushAsync(new ItemPageViewModel() { Item = parameter as RssItem });
-            UserDialogs.Instance.ShowLoading();
-            var Item = parameter as MatchList;
-            var name = Item.matchName;
-            App.User.MatchId = Item.matchId;
-            var view = new MatchDetailsPage();
-            var navigationPage = ((NavigationPage)App.Current.MainPage);
-            await navigationPage.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
-        }
-        #endregion List ItemTabbed Command Functionality
     }
 }

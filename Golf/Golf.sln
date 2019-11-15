@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Golf.Android", "Golf\Golf.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Golf.iOS", "Golf\Golf.iOS\Golf.iOS.csproj", "{06CF5098-E3FB-461C-B5B4-86C91878321D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Golf", "Golf\Golf\Golf.csproj", "{2B5573A7-0FFE-442D-8C59-F8B5E4151385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Golf", "Golf\Golf\Golf.csproj", "{2B5573A7-0FFE-442D-8C59-F8B5E4151385}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

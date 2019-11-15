@@ -27,6 +27,28 @@ namespace Golf.ViewModel
             }
         }
         private ObservableCollection<MatchTeamItems> _TeamItem= null;
+
+        public bool NoRecordsFoundLabel
+        {
+            get { return _NoRecordsFoundLabel; }
+            set
+            {
+                _NoRecordsFoundLabel = value;
+                OnPropertyChanged("NoRecordsFoundLabel");
+            }
+        }
+        private bool _NoRecordsFoundLabel = false;
+
+        public bool ListViewIsVisible
+        {
+            get { return _ListViewIsVisible; }
+            set
+            {
+                _ListViewIsVisible = value;
+                OnPropertyChanged("ListViewIsVisible");
+            }
+        }
+        private bool _ListViewIsVisible = false;
         public ListOfTeamsPageViewModel()
         {
             LoadTeamListAsync();
@@ -70,8 +92,17 @@ namespace Golf.ViewModel
                     //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamItems>>(content);
-                        TeamItems = Items;
+                        TeamItems = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamItems>>(content);
+                        if (TeamItems.Count > 0)
+                        {
+                            ListViewIsVisible = true;
+                            NoRecordsFoundLabel = false;
+                        }
+                        else
+                        {
+                            ListViewIsVisible = false;
+                            NoRecordsFoundLabel = true;
+                        }
                     }
                     else
                     {

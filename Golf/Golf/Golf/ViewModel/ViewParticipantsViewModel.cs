@@ -15,7 +15,7 @@ namespace Golf.ViewModel
     public class ViewParticipantsViewModel : BaseViewModel
     {
 
-        public ObservableCollection<ParticipantList> ParticipantItems
+        public ObservableCollection<AllParticipantsResponse> ParticipantItems
         {
             get { return _ParticipantItems; }
             set
@@ -24,7 +24,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(ParticipantItems));
             }
         }
-        private ObservableCollection<ParticipantList> _ParticipantItems = null;
+        private ObservableCollection<AllParticipantsResponse> _ParticipantItems = null;
 
         public bool NoRecordsFoundLabel
         {
@@ -53,11 +53,11 @@ namespace Golf.ViewModel
 
         public ViewParticipantsViewModel()
         {
-            ItemTappedCommand = new Command<ParticipantList>(GetViewParticipantsDetails);
+            ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
             GetParticipantsList();
         }
 
-        async void GetViewParticipantsDetails(ParticipantList obj)
+        async void GetViewParticipantsDetails(AllParticipantsResponse obj)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Golf.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading();
                     //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm="+App.User.TeamIdforPlayerListing;
+                    var RestURL = App.User.BaseUrl + "Team/selectTeamById?teamId=" + App.User.TeamIdforPlayerListing;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
@@ -87,9 +87,8 @@ namespace Golf.ViewModel
                     //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<ParticipantList>>(content);
-                         ParticipantItems = Items;
-                        if(Items.Count > 0)
+                        ParticipantItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        if(ParticipantItems.Count > 0)
                         {
                             ListViewIsVisible = true;
                             NoRecordsFoundLabel = false;

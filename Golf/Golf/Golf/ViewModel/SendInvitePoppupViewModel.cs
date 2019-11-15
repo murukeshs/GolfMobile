@@ -26,58 +26,19 @@ namespace Golf.ViewModel
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                SendInviteAPI();
                 var page = new SendInvitePoppup();
                 await PopupNavigation.Instance.RemovePageAsync(page);
+                var view = new MenuPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
                 var a = ex.Message;
-            }
-        }
-
-
-        async void SendInviteAPI()
-        {
-            try
-            {
-                if (CrossConnectivity.Current.IsConnected)
-                {
-                    UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Match/inviteMatch/" + App.User.CreateMatchId;
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
-                        var view = new MenuPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
-                        UserDialogs.Instance.HideLoading();
-                    }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
-                }
-                else
-                {
-                    DependencyService.Get<IToast>().Show("Please check internet connection");
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
                 UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
-
         #endregion Invite Okay Button Command Functionality
     }
 }

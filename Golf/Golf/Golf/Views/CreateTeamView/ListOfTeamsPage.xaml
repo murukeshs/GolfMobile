@@ -99,6 +99,21 @@
                                                 Grid.Row="0"
                                                 Grid.Column="3"/>
             </Grid>-->
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="10"
+                                 HasShadow="True"
+                                 HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Margin="20,0,20,20"
+                                 Padding="15"
+                                 IsVisible="{Binding NoRecordsFoundLabel ,Mode=TwoWay}">
+                <Label Text="No Teams Found!."
+                       FontSize="{StaticResource FontSize24}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </plugins:PancakeView>
 
             <ListView Margin="10,0,10,0"
                       x:Name="TeamsListView"
@@ -110,7 +125,8 @@
                       CachingStrategy="RecycleElementAndDataTemplate"
                       SelectionMode="Single"
                       ItemTapped="TeamsListView_ItemTapped"
-                      VerticalScrollBarVisibility="Never">
+                      VerticalScrollBarVisibility="Never"
+                      IsVisible="{Binding ListViewIsVisible,Mode=TwoWay}">
                 <!--<ListView.Behaviors>
                     <behaviors:EventToCommandBehavior EventName="ItemSelected" 
                                                       Command="{Binding ItemTappedCommand}"

@@ -50,7 +50,7 @@
                     <controls:RoundedButton Text="Okay"
                                             HorizontalOptions="Center"
                                             Margin="40,40,40,40"
-                                            Command="{Binding InviteOkayButtonCommand}"/>
+                                            Clicked="RoundedButton_Clicked"/>
                 </StackLayout>
             </plugins:PancakeView>
         </StackLayout>
