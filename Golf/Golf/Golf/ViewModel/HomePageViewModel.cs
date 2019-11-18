@@ -84,7 +84,18 @@ namespace Golf.ViewModel
 
         async Task ParticipantsAsync()
         {
-
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var view = new ViewAllParticipantsPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
         #endregion Participants Command Functionality
     }

@@ -31,6 +31,22 @@
                                   BackgroundColor="{StaticResource WhiteColor}"/>
           </plugins:PancakeView>
 
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="10"
+                                 HasShadow="True"
+                                 HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Margin="20,0,20,20"
+                                 Padding="15"
+                                 IsVisible="{Binding NoRecordsFoundLabel ,Mode=TwoWay}">
+                <Label Text="No Matches Found!."
+                       FontSize="{StaticResource FontSize24}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </plugins:PancakeView>
+
             <ListView Margin="10,0,10,10"
                       x:Name="ListView"
                       ItemsSource="{Binding MatchListItems}"
@@ -41,7 +57,8 @@
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
                       VerticalScrollBarVisibility="Never"
-                      ItemTapped="ListView_ItemTapped">
+                      ItemTapped="ListView_ItemTapped"
+                      IsVisible="{Binding ListViewIsVisible,Mode=TwoWay}">
                 <ListView.ItemTemplate>
 
                     <DataTemplate>

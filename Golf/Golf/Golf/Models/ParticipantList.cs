@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Golf.Models
 {
-    public class ParticipantList
+    public class AllParticipants
     {
-        public int userId { get; set; }
+        public int teamPlayerListId { get; set; }
+        public int teamId { get; set; }
 
         public string playerName { get; set; }
 
@@ -15,13 +16,8 @@ namespace Golf.Models
 
         public string email { get; set; }
 
-        public ObservableCollection<userType> TypeList { get; set; }
+        public string roleType { get; set; }
 
-        public bool isScoreKeeper { get; set; }
-    }
-
-    public class userType
-    {
-        public string ParticipantType { get; set; }
+        public string profileImage { get; set; }
     }
 }

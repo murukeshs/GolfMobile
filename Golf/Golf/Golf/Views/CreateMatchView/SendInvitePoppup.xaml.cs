@@ -1,5 +1,9 @@
-﻿using Golf.Services;
+﻿using Acr.UserDialogs;
+using Golf.Services;
+using Golf.Views.MenuView;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,25 +17,22 @@ namespace Golf.Views.CreateMatchView
 			InitializeComponent ();
 		}
 
-        #region screen adjusting
-        protected override void OnAppearing()
+        private async void RoundedButton_Clicked(object sender, System.EventArgs e)
         {
-            base.OnAppearing();
-
-            if (Device.RuntimePlatform == Device.Android)
+            try
             {
-                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+                UserDialogs.Instance.ShowLoading();
+            await PopupNavigation.Instance.RemovePageAsync(this);
+            var view = new MenuPage();
+            var navigationPage = ((NavigationPage)App.Current.MainPage);
+            await navigationPage.PushAsync(view);
+            UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
             }
         }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
-            }
-        }
-        #endregion
     }
 }
