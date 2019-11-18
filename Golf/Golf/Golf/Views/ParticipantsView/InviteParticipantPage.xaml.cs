@@ -41,7 +41,25 @@ namespace Golf.Views
         {
             var value = (CustomCheckBox)sender;
             var item = value.DefaultValue;
-            ((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
+            //((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
+        }
+
+       
+
+        // Invoked when a hardware back button is pressed
+        protected override bool OnBackButtonPressed()
+        {
+            // Return true if you don't want to close this popup page when a back button is pressed
+            base.OnBackButtonPressed();
+            return false;
+        }
+
+        // Invoked when background is clicked
+        protected override bool OnBackgroundClicked()
+        {
+            // Return false if you don't want to close this popup page when a background of the popup page is clicked
+            base.OnBackgroundClicked();
+            return true;
         }
     }
 }

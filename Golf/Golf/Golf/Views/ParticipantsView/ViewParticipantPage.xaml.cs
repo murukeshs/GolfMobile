@@ -13,25 +13,13 @@ namespace Golf.Views
 			InitializeComponent ();
         }
 
-        #region screen adjusting
-        protected override void OnAppearing()
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            base.OnAppearing();
+            if (e.Item == null)
+                return;
 
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
-            }
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
         }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
-            }
-        }
-        #endregion
     }
 }

@@ -39,7 +39,7 @@ namespace Golf.Views.MenuView
                     new MenuPageMenuItem { Id = 2, Title = "Create a Match" ,TargetType = typeof(CreateMatchPage),Icon = "createteam.png",IsUnderlined = true,Indentation = new Thickness(5,0,0,0),TextColor = (Color)App.Current.Resources["BlackColor"]},
                     new MenuPageMenuItem { Id = 2, Title = "Participant" ,TargetType = typeof(HomePage),Icon = "",IsUnderlined = false,Indentation = new Thickness(5,0,0,0),TextColor = (Color)App.Current.Resources["TextGrayColor"]},
                     new MenuPageMenuItem { Id = 2, Title = "Invite a Participant" ,TargetType = typeof(InviteParticipantPage),Icon = "inviteaparticipant.png",IsUnderlined = false,Indentation = new Thickness(5,0,0,0),TextColor = (Color)App.Current.Resources["BlackColor"]},
-                    new MenuPageMenuItem { Id = 2, Title = "View Participants" ,TargetType = typeof(ViewParticipantPage),Icon = "viewparticipant.png",IsUnderlined = true,Indentation = new Thickness(5,0,0,0),TextColor = (Color)App.Current.Resources["BlackColor"]}
+                    new MenuPageMenuItem { Id = 2, Title = "View Participants" ,TargetType = typeof(ViewAllParticipantsPage),Icon = "viewparticipant.png",IsUnderlined = true,Indentation = new Thickness(5,0,0,0),TextColor = (Color)App.Current.Resources["BlackColor"]}
                 });
             }
             

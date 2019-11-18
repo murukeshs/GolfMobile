@@ -19,6 +19,7 @@
         <ResourceDictionary>
             <Converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
+            <Converters:ConvertStringToList x:Key="convertToList"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -68,6 +69,7 @@
                       HasUnevenRows="True"
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
+                      ItemTapped="ListView_ItemTapped"
                       VerticalScrollBarVisibility="Never"
                       IsVisible="{Binding ListViewIsVisible,Mode=TwoWay}">
                 <ListView.Behaviors>
@@ -83,7 +85,6 @@
                                 <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                                      CornerRadius="10"
                                                      HasShadow="True">
-                                    <StackLayout>
                                         <StackLayout Orientation="Horizontal"
                                                      Margin="0,5,0,0"
                                                      Padding="0"
@@ -104,34 +105,29 @@
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding email}"
                                                Margin="0"/>
-
-                                                <Label FontSize="{StaticResource FontSize16}"
-                                               TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding roleType}"
-                                               Margin="0"/>
-                                            </StackLayout>
-                                        </StackLayout>
-
-                                        <!--<Controls:HorizontalList ListOrientation="Horizontal" 
-                                                                 ItemsSource="{Binding TypeList}" 
+                                            <Controls:HorizontalList ListOrientation="Horizontal" 
+                                                                 ItemsSource="{Binding roleType,Converter={StaticResource convertToList}}" 
                                                                  Padding="0"
-                                                                 Margin="10,5,0,5"
+                                                                 Margin="5,0,0,5"
                                                                  >
-                                            <Controls:HorizontalList.ItemTemplate>
-                                                <DataTemplate>
-                                                    <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
+                                                <Controls:HorizontalList.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
                                                                          CornerRadius="25"
-                                                                         Margin="5">
-                                                        <Label Text="{Binding ParticipantType}"
+                                                                         Margin="5"
+                                                                         Padding="5">
+                                                            <Label Text="{Binding .}"
                                                                TextColor="{StaticResource WhiteColor}"
-                                                               FontSize="{StaticResource FontSize16}"
-                                                               Margin="5"/>
-                                                    </plugins:PancakeView>
-                                                </DataTemplate>
-                                            </Controls:HorizontalList.ItemTemplate>
-                                        </Controls:HorizontalList>-->
+                                                               FontSize="{StaticResource FontSize12}"
+                                                               HorizontalTextAlignment="Center"
+                                                               />
+                                                        </plugins:PancakeView>
+                                                    </DataTemplate>
+                                                </Controls:HorizontalList.ItemTemplate>
+                                            </Controls:HorizontalList>
+                                        </StackLayout>
+                                            
                                     </StackLayout>
-
                                 </plugins:PancakeView>
                             </ContentView>
                         </Controls:UpdateViewCell>

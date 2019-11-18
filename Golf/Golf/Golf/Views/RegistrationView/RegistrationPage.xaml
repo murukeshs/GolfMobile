@@ -22,7 +22,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView>
+        <StackLayout>
+        <ScrollView HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
             <StackLayout>
                 <Image HorizontalOptions="Center"
                        Margin="20,20,20,10"
@@ -122,13 +124,16 @@
                                         Image="key.png"
                                         Text="{Binding Password, Mode = TwoWay}"/>
 
-                <Controls:RoundedButton Text="Register"
-                                        Margin="40,20,40,20"
-                                        x:Name="RegisterAdminButton"
-                                        Command="{Binding RegisterCommand}"
-                                        />
+               
 
             </StackLayout>
         </ScrollView>
+
+        <Controls:RoundedButton Text="Register"
+                                        Margin="40,20,40,20"
+                                        x:Name="RegisterAdminButton"
+                                        Command="{Binding RegisterCommand}"
+                                VerticalOptions="EndAndExpand"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

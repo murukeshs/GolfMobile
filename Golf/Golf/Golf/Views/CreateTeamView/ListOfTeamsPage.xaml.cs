@@ -18,28 +18,11 @@ namespace Golf.Views
 
         private void TeamsListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
+            if (e.Item == null)
+                return;
             ((ListOfTeamsPageViewModel)BindingContext).TeamListItemsTabbedCommand.Execute(e.Item as MatchTeamItems);
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
         }
-
-        #region screen adjusting
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
-            }
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
-            }
-        }
-        #endregion
     }
 }

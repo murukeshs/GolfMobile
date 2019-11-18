@@ -10,7 +10,7 @@ namespace Golf.ViewModel.Match
 {
     public class MatchCodePageViewModel : BaseViewModel
     {
-        public string MatchCodeText { get; set; } = "New match of the competition type " + App.User.CompetitionType + " is successfully scheduled.Here is the Match participation code";
+        public string MatchCodeText { get; set; } = App.User.CompetitionType;
         public string MatchCode { get; set; } = App.User.MatchCode;
         //New match of the competition type &quot; Auto Win &quot; is successfully scheduled. Here is the Match participation code
 

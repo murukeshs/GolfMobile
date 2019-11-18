@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Golf.Enums;
 using Xamarin.Forms;
 
 namespace Golf.Controls
@@ -27,22 +25,21 @@ namespace Golf.Controls
             set => SetValue(DisableColorProperty, value);
         }
 
-        public static readonly BindableProperty BorderWidthProperty =
-        BindableProperty.Create(nameof(BorderWidth), typeof(int),
-#pragma warning disable CS0618 // Type or member is obsolete
-            typeof(CustomEntry), Device.OnPlatform<int>(1, 2, 2));
-#pragma warning restore CS0618 // Type or member is obsolete
+        #pragma warning disable CS0618 // Type or member is obsolete
+        public static readonly BindableProperty BorderWidthProperty =  BindableProperty.Create(nameof(BorderWidth), typeof(int), typeof(CustomEntry), Device.OnPlatform<int>(1, 2, 2));
+        #pragma warning restore CS0618 // Type or member is obsolete
+
         // Gets or sets BorderWidth value  
         public int BorderWidth
         {
             get => (int)GetValue(BorderWidthProperty);
             set => SetValue(BorderWidthProperty, value);
         }
-        public static readonly BindableProperty CornerRadiusProperty =
-        BindableProperty.Create(nameof(CornerRadius),
-#pragma warning disable CS0618 // Type or member is obsolete
-            typeof(double), typeof(CustomEntry), Device.OnPlatform<double>(6, 7, 7));
-#pragma warning restore CS0618 // Type or member is obsolete
+
+        #pragma warning disable CS0618 // Type or member is obsolete
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius),typeof(double), typeof(CustomEntry), Device.OnPlatform<double>(6, 7, 7));
+        #pragma warning restore CS0618 // Type or member is obsolete
+      
         // Gets or sets CornerRadius value  
         public double CornerRadius
         {
@@ -59,19 +56,48 @@ namespace Golf.Controls
             set => SetValue(IsCurvedCornersEnabledProperty, value);
         }
 
-        public CustomEntry()
+        public static readonly BindableProperty ImageProperty =
+           BindableProperty.Create(nameof(Image), typeof(string), typeof(CustomEntry), string.Empty);
 
+        public static readonly BindableProperty ImageHeightProperty =
+           BindableProperty.Create(nameof(ImageHeight), typeof(int), typeof(CustomEntry), 40);
+
+        public static readonly BindableProperty ImageWidthProperty =
+          BindableProperty.Create(nameof(ImageWidth), typeof(int), typeof(CustomEntry), 40);
+
+        public static readonly BindableProperty ImageAlignmentProperty =
+           BindableProperty.Create(nameof(ImageAlignment), typeof(ImageAlignment), typeof(CustomEntry), ImageAlignment.Left);
+
+        public int ImageWidth
         {
-            //CornerRadius = 10;
-            //BorderColor = WpcStylingColors.BorderColorLightGray;
+            get { return (int)GetValue(ImageWidthProperty); }
+            set { SetValue(ImageWidthProperty, value); }
+        }
+
+        public int ImageHeight
+        {
+            get { return (int)GetValue(ImageHeightProperty); }
+            set { SetValue(ImageHeightProperty, value); }
+        }
+
+        public string Image
+        {
+            get { return (string)GetValue(ImageProperty); }
+            set { SetValue(ImageProperty, value); }
+        }
+
+        public ImageAlignment ImageAlignment
+        {
+            get { return (ImageAlignment)GetValue(ImageAlignmentProperty); }
+            set { SetValue(ImageAlignmentProperty, value); }
+        }
+
+        public CustomEntry()
+        {
             BorderWidth = 1;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.Center;
-           // FontFamily = "Roboto-Regular";
             FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Entry));
-            //TextColor = WpcStylingColors.ColorSoftBlack;
-            //BackgroundColor = WpcStylingColors.BackgroundColorWhite;
-            // HeightRequest = 40;
         }
     }
 }

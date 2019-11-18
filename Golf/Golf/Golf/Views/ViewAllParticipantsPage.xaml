@@ -6,7 +6,8 @@
              xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ViewModel="clr-namespace:Golf.ViewModel"
              xmlns:Converters="clr-namespace:Golf.Converters"
-             x:Class="Golf.Views.ViewAllParticipantsPage">
+             x:Class="Golf.Views.ViewAllParticipantsPage"
+             Title="Participant's Listing">
     <ContentPage.BindingContext>
         <ViewModel:ViewAllParticipantsViewModel/>
     </ContentPage.BindingContext>
@@ -14,6 +15,7 @@
 
         <ResourceDictionary>
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
+            <Converters:ConvertStringToList x:Key="convertToList"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -56,6 +58,7 @@
                       ItemsSource="{Binding ParticipantItems}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
+                      ItemTapped="ListView_ItemTapped"
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
                       VerticalScrollBarVisibility="Never"
@@ -73,12 +76,12 @@
                                                      HasShadow="True">
                                     <StackLayout>
                                         <StackLayout Orientation="Horizontal"
-                                                     Margin="0,5,0,0"
+                                                     Margin="0,5,0,2"
                                                      Padding="0"
                                                      Spacing="0">
                                             <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImagaConverter}}"
-                                                                  HeightRequest="80"
-                                                                  WidthRequest="80"
+                                                                  HeightRequest="60"
+                                                                  WidthRequest="60"
                                                                   Aspect="AspectFit"
                                                                   Margin="10,0"/>
                                             <StackLayout Margin="5,0,10,0"
@@ -92,15 +95,27 @@
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding email}"
                                                Margin="0"/>
-
-                                                <Label FontSize="{StaticResource FontSize16}"
-                                               TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding userType}"
-                                               Margin="0"/>
                                             </StackLayout>
-                                        </StackLayout>
                                     </StackLayout>
-
+                                        <Controls:HorizontalList ListOrientation="Horizontal" 
+                                                                 ItemsSource="{Binding userType,Converter={StaticResource convertToList}}" 
+                                                                 Padding="0"
+                                                                 Margin="10,0,0,5"
+                                                                 >
+                                            <Controls:HorizontalList.ItemTemplate>
+                                                <DataTemplate>
+                                                    <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
+                                                                         CornerRadius="25"
+                                                                         Margin="5">
+                                                        <Label Text="{Binding .}"
+                                                               TextColor="{StaticResource WhiteColor}"
+                                                               FontSize="{StaticResource FontSize16}"
+                                                               Margin="5"/>
+                                                    </plugins:PancakeView>
+                                                </DataTemplate>
+                                            </Controls:HorizontalList.ItemTemplate>
+                                        </Controls:HorizontalList>
+                                    </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>
                         </Controls:UpdateViewCell>

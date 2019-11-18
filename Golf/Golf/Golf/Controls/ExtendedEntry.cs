@@ -1,4 +1,5 @@
-﻿using Golf.Styles;
+﻿using Golf.Enums;
+using Golf.Styles;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -63,9 +64,5 @@ namespace Golf.Controls
     }
 
     //Enum assigned for Image Alignment
-    public enum ImageAlignment
-    {
-        Left,
-        Right
-    }
+   
 }

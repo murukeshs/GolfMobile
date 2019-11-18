@@ -16,5 +16,14 @@ namespace Golf.Views
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+                return;
+
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
+        }
+    }
 }

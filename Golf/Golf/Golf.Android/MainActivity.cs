@@ -11,6 +11,11 @@ using Xamarin.Forms;
 using Golf.Services;
 using Plugin.CurrentActivity;
 using Golf.Droid.Services;
+using Plugin.Permissions;
+using Android.Content;
+using Android.Database;
+using Android.Provider;
+using System.Collections.Generic;
 
 namespace Golf.Droid
 {
@@ -23,13 +28,23 @@ namespace Golf.Droid
             SetTheme(Resource.Style.MainTheme); // <-- Added splash screen for android
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            base.OnCreate(savedInstanceState);
             DependencyService.Register<IAdjustScreenSize, AdjustScreenSize>();
             UserDialogs.Init(this);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
-            base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+        }
+
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

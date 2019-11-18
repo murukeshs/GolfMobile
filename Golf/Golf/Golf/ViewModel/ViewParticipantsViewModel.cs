@@ -4,9 +4,11 @@ using Golf.Services;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -88,7 +90,7 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         ParticipantItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
-                        if(ParticipantItems.Count > 0)
+                        if (ParticipantItems.Count > 0)
                         {
                             ListViewIsVisible = true;
                             NoRecordsFoundLabel = false;
@@ -98,6 +100,8 @@ namespace Golf.ViewModel
                             ListViewIsVisible = false;
                             NoRecordsFoundLabel = true;
                         }
+                        await Task.Delay(10);
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {

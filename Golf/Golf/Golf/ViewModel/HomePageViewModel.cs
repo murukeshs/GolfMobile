@@ -45,11 +45,11 @@ namespace Golf.ViewModel
         {
             try
             {
-                UserDialogs.Instance.ShowLoading();
+                //UserDialogs.Instance.ShowLoading();
                 var view = new CreateMatchPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
-                UserDialogs.Instance.HideLoading();
+                //UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
@@ -65,11 +65,11 @@ namespace Golf.ViewModel
         {
             try
             {
-                UserDialogs.Instance.ShowLoading();
+                //UserDialogs.Instance.ShowLoading();
                 var view = new ListOfTeamsPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
-                UserDialogs.Instance.HideLoading();
+                //UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {

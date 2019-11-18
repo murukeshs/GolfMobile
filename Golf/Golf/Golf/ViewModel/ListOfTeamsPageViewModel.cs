@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -62,11 +63,11 @@ namespace Golf.ViewModel
             {
                 var item = parameter as MatchTeamItems;
                 App.User.TeamIdforPlayerListing = item.teamId;
-                UserDialogs.Instance.ShowLoading();
+               // UserDialogs.Instance.ShowLoading();
                 var view = new ViewParticipantPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
-                UserDialogs.Instance.HideLoading();
+               // UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
@@ -103,6 +104,8 @@ namespace Golf.ViewModel
                             ListViewIsVisible = false;
                             NoRecordsFoundLabel = true;
                         }
+                        await Task.Delay(10);
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
@@ -110,8 +113,6 @@ namespace Golf.ViewModel
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
-
-                    UserDialogs.Instance.HideLoading();
                 }
                 else
                 {

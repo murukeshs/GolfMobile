@@ -5,7 +5,6 @@ using Golf.Services;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Plugin.Media;
-using Plugin.Media.Abstractions;
 using System;
 using Golf.Utils;
 using System.IO;
@@ -20,7 +19,7 @@ namespace Golf.ViewModel
 {
     public class ProfilePageViewModel : BaseViewModel
     {
-        public MediaFile file = null;
+        public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
 
@@ -47,14 +46,14 @@ namespace Golf.ViewModel
                     return;
                 }
 
-                file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
                 {
                     Directory = "Test",
                     Name = "test.jpg",
                     SaveToAlbum = true,
                     CompressionQuality = 20,
-                    PhotoSize = PhotoSize.MaxWidthHeight,
-                    DefaultCamera = CameraDevice.Rear
+                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.MaxWidthHeight,
+                    DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear
                 });
 
                 if (file == null)
@@ -67,6 +66,7 @@ namespace Golf.ViewModel
                         var streamImg = file.GetStream();
                         return streamImg;
                     });
+                    ProfileImage = file.Path;
                     await SendIssueImageToCloud();
                 }
             }
@@ -94,10 +94,10 @@ namespace Golf.ViewModel
                     return;
                 }
 
-                file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
                 {
 
-                    PhotoSize = PhotoSize.Medium,
+                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium,
                     CompressionQuality = 20
 
                 });
@@ -109,6 +109,7 @@ namespace Golf.ViewModel
                         var streamImg = file.GetStream();
                         return streamImg;
                     });
+                    ProfileImage = file.Path;
                     await SendIssueImageToCloud();
                 }
                 if (file == null)
@@ -143,9 +144,9 @@ namespace Golf.ViewModel
                         stream.CopyTo(ms);
                         imageData = ms.ToArray();
                     }
-
+                    var fileName = "ProfileImage" + DateTime.Now.ToString();
                     var formDataContent = new MultipartFormDataContent();
-                    formDataContent.Add(new ByteArrayContent(imageData), "files", FileName);
+                    formDataContent.Add(new ByteArrayContent(imageData), "files", fileName);
                     //formDataContent.Add(new StringContent(json, System.Text.Encoding.UTF8, "application/json"), "myJsonObject");
 
                     var objClint = new HttpClient();
@@ -180,5 +181,35 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+
+        #region Logout Command Functionality
+        public ICommand LogoutCommand => new  AsyncCommand(LogoutAsync);
+
+        async Task LogoutAsync()
+        {
+            
+            var confirmdialog = new ConfirmConfig()
+            {
+                CancelText = "No",
+                OkText = "Yes",
+                Message = "Are sure you want to Logout?."
+            };
+
+            var result = await UserDialogs.Instance.ConfirmAsync(confirmdialog);
+
+            if(result)
+            {
+                LogoutFunction();
+            }
+            else
+            {
+                return;
+            }
+        }
+        async void LogoutFunction()
+        {
+            await ((NavigationPage)App.Current.MainPage).PopAsync();//this line navigate to previous page of your application
+        }
+        #endregion
     }
 }

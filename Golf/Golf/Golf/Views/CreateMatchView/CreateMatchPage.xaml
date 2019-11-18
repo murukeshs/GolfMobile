@@ -20,10 +20,10 @@
                         VerticalOptions="FillAndExpand">
                 <StackLayout>
                 <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
-                                        Placeholder="Enter Match Name"
+                                        Placeholder="Enter The Match Name"
                                         FontSize="{StaticResource FontSize18}"
                                         Text="{Binding MatchNameText}"
-                                        Margin="20,20,20,0"
+                                        Margin="20,10,20,0"
                                         />
             <!--<Label Text="Match Type"
                    TextColor="{StaticResource BlackColor}"
@@ -55,50 +55,111 @@
                                     TitleColor="{StaticResource TextGrayColor}"
                                     TextColor="{StaticResource TextGrayColor}"/>
 
-            <Label Text="Rule:"
-                   TextColor="{StaticResource BlackColor}"
-                   FontAttributes="Bold"
-                   Margin="20,5,20,0"
-                   FontSize="{StaticResource FontSize18}"/>
+                    <StackLayout  IsVisible="{Binding RulesIsVisible}">
+                        <StackLayout Margin="20,5,20,0"
+                                 Orientation="Horizontal"
+                                 Spacing="0"
+                                 Padding="0">
+                            <Label Text="Rule :"
+                           TextColor="{StaticResource BlackColor}"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize18}"/>
+                            <ImageButton Source="add_rule.png"
+                                     HeightRequest="45"
+                                     WidthRequest="45"
+                                     Aspect="AspectFit"
+                                     Padding="0"
+                                     Margin="0"
+                                     Command="{Binding AddRuleCommand}"
+                                     BackgroundColor="Transparent"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Center"/>
+                        </StackLayout>
 
-                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
-                                         Margin="20,5,20,0">
-                        <controls:HorizontalList ListOrientation="Vertical"
+                                         Margin="20,5,20,0"
+                                        >
+                            <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
                                                  Padding="0"
                                                  Margin="0"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
-                            <controls:HorizontalList.ItemTemplate>
-                                <DataTemplate>
-                                  
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
+
                                         <StackLayout Orientation="Horizontal"
-                                                     Margin="10,10"
+                                                     Margin="10,0,10,0"
                                                      Padding="0"
                                                      Spacing="0">
 
-                                        <CheckBox Color="{StaticResource TextGrayColor}"
+                                            <CheckBox Color="{StaticResource TextGrayColor}"
                                                   Margin="20,0"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
-                                        <Label Text="{Binding ruleName}"
+                                            <Label Text="{Binding ruleName}"
                                                FontSize="Small"
                                                TextColor="{StaticResource TextGrayColor}"
-                                               Margin="20,0"/>
-                                    </StackLayout>
-                                </DataTemplate>
-                            </controls:HorizontalList.ItemTemplate>
-                        </controls:HorizontalList>
-                    </plugins:PancakeView>
+                                               Margin="0,0"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </plugins:PancakeView>
+                    </StackLayout>
+                    
+                    <StackLayout IsVisible="{Binding AddRuleIsVisible}">
+                        <Label Text="Add a New Rule :"
+                               TextColor="{StaticResource BlackColor}"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               Margin="20,5,20,0"
+                               HorizontalOptions="FillAndExpand"
+                               FontSize="{StaticResource FontSize18}"/>
+                       
+                            <StackLayout Orientation="Horizontal">
+                                <controls:CustomEntry IsCurvedCornersEnabled="True"
+                                                      CornerRadius="10"
+                                                      Margin="20,0,0,0"
+                                                      Placeholder="Enter New Rule"
+                                                      Text="{Binding AddRuleText,Mode=TwoWay}"
+                                                      Style="{StaticResource RectangleShapeEntryStyle}"/>
+
+                                <ImageButton Source="add_icon.png"
+                                     HeightRequest="45"
+                                     WidthRequest="45"
+                                     Aspect="AspectFit"
+                                     Padding="0"
+                                     Margin="5,0,0,0"
+                                     BackgroundColor="Transparent"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Center"
+                                     Command="{Binding AddRuleButtonCommand}"/>
+
+                                <ImageButton Source="cancel_icon.png"
+                                     HeightRequest="45"
+                                     WidthRequest="45"
+                                     Aspect="AspectFit"
+                                     Padding="0"
+                                     Margin="5,0,5,0"
+                                     BackgroundColor="Transparent"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Center"
+                                     Command="{Binding CancelAddRuleCommand}"/>
+                            </StackLayout>
+                    </StackLayout>
+                 
 
                     <!--<controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
                                     Placeholder="Enter Rule"
                                     Margin="20,5,20,0"
                                     FontSize="{StaticResource FontSize18}"/>-->
 
-            <Label Text="Choose Date and Time"
+            <Label Text="Choose Date and Time :"
                    TextColor="{StaticResource BlackColor}"
                    Margin="20,5,20,0"
                    FontSize="{StaticResource FontSize18}"
@@ -147,7 +208,7 @@
                                        TitleColor="{StaticResource TextGrayColor}"
                                        TextColor="{StaticResource TextGrayColor}"/>-->
 
-            <Label Text="Set the month fee:"
+                    <Label Text="Match Fee : "
                    FontSize="{StaticResource FontSize18}"
                    TextColor="{StaticResource BlackColor}"
                    FontAttributes="Bold"
@@ -155,7 +216,11 @@
 
             <controls:CustomEntry IsCurvedCornersEnabled="True"
                                   CornerRadius="25"
+                                  Keyboard="Numeric"
                                   Margin="20,5,20,0"
+                                  ImageAlignment="Right"
+                                  Image="dollar.png"
+                                  ImageHeight="40"
                                   Text="{Binding MatchFee}"
                                   Style="{StaticResource RectangleShapeEntryStyle}"/>
 

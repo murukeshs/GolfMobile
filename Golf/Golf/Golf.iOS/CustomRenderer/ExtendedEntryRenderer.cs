@@ -5,6 +5,7 @@ using System.Linq;
 using CoreAnimation;
 using CoreGraphics;
 using Golf.Controls;
+using Golf.Enums;
 using Golf.iOS.CustomRenderer;
 using UIKit;
 using Xamarin.Forms;

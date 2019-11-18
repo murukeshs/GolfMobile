@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Golf.Utils;
 using Golf.Views.CreateMatchView;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,8 +19,8 @@ namespace Golf.ViewModel.Match
             {
                 UserDialogs.Instance.ShowLoading();
                 var view = new MatchCodePoppup();
-                var navigationPage = ((NavigationPage)App.Current.MainPage);
-                await navigationPage.PushAsync(view);
+                //var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await PopupNavigation.Instance.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
@@ -28,5 +29,6 @@ namespace Golf.ViewModel.Match
             }
         }
         #endregion Submit Button Command Functionality
+
     }
 }

@@ -6,6 +6,7 @@ using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Golf.Controls;
 using Golf.Droid.CustomRenderer;
+using Golf.Enums;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

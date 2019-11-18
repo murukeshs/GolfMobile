@@ -21,6 +21,8 @@ namespace Golf.ViewModel.Match
 
         public CreateMatchPageViewModel()
         {
+            AddRuleIsVisible = false;
+            RulesIsVisible = true;
             //Get the Competition type values
             GetCompetitionType();
             //Get the Match rules
@@ -265,8 +267,10 @@ namespace Golf.ViewModel.Match
             try
             {
                 MatchRuleID = string.Join(",", ListofRules);
-                var matchStartDateTime = MatchStartDate.Value.ToShortDateString() + " " + MatchStartTime;
-                var matchEndDateTime = MatchStartDate.Value.ToShortDateString() + " " + MatchEndTime;
+                var matchSdate = MatchStartDate.Value.ToString("yyyy/MM/dd");
+                var matchEdate = MatchEndDate.Value.ToString("yyyy/MM/dd");
+                var matchStartDateTime = matchSdate + " " + MatchStartTime;
+                var matchEndDateTime = matchEdate + " " + MatchEndTime;
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
@@ -475,6 +479,132 @@ namespace Golf.ViewModel.Match
             CompetitionTypeId = item.competitionTypeId;
         }
         #endregion CompetitionType SelectedIndex Changes Command Functionality
+
+
+        #region Add New Rule Command Functions
+        public string AddRuleText
+        {
+            get { return _AddRuleText; }
+            set {
+                _AddRuleText = value;
+                OnPropertyChanged(nameof(AddRuleText));
+            }
+        }
+        public string _AddRuleText = string.Empty;
+
+        public bool AddRuleIsVisible
+        {
+            get { return _AddRuleIsVisible; }
+            set
+            {
+                _AddRuleIsVisible = value;
+                OnPropertyChanged(nameof(AddRuleIsVisible));
+            }
+        }
+        public bool _AddRuleIsVisible = false;
+
+
+        public bool RulesIsVisible
+        {
+            get { return _RulesIsVisible; }
+            set
+            {
+                _RulesIsVisible = value;
+                OnPropertyChanged(nameof(RulesIsVisible));
+            }
+        }
+        public bool _RulesIsVisible = true;
+
+
+        public ICommand AddRuleCommand => new AsyncCommand(AddRuleAsync);
+        async Task AddRuleAsync()
+        {
+            AddRuleIsVisible = true;
+            RulesIsVisible = false;
+        }
+
+        public ICommand CancelAddRuleCommand => new AsyncCommand(CancelAddRuleAsync);
+
+        async Task CancelAddRuleAsync()
+        {
+            AddRuleIsVisible = false;
+            RulesIsVisible = true;
+        }
+
+        public ICommand AddRuleButtonCommand => new AsyncCommand(AddRuleButtonAsync);
+
+        async Task AddRuleButtonAsync()
+        {
+           
+
+            if (string.IsNullOrEmpty(AddRuleText))
+            {
+                try
+                {
+                    if (CrossConnectivity.Current.IsConnected)
+                    {
+                        UserDialogs.Instance.ShowLoading();
+                        string RestURL = App.User.BaseUrl + "Match/createMatch";
+                        Uri requestUri = new Uri(RestURL);
+
+                        var data = new CreateMatch
+                        {
+                            matchName = MatchNameText,
+                            createdBy = App.User.UserWithTypeId,
+                            matchFee = Convert.ToInt32(MatchFee),
+                            matchRuleId = MatchRuleID,
+                            competitionTypeId = CompetitionTypeId,
+                        };
+
+                        string json = JsonConvert.SerializeObject(data);
+                        var httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var Item = JsonConvert.DeserializeObject<createMatchResponse>(responJsonText);
+                            AddRuleIsVisible = false;
+                            RulesIsVisible = true;
+                            AddRuleText = string.Empty;
+                            UserDialogs.Instance.HideLoading();
+                        }
+                        else
+                        {
+                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                            UserDialogs.Instance.HideLoading();
+                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        }
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        DependencyService.Get<IToast>().Show("Please check internet connection");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var a = ex.Message;
+                    if (a == "System.Net.WebException")
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        DependencyService.Get<IToast>().Show("Please check internet connection");
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                    }
+                }
+            }
+            else
+            {
+               UserDialogs.Instance.Alert("Please fill the New Rule", "Alert", "Ok");
+            }
+        }
+
+        #endregion 
 
     }
 }

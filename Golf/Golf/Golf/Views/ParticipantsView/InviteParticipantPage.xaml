@@ -6,7 +6,19 @@
     xmlns:Controls="clr-namespace:Golf.Controls"
     xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:viewModels="clr-namespace:Golf.ViewModel"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
     x:Class="Golf.Views.InviteParticipantPage">
+
+
+    <Page:PopupPage.Animation>
+        <animations:ScaleAnimation
+      PositionIn="Right"
+      PositionOut="Left"
+      ScaleIn="1"
+      ScaleOut="0.7"
+      DurationIn="700"
+      EasingIn="BounceOut"/>
+    </Page:PopupPage.Animation>
 
     <Page:PopupPage.BindingContext>
         <viewModels:InviteParticipantPageViewModel/>

@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Golf.ViewModel
@@ -62,7 +60,7 @@ namespace Golf.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading();
                     //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=1";
+                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
@@ -82,6 +80,7 @@ namespace Golf.ViewModel
                             ListViewIsVisible = false;
                             NoRecordsFoundLabel = true;
                         }
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {

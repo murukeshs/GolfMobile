@@ -49,7 +49,7 @@
                                            TextColor="{StaticResource TextGrayColor}"
                                            FontSize="{StaticResource FontSize18}"/>
 
-                    <controls:RoundedButton Text="Submit"
+                    <controls:RoundedButton Text="Proceed"
                                     Margin="20,30,20,20"
                                     VerticalOptions="EndAndExpand"
                                     Command="{Binding SubmitCommand}"/>
