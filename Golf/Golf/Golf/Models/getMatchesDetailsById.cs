@@ -13,6 +13,8 @@ namespace Golf.Models
         public string teamIcon { get; set; }
         public string scoreKeeperName { get; set; }
         public string matchPlayerList { get; set; }
+        public string NoOfPlayers { get; set; }
+        public string createdByName { get; set; }
     }
 
     public class matchPlayerList
@@ -36,6 +38,10 @@ namespace Golf.Models
         public string teamName { get; set; }
         public string teamIcon { get; set; }
         public string scoreKeeperName { get; set; }
+
+        public string NoOfPlayers { get; set; }
+        public string createdByName { get; set; }
+
         public List<matchPlayerList> matchPlayerList { get; set; }
 
         private bool _expanded;

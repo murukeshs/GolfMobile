@@ -113,7 +113,7 @@
     <EmbeddedResource Update="Views\ParticipantsView\ViewParticipantPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ViewAllParticipantsPage.xaml">
+    <EmbeddedResource Update="Views\ParticipantsView\ViewAllParticipantsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

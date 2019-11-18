@@ -1,4 +1,5 @@
 ﻿using Golf.Services;
+using Golf.Views.MenuView;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,9 +14,11 @@ namespace Golf.Views
 			InitializeComponent ();
 		}
 
-        private void OtpVerifyButton_Clicked(object sender, EventArgs e)
+        private async void OtpVerifyButton_Clicked(object sender, EventArgs e)
         {
-
+            var view = new RegistrationPageAdmin();
+            var navigationPage = ((NavigationPage)App.Current.MainPage);
+            await navigationPage.PushAsync(view);
         }
 
         #region screen adjusting

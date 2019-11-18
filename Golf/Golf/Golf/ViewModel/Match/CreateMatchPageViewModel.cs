@@ -537,34 +537,23 @@ namespace Golf.ViewModel.Match
         {
            
 
-            if (string.IsNullOrEmpty(AddRuleText))
+            if (!string.IsNullOrEmpty(AddRuleText))
             {
                 try
                 {
                     if (CrossConnectivity.Current.IsConnected)
                     {
                         UserDialogs.Instance.ShowLoading();
-                        string RestURL = App.User.BaseUrl + "Match/createMatch";
+                        string RestURL = App.User.BaseUrl + "Match/matchRules?matchRules=" + AddRuleText;
                         Uri requestUri = new Uri(RestURL);
-
-                        var data = new CreateMatch
-                        {
-                            matchName = MatchNameText,
-                            createdBy = App.User.UserWithTypeId,
-                            matchFee = Convert.ToInt32(MatchFee),
-                            matchRuleId = MatchRuleID,
-                            competitionTypeId = CompetitionTypeId,
-                        };
-
-                        string json = JsonConvert.SerializeObject(data);
                         var httpClient = new HttpClient();
                         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                        var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        var response = await httpClient.PostAsync(requestUri, new StringContent(""));
                         string responJsonText = await response.Content.ReadAsStringAsync();
 
                         if (response.IsSuccessStatusCode)
                         {
-                            var Item = JsonConvert.DeserializeObject<createMatchResponse>(responJsonText);
+                            getMatchRulesList();
                             AddRuleIsVisible = false;
                             RulesIsVisible = true;
                             AddRuleText = string.Empty;

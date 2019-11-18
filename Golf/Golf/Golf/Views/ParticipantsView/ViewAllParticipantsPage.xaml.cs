@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,13 @@ namespace Golf.Views
 		{
 			InitializeComponent ();
 		}
+
+        // Invoked when a hardware back button is pressed
+        protected override bool OnBackButtonPressed()
+        {
+            // Return true if you don't want to close this page when a back button is pressed
+            return true;
+        }
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {

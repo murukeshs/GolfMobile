@@ -89,7 +89,7 @@
                                   FontSize="{StaticResource FontSize18}"
                                   IsCurvedCornersEnabled="True"/>
 
-                <Label Text="Match Fee"
+                <!--<Label Text="Match Fee"
                    Style="{StaticResource HeadingsLabel}"/>
 
                 <controls:CustomEntry Placeholder="Fill the Match Fee"
@@ -99,7 +99,7 @@
                                       IsEnabled="False"
                                       Text="{Binding MatchFee ,Mode=TwoWay}"
                                       FontSize="{StaticResource FontSize18}"
-                                     IsCurvedCornersEnabled="True"/>
+                                     IsCurvedCornersEnabled="True"/>-->
 
                 <StackLayout Orientation="Horizontal" 
                          Margin="30,20,30,0"
@@ -115,9 +115,9 @@
                        VerticalOptions="Center">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="The fee that needs to be paid to participant in this match is" 
+                            <Span Text="The fee that needs to be paid to participant in this match is " 
                                   />
-                            <Span Text=" $20"
+                                    <Span Text="{Binding Path=MatchFee, StringFormat='${0:D}'}"
                                   ForegroundColor="{StaticResource LightGreenColor}" 
                                   FontAttributes="Bold"/>
                         </FormattedString>

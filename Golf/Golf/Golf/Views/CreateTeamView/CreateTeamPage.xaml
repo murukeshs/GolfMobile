@@ -32,15 +32,32 @@
                                       WidthRequest="160"
                                       Grid.Row="0"/>
 
-                <Controls:CircleImage HorizontalOptions="Center"
+                <!--<Controls:CircleImage HorizontalOptions="Center"
                                       Grid.Row="0"
                                       Margin="100,125,0,0"
                                       Grid.ColumnSpan="1"
                                       Source="camera.png"
                                       WidthRequest="50"   
-                                      HeightRequest="50"/>
+                                      HeightRequest="50"/>-->
             </Grid>
 
+            <StackLayout Orientation="Horizontal"
+                                 Margin="20,10,20,10"
+                                 HorizontalOptions="FillAndExpand">
+
+                <Controls:RoundedButton Text="Take Picture"
+                                            Margin="0"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding TakeCaptureCommand}"/>
+
+                <Controls:RoundedButton Text="Gallery"
+                                            Margin="10,0"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding GalleryCommand}"/>
+
+            </StackLayout>
             <Label Text="Add Team Name"
                    TextColor="{StaticResource LightGreenColor}"
                    HorizontalOptions="CenterAndExpand" 

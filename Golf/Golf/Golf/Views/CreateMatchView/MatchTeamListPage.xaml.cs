@@ -2,6 +2,7 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel.Match;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,8 +19,16 @@ namespace Golf.Views.CreateMatchView
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             var item = (sender as CheckBox).BindingContext as MatchTeamWithPlayers;
-
-            ((MatchTeamListPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
+            var noofplayers = Convert.ToUInt32(item.noOfPlayers);
+            if (noofplayers > 0)
+            {
+                ((MatchTeamListPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
+            }
+            else
+            {
+                ((CheckBox)sender).IsChecked = false;
+                UserDialogs.Instance.Alert("No Players available for your selected team.", "Alert", "Ok");
+            }
             
         }
 

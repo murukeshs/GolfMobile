@@ -9,8 +9,6 @@ using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -279,7 +277,7 @@ namespace Golf.ViewModel
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var view = new OtpVerificationPage();
+                        var view = new LoginPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         resetFormValues();

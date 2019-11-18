@@ -1,4 +1,5 @@
-﻿using Golf.Models;
+﻿using Acr.UserDialogs;
+using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel;
 using System;
@@ -19,7 +20,14 @@ namespace Golf.Views.JoinMatchView
         {
             Picker picker = sender as Picker;
             var Item = (matchJoinlist)picker.SelectedItem;
-            ((JoinMatchPageViewModel)BindingContext).PickerSelectedCommand.Execute(Item);
+            if(Item.isAllowMatch)
+            {
+                ((JoinMatchPageViewModel)BindingContext).PickerSelectedCommand.Execute(Item);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert("You are not a member of any team in the Match. So Can't Join. Plz check with Moderator", "Alert", "Ok");
+            }
         }
 
         #region screen adjusting

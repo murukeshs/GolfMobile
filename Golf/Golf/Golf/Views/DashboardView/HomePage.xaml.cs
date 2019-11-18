@@ -10,18 +10,20 @@ namespace Golf.Views
 	{
 		public HomePage ()
 		{
-            //NavigationPage.SetHasNavigationBar(this, false);
-            InitializeComponent ();
-            MessagingCenter.Subscribe<App>((App)Application.Current, "OpenInvitePoppupPage", (sender) =>
+            MessagingCenter.Subscribe<HomePage>((App)Application.Current, "OpenInvitePoppupPage", (sender) =>
             {
                 PopupNavigation.Instance.PushAsync(new InviteParticipantPage());
             });
+            //NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent ();
+            
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
         }
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
