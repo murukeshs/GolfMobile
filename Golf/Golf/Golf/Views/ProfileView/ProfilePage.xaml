@@ -35,8 +35,8 @@
                        TextColor="{StaticResource BlackColor}"/>
 
                 <Controls:RoundedButton Text="Sign Out"
-                                        BackgroundColor="Transparent"
-                                        TextColor="Red"
+                                        CornerRadius="10"
+                                        HeightRequest="40"
                                         FontAttributes="Bold"
                                         HorizontalOptions="End"
                                         VerticalOptions="Center"
@@ -77,6 +77,7 @@
                            Text="{Binding Email,Mode=TwoWay}"
                            TextColor="{StaticResource TextGrayColor}"
                            Margin="20,10,20,0"
+                           FontSize="{StaticResource FontSize20}"
                            FontAttributes="Bold"/>
 
                     <Grid>
@@ -107,26 +108,28 @@
                         <Controls:RoundedButton Text="Take Picture"
                                             Margin="0"
                                             CornerRadius="10"
+                                                HeightRequest="40"
                                             FontSize="{StaticResource FontSize16}"
                                             Command="{Binding TakeCaptureCommand}"/>
 
                         <Controls:RoundedButton Text="Gallery"
                                             Margin="10,0"
                                             CornerRadius="10"
+                                                    HeightRequest="40"
                                             FontSize="{StaticResource FontSize16}"
                                             Command="{Binding GalleryCommand}"/>
 
                     </StackLayout>
 
                     <Label Text="First Name" 
-                           Margin="20,10,20,0"
+                           Margin="20,0,20,0"
                            VerticalOptions="Center"
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"/>
+                           TextColor="Gray"/>
                     
                     <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,5,20,0"
+                                            Margin="20,0,20,0"
                                             Placeholder="First Name"
                                             PlaceholderColor="{StaticResource TextGrayColor}"
                                             LineColor="{StaticResource BorderColor}"
@@ -135,14 +138,14 @@
                                             />
 
                     <Label Text="Last Name" 
-                           Margin="20,10,20,0"
+                           Margin="20,0,20,0"
                            VerticalOptions="Center"
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"/>
+                           TextColor="Gray"/>
                     
                     <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,5,20,0"
+                                            Margin="20,0,20,0"
                                             Placeholder="Last Name"
                                             PlaceholderColor="{StaticResource TextGrayColor}"
                                             LineColor="{StaticResource BorderColor}"
@@ -151,13 +154,13 @@
                                             />
 
                     <Label Text="Date of Birth" 
-                           Margin="20,10,20,0"
+                           Margin="20,0,20,0"
                            VerticalOptions="Center"
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"/>
+                          TextColor="Gray"/>
 
-                    <DatePicker Margin="20,5,20,0"
+                    <DatePicker Margin="20,0,20,0"
                                                  x:Name="DOB"
                                                  TextColor="{StaticResource TextGrayColor}"
                                                  Date="{Binding Dob}"
@@ -165,16 +168,16 @@
                                                 />
 
                     <Label Text="Gender" 
-                           Margin="20,10,20,0"
+                           Margin="20,0,20,0"
                            VerticalOptions="Center"
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
+                           TextColor="Gray"
                            />
                     
                     <Controls:CustomPicker Title="Gender" 
                                            Image="down_arrow_gray.png"
-                                           Margin="20,5,20,0"
+                                           Margin="20,0,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
                                            TextColor="{StaticResource TextGrayColor}"
                                            ItemsSource="{Binding GenderList}"
@@ -183,10 +186,10 @@
 
 
                     <Label Text="User Type" 
-                               Margin="20,0"
+                               Margin="20,0,0,0"
                                VerticalOptions="Center"
                                FontSize="{StaticResource FontSize20}"
-                               TextColor="{StaticResource TextGrayColor}"/>
+                               TextColor="Gray"/>
                     <!--<StackLayout Orientation="Horizontal" 
                                  Margin="20,0" 
                                  Spacing="0"
@@ -201,30 +204,30 @@
                                TextColor="{StaticResource TextGrayColor}"/>
 
                     </StackLayout>-->
-                    <Controls:CustomCheckBox DefaultText="Player"
-                                             DefaultValue ="1"
-                                             CheckedChanged="UserTypeChanged"
-                                             Style="{StaticResource CheckBoxStyle}" />
+                    <Controls:HorizontalList ListOrientation="Vertical"
+                                                 Padding="0"
+                                                 Margin="0"
+                                                 BackgroundColor="Transparent"
+                                                 ItemsSource="{Binding UserTypeItems}">
+                        <Controls:HorizontalList.ItemTemplate>
+                            <DataTemplate>
 
-                    <Controls:CustomCheckBox DefaultText="Moderator"
-                                             DefaultValue ="2"
-                                             CheckedChanged="UserTypeChanged"
-                                             Style="{StaticResource CheckBoxStyle}" />
+                                <StackLayout Orientation="Horizontal"
+                                                     Margin="10,5,10,5"
+                                                     Padding="0"
+                                                     Spacing="0">
 
-                    <Controls:CustomCheckBox DefaultText="Score Keeper"
-                                             DefaultValue ="3"
-                                               CheckedChanged="UserTypeChanged"
-                                             Style="{StaticResource CheckBoxStyle}" />
-
-                    <Controls:CustomCheckBox DefaultText="Organizer"
-                                             DefaultValue ="4"
-                                             CheckedChanged="UserTypeChanged"
-                                             Style="{StaticResource CheckBoxStyle}" />
-
-                    <Controls:CustomCheckBox DefaultText="Spectator"
-                                             DefaultValue ="5"
-                                             CheckedChanged="UserTypeChanged"
-                                             Style="{StaticResource CheckBoxStyle}" />
+                                    <Controls:CustomCheckBox BorderColor="{StaticResource TextGrayColor}"
+                                                             Margin="50,0"
+                                                             DefaultText="{Binding RoleTypeName}"
+                                                             DefaultValue="{Binding DefalutValue}"
+                                                             Checked="{Binding Checked, Mode=TwoWay}"
+                                                             Style="{StaticResource CheckBoxStyle}"
+                                                             CheckedChanged="UserTypeChanged"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </Controls:HorizontalList.ItemTemplate>
+                    </Controls:HorizontalList>
 
                     <Controls:RoundedButton Text="Update User Info"
                                             Margin="40,10,40,20"
@@ -241,15 +244,15 @@
                      VerticalOptions="FillAndExpand">
             <StackLayout>
 
-                <Label Text="Send Partcipant Tournamnet Information" 
-                           Margin="20,10,20,0"
+                <Label Text="Send Partcipant Tournament Information" 
+                           Margin="20,0,20,0"
                            VerticalOptions="Center"
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"/>
+                           TextColor="Gray"/>
 
                 <StackLayout Orientation="Horizontal"
-                             Margin="20,5,20,0"
+                             Margin="20,0,20,0"
                              HorizontalOptions="CenterAndExpand">
 
                     <Controls:CustomCheckBox DefaultText="Email"
@@ -274,25 +277,25 @@
                                             />-->
                 <Label Text="Address" 
                            VerticalOptions="Center"
-                       Margin="20,5,20,0"
+                       Margin="20,0,20,0"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
+                           TextColor="Gray"
                            HorizontalOptions="StartAndExpand"/>
                     <Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
-                                             Margin="20,5,20,0"
+                                             Margin="20,0,20,0"
                                             Placeholder="Address"
                                         Text="{Binding Address, Mode = TwoWay}"
                                             />
 
                     <Label Text="Country" 
                            VerticalOptions="Center"
-                       Margin="20,5,20,0"
+                       Margin="20,0,20,0"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
+                           TextColor="Gray"
                            HorizontalOptions="StartAndExpand"/>
                 <Controls:CustomPicker Title="Country" 
                                            Image="down_arrow_gray.png"
-                                            Margin="20,5,20,0"
+                                            Margin="20,0,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
                                            TextColor="{StaticResource TextGrayColor}"
                                        ItemsSource="{Binding CountryList}"
@@ -305,11 +308,11 @@
                            VerticalOptions="Center"
                        Margin="20,5,20,0"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
+                          TextColor="Gray"
                            HorizontalOptions="StartAndExpand"/>
                     <Controls:CustomPicker Title="State" 
                                            Image="down_arrow_gray.png"
-                                            Margin="20,5,20,0"
+                                            Margin="20,0,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
                                            TextColor="{StaticResource TextGrayColor}"
                                            ItemsSource="{Binding StateList}"
@@ -320,27 +323,27 @@
 
                     <Label Text="City" 
                            VerticalOptions="Center"
-                       Margin="20,5,20,0"
+                       Margin="20,0,20,0"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
+                          TextColor="Gray"
                            HorizontalOptions="StartAndExpand"/>
 
                     <Controls:ExtendedEntry
                                         Placeholder="City"
-                                        Margin="20,10,20,0"
+                                        Margin="20,0,20,0"
                                         TextColor="{StaticResource TextGrayColor}"
                                         PlaceholderColor="{StaticResource WhiteColor}"
                                         Text="{Binding City, Mode = TwoWay}"/>
                 
                     <StackLayout Orientation="Horizontal"
-                             Margin="20,5,20,10"
+                             Margin="20,0,20,10"
                              HorizontalOptions="FillAndExpand">
 
                     <Label Text="Is Public Profile" 
                            VerticalOptions="Center"
                            Margin="5,0"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
+                           TextColor="Gray"
                            HorizontalOptions="StartAndExpand"/>
 
                     <Switch OnColor="{StaticResource LightGreenColor}"

@@ -103,7 +103,9 @@
                         <controls:CustomEntry Text="{Binding MatchName,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               FontSize="{StaticResource FontSize18}"
-                                              Margin="0,5,0,0"/>
+                                              Margin="0,5,0,0"
+                                               IsEnabled="False"
+                                               BackgroundColor="LightGray"/>
 
                         <Label Text="Match Code"
                                Style="{StaticResource HeadingsLabel}"
@@ -112,6 +114,8 @@
                         <controls:CustomEntry Text="{Binding MatchCode,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               Margin="0,5,0,0"
+                                               IsEnabled="False"
+                                               BackgroundColor="LightGray"
                                               FontSize="{StaticResource FontSize18}"/>
 
                         <Label Text="Competition Type"
@@ -120,9 +124,7 @@
 
                         <controls:CustomEntry Text="{Binding CompetitionType,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
-                                              BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
-                                              IsEnabled="False"
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>
 
@@ -132,11 +134,9 @@
 
                         <controls:CustomEntry Text="{Binding TypeofGame,Mode=TwoWay}"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
-                                  BackgroundColor="LightGray"
                                   Margin="0,5,0,0"
-                                  IsEnabled="False"
                                   IsCurvedCornersEnabled="True"
-                                               FontSize="{StaticResource FontSize18}"/>
+                                   FontSize="{StaticResource FontSize18}"/>
 
                         <Label Text="Match Location"
                                Style="{StaticResource HeadingsLabel}"
@@ -144,9 +144,7 @@
 
                         <controls:CustomEntry Text="{Binding MatchLocation,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
-                                              BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
-                                              IsEnabled="False"
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>
 
@@ -156,9 +154,7 @@
 
                         <controls:CustomEntry Text="{Binding ContextSettings ,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
-                                              BackgroundColor="LightGray"
                                               Margin="0,5,0,0"
-                                              IsEnabled="False"
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>
                    

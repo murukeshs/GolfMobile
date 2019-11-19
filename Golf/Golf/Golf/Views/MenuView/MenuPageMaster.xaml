@@ -25,7 +25,7 @@
                            Grid.RowSpan="2"
                            VerticalOptions="FillAndExpand"
                            Margin="0,0,0,5"/>
-                    <Controls:CircleImage Source="profile_pic.jpg"
+                    <Controls:CircleImage Source="{Binding UserProfilePic}"
                                           Margin="20,20,0,0"
                                           HeightRequest="80"
                                           WidthRequest="80"
@@ -34,13 +34,13 @@
                                           />
                     <StackLayout Grid.Row="1" Padding="0" Margin="20,20,0,0">
                         <Label
-                            Text="Santhosh"
+                            Text="{Binding UserName}"
                             TextColor="White"
                             FontSize="Large"
                             FontAttributes="Bold"
                             />
                         <Label
-                            Text="santhoshr@apptomate.co"
+                            Text="{Binding UserEmail}"
                             TextColor="White"
                             FontSize="Large"
                             />

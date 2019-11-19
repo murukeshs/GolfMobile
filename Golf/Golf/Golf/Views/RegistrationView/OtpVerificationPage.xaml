@@ -32,7 +32,7 @@
             
             <Label Margin="5,10,5,20" 
                    HorizontalOptions="CenterAndExpand"
-                   Text="We have sent an OTP to your registered&#x0a;email-ID example@gmail.com&#x0a;for verfication"
+                   Text="We have sent an OTP to your registered&#x0a;email-ID example@gmail.com&#x0a;for verification"
                    FontSize="{StaticResource FontSize20}"
                    HorizontalTextAlignment="Center"
                    TextColor="{StaticResource BlackColor}"/>
@@ -78,7 +78,7 @@
                          HorizontalOptions="CenterAndExpand"
                          Margin="10"
                          VerticalOptions="End">
-                <Label Text="Show it will expiry in "
+                <Label Text="The OTP will expire in "
                        VerticalOptions="Center"
                        Margin="0"
                        TextColor="{StaticResource LightGreenColor}"/>

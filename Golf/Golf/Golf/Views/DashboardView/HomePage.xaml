@@ -44,7 +44,8 @@
                                          HasShadow="True"
                                          CornerRadius="15"
                                          Margin="10"
-                                         HeightRequest="70">
+                                         HeightRequest="70"
+                                         IsVisible="{Binding IsModerator}">
 
                         <plugins:PancakeView.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NewMatchCommand}"/>

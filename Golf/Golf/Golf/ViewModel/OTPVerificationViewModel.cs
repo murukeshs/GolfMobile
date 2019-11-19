@@ -103,7 +103,7 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("OTP Verified", "Success", "Ok");
+                        UserDialogs.Instance.Alert("OTP Verified successfully.", "Success", "Ok");
                     }
                     else
                     {

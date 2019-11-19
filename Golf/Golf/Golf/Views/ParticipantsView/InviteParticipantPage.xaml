@@ -36,109 +36,132 @@
 
     <StackLayout VerticalOptions="Center"  HorizontalOptions="FillAndExpand" 
                  Margin="20,50,20,50" >
-        <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
+            <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
                                  BorderColor="{StaticResource BorderColor}"
                                  CornerRadius="15"
                                  HasShadow="True"
                                  Margin="0"
                                  HorizontalOptions="FillAndExpand"
                                  VerticalOptions="FillAndExpand">
-            
-            <StackLayout Margin="0">
 
-                <Label Text="Add a Participant"
+                <StackLayout Margin="0">
+
+                <StackLayout Margin="20,10,20,0"
+                             Orientation="Horizontal">
+                <Label Text="Invite Participant"
                    TextColor="{StaticResource BlackColor}"
-                   Margin="20,10,20,10"
-                   HorizontalTextAlignment="Start"
+                   Margin="0"
+                   HorizontalTextAlignment="Center"
                    FontSize="{StaticResource FontSize24}"
                    FontAttributes="Bold"
                    HorizontalOptions="FillAndExpand" />
 
+                    <ImageButton Source="close_icon.png"
+                             HorizontalOptions="End"
+                             HeightRequest="40"
+                             WidthRequest="40"
+                             BackgroundColor="Transparent"
+                             Margin="0"
+                             Clicked="ImageButton_Clicked"/>
+
+                </StackLayout>
+
                 <ScrollView>
-                    <StackLayout Margin="0" HorizontalOptions="FillAndExpand"
+                        <StackLayout Margin="0" HorizontalOptions="FillAndExpand"
                                  VerticalOptions="FillAndExpand">
-                <Controls:ExtendedEntry Placeholder="First Name"
+                            <Controls:ExtendedEntry Placeholder="First Name"
                                     Image="user_green.png"
                                     Style="{StaticResource EntryStyleGray}"
                                     Margin="20,0,20,0"
-                                    Text="{Binding FirstNameText, Mode = TwoWay}"/>
+                                    Text="{Binding FirstNameText, Mode = TwoWay}"
+                                                    HorizontalOptions="FillAndExpand"/>
 
-                <Controls:ExtendedEntry Placeholder="Last Name"
+                            <Controls:ExtendedEntry Placeholder="Last Name"
                                     Image="user_green.png"
                                     Style="{StaticResource EntryStyleGray}"
                                     Margin="20,10,20,0"
-                                    Text="{Binding LastNameText, Mode = TwoWay}"/>
+                                    Text="{Binding LastNameText, Mode = TwoWay}"
+                                                      HorizontalOptions="FillAndExpand"/>
 
-                <Controls:ExtendedEntry Placeholder="E-mail"
+                            <Controls:ExtendedEntry Placeholder="E-mail"
                                     Image="email_green.png"
                                     Style="{StaticResource EntryStyleGray}"
                                     Margin="20,10,20,0"
-                                    Text="{Binding EmailText, Mode = TwoWay}"/>
+                                    Text="{Binding EmailText, Mode = TwoWay}"
+                                                      HorizontalOptions="FillAndExpand"/>
 
-                <Controls:CustomPicker Title="Gender" 
+                            <Controls:CustomPicker Title="Gender" 
                                    ItemsSource="{Binding GenderList}"
                                    TextColor="{StaticResource TextGrayColor}"
                                    TitleColor="{StaticResource TextGrayColor}"
                                    Image="down_arrow_gray.png"
                                    Margin="20,10,20,0"
-                                   SelectedIndexChanged="GenderOnchange"/>
+                                   SelectedIndexChanged="GenderOnchange"
+                                                     HorizontalOptions="FillAndExpand"/>
 
-                <Controls:ExtendedEntry Placeholder="Phone Number"
+                            <Controls:ExtendedEntry Placeholder="Phone Number"
                                     Image="phone_green.png"
                                     Style="{StaticResource EntryStyleGray}"
                                     Margin="20,10,20,0"
-                                    Text="{Binding PhoneNumber, Mode = TwoWay}"/>
+                                    Text="{Binding PhoneNumber, Mode = TwoWay}"
+                                                      HorizontalOptions="FillAndExpand"/>
 
-                <StackLayout Orientation="Horizontal" 
+                            <StackLayout Orientation="Horizontal" 
                          Margin="20,0" 
                          Spacing="0"
-                         Padding="0">
-                    <Image Source="usertype_green.png" 
+                         Padding="0"
+                                           HorizontalOptions="FillAndExpand">
+                                <Image Source="usertype_green.png" 
                            Margin="0" 
                            HeightRequest="40"/>
-                    <Label Text="User Type" 
+                                <Label Text="User Type" 
                        Margin="10,0"
                        VerticalOptions="Center"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource TextGrayColor}"/>
 
-                </StackLayout>
-                <Controls:CustomCheckBox DefaultText="Player"
+                            </StackLayout>
+                            <Controls:CustomCheckBox DefaultText="Player"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="1"/>
+                                     DefaultValue ="1"
+                                                       HorizontalOptions="FillAndExpand"/>
 
-                <Controls:CustomCheckBox DefaultText="Moderator"
+                            <Controls:CustomCheckBox DefaultText="Moderator"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="2"/>
+                                     DefaultValue ="2"
+                                                       HorizontalOptions="FillAndExpand"/>
 
-                <Controls:CustomCheckBox DefaultText="Score Keeper"
+                            <Controls:CustomCheckBox DefaultText="Score Keeper"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="3"/>
+                                     DefaultValue ="3"
+                                                       HorizontalOptions="FillAndExpand"/>
 
-                <Controls:CustomCheckBox DefaultText="Organizer"
+                            <Controls:CustomCheckBox DefaultText="Organizer"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="4"/>
+                                     DefaultValue ="4"
+                                                       HorizontalOptions="FillAndExpand"/>
 
-                <Controls:CustomCheckBox DefaultText="Spectator"
+                            <Controls:CustomCheckBox DefaultText="Spectator"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="5"/>
-                   </StackLayout>
+                                     DefaultValue ="5"
+                                                       HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
 
-                </ScrollView>
+                    </ScrollView>
 
-                <Controls:RoundedButton Text="Send Invite"
+                    <Controls:RoundedButton Text="Send Invite"
                                         VerticalOptions="EndAndExpand"
                                     Margin="40,20,40,20"
+                                              HorizontalOptions="FillAndExpand"
                                     x:Name="SendInviteButton"
                                     Command="{Binding InviteParticipantCommand}"/>
-            </StackLayout>
-            
-        </plugins:PancakeView>
+                </StackLayout>
 
+            </plugins:PancakeView>
     </StackLayout>
 </Page:PopupPage>

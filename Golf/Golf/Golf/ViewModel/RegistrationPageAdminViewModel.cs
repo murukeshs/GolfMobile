@@ -111,6 +111,17 @@ namespace Golf.ViewModel
         }
         private bool _IsSMSNotification = false;
 
+        public bool IsPublicProfile
+        {
+            get { return _IsPublicProfile; }
+            set
+            {
+                _IsPublicProfile = value;
+                OnPropertyChanged(nameof(IsPublicProfile));
+            }
+        }
+        private bool _IsPublicProfile = false;
+
         public RegistrationPageAdminViewModel()
         {
             loadCountry();
@@ -267,7 +278,7 @@ namespace Golf.ViewModel
                         city = City,
                         isEmailNotification= IsEmailNotification,
                         isSMSNotification=IsSMSNotification,
-                        isPublicProfile=false
+                        isPublicProfile= IsPublicProfile
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -277,6 +288,7 @@ namespace Golf.ViewModel
 
                     if (response.IsSuccessStatusCode)
                     {
+                        await UserDialogs.Instance.AlertAsync("Registration successfully completed.","Success","Ok");
                         var view = new LoginPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);

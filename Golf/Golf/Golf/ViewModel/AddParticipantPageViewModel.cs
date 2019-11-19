@@ -25,6 +25,8 @@ namespace Golf.ViewModel
         public AddParticipantPageViewModel()
         {
             LoadPlayerListAsync();
+            //For Clear the team preview list
+            App.User.TeamPreviewList.Clear();
         }
 
 

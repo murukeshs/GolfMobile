@@ -125,10 +125,13 @@ namespace Golf.ViewModel
                     {
                         var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responJsonText);
                         App.User.AccessToken = loginResponse.token;
+                        App.User.UserProfileImage = loginResponse.user.profileImage;
                         var lastname = (string.IsNullOrEmpty(loginResponse.user.lastName)) ? "" : " " + loginResponse.user.lastName;
                         App.User.UserName = loginResponse.user.firstName + lastname;
                         App.User.UserId = loginResponse.user.userId;
                         App.User.UserEmail = loginResponse.user.email;
+                        App.User.IsModerator = loginResponse.user.isModerator;
+
                         App.User.UserWithTypeId = loginResponse.user.userWithTypeId;
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);

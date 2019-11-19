@@ -61,7 +61,7 @@
                    Grid.Column="0"
                    HorizontalOptions="FillAndExpand"/>
 
-            <Controls:RoundedButton Text="Add Participants"
+            <Controls:RoundedButton Text="Invite Participant"
                                     Margin="0"
                                     Grid.Row="0"
                                     CornerRadius="10"

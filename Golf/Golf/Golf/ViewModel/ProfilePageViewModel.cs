@@ -17,12 +17,14 @@ using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Golf.ViewModel
 {
     public class ProfilePageViewModel : BaseViewModel
     {
         public bool IsValid { get; set; }
+        public string UserTypeValues { get; set; }
         public int stateId { get; set; }
         public int countryId { get; set; }
         public Plugin.Media.Abstractions.MediaFile file = null;
@@ -36,6 +38,16 @@ namespace Golf.ViewModel
             GenderList = new List<string>();
             GenderList.Add("Male");
             GenderList.Add("Female");
+
+            UserTypeItems = new ObservableCollection<UserTypes>()
+            {
+            new UserTypes {RoleTypeName = "Player", DefalutValue = "1", Checked = false },
+            new UserTypes {RoleTypeName = "Moderator", DefalutValue = "2", Checked = false },
+            new UserTypes {RoleTypeName = "Score Keeper", DefalutValue = "3", Checked = false },
+            new UserTypes {RoleTypeName = "Organizer", DefalutValue = "4", Checked = false },
+            new UserTypes {RoleTypeName = "Spectator", DefalutValue = "5", Checked = false },
+            };
+
             loadProfileData();
         }
 
@@ -424,7 +436,8 @@ namespace Golf.ViewModel
                         NullableDob = Convert.ToDateTime(User.dob);
                         Gender = User.gender;
                         LoadGender();
-                     //   UserTypeList = User.userType.Split(',');
+                        UserTypeValues = User.userType;
+                        LoadType();
                         IsEmailNotification = User.isEmailNotification;
                         IsSmsNotification = User.isSMSNotification;
                         Address = User.address;
@@ -456,6 +469,19 @@ namespace Golf.ViewModel
             }
         }
         #endregion
+
+        void LoadType()
+        {
+            var list = new List<string>();
+           // var MatchRuleID = UserTypeValues.Split(",", list);
+            List<string> result = UserTypeValues.Split(',').ToList();
+            //var list = UserTypeValues.Split(",");
+            foreach (string item in result)
+            {
+                UserTypeItems.Where(w => w.RoleTypeName == item).ToList().ForEach(s => s.Checked = true);
+            }
+            OnPropertyChanged("UserTypeItems");
+        }
 
         void LoadGender()
         {
@@ -815,5 +841,33 @@ namespace Golf.ViewModel
             }
         }
         #endregion
+
+        public ObservableCollection<UserTypes> UserTypeItems
+        {
+            get { return _UserTypeItems; }
+            set
+            {
+                _UserTypeItems = value;
+                OnPropertyChanged("UserTypeItems");
+            }
+        }
+        public ObservableCollection<UserTypes> _UserTypeItems = null;
+
+        
+    }
+
+    public class UserTypes : BaseViewModel
+    {
+        public string RoleTypeName { get; set; }
+        public string DefalutValue { get; set; }
+        public bool Checked {
+            get { return _Checked; }
+            set
+            {
+                _Checked = value;
+                OnPropertyChanged(nameof(Checked));
+            }
+        }
+        private bool _Checked { get; set; }
     }
 }

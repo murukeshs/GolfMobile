@@ -41,5 +41,7 @@ namespace Golf.Models
 
         public bool IsChecked { get; set; } = false;
         public bool IsToggled { get; set; } = false;
+
+        public bool isModerator { get; set; } = false;
     }
 }

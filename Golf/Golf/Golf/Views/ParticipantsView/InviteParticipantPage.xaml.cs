@@ -2,6 +2,7 @@
 using Golf.Services;
 using Golf.ViewModel;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -67,6 +68,11 @@ namespace Golf.Views
             var value = (CustomCheckBox)sender;
             var item = value.DefaultValue;
             ((InviteParticipantPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
+        }
+
+        private async void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            await PopupNavigation.Instance.PopAsync();
         }
     }
 }

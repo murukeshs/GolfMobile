@@ -12,9 +12,22 @@ namespace Golf.ViewModel
 {
     public class HomePageViewModel : BaseViewModel
     {
+        public bool IsModerator
+        {
+            get
+            {
+                return _IsModerator;
+            }
+            set
+            {
+                _IsModerator = value;
+                OnPropertyChanged("IsModerator");
+            }
+        }
+        public bool _IsModerator;
         public HomePageViewModel()
         {
-
+            IsModerator = App.User.IsModerator;
         }
 
         #region Join Match Command Functionality

@@ -117,5 +117,12 @@ namespace Golf.Views
         {
             DOB.Date = Convert.ToDateTime(vm.Dob);
         }
+
+        private void UserTypeChanged(object sender, bool e)
+        {
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            ((ProfilePageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
+        }
     }
 }

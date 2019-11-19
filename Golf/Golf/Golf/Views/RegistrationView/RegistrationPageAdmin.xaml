@@ -31,7 +31,7 @@
                    HeightRequest="150"
                    WidthRequest="150"/>
 
-                <Label Text="REGISTRATION"
+                <Label Text="Communication Information"
                        HorizontalOptions="CenterAndExpand"
                        Margin="20,20,20,0"
                        Style="{StaticResource HeaderLabelStyleWhite28}"/>
@@ -90,16 +90,33 @@
                                        />
 
                 <Controls:ExtendedEntry Placeholder="City"
-                                        Image="down_arrow.png"
+                                        Image="location_icon.png"
+                                        ImageAlignment="Left"
                                         Margin="20,10,20,0"
                                         LineColor="{StaticResource WhiteColor}"
                                         TextColor="{StaticResource WhiteColor}"
                                        PlaceholderColor="{StaticResource WhiteColor}"
                                         Text="{Binding City, Mode = TwoWay}"/>
 
-               
+                <StackLayout Orientation="Horizontal"
+                             Margin="20,10,20,10"
+                             HorizontalOptions="FillAndExpand">
 
-                <Controls:RoundedButton Text="Register"
+                    <Label Text="Is Public Profile" 
+                           VerticalOptions="Center"
+                           Margin="5,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource WhiteC0lor}"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Switch OnColor="{StaticResource LightGreenColor}"
+                            ThumbColor="{StaticResource LightGreenColor}"
+                            HorizontalOptions="End"
+                            IsToggled="{Binding IsPublicProfile, Mode=TwoWay}"
+                            />
+                </StackLayout>
+
+                <Controls:RoundedButton Text="Complete"
                                         Margin="40,20,40,20"
                                         x:Name="RegisterButton"
                                         Command="{Binding RegisterCommunicationInfoCommand}"/>
