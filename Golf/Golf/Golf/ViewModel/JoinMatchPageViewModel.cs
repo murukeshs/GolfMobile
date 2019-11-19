@@ -3,6 +3,7 @@ using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
 using Golf.Views.MatchDetailsView;
+using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -134,10 +135,6 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         MatchList = JsonConvert.DeserializeObject<ObservableCollection<matchJoinlist>>(content);
-                        //UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
-                        //var view = new MenuPage();
-                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //await navigationPage.PushAsync(view);
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -192,9 +189,9 @@ namespace Golf.ViewModel
 
                     var data = new acceptMatchInvitation
                     {
-                       matchId = Convert.ToInt32(MatchID),
-                       type = "Match",
-                       playerId = 54
+                        matchId = Convert.ToInt32(MatchID),
+                        type = "Match",
+                        playerId = App.User.UserId
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -205,14 +202,10 @@ namespace Golf.ViewModel
 
                     if (response.IsSuccessStatusCode)
                     {
-                        //var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
-                        //App.User.CreateTeamId = Item.teamId;
-                        //var view = new MenuPage();
-                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //await navigationPage.PushAsync(view);
-                        ////After the success full api process clear all the values
-                        //Clear();
-                        UserDialogs.Instance.Alert("Match Joined Successfully.","Join Match","Ok");
+                        await UserDialogs.Instance.AlertAsync("Match Joined Successfully.", "Join Match", "Ok");
+                        var view = new MenuPage();
+                        var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        await navigationPage.PushAsync(view);
                         UserDialogs.Instance.HideLoading();
                     }
                     else

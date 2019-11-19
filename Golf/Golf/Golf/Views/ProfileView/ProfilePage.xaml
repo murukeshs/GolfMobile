@@ -131,7 +131,7 @@
                                             PlaceholderColor="{StaticResource TextGrayColor}"
                                             LineColor="{StaticResource BorderColor}"
                                             TextColor="{StaticResource TextGrayColor}"
-                                            Text="{Binding FirstName}"
+                                            Text="{Binding FirstName, Mode = TwoWay}"
                                             />
 
                     <Label Text="Last Name" 
@@ -147,7 +147,7 @@
                                             PlaceholderColor="{StaticResource TextGrayColor}"
                                             LineColor="{StaticResource BorderColor}"
                                             TextColor="{StaticResource TextGrayColor}"
-                                            Text="{Binding LastName}"
+                                            Text="{Binding LastName, Mode = TwoWay}"
                                             />
 
                     <Label Text="Date of Birth" 
@@ -157,22 +157,29 @@
                            FontSize="{StaticResource FontSize20}"
                            TextColor="{StaticResource TextGrayColor}"/>
 
-                    <Controls:NullableDatePicker Margin="20,5,20,0"
-                                                 PlaceHolder="Date of Birth"
-                                                 TextColor="{StaticResource TextGrayColor}"/>
+                    <DatePicker Margin="20,5,20,0"
+                                                 x:Name="DOB"
+                                                 TextColor="{StaticResource TextGrayColor}"
+                                                 Date="{Binding Dob}"
+                                                 DateSelected="DOB_DateSelected"
+                                                />
 
                     <Label Text="Gender" 
                            Margin="20,10,20,0"
                            VerticalOptions="Center"
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"/>
+                           TextColor="{StaticResource TextGrayColor}"
+                           />
                     
                     <Controls:CustomPicker Title="Gender" 
                                            Image="down_arrow_gray.png"
                                            Margin="20,5,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"/>
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           ItemsSource="{Binding GenderList}"
+                                           SelectedIndexChanged="GenderOnchange"
+                                           SelectedIndex="{Binding Gender, Mode = TwoWay}"/>
 
 
                     <Label Text="User Type" 
@@ -201,7 +208,7 @@
 
                     <Controls:CustomCheckBox DefaultText="Moderator"
                                              DefaultValue ="2"
-                                               CheckedChanged="UserTypeChanged"
+                                             CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Score Keeper"
@@ -218,6 +225,13 @@
                                              DefaultValue ="5"
                                              CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
+
+                    <Controls:RoundedButton Text="Update User Info"
+                                            Margin="40,10,40,20"
+                                            x:Name="UpdateUserInfo"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding UpdateUserInfoCommand}"/>
 
                 </StackLayout>
             </ScrollView>
@@ -241,14 +255,16 @@
                     <Controls:CustomCheckBox DefaultText="Email"
                                              Style="{StaticResource CheckBoxStyle}"
                                              DefaultValue ="1"
-                                             CheckedChanged="CustomCheckBox_CheckedChanged"
-                                             Margin="20,0,0,0"/>
+                                             CheckedChanged="NotificationTypeChanged"
+                                             Margin="20,0,0,0"
+                                             Checked="{Binding IsEmailNotification, Mode=TwoWay}"/>
 
                     <Controls:CustomCheckBox DefaultText="Sms"
                                              DefaultValue ="2"
                                              Style="{StaticResource CheckBoxStyle}" 
-                                             CheckedChanged="CustomCheckBox_CheckedChanged"
-                                             Margin="30,0,0,0"/>
+                                             CheckedChanged="NotificationTypeChanged"
+                                             Margin="30,0,0,0"
+                                             Checked="{Binding IsSmsNotification, Mode=TwoWay}"/>
 
                 </StackLayout>
                 
@@ -262,36 +278,13 @@
                            FontSize="{StaticResource FontSize20}"
                            TextColor="{StaticResource TextGrayColor}"
                            HorizontalOptions="StartAndExpand"/>
-                <Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
                                              Margin="20,5,20,0"
                                             Placeholder="Address"
+                                        Text="{Binding Address, Mode = TwoWay}"
                                             />
 
-                <Label Text="State" 
-                           VerticalOptions="Center"
-                       Margin="20,5,20,0"
-                           FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
-                           HorizontalOptions="StartAndExpand"/>
-                <Controls:CustomPicker Title="State" 
-                                           Image="down_arrow_gray.png"
-                                            Margin="20,5,20,0"
-                                           TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"/>
-                <Label Text="City" 
-                           VerticalOptions="Center"
-                       Margin="20,5,20,0"
-                           FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource TextGrayColor}"
-                           HorizontalOptions="StartAndExpand"/>
-
-                <Controls:CustomPicker Title="City" 
-                                           Image="down_arrow_gray.png"
-                                            Margin="20,5,20,0"
-                                           TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"/>
-
-                <Label Text="Country" 
+                    <Label Text="Country" 
                            VerticalOptions="Center"
                        Margin="20,5,20,0"
                            FontSize="{StaticResource FontSize20}"
@@ -301,10 +294,46 @@
                                            Image="down_arrow_gray.png"
                                             Margin="20,5,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"/>
+                                           TextColor="{StaticResource TextGrayColor}"
+                                       ItemsSource="{Binding CountryList}"
+                                       SelectedIndexChanged="CountryIndexChanged"
+                                       ItemDisplayBinding="{Binding countryName}" 
+                                       SelectedIndex="{Binding CountryID, Mode=TwoWay}" />
 
-                <StackLayout Orientation="Horizontal"
-                             Margin="20,5,20,0"
+
+                    <Label Text="State" 
+                           VerticalOptions="Center"
+                       Margin="20,5,20,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+                    <Controls:CustomPicker Title="State" 
+                                           Image="down_arrow_gray.png"
+                                            Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           ItemsSource="{Binding StateList}"
+                                       SelectedIndexChanged="StateIndexChanged"
+                                       ItemDisplayBinding="{Binding stateName}" 
+                                       SelectedIndex="{Binding StateID, Mode=TwoWay}" 
+                                         />
+
+                    <Label Text="City" 
+                           VerticalOptions="Center"
+                       Margin="20,5,20,0"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="{StaticResource TextGrayColor}"
+                           HorizontalOptions="StartAndExpand"/>
+
+                    <Controls:ExtendedEntry
+                                        Placeholder="City"
+                                        Margin="20,10,20,0"
+                                        TextColor="{StaticResource TextGrayColor}"
+                                        PlaceholderColor="{StaticResource WhiteColor}"
+                                        Text="{Binding City, Mode = TwoWay}"/>
+                
+                    <StackLayout Orientation="Horizontal"
+                             Margin="20,5,20,10"
                              HorizontalOptions="FillAndExpand">
 
                     <Label Text="Is Public Profile" 
@@ -316,10 +345,19 @@
 
                     <Switch OnColor="{StaticResource LightGreenColor}"
                             ThumbColor="{StaticResource LightGreenColor}"
-                            HorizontalOptions="End"/>
+                            HorizontalOptions="End"
+                            IsToggled="{Binding IsPublicProfile, Mode=TwoWay}"
+                            />
 
                 </StackLayout>
-            </StackLayout>
+
+                    <Controls:RoundedButton Text="Update Communication Info"
+                                            Margin="40,10,40,20"
+                                            x:Name="UpdateCommunicationInfo"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding UpdateCommunicationInfoCommand}"/>
+                </StackLayout>
             </ScrollView>
             <!--<BoxView HeightRequest="1"
                      HorizontalOptions="FillAndExpand"

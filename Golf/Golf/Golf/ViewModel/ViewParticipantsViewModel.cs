@@ -61,15 +61,7 @@ namespace Golf.ViewModel
 
         async void GetViewParticipantsDetails(AllParticipantsResponse obj)
         {
-            try
-            {
-                //var msg = "Player Name is" + obj.ParticipantName;
-                UserDialogs.Instance.Alert("Okay", "View Participants", "Ok");
-            }
-            catch(Exception ex)
-            {
 
-            }
         }
 
         async void GetParticipantsList()

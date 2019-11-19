@@ -80,7 +80,8 @@
                                    TextColor="{StaticResource TextGrayColor}"
                                    TitleColor="{StaticResource TextGrayColor}"
                                    Image="down_arrow_gray.png"
-                                   Margin="20,10,20,0"/>
+                                   Margin="20,10,20,0"
+                                   SelectedIndexChanged="GenderOnchange"/>
 
                 <Controls:ExtendedEntry Placeholder="Phone Number"
                                     Image="phone_green.png"

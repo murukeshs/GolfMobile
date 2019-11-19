@@ -1,4 +1,5 @@
 ﻿using Golf.Controls;
+using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel;
 using System;
@@ -10,9 +11,11 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ProfilePage : ContentPage
 	{
+        ProfilePageViewModel vm;
 		public ProfilePage ()
 		{
-			InitializeComponent ();
+            vm = BindingContext as ProfilePageViewModel;
+            InitializeComponent ();
 		}
 
         private void CommunicationInfoButton_Clicked(object sender, EventArgs e)
@@ -64,6 +67,55 @@ namespace Golf.Views
             var value = (CustomCheckBox)sender;
             var item = value.DefaultValue;
             ((ProfilePageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
+        }
+
+        private void NotificationTypeChanged(object sender, bool e)
+        {
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            if (item == "Email")
+            {
+                vm.IsEmailNotification = true;
+            }
+            if (item == "SMS")
+            {
+                vm.IsSmsNotification = true;
+            }
+        }
+        private void GenderOnchange(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            vm.Gender = picker.SelectedItem.ToString();
+        }
+
+        private void CountryIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            Country country = (Country)picker.SelectedItem;
+            vm.CountryID = country.countryId;
+            ((ProfilePageViewModel)BindingContext).CountryChangedCommand.Execute(country.countryId);
+        }
+
+        private void StateIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            State state = (State)picker.SelectedItem;
+            vm.StateID = state.stateId;
+        }
+
+        private void UpdateCommunicationInfo_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UpdateUserInfo_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DOB_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            DOB.Date = Convert.ToDateTime(vm.Dob);
         }
     }
 }

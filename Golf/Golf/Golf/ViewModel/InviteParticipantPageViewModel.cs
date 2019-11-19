@@ -4,6 +4,7 @@ using Golf.Services;
 using Golf.Utils;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -175,12 +176,13 @@ namespace Golf.ViewModel
 
                     string json = JsonConvert.SerializeObject(data);
                     var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("Invitation Sent", "Alert", "Ok");
+                        await UserDialogs.Instance.AlertAsync("Invitation Sent", "Invites", "Ok");
+                        await PopupNavigation.Instance.PopAsync();
                     }
                     else
                     {

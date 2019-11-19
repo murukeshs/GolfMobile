@@ -11,10 +11,12 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InviteParticipantPage : PopupPage
     {
-		public InviteParticipantPage ()
+        InviteParticipantPageViewModel vm;
+        public InviteParticipantPage ()
 		{
 			InitializeComponent ();
-		}
+            vm = BindingContext as InviteParticipantPageViewModel;
+        }
 
         #region screen adjusting
         protected override void OnAppearing()
@@ -37,15 +39,7 @@ namespace Golf.Views
         }
         #endregion
 
-        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
-        {
-            var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            //((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
-        }
-
-       
-
+      
         // Invoked when a hardware back button is pressed
         protected override bool OnBackButtonPressed()
         {
@@ -60,6 +54,19 @@ namespace Golf.Views
             // Return false if you don't want to close this popup page when a background of the popup page is clicked
             base.OnBackgroundClicked();
             return true;
+        }
+
+        private void GenderOnchange(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            vm.GenderText = picker.SelectedItem.ToString();
+        }
+
+        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
+        {
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            ((InviteParticipantPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
         }
     }
 }

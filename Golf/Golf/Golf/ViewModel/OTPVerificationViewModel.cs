@@ -53,7 +53,7 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("OTP Successfully Generated", "Alert", "Ok");
+                        UserDialogs.Instance.Alert("OTP Successfully Generated", "OTP Verification", "Ok");
                     }
                     else
                     {
@@ -103,7 +103,7 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("OTP Validated", "Alert", "Ok");
+                        UserDialogs.Instance.Alert("OTP Verified", "Success", "Ok");
                     }
                     else
                     {

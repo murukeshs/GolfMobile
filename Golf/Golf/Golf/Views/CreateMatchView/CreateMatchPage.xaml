@@ -94,7 +94,7 @@
                                     <DataTemplate>
 
                                         <StackLayout Orientation="Horizontal"
-                                                     Margin="10,0,10,0"
+                                                     Margin="10,10,10,5"
                                                      Padding="0"
                                                      Spacing="0">
 

@@ -16,17 +16,26 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Golf.ViewModel
 {
     public class ProfilePageViewModel : BaseViewModel
     {
+        public bool IsValid { get; set; }
+        public int stateId { get; set; }
+        public int countryId { get; set; }
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
 
+        public List<string> GenderList { get; set; }
+
         public ProfilePageViewModel()
         {
+            GenderList = new List<string>();
+            GenderList.Add("Male");
+            GenderList.Add("Female");
             loadProfileData();
         }
 
@@ -74,7 +83,7 @@ namespace Golf.ViewModel
         }
         private string _LastName = string.Empty;
 
-        public string Dob
+        public DateTime? Dob
         {
             get { return _Dob; }
             set
@@ -83,7 +92,18 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(Dob));
             }
         }
-        private string _Dob = string.Empty;
+        private DateTime? _Dob = null;
+
+        public DateTime? NullableDob
+        {
+            get { return _NullableDob; }
+            set
+            {
+                _NullableDob = value;
+                OnPropertyChanged(nameof(NullableDob));
+            }
+        }
+        private DateTime? _NullableDob = null;
 
         public string Gender
         {
@@ -183,6 +203,28 @@ namespace Golf.ViewModel
             }
         }
         private bool? _IsSmsNotification = false;
+
+        public List<Country> CountryList
+        {
+            get { return _CountryList; }
+            set
+            {
+                _CountryList = value;
+                OnPropertyChanged(nameof(CountryList));
+            }
+        }
+        private List<Country> _CountryList = null;
+
+        public List<State> StateList
+        {
+            get { return _StateList; }
+            set
+            {
+                _StateList = value;
+                OnPropertyChanged(nameof(StateList));
+            }
+        }
+        private List<State> _StateList = null;
 
         #region TakePicture Command Functionality
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
@@ -378,9 +420,11 @@ namespace Golf.ViewModel
                         Email = User.email;
                         FirstName = User.firstName;
                         LastName = User.lastName;
-                        Dob = User.dob;
+                        Dob = Convert.ToDateTime(User.dob);
+                        NullableDob = Convert.ToDateTime(User.dob);
                         Gender = User.gender;
-                        UserType = User.userType;
+                        LoadGender();
+                     //   UserTypeList = User.userType.Split(',');
                         IsEmailNotification = User.isEmailNotification;
                         IsSmsNotification = User.isSMSNotification;
                         Address = User.address;
@@ -388,7 +432,9 @@ namespace Golf.ViewModel
                         StateID = User.stateId;
                         City = User.city;
                         IsPublicProfile = User.isPublicProfile;
-                      UserDialogs.Instance.HideLoading();
+                        loadCountry();
+                        CountryOnChange(CountryID);
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
@@ -410,6 +456,20 @@ namespace Golf.ViewModel
             }
         }
         #endregion
+
+        void LoadGender()
+        {
+            if(Gender == "Male")
+            {
+                Gender = "0";
+            }
+            else
+            {
+                Gender = "1";
+            }
+        }
+
+        #region UserTypeList Command
 
         public List<string> UserTypeList = new List<string>();
         public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBox);
@@ -434,5 +494,326 @@ namespace Golf.ViewModel
                 UserTypeList.Add(item);
             }
         }
+     
+        #endregion
+      
+        #region loadcountry
+        public async void loadCountry()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Country/GetCountryList";
+                    HttpClient client = new HttpClient();
+                    client.BaseAddress = new Uri(RestURL);
+                    HttpResponseMessage response = await client.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
+
+                        foreach (var a in CountryList) //CountryID
+                        {
+                            countryId = a.countryId;
+                            if (countryId == CountryID)
+                            {
+                                countryId = a.countryId;
+                                int index = CountryList.FindIndex(aa => aa.countryId == countryId);
+                                CountryID = index;
+                            }
+                        }
+
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+        #endregion
+
+        #region loadstate
+
+        public ICommand CountryChangedCommand => new Command<int>(CountryOnChange);
+
+        public async void CountryOnChange(int countryId)
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Country/GetStateList/" + countryId;
+                    HttpClient client = new HttpClient();
+                    client.BaseAddress = new Uri(RestURL);
+                    HttpResponseMessage response = await client.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        StateList = JsonConvert.DeserializeObject<List<State>>(content);
+
+                        foreach (var a in StateList) //CountryID
+                        {
+                            stateId = a.stateId;
+                            if (stateId == StateID)
+                            {
+                                stateId = a.stateId;
+                                int index = StateList.FindIndex(aa => aa.stateId == stateId);
+                                StateID = index;
+                            }
+                        }
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+        #endregion
+
+        #region UpdateCommunicationInfo Command
+        public ICommand UpdateCommunicationInfoCommand => new AsyncCommand(UpdateCommunicationInfo);
+        async Task UpdateCommunicationInfo()
+        {
+            IsValid = Validate();
+            if (IsValid)
+            {
+                await Register();
+            }
+        }
+
+        bool Validate()
+        {
+            if (string.IsNullOrEmpty(Address))
+            {
+                //Address Is Empty
+                UserDialogs.Instance.AlertAsync("Address should not be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (countryId == 0)
+            {
+                //Country Is Empty
+                UserDialogs.Instance.AlertAsync("Country cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (stateId == 0)
+            {
+                //State Is Empty
+                UserDialogs.Instance.AlertAsync("State cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(City))
+            {
+                //City Is Empty
+                UserDialogs.Instance.AlertAsync("City cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (IsEmailNotification == false && IsSmsNotification == false)
+            {
+                //Notification Type Is Empty
+                UserDialogs.Instance.AlertAsync("Notification Type cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else
+            {
+                //Validation Is Success
+                return true;
+            }
+        }
+        async Task Register()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
+                    Uri requestUri = new Uri(RestURL);
+
+                    var data = new createUser
+                    {
+                        userId = App.User.UserId,
+                        address = Address,
+                        stateId = stateId,
+                        countryId = countryId,
+                        city = City,
+                        isEmailNotification = IsEmailNotification,
+                        isSMSNotification = IsSmsNotification,
+                        isPublicProfile = IsPublicProfile
+                    };
+
+                    string json = JsonConvert.SerializeObject(data);
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        UserDialogs.Instance.Alert("Communication Info Updated Successfully", "Success", "Ok");
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+        #endregion
+
+        #region UpdateProfileInfo Command
+        public ICommand UpdateUserInfoCommand => new AsyncCommand(UpdateUserInfo);
+        async Task UpdateUserInfo()
+        {
+            IsValid = ValidateUserInfo();
+            if (IsValid)
+            {
+                await RegisterUserInfo();
+            }
+        }
+
+        bool ValidateUserInfo()
+        {
+            if (string.IsNullOrEmpty(FirstName))
+            {
+                //First Name Is Empty
+                UserDialogs.Instance.AlertAsync("FirstName should not be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(LastName))
+            {
+                //LastName Is Empty
+                UserDialogs.Instance.AlertAsync("LastName cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(Email))
+            {
+                //Email Is Empty
+                UserDialogs.Instance.AlertAsync("Email cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (!Regex.IsMatch(Email, "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"))
+            {
+                UserDialogs.Instance.AlertAsync("Email format is not valid.", "Alert", "Ok");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(Gender))
+            {
+                //Gender Is Empty
+                UserDialogs.Instance.AlertAsync("Gender cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (Dob == null)
+            {
+                //dob Is Empty
+                UserDialogs.Instance.AlertAsync("DOB cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (UserTypeList.Count == 0)
+            {
+                //UserType Is Empty
+                UserDialogs.Instance.AlertAsync("User Type cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else
+            {
+                //Validation Is Success
+                return true;
+            }
+        }
+        async Task RegisterUserInfo()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    var UserTypeId = string.Join(",", UserTypeList);
+                    UserDialogs.Instance.ShowLoading();
+                    string RestURL = App.User.BaseUrl + "User/updateUser";
+                    Uri requestUri = new Uri(RestURL);
+
+                    var data = new createUser
+                    {
+                        userId = App.User.UserId,
+                        firstName = FirstName,
+                        lastName = LastName,
+                        email = Email,
+                        gender = Gender,
+                        dob = Dob.ToString(),
+                        userTypeId = UserTypeId
+                    };
+
+                    string json = JsonConvert.SerializeObject(data);
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        UserDialogs.Instance.Alert("ProfileInfo SuccessFully Updated", "Alert", "Ok");
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+        #endregion
     }
 }
