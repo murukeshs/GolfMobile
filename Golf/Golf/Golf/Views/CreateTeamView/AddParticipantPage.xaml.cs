@@ -1,6 +1,7 @@
 ﻿using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,6 +10,7 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AddParticipantPage : ContentPage
 	{
+      
         public AddParticipantPage ()
 		{
 			InitializeComponent ();

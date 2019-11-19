@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace Golf.ViewModel
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+
+        public BaseViewModel()
+        {
+            
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName]string propertyName = "", Action onChanged = null)

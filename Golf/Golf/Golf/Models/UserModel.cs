@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Golf.Models
@@ -29,5 +30,7 @@ namespace Golf.Models
         internal int TeamIdforPlayerListing { get; set; } = 0;
 
         internal string MatchId { get; set; } = string.Empty;
+
+        public ObservableCollection<AddPlayersList> TeamPreviewList { get; set; } = new ObservableCollection<AddPlayersList>();
     }
 }

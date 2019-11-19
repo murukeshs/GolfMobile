@@ -128,14 +128,15 @@
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"/>
 
-                                        <Switch OnColor="{StaticResource LightGrayColor}"
-                                                Grid.Row="0"
-                                                Grid.Column="4"
+                                        <!--<Controls:CustomRadioButton 
+                                            CheckedChanged =""
+                                                               Grid.Row="0"
+                                                            Grid.Column="4"
                                                 x:Name="ScoreKeeperSwitch"
-                                                Toggled="Switch_Toggled"
-                                                IsToggled="{Binding Path=IsToggled}"
-                                                ThumbColor="{StaticResource LightGreenColor}" >
-                                        </Switch>
+                                               BorderColor="{Static LightGreenColor}"
+                                               Checked="{Binding IsToggled}" 
+                                            >
+                                        </Controls:CustomRadioButton>-->
                                     </Grid>
                                 </plugins:PancakeView>
                             </ContentView>

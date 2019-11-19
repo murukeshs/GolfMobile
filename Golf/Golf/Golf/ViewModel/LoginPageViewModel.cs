@@ -19,7 +19,11 @@ namespace Golf.ViewModel
     public class LoginPageViewModel : BaseViewModel
     {
         //readonly IAuthenticationServices _authenticationServices;
-
+        public Page page;
+        public LoginPageViewModel()
+        {
+            
+        }
         public bool IsValid { get; set; }
         public string UserNameText
         {
@@ -49,11 +53,7 @@ namespace Golf.ViewModel
         }
         private string _PasswordText = string.Empty;
 
-        //Constructor
-        public LoginPageViewModel()
-        {
-
-        }
+       
 
         #region LogIn Command Functionality
         public ICommand LoginInCommand => new AsyncCommand(SignInAsync);
@@ -134,10 +134,9 @@ namespace Golf.ViewModel
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
 
-                        //App.Men = new MasterDetailView();
-                        //App.Current.MainPage = App.MasterDetailView;
-                        //await App.MasterDetailView.PushRootView(new DashboardView());
-                        //Application.Current.MainPage = new MenuPage();
+                        ////var view  = new MenuPage();
+                        ////App.Current.MainPage = view;
+                        ////await view.PushRootView(new HomePage());
                         resetFormValues();
                         UserDialogs.Instance.HideLoading();
                     }
