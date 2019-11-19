@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Golf.ViewModel
 {
@@ -50,6 +51,138 @@ namespace Golf.ViewModel
             }
         }
         private string _Email = string.Empty;
+
+        public string FirstName
+        {
+            get { return _FirstName; }
+            set
+            {
+                _FirstName = value;
+                OnPropertyChanged(nameof(FirstName));
+            }
+        }
+        private string _FirstName = string.Empty;
+
+        public string LastName
+        {
+            get { return _LastName; }
+            set
+            {
+                _LastName = value;
+                OnPropertyChanged(nameof(LastName));
+            }
+        }
+        private string _LastName = string.Empty;
+
+        public string Dob
+        {
+            get { return _Dob; }
+            set
+            {
+                _Dob = value;
+                OnPropertyChanged(nameof(Dob));
+            }
+        }
+        private string _Dob = string.Empty;
+
+        public string Gender
+        {
+            get { return _Gender; }
+            set
+            {
+                _Gender = value;
+                OnPropertyChanged(nameof(Gender));
+            }
+        }
+        private string _Gender = string.Empty;
+
+        public string UserType
+        {
+            get { return _UserType; }
+            set
+            {
+                _UserType = value;
+                OnPropertyChanged(nameof(UserType));
+            }
+        }
+        private string _UserType = string.Empty;
+
+        public string Address
+        {
+            get { return _Address; }
+            set
+            {
+                _Address = value;
+                OnPropertyChanged(nameof(Address));
+            }
+        }
+        private string _Address = string.Empty;
+
+        public string City
+        {
+            get { return _City; }
+            set
+            {
+                _City = value;
+                OnPropertyChanged(nameof(City));
+            }
+        }
+        private string _City = string.Empty;
+
+        public int StateID
+        {
+            get { return _StateID; }
+            set
+            {
+                _StateID = value;
+                OnPropertyChanged(nameof(StateID));
+            }
+        }
+        private int _StateID = 0;
+
+        public int CountryID
+        {
+            get { return _CountryID; }
+            set
+            {
+                _CountryID = value;
+                OnPropertyChanged(nameof(CountryID));
+            }
+        }
+        private int _CountryID = 0;
+
+        public bool? IsPublicProfile
+        {
+            get { return _IsPublicProfile; }
+            set
+            {
+                _IsPublicProfile = value;
+                OnPropertyChanged(nameof(IsPublicProfile));
+            }
+        }
+        private bool? _IsPublicProfile = false;
+
+        public bool? IsEmailNotification
+        {
+            get { return _IsEmailNotification; }
+            set
+            {
+                _IsEmailNotification = value;
+                OnPropertyChanged(nameof(IsEmailNotification));
+            }
+        }
+        private bool? _IsEmailNotification = false;
+
+        public bool? IsSmsNotification
+        {
+            get { return _IsSmsNotification; }
+            set
+            {
+                _IsSmsNotification = value;
+                OnPropertyChanged(nameof(IsSmsNotification));
+            }
+        }
+        private bool? _IsSmsNotification = false;
 
         #region TakePicture Command Functionality
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
@@ -242,7 +375,19 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                       UserData User = JsonConvert.DeserializeObject<UserData>(content);
-                      Email = User.email;
+                        Email = User.email;
+                        FirstName = User.firstName;
+                        LastName = User.lastName;
+                        Dob = User.dob;
+                        Gender = User.gender;
+                        UserType = User.userType;
+                        IsEmailNotification = User.isEmailNotification;
+                        IsSmsNotification = User.isSMSNotification;
+                        Address = User.address;
+                        CountryID = User.countryId;
+                        StateID = User.stateId;
+                        City = User.city;
+                        IsPublicProfile = User.isPublicProfile;
                       UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -265,5 +410,29 @@ namespace Golf.ViewModel
             }
         }
         #endregion
+
+        public List<string> UserTypeList = new List<string>();
+        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBox);
+        public void UserTypeCheckBox(object parameter)
+        {
+            var item = parameter as string;
+
+            if (UserTypeList.Count > 0)
+            {
+                bool UserIdAleradyExists = UserTypeList.Contains(item);
+                if (UserIdAleradyExists)
+                {
+                    UserTypeList.Remove(item);
+                }
+                else
+                {
+                    UserTypeList.Add(item);
+                }
+            }
+            else
+            {
+                UserTypeList.Add(item);
+            }
+        }
     }
 }

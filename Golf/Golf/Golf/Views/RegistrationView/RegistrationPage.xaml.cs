@@ -66,5 +66,6 @@ namespace Golf.Views
             }
         }
         #endregion
+
     }
 }

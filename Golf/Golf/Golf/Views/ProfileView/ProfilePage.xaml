@@ -131,6 +131,7 @@
                                             PlaceholderColor="{StaticResource TextGrayColor}"
                                             LineColor="{StaticResource BorderColor}"
                                             TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding FirstName}"
                                             />
 
                     <Label Text="Last Name" 
@@ -146,6 +147,7 @@
                                             PlaceholderColor="{StaticResource TextGrayColor}"
                                             LineColor="{StaticResource BorderColor}"
                                             TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding LastName}"
                                             />
 
                     <Label Text="Date of Birth" 
@@ -194,27 +196,27 @@
                     </StackLayout>-->
                     <Controls:CustomCheckBox DefaultText="Player"
                                              DefaultValue ="1"
-                                             CheckedChanged="CustomCheckBox_CheckedChanged"
+                                             CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Moderator"
                                              DefaultValue ="2"
-                                               CheckedChanged="CustomCheckBox_CheckedChanged"
+                                               CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Score Keeper"
                                              DefaultValue ="3"
-                                               CheckedChanged="CustomCheckBox_CheckedChanged"
+                                               CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Organizer"
                                              DefaultValue ="4"
-                                               CheckedChanged="CustomCheckBox_CheckedChanged"
+                                             CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Spectator"
                                              DefaultValue ="5"
-                                               CheckedChanged="CustomCheckBox_CheckedChanged"
+                                             CheckedChanged="UserTypeChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                 </StackLayout>
@@ -236,14 +238,16 @@
                              Margin="20,5,20,0"
                              HorizontalOptions="CenterAndExpand">
 
-                    <Controls:CustomCheckBox DefaultText="Organizer"
+                    <Controls:CustomCheckBox DefaultText="Email"
                                              Style="{StaticResource CheckBoxStyle}"
                                              DefaultValue ="1"
+                                             CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Margin="20,0,0,0"/>
 
-                    <Controls:CustomCheckBox DefaultText="Spectator"
+                    <Controls:CustomCheckBox DefaultText="Sms"
                                              DefaultValue ="2"
                                              Style="{StaticResource CheckBoxStyle}" 
+                                             CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Margin="30,0,0,0"/>
 
                 </StackLayout>

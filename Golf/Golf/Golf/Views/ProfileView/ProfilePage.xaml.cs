@@ -1,4 +1,6 @@
-﻿using Golf.Services;
+﻿using Golf.Controls;
+using Golf.Services;
+using Golf.ViewModel;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -57,9 +59,11 @@ namespace Golf.Views
         }
         #endregion
 
-        private void CustomCheckBox_CheckedChanged(object sender, bool e)
+        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
         {
-
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            ((ProfilePageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
         }
     }
 }
