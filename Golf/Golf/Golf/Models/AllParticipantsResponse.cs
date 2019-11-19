@@ -12,8 +12,8 @@ namespace Golf.Models
         public string gender { get; set; }
         public string email { get; set; }
         public string roleType { get; set; }
+        public string userType { get; set; }
         public bool isScoreKeeper { get; set; }
-
         public string profileImage { get; set; }
     }
 

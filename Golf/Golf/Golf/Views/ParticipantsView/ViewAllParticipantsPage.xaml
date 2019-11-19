@@ -110,7 +110,7 @@
                                                         <Label Text="{Binding .}"
                                                                TextColor="{StaticResource WhiteColor}"
                                                                FontSize="{StaticResource FontSize16}"
-                                                               Margin="5"/>
+                                                               Margin="10,5,10,5"/>
                                                     </plugins:PancakeView>
                                                 </DataTemplate>
                                             </Controls:HorizontalList.ItemTemplate>

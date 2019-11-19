@@ -108,7 +108,7 @@
                                             <Controls:HorizontalList ListOrientation="Horizontal" 
                                                                  ItemsSource="{Binding roleType,Converter={StaticResource convertToList}}" 
                                                                  Padding="0"
-                                                                 Margin="0"
+                                                                 Margin="10,5,10,5"
                                                                  >
                                                 <Controls:HorizontalList.ItemTemplate>
                                                     <DataTemplate>
