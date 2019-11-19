@@ -56,5 +56,10 @@ namespace Golf.Views
             }
         }
         #endregion
+
+        private void CustomCheckBox_CheckedChanged(object sender, bool e)
+        {
+
+        }
     }
 }

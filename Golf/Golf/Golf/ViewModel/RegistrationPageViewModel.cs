@@ -3,6 +3,7 @@ using Golf.Models;
 using Golf.Models.userModel;
 using Golf.Services;
 using Golf.Utils;
+using Golf.Views;
 using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -243,7 +244,7 @@ namespace Golf.ViewModel
                         RegisterResponse res = JsonConvert.DeserializeObject<RegisterResponse>(responJsonText);
                         App.User.UserId = res.userId;
 
-                        var view = new RegistrationPageAdmin();
+                        var view = new OtpVerificationPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         resetFormValues();

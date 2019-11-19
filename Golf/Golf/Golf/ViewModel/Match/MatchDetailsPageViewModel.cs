@@ -66,6 +66,50 @@ namespace Golf.ViewModel.Match
         }
         private string _MatchCode = string.Empty;
 
+        public Color MatchDetailsBackground
+        {
+            get { return _MatchDetailsBackground; }
+            set
+            {
+                _MatchDetailsBackground = value;
+                OnPropertyChanged(nameof(MatchDetailsBackground));
+            }
+        }
+        private Color _MatchDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
+
+        public Color TeamListBackground
+        {
+            get { return _TeamListBackground; }
+            set
+            {
+                _TeamListBackground = value;
+                OnPropertyChanged(nameof(TeamListBackground));
+            }
+        }
+        private Color _TeamListBackground = Color.White;
+
+        public Color MatchDetailsBorder
+        {
+            get { return _MatchDetailsBorder; }
+            set
+            {
+                _MatchDetailsBorder = value;
+                OnPropertyChanged(nameof(MatchDetailsBorder));
+            }
+        }
+        private Color _MatchDetailsBorder = Color.White;
+
+        public Color TeamListBorder
+        {
+            get { return _TeamListBorder; }
+            set
+            {
+                _TeamListBorder = value;
+                OnPropertyChanged(nameof(TeamListBackground));
+            }
+        }
+        private Color _TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
+
 
         public string CompetitionType
         {
@@ -111,6 +155,17 @@ namespace Golf.ViewModel.Match
         }
         private string _ContextSettings = "Dummy";
 
+        public int CompetitionTypeID
+        {
+            get { return _CompetitionTypeID; }
+            set
+            {
+                _CompetitionTypeID = value;
+                OnPropertyChanged(nameof(CompetitionTypeID));
+            }
+        }
+        private int _CompetitionTypeID = 0;
+
         public MatchDetailsPageViewModel()
         {
             //Using THis Method to Load the Match details
@@ -126,6 +181,8 @@ namespace Golf.ViewModel.Match
         {
             IsVisibleMatchDetails = true;
             IsVisibleTeamsDetails = false;
+            MatchDetailsBackground = TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
+            MatchDetailsBorder = TeamListBackground = Color.White;
         }
         #endregion Match Details Button Command Functionality
 
@@ -138,8 +195,9 @@ namespace Golf.ViewModel.Match
         {
             UserDialogs.Instance.ShowLoading();
             IsVisibleMatchDetails = false;
-            //IsVisiblePlayersDetails = false;
             IsVisibleTeamsDetails = true;
+            MatchDetailsBackground = TeamListBorder = Color.White;
+            MatchDetailsBorder = TeamListBackground  = (Color)App.Current.Resources["LightGreenColor"];
             UserDialogs.Instance.HideLoading();
         }
 
@@ -181,8 +239,8 @@ namespace Golf.ViewModel.Match
                             {
                                 teamId = item.teamId,
                                 matchPlayerList = MatchTeamsPlayerList,
-                                //createdName = item.createdName,
-                                //noOfPlayers = item.noOfPlayers,
+                                createdByName = item.createdByName,
+                                NoOfPlayers = item.NoOfPlayers,
                                 teamIcon = item.teamIcon,
                                 teamName = item.teamName,
                                 Expanded = false
@@ -315,13 +373,10 @@ namespace Golf.ViewModel.Match
 
         async Task SaveButtonAsync()
         {
-            UserDialogs.Instance.ShowLoading();
-            await updateMatch();
-            UserDialogs.Instance.HideLoading();
+            await updateMatch(false);
         }
 
-
-        async Task updateMatch()
+        async Task updateMatch(bool IsSaveAndNotify)
         {
             try
             {
@@ -336,6 +391,8 @@ namespace Golf.ViewModel.Match
                         matchName = MatchName,
                         matchCode = MatchCode,
                         matchId = Convert.ToInt32(App.User.MatchId),
+                        competitionTypeId = CompetitionTypeID,
+                        isSaveAndNotify = IsSaveAndNotify
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -346,7 +403,7 @@ namespace Golf.ViewModel.Match
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
+                        //var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
                         //App.User.CreateTeamId = Item.teamId;
                         //var view = new MenuPage();
                         //var navigationPage = ((NavigationPage)App.Current.MainPage);
@@ -397,53 +454,7 @@ namespace Golf.ViewModel.Match
 
         async Task SaveAndNotifyButtonAsync()
         {
-            UserDialogs.Instance.ShowLoading();
-            await updateMatch();
-            if(IsSuccess)
-            {
-                SendInviteAPI();
-            }
-            UserDialogs.Instance.HideLoading();
-        }
-
-        async void SendInviteAPI()
-        {
-            try
-            {
-                if (CrossConnectivity.Current.IsConnected)
-                {
-                    UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Match/inviteMatch/" + App.User.MatchId;
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Invite", "ok");
-                        //var view = new MenuPage();
-                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //await navigationPage.PushAsync(view);
-                        UserDialogs.Instance.HideLoading();
-                    }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
-                }
-                else
-                {
-                    DependencyService.Get<IToast>().Show("Please check internet connection");
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
-            }
+            await updateMatch(true);
         }
 
         #endregion Save Button Command Functionality
@@ -469,6 +480,7 @@ namespace Golf.ViewModel.Match
                         CompetitionType = MatchDetails.competitionName;
                         TypeofGame = MatchDetails.ruleName;
                         MatchLocation = MatchDetails.matchLocation;
+                        CompetitionTypeID = MatchDetails.competitionTypeId;
                         //UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
                         //var view = new MenuPage();
                         //var navigationPage = ((NavigationPage)App.Current.MainPage);

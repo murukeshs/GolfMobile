@@ -16,22 +16,22 @@ namespace Golf.Views.CreateMatchView
 			InitializeComponent ();
 		}
 
-        protected override Task OnAppearingAnimationEndAsync()
-        {
-            return Content.FadeTo(0.5);
-        }
+        //protected override Task OnAppearingAnimationEndAsync()
+        //{
+        //    return Content.FadeTo(0.5);
+        //}
 
-        protected override Task OnDisappearingAnimationBeginAsync()
-        {
-            return Content.FadeTo(1);
-        }
+        //protected override Task OnDisappearingAnimationBeginAsync()
+        //{
+        //    return Content.FadeTo(1);
+        //}
 
         // Invoked when a hardware back button is pressed
         protected override bool OnBackButtonPressed()
         {
             // Return true if you don't want to close this popup page when a back button is pressed
             base.OnBackButtonPressed();
-            return false;
+            return true;
         }
 
         // Invoked when background is clicked
@@ -39,7 +39,7 @@ namespace Golf.Views.CreateMatchView
         {
             // Return false if you don't want to close this popup page when a background of the popup page is clicked
             base.OnBackgroundClicked();
-            return true;
+            return false;
         }
 
         private async void RoundedButton_Clicked(object sender, System.EventArgs e)

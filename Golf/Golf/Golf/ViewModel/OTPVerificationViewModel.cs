@@ -27,7 +27,7 @@ namespace Golf.ViewModel
 
         public OTPVerificationViewModel()
         {
-            //generateOTP();
+            generateOTP();
         }
         #region generateOTP
         public async void generateOTP()

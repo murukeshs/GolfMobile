@@ -6,7 +6,7 @@
              xmlns:viewModel="clr-namespace:Golf.ViewModel"
              xmlns:Converters="clr-namespace:Golf.Converters"
              x:Class="Golf.Views.ListOfTeamsPage"
-             Title="Team Listing"
+             Title="Team's Listing"
              BackgroundColor="{StaticResource AppBackgroundColor}">
 
     <ContentPage.BindingContext>
@@ -29,7 +29,7 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <!--<Label Text="Team Listing"
+            <!--<Label Text="Team's Listing"
                    HorizontalOptions="CenterAndExpand" 
                    FontSize="{StaticResource FontSize28}"
                    TextColor="{StaticResource BlackColor}"

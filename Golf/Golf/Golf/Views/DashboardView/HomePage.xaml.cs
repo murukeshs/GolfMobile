@@ -18,6 +18,7 @@ namespace Golf.Views
         {
             base.OnAppearing();
         }
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();

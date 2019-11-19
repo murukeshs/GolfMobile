@@ -26,5 +26,7 @@ namespace Golf.Models
         public int matchId { get; set; }
 
         public string matchStatus { get; set; }
+
+        public bool isSaveAndNotify { get; set; }
     }
 }

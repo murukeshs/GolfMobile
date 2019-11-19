@@ -74,7 +74,7 @@
                             VerticalOptions="FillAndExpand">
                 <StackLayout >
                     <Label HorizontalOptions="CenterAndExpand"
-                           Text="example@gmail.com"
+                           Text="{Binding Email,Mode=TwoWay}"
                            TextColor="{StaticResource TextGrayColor}"
                            Margin="20,10,20,0"
                            FontAttributes="Bold"/>
@@ -91,13 +91,13 @@
                                               WidthRequest="160"
                                               Grid.Row="0"/>
 
-                        <Controls:CircleImage HorizontalOptions="Center"
+                        <!--<Controls:CircleImage HorizontalOptions="Center"
                                               Grid.Row="0"
                                               Margin="100,125,0,0"
                                               Grid.ColumnSpan="1"
                                               Source="camera.png"
                                               WidthRequest="50"   
-                                              HeightRequest="50"/>
+                                              HeightRequest="50"/>-->
                     </Grid>
 
                     <StackLayout Orientation="Horizontal"
@@ -194,22 +194,27 @@
                     </StackLayout>-->
                     <Controls:CustomCheckBox DefaultText="Player"
                                              DefaultValue ="1"
+                                             CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Moderator"
                                              DefaultValue ="2"
+                                               CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Score Keeper"
                                              DefaultValue ="3"
+                                               CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Organizer"
                                              DefaultValue ="4"
+                                               CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                     <Controls:CustomCheckBox DefaultText="Spectator"
                                              DefaultValue ="5"
+                                               CheckedChanged="CustomCheckBox_CheckedChanged"
                                              Style="{StaticResource CheckBoxStyle}" />
 
                 </StackLayout>

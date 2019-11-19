@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace Golf.ViewModel
 {
@@ -22,6 +23,11 @@ namespace Golf.ViewModel
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
+
+        public ProfilePageViewModel()
+        {
+            loadProfileData();
+        }
 
         public string ProfileImage
         {
@@ -33,6 +39,17 @@ namespace Golf.ViewModel
             }
         }
         private string _ProfileImage = "profile_defalut_pic.png";
+
+        public string Email
+        {
+            get { return _Email; }
+            set
+            {
+                _Email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
+        private string _Email = string.Empty;
 
         #region TakePicture Command Functionality
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
@@ -82,7 +99,7 @@ namespace Golf.ViewModel
         #endregion
 
 
-        #region TakePicture Command Functionality
+        #region Gallery Command Functionality
         public ICommand GalleryCommand => new AsyncCommand(GalleryImageButton_Clicked);
         private async Task GalleryImageButton_Clicked()
         {
@@ -123,8 +140,6 @@ namespace Golf.ViewModel
 
 
         #endregion
-
-
 
         async Task SendIssueImageToCloud()
         {
@@ -208,6 +223,46 @@ namespace Golf.ViewModel
         async void LogoutFunction()
         {
             await ((NavigationPage)App.Current.MainPage).PopAsync();//this line navigate to previous page of your application
+        }
+        #endregion
+
+        #region loadProfileData
+        public async void loadProfileData()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "User/selectUserById/" + App.User.UserId;
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                      UserData User = JsonConvert.DeserializeObject<UserData>(content);
+                      Email = User.email;
+                      UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
         }
         #endregion
     }

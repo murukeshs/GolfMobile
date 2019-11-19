@@ -21,5 +21,7 @@ namespace Golf.Models
         public string CompetitionName { get; set; }
 
         public string competitionTypeId { get; set; }
+
+        public bool isAllowMatch { get; set; }
     }
 }

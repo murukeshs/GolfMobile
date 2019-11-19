@@ -75,7 +75,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(MatchFee));
             }
         }
-        private string _MatchFee = string.Empty;
+        private string _MatchFee = "0.00";
 
         public string MatchName
         {
@@ -126,7 +126,7 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Match/getMatchList";
+                    var RestURL = App.User.BaseUrl + "Match/getMatchJoinList?matchId=0&userId=" + App.User.UserId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
