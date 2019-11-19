@@ -16,7 +16,7 @@ namespace Golf.Views.JoinMatchView
 			InitializeComponent ();
 		}
 
-        private void BoxPicker_SelectedIndexChanged(object sender, EventArgs e)
+        private async void BoxPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;
             var Item = (matchJoinlist)picker.SelectedItem;
@@ -26,7 +26,7 @@ namespace Golf.Views.JoinMatchView
             }
             else
             {
-                UserDialogs.Instance.Alert("You are not a member of any team in the Match. So Can't Join. Plz check with Moderator", "Alert", "Ok");
+              await  UserDialogs.Instance.AlertAsync("You are not a member of any team in the Match. So Can't Join. Plz check with Moderator", "Alert", "Ok");
             }
         }
 
