@@ -105,7 +105,7 @@ namespace Golf.ViewModel.Match
             set
             {
                 _TeamListBorder = value;
-                OnPropertyChanged(nameof(TeamListBackground));
+                OnPropertyChanged(nameof(TeamListBorder));
             }
         }
         private Color _TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
@@ -181,8 +181,10 @@ namespace Golf.ViewModel.Match
         {
             IsVisibleMatchDetails = true;
             IsVisibleTeamsDetails = false;
-            MatchDetailsBackground = TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
-            MatchDetailsBorder = TeamListBackground = Color.White;
+            MatchDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
+            TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
+            MatchDetailsBorder =  Color.White;
+            TeamListBackground = Color.White;
         }
         #endregion Match Details Button Command Functionality
 
@@ -196,8 +198,12 @@ namespace Golf.ViewModel.Match
             UserDialogs.Instance.ShowLoading();
             IsVisibleMatchDetails = false;
             IsVisibleTeamsDetails = true;
-            MatchDetailsBackground = TeamListBorder = Color.White;
-            MatchDetailsBorder = TeamListBackground  = (Color)App.Current.Resources["LightGreenColor"];
+
+            TeamListBackground = (Color)App.Current.Resources["LightGreenColor"];
+            TeamListBorder = Color.White;
+            MatchDetailsBackground = Color.White;
+            MatchDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
+           
             UserDialogs.Instance.HideLoading();
         }
 

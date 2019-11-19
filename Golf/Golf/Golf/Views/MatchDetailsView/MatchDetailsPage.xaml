@@ -47,6 +47,7 @@
                 <controls:RoundedButton Margin="0"
                                         Text="Match Details"
                                         Grid.Row="0"
+                                        x:Name="MatchDetailsButton"
                                         Grid.Column="0"
                                         FontSize="Medium"
                                         HeightRequest="45"
@@ -54,6 +55,7 @@
                                         BorderColor="{Binding MatchDetailsBorder}"
                                         Command="{Binding MatchDetailsCommand}"
                                         TextColor="{Binding MatchDetailsBorder}"/>
+
 
                 <!--<controls:RoundedButton Margin="10,0"
                                         Command="{Binding PlayersCommand}"
@@ -69,15 +71,17 @@
                 <controls:RoundedButton Margin="10,0"
                                         Text="Teams"
                                         Grid.Row="0"
+                                        x:Name="TeamsButton"
                                         Grid.Column="1"
                                         FontSize="Medium"
                                         HeightRequest="45"
-                                        Command="{Binding TeamCommand}"
                                         BackgroundColor="{Binding TeamListBackground}"
-                                        BorderColor="{Binding TeamListBorder,Mode=TwoWay}"
-                                        TextColor="{Binding TeamListBorder}">
-                   
-                </controls:RoundedButton>
+                                        BorderColor="{Binding TeamListBorder}"
+                                        TextColor="{Binding TeamListBorder}"
+                                        Command="{Binding TeamCommand}"
+                                        />
+
+
             </Grid>
 
             <BoxView HeightRequest="1"

@@ -11,11 +11,11 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <ScrollView>
+        <!--<ScrollView>-->
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="5.0*"/>
-                    <RowDefinition Height="5.0*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Image Source="menu_banner.jpg"
                        Aspect="AspectFill"
@@ -130,6 +130,6 @@
                     
                 </StackLayout>
             </Grid>
-        </ScrollView>
+        <!--</ScrollView>-->
     </ContentPage.Content>
 </ContentPage>

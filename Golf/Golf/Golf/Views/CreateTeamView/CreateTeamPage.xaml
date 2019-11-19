@@ -12,7 +12,11 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
+        
         <StackLayout>
+            <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout>
             <Label Text="Select Logo"
                    TextColor="{StaticResource LightGreenColor}"
                    HorizontalOptions="CenterAndExpand" 
@@ -23,6 +27,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Controls:CircleImage HorizontalOptions="Center"
@@ -39,25 +44,28 @@
                                       Source="camera.png"
                                       WidthRequest="50"   
                                       HeightRequest="50"/>-->
-            </Grid>
 
-            <StackLayout Orientation="Horizontal"
+                <StackLayout Orientation="Horizontal"
                                  Margin="20,10,20,10"
+                             Grid.Row="1"
                                  HorizontalOptions="FillAndExpand">
 
-                <Controls:RoundedButton Text="Take Picture"
+                    <Controls:RoundedButton Text="Take Picture"
                                             Margin="0"
                                             CornerRadius="10"
                                             FontSize="{StaticResource FontSize16}"
                                             Command="{Binding TakeCaptureCommand}"/>
 
-                <Controls:RoundedButton Text="Gallery"
+                    <Controls:RoundedButton Text="Gallery"
                                             Margin="10,0"
                                             CornerRadius="10"
                                             FontSize="{StaticResource FontSize16}"
                                             Command="{Binding GalleryCommand}"/>
 
-            </StackLayout>
+                </StackLayout>
+            </Grid>
+
+           
             <Label Text="Add Team Name"
                    TextColor="{StaticResource LightGreenColor}"
                    HorizontalOptions="CenterAndExpand" 
@@ -74,7 +82,8 @@
             <StackLayout Orientation="Horizontal" 
                          Padding="0"
                          Spacing="0"
-                         Margin="30">
+                         Margin="30"
+                         HorizontalOptions="CenterAndExpand">
 
                 <Label Text="Created by:"
                        TextColor="{StaticResource LightGreenColor}"
@@ -90,10 +99,13 @@
                        Margin="20,0"/>
 
             </StackLayout>
+                </StackLayout>
+            </ScrollView>
 
             <Controls:RoundedButton Text="Proceed"
-                                    Margin="40,20,40,20"
+                                    Margin="40,20,40,40"
                                     x:Name="ProceedButton"
+                                    VerticalOptions="EndAndExpand"
                                     Command="{Binding CreateTeamProccedButtonCommand}"/>
         </StackLayout>
     </ContentPage.Content>

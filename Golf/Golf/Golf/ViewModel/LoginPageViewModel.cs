@@ -133,6 +133,11 @@ namespace Golf.ViewModel
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
+
+                        //App.Men = new MasterDetailView();
+                        //App.Current.MainPage = App.MasterDetailView;
+                        //await App.MasterDetailView.PushRootView(new DashboardView());
+                        //Application.Current.MainPage = new MenuPage();
                         resetFormValues();
                         UserDialogs.Instance.HideLoading();
                     }
