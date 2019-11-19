@@ -6,6 +6,7 @@ namespace Golf.Models
 {
     public class AddPlayersList
     {
+        public int UserId { get; set; }
         public string PlayerName { get; set; }
 
         public string PlayerHCP { get; set; }

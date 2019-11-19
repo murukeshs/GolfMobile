@@ -93,8 +93,8 @@ namespace Golf.ViewModel
 
         #region CheckBox Selected Command Functionality
         public List<int> TeamPlayersIds = new List<int>();
-       // string joined = string.Join(",", TeamPlayersIds);
-
+        // string joined = string.Join(",", TeamPlayersIds);
+        public ObservableCollection<AddPlayersList> TeamPreviewList = new ObservableCollection<AddPlayersList>();
         public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
 
         async void CheckboxChangedEvent(object parameter)
@@ -107,15 +107,22 @@ namespace Golf.ViewModel
                 if (UserIdAleradyExists)
                 {
                     TeamPlayersIds.Remove(userId);
+                    App.User.TeamPreviewList.RemoveAt(userId);
                 }
                 else
                 {
                     TeamPlayersIds.Add(userId);
+
+                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true };
+                    
+                    App.User.TeamPreviewList.Add(list);
                 }
             }
             else
             {
                 TeamPlayersIds.Add(userId);
+                var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true };
+                App.User.TeamPreviewList.Add(list);
             }
         }
         #endregion CheckBox Selected Command Functionality

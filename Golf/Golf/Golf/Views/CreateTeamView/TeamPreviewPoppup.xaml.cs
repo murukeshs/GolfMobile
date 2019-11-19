@@ -1,6 +1,7 @@
 ﻿using Golf.Models;
 using Golf.Services;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,46 +11,44 @@ namespace Golf.Views.PoppupView
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TeamPreviewPage : PopupPage
     {
-        public ObservableCollection<AddPlayersList> TeamPreviewList { get; set; }
         public TeamPreviewPage ()
 		{
 			InitializeComponent ();
-
-            TeamPreviewList = new ObservableCollection<AddPlayersList>(new[]
-             {
-                 new AddPlayersList { PlayerName = "Player 1" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 2" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 3" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 4" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=true },
-                 new AddPlayersList { PlayerName = "Player 5" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 6" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 7" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 8" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 9" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false },
-                 new AddPlayersList { PlayerName = "Player 10" ,PlayerHCP = "5",PlayerType= "P",IsStoreKeeper=false }
-              });
-            ListView.ItemsSource = TeamPreviewList;
+            ListView.ItemsSource = App.User.TeamPreviewList;
         }
 
-        #region screen adjusting
-        protected override void OnAppearing()
+        private void ImageButton_Clicked(object sender, System.EventArgs e)
         {
-            base.OnAppearing();
-
-            if (Device.RuntimePlatform == Device.Android)
+            try
             {
-                DependencyService.Get<IAdjustScreenSize>().AdjustScreen();
+                var item = (sender as ImageButton).BindingContext as AddPlayersList;
+
+                var userId = item.UserId;
+
+                App.User.TeamPreviewList.Remove(item);
+
+                ListView.ItemsSource = App.User.TeamPreviewList;
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
             }
         }
 
-        protected override void OnDisappearing()
+        // Invoked when a hardware back button is pressed
+        protected override bool OnBackButtonPressed()
         {
-            base.OnDisappearing();
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                DependencyService.Get<IAdjustScreenSize>().UnAdjustScreen();
-            }
+            // Return true if you don't want to close this popup page when a back button is pressed
+            base.OnBackButtonPressed();
+            return false;
         }
-        #endregion
+
+        // Invoked when background is clicked
+        protected override bool OnBackgroundClicked()
+        {
+            // Return false if you don't want to close this popup page when a background of the popup page is clicked
+            base.OnBackgroundClicked();
+            return true;
+        }
     }
 }

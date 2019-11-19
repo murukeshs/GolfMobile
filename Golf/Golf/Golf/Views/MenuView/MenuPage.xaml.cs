@@ -48,5 +48,26 @@ namespace Golf.Views.MenuView
                 var a = ex.Message;
             }
         }
+
+        public async Task PushRootView(Page newRootView)
+        {
+            Detail = new NavigationPage(newRootView);
+        }
+
+        public async Task ReplaceCurrentPage(Page currentPage, Page newPage)
+        {
+            Navigation.InsertPageBefore(currentPage, newPage);
+            await PopPage();
+        }
+
+        public async Task PushAsync(Page newPage)
+        {
+            await ((NavigationPage)Detail).PushAsync(newPage);
+        }
+
+        public async Task PopPage()
+        {
+            await ((NavigationPage)Detail).PopAsync();
+        }
     }
 }
