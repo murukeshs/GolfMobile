@@ -13,7 +13,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(ExtendedEntry), typeof(ExtendedEntryRenderer))]
 namespace Golf.Droid.CustomRenderer
 {
-    class ExtendedEntryRenderer : EntryRenderer
+    public class ExtendedEntryRenderer : EntryRenderer
     {
         public ExtendedEntry ExtendedEntryElement => Element as ExtendedEntry;
 

@@ -12,10 +12,6 @@ namespace Golf.Views
 		{
             //NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent ();
-            MessagingCenter.Subscribe<App>((App)Application.Current, "OpenInvitePoppupPage", (sender) =>
-            {
-                PopupNavigation.Instance.PushAsync(new InviteParticipantPage());
-            });
         }
 
         protected override void OnAppearing()
@@ -25,7 +21,6 @@ namespace Golf.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<HomePage>(this, "OpenInvitePoppupPage");
         }
 
         //Device hardware button cliked handle

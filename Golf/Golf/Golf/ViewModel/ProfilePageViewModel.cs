@@ -144,14 +144,13 @@ namespace Golf.ViewModel
                         stream.CopyTo(ms);
                         imageData = ms.ToArray();
                     }
-                    var fileName = "ProfileImage" + DateTime.Now.ToString();
                     var formDataContent = new MultipartFormDataContent();
-                    formDataContent.Add(new ByteArrayContent(imageData), "files", fileName);
+                    formDataContent.Add(new ByteArrayContent(imageData), "files", "Image");
                     //formDataContent.Add(new StringContent(json, System.Text.Encoding.UTF8, "application/json"), "myJsonObject");
 
                     var objClint = new HttpClient();
                     objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    objClint.Timeout = TimeSpan.FromMilliseconds(36000);
+                    objClint.MaxResponseContentBufferSize = 1000000;
                     HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
                     string responJsonText = await response.Content.ReadAsStringAsync();
 

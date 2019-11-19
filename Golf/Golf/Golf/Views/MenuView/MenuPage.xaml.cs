@@ -1,4 +1,5 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using Golf.Services;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Golf.Views.MenuView
                 page.Title = item.Title;
                 if (item.Title == "Invite a Participant")
                 {
-                    MessagingCenter.Send<App>((App)Application.Current, "OpenInvitePoppupPage");
+                    DependencyService.Get<IShowPoppup>().ShowPoppupPage(); 
                     IsPresented = false;
                 }
                 else
