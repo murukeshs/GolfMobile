@@ -12,6 +12,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Converters:ToggledConverter x:Key="toggledConverter" />
+            <Converters:ConvertStringToList x:Key="convertToList"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -91,53 +92,55 @@
                                                      HasShadow="False"
                                                      BorderColor="{StaticResource LightGrayColor}"
                                                      Padding="10">
+                                    <StackLayout>
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="4.0*"/>
-                                            <ColumnDefinition Width="2.0*"/>
-                                            <ColumnDefinition Width="2.0*"/>
-                                            <ColumnDefinition Width="2.0*"/>
+                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <CheckBox Grid.Row="0" 
                                                   Grid.Column="0"
+                                                  Margin="10,0,0,0"
                                                   IsChecked="{Binding IsChecked}"
+                                                  HorizontalOptions="Start"
                                                   Color="{StaticResource TextGrayColor}"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
 
                                         <Label  Grid.Row="0"
                                                 Grid.Column="1"
+                                                Margin="15,0,0,0"
                                                 x:Name="firstNameLabel"
                                                 Text="{Binding firstName}"
                                                 TextColor="{StaticResource BlackColor}"
-                                                VerticalOptions="Center"/>
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+                                      
                                         
-                                        <Label  Grid.Row="0"
-                                                Grid.Column="2"
-                                                Text="HCP : 5"
-                                                TextColor="{StaticResource BlackColor}"
-                                                VerticalOptions="Center"/>
-
-                                        <Label  Grid.Row="0"
-                                                Grid.Column="3"
-                                                Text="{Binding userType,Mode=TwoWay}"
-                                                TextColor="{StaticResource BlackColor}"
-                                                VerticalOptions="Center"/>
-
-                                        <!--<Controls:CustomRadioButton 
-                                            CheckedChanged =""
-                                                               Grid.Row="0"
-                                                            Grid.Column="4"
-                                                x:Name="ScoreKeeperSwitch"
-                                               BorderColor="{Static LightGreenColor}"
-                                               Checked="{Binding IsToggled}" 
-                                            >
-                                        </Controls:CustomRadioButton>-->
                                     </Grid>
+                                    <Controls:HorizontalList ListOrientation="Horizontal" 
+                                                                 ItemsSource="{Binding userType,Converter={StaticResource convertToList}}" 
+                                                                 Padding="0"
+                                                                 Grid.Row="1"
+                                                                 Margin="10,0,0,0"
+                                                                 >
+                                        <Controls:HorizontalList.ItemTemplate>
+                                            <DataTemplate>
+                                                <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
+                                                                         CornerRadius="25"
+                                                                         Margin="5">
+                                                    <Label Text="{Binding .}"
+                                                               TextColor="{StaticResource WhiteColor}"
+                                                               FontSize="{StaticResource FontSize16}"
+                                                               Margin="10,5,10,5"/>
+                                                </plugins:PancakeView>
+                                            </DataTemplate>
+                                        </Controls:HorizontalList.ItemTemplate>
+                                    </Controls:HorizontalList>
+                                    </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>
                         </Controls:UpdateViewCell>

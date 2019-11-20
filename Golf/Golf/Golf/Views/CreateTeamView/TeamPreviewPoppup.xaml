@@ -27,12 +27,28 @@
                              HasShadow="True">
 
             <StackLayout>
-                <Label Text="Team Name"
+               
+
+                <StackLayout Margin="20,10,20,10"
+                             Orientation="Horizontal">
+                    <Label Text="Team Name"
                        TextColor="{StaticResource BlackColor}"
                        FontSize="{StaticResource FontSize28}"
                        FontAttributes="Bold"
                        HorizontalOptions="CenterAndExpand"
-                       Margin="20"/>
+                       Margin="0"/>
+
+                    <ImageButton Source="close_icon.png"
+                             HorizontalOptions="End"
+                             HeightRequest="40"
+                             WidthRequest="40"
+                             BackgroundColor="Transparent"
+                             Margin="0"
+                                 x:Name="CloseButton"
+                             Clicked="CloseButton_Clicked"/>
+
+                </StackLayout>
+                
                 <Label Text="Score Keeper:"
                        Margin="20,0,20,0"
                        TextColor="{StaticResource TextGrayColor}"

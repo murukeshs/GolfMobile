@@ -64,5 +64,10 @@ namespace Golf.Views.CreateMatchView
         {
             await PopupNavigation.Instance.PopAllAsync();
         }
+
+        private async void CloseButton_Clicked(object sender, EventArgs e)
+        {
+            await PopupNavigation.Instance.PopAsync();
+        }
     }
 }

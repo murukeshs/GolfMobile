@@ -113,7 +113,7 @@ namespace Golf.ViewModel
                     {
                         email = UserNameText,
                         password = PasswordText,
-                        userTypeid = 1
+                        userTypeid = 2
                     };
 
                     string json = JsonConvert.SerializeObject(data);

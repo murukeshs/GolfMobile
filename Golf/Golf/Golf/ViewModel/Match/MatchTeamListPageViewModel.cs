@@ -9,6 +9,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -62,16 +63,23 @@ namespace Golf.ViewModel.Match
         public List<int> TeamIdList = new List<int>();
         public ICommand CheckBoxSelectedCommand => new Command(CheckBoxChanged);
 
-        void CheckBoxChanged(object parameter)
+        async void CheckBoxChanged(object parameter)
         {
             var item = parameter as MatchTeamWithPlayers;
             var teamId = item.teamId;
-            if (TeamIdList.Count > 0)
+            if (item.noOfPlayers > 0)
             {
-                bool UserIdAleradyExists = TeamIdList.Contains(teamId);
-                if (UserIdAleradyExists)
+                if (TeamIdList.Count > 0)
                 {
-                    TeamIdList.Remove(teamId);
+                    bool UserIdAleradyExists = TeamIdList.Contains(teamId);
+                    if (UserIdAleradyExists)
+                    {
+                        TeamIdList.Remove(teamId);
+                    }
+                    else
+                    {
+                        TeamIdList.Add(teamId);
+                    }
                 }
                 else
                 {
@@ -80,7 +88,11 @@ namespace Golf.ViewModel.Match
             }
             else
             {
-                TeamIdList.Add(teamId);
+                if (item.IsChecked == true)
+                {
+                    await UserDialogs.Instance.AlertAsync("No Players available for your selected team.", "Alert", "Ok");
+                    MatchTeamsItemsList.Where(w => w.teamId == teamId).ToList().ForEach(s => s.IsChecked = false);
+                }
             }
         }
 
