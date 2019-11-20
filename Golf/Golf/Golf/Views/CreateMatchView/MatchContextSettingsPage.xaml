@@ -34,7 +34,8 @@
                                            Margin="20,5,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
                                            TextColor="{StaticResource TextGrayColor}"
-                                           FontSize="{StaticResource FontSize18}"/>
+                                           FontSize="{StaticResource FontSize18}"
+                                           ItemsSource="{Binding SettingsList}"/>
 
                     <Label Text="Match Extras:"
                            Style="{StaticResource TextLabelStyleGrayColor20}"
@@ -47,7 +48,8 @@
                                            Margin="20,5,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
                                            TextColor="{StaticResource TextGrayColor}"
-                                           FontSize="{StaticResource FontSize18}"/>
+                                           FontSize="{StaticResource FontSize18}"
+                                           ItemsSource="{Binding MatchExtrasList}"/>
 
                     <controls:RoundedButton Text="Proceed"
                                     Margin="20,30,20,20"
