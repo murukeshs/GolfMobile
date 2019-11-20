@@ -335,7 +335,7 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "UploadFile/UploadFile";
+                    string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
                     Uri requestUri = new Uri(RestURL);
 
                     //convert image into bytes
@@ -346,19 +346,20 @@ namespace Golf.ViewModel
                         stream.CopyTo(ms);
                         imageData = ms.ToArray();
                     }
+
                     var formDataContent = new MultipartFormDataContent();
-                    formDataContent.Add(new ByteArrayContent(imageData), "files", "Image");
-                    //formDataContent.Add(new StringContent(json, System.Text.Encoding.UTF8, "application/json"), "myJsonObject");
+                    formDataContent.Add(new ByteArrayContent(imageData), "files", "Image.png");
 
                     var objClint = new HttpClient();
                     objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    objClint.MaxResponseContentBufferSize = 1000000;
+                    objClint.Timeout = TimeSpan.FromMilliseconds(360000);
+                    objClint.MaxResponseContentBufferSize = 5000000000;
                     HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
                     string responJsonText = await response.Content.ReadAsStringAsync();
 
+
                     if (response.IsSuccessStatusCode)
                     {
-                        //var imagedetails = JsonConvert.DeserializeObject<Global>(responJsonText);
                         //Asign the Image URL repsonse to the Image
                         ProfileImage = responJsonText;
                         UserDialogs.Instance.HideLoading();
