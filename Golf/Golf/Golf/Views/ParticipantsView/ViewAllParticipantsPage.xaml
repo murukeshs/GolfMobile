@@ -53,7 +53,7 @@
                        HorizontalTextAlignment="Center"/>
             </plugins:PancakeView>
 
-            <ListView Margin="20,0,20,20"
+            <ListView Margin="20,0,20,5"
                       x:Name="ListView"
                       ItemsSource="{Binding ParticipantItems}"
                       SeparatorVisibility="None"
@@ -106,7 +106,7 @@
                                                 <DataTemplate>
                                                     <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
                                                                          CornerRadius="25"
-                                                                         Margin="5">
+                                                                         Margin="5,0,5,0">
                                                         <Label Text="{Binding .}"
                                                                TextColor="{StaticResource WhiteColor}"
                                                                FontSize="{StaticResource FontSize16}"
@@ -122,6 +122,12 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <Controls:RoundedButton Text="Invite Participant"
+                                    Margin="40,0,40,10"
+                                    VerticalOptions="EndAndExpand"
+                                    x:Name="InviteParticipantButton"
+                                    Clicked="InviteParticipantButton_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

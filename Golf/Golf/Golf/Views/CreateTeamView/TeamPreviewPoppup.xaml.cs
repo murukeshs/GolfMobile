@@ -1,6 +1,7 @@
 ﻿using Golf.Models;
 using Golf.Services;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
@@ -49,6 +50,11 @@ namespace Golf.Views.PoppupView
             // Return false if you don't want to close this popup page when a background of the popup page is clicked
             base.OnBackgroundClicked();
             return true;
+        }
+
+        private async void CloseButton_Clicked(object sender, EventArgs e)
+        {
+            await PopupNavigation.Instance.PopAsync();
         }
     }
 }

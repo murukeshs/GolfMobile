@@ -47,16 +47,31 @@
                                          Margin="20,40,20,20"
                                          IsClippedToBounds="True">
                     <StackLayout Margin="0">
-                        <Label Text="Match Code"
+                        
+
+                            <StackLayout Margin="20,10,20,0"
+                             Orientation="Horizontal">
+                                <Label Text="Match Code"
                                TextColor="{StaticResource BlackColor}"
                                FontSize="{StaticResource FontSize20}"
-                               Margin="0,20,0,20"
+                               Margin="0"
                                    FontAttributes="Bold"
                                     HorizontalTextAlignment="Center"
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="Center"/>
 
-                        <Label TextColor="{StaticResource WhiteColor}"
+                                <ImageButton Source="close_icon.png"
+                             HorizontalOptions="End"
+                             HeightRequest="40"
+                             WidthRequest="40"
+                                             x:Name="CloseButton"
+                             BackgroundColor="Transparent"
+                             Margin="0"
+                             Clicked="CloseButton_Clicked"/>
+
+                            </StackLayout>
+
+                            <Label TextColor="{StaticResource WhiteColor}"
                            FontSize="{StaticResource FontSize18}"
                            Margin="20,0,20,0"
                            HorizontalTextAlignment="Center"

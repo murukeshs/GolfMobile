@@ -20,16 +20,7 @@ namespace Golf.Views.CreateMatchView
         {
             var item = (sender as CheckBox).BindingContext as MatchTeamWithPlayers;
             var noofplayers = Convert.ToUInt32(item.noOfPlayers);
-            if (noofplayers > 0)
-            {
-                ((MatchTeamListPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
-            }
-            else
-            {
-                ((CheckBox)sender).IsChecked = false;
-                UserDialogs.Instance.Alert("No Players available for your selected team.", "Alert", "Ok");
-            }
-            
+            ((MatchTeamListPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
 
         #region screen adjusting

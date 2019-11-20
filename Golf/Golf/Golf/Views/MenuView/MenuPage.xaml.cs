@@ -40,6 +40,7 @@ namespace Golf.Views.MenuView
                 else if (item.Title == "Logout")
                 {
                     IsPresented = false;
+                    MasterPage.ListView.SelectedItem = null;
                     var result = await DisplayAlert("Logout", "Are you sure you want to logout?", "Yes", "No");
                     if (result)
                     {

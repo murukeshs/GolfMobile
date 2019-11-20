@@ -62,7 +62,7 @@
                        HorizontalTextAlignment="Center"/>
             </plugins:PancakeView>
 
-            <ListView Margin="20,0,20,20"
+            <ListView Margin="20,0,20,5"
                       x:Name="ListView"
                       ItemsSource="{Binding ParticipantItems}"
                       SeparatorVisibility="None"
@@ -108,15 +108,16 @@
                                             <Controls:HorizontalList ListOrientation="Horizontal" 
                                                                  ItemsSource="{Binding roleType,Converter={StaticResource convertToList}}" 
                                                                  Padding="0"
-                                                                 Margin="10,5,10,5"
+                                                                 Margin="0,5,5,5"
                                                                  >
                                                 <Controls:HorizontalList.ItemTemplate>
                                                     <DataTemplate>
                                                         <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
                                                                          CornerRadius="25"
-                                                                         Margin="5"
+                                                                         Margin="5,0,5,0"
                                                                          Padding="5">
                                                             <Label Text="{Binding .}"
+                                                                   Margin="10,5,10,5"
                                                                TextColor="{StaticResource WhiteColor}"
                                                                FontSize="{StaticResource FontSize12}"
                                                                HorizontalTextAlignment="Center"
@@ -134,6 +135,12 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <Controls:RoundedButton Text="Invite Participant"
+                                    Margin="40,0,40,10"
+                                    VerticalOptions="EndAndExpand"
+                                    x:Name="InviteParticipantButton"
+                                    Clicked="InviteParticipantButton_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

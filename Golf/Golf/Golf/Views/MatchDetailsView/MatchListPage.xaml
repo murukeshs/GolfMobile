@@ -109,6 +109,7 @@
                                                HorizontalOptions="FillAndExpand"
                                                Text="{Binding Path=StartDate, StringFormat='Start date : {0:D}'}"/>
 
+                                        <StackLayout Orientation="Horizontal">
                                         <Label Margin="0"
                                                TextColor="Gray"
                                                FontSize="{StaticResource FontSize16}"
@@ -120,7 +121,7 @@
                                                    TextColor="Gray"
                                                    FontSize="{StaticResource FontSize16}"
                                                    VerticalOptions="Center"
-                                                   HorizontalOptions="EndAndExpand">
+                                                   HorizontalOptions="End">
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <Span Text="Fee : "/>
@@ -131,6 +132,7 @@
                                                     </FormattedString>
                                                 </Label.FormattedText>
                                             </Label>
+                                        </StackLayout>
                                     </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>
