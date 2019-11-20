@@ -45,5 +45,18 @@ namespace Golf.Views.MatchDetailsView
             }
         }
         #endregion
+
+        private void CustomPicker_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            var Item = (CompetitionType)picker.SelectedItem;
+            ((MatchDetailsPageViewModel)BindingContext).CompetitionTypeSelectedCommand.Execute(Item);
+        }
+
+        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var item = (sender as CheckBox).BindingContext as MatchRules;
+            ((MatchDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
+        }
     }
 }

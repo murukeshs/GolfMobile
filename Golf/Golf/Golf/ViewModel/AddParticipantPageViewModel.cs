@@ -25,10 +25,21 @@ namespace Golf.ViewModel
         public AddParticipantPageViewModel()
         {
             LoadPlayerListAsync();
+            TeamName = App.User.TeamName;
             //For Clear the team preview list
             App.User.TeamPreviewList.Clear();
         }
 
+        public string TeamName
+        {
+            get { return _TeamName; }
+            set
+            {
+                _TeamName = value;
+                OnPropertyChanged("TeamName");
+            }
+        }
+        private string _TeamName = string.Empty;
 
         #region PlayerList API Functionality
         public ObservableCollection<user> PlayersList

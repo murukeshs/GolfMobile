@@ -22,6 +22,14 @@ namespace Golf.ViewModel
     {
         public ListofRulesPageViewModel()
         {
+            MessagingCenter.Subscribe<App>((App)Application.Current, "OnCategoryCreated", (sender) => {
+                RefreshData();
+            });
+            getMatchRulesList();
+        }
+
+        void RefreshData()
+        {
             getMatchRulesList();
         }
 
@@ -36,7 +44,7 @@ namespace Golf.ViewModel
         }
         private ObservableCollection<MatchRules> _RulesItems = null;
 
-        async void getMatchRulesList()
+        public async void getMatchRulesList()
         {
             try
             {

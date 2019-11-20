@@ -16,5 +16,10 @@ namespace Golf.Views.Rules
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
     }
 }

@@ -32,6 +32,20 @@ namespace Golf.ViewModel.Match
         }
         private bool _IsVisibleMatchDetails = true;
 
+        public int CompetitionTypeId
+        {
+            get
+            {
+                return _CompetitionTypeId;
+            }
+            set
+            {
+                _CompetitionTypeId = value;
+                OnPropertyChanged(nameof(CompetitionTypeId));
+            }
+        }
+        private int _CompetitionTypeId = 0;
+
         //To Hide and UnHide Teams details Page
         public bool IsVisibleTeamsDetails
         {
@@ -122,17 +136,6 @@ namespace Golf.ViewModel.Match
         }
         private string _CompetitionType = string.Empty;
 
-        public string TypeofGame
-        {
-            get { return _TypeofGame; }
-            set
-            {
-                _TypeofGame = value;
-                OnPropertyChanged(nameof(TypeofGame));
-            }
-        }
-        private string _TypeofGame = string.Empty;
-
         public string MatchLocation
         {
             get { return _MatchLocation; }
@@ -172,6 +175,10 @@ namespace Golf.ViewModel.Match
             getMatchById();
             //Using THis Method to Load the Match Team And Players List From an API.
             getMatchesDetailsById();
+            //Get the Competition type values
+            GetCompetitionType();
+            //Get the Match rules
+            getMatchRulesList();
         }
 
         #region Match Details Button Command Functionality
@@ -188,6 +195,14 @@ namespace Golf.ViewModel.Match
         }
         #endregion Match Details Button Command Functionality
 
+        #region CompetitionType SelectedIndex Changes Command Functionality
+        public ICommand CompetitionTypeSelectedCommand => new Command(CompetitionTypeChangedEvent);
+        void CompetitionTypeChangedEvent(object parameter)
+        {
+            var item = parameter as CompetitionType;
+            CompetitionTypeId = item.competitionTypeId;
+        }
+        #endregion CompetitionType SelectedIndex Changes Command Functionality
 
         #region Team Button Command Functionality
 
@@ -371,6 +386,50 @@ namespace Golf.ViewModel.Match
 
         #endregion Team Item Tabbed Command Functionality
 
+        #region CompetitionType Command Functionality
+
+        public List<CompetitionType> CompetitionTypeItems
+        {
+            get { return _CompetitionTypeItems; }
+            set
+            {
+                _CompetitionTypeItems = value;
+                OnPropertyChanged(nameof(CompetitionTypeItems));
+            }
+        }
+        private List<CompetitionType> _CompetitionTypeItems = null;
+
+        async void GetCompetitionType()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Match/getCompetitionType";
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
+                    CompetitionTypeItems = Items;
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+
+        #endregion CompetitionType Command Functionality
+
 
 
         #region Save Button Command Functionality
@@ -394,8 +453,6 @@ namespace Golf.ViewModel.Match
 
                     var data = new CreateMatch
                     {
-                        matchName = MatchName,
-                        matchCode = MatchCode,
                         matchId = Convert.ToInt32(App.User.MatchId),
                         competitionTypeId = CompetitionTypeID,
                         isSaveAndNotify = IsSaveAndNotify
@@ -484,7 +541,6 @@ namespace Golf.ViewModel.Match
                         MatchName = MatchDetails.matchName;
                         MatchCode = MatchDetails.matchCode;
                         CompetitionType = MatchDetails.competitionName;
-                        TypeofGame = MatchDetails.ruleName;
                         MatchLocation = MatchDetails.matchLocation;
                         CompetitionTypeID = MatchDetails.competitionTypeId;
                         //UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
@@ -512,5 +568,78 @@ namespace Golf.ViewModel.Match
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+
+        #region GetMatchRulesList Command Functionality
+
+
+        public ObservableCollection<MatchRules> RulesItems
+        {
+            get { return _RulesItems; }
+            set
+            {
+                _RulesItems = value;
+                OnPropertyChanged(nameof(RulesItems));
+            }
+        }
+        private ObservableCollection<MatchRules> _RulesItems = null;
+
+        async void getMatchRulesList()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Match/getMatchRulesList";
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    var Items = JsonConvert.DeserializeObject<ObservableCollection<MatchRules>>(content);
+                    RulesItems = Items;
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+
+        #endregion GetMatchRulesList Command Functionality
+
+        #region MatchRule CheckBox Clicked Command Functionality
+
+        public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
+        public List<string> ListofRules = new List<string>();
+        void CheckboxChangedEvent(object parameter)
+        {
+            var item = parameter as MatchRules;
+            var matchRuleId = item.matchRuleId;
+            if (ListofRules.Count > 0)
+            {
+                bool UserIdAleradyExists = ListofRules.Contains(matchRuleId);
+                if (UserIdAleradyExists)
+                {
+                    ListofRules.Remove(matchRuleId);
+                }
+                else
+                {
+                    ListofRules.Add(matchRuleId);
+                }
+            }
+            else
+            {
+                ListofRules.Add(matchRuleId);
+            }
+        }
+
+        #endregion MatchRule CheckBox Clicked Command Functionality
     }
 }

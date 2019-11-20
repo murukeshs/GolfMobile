@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Golf.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Golf.ViewModel;
 
 namespace Golf.Views.Rules
 {
@@ -36,8 +37,10 @@ namespace Golf.Views.Rules
 
         public AddRulePoppupPage ()
 		{
-			InitializeComponent ();
-		}
+            InitializeComponent ();
+            BindingContext = this;
+            
+        }
 
         
 
@@ -109,8 +112,11 @@ namespace Golf.Views.Rules
 
                         if (response.IsSuccessStatusCode)
                         {
-                            AddNewRuleText = string.Empty;
+                            AddNewRuleText = string.Empty;                           
                             UserDialogs.Instance.HideLoading();
+                            MessagingCenter.Send<App>((App)Application.Current, "OnCategoryCreated");
+                            UserDialogs.Instance.Alert("New Rule Successfully Added!", "Success", "Ok");
+                            await PopupNavigation.Instance.PopAsync();
                         }
                         else
                         {

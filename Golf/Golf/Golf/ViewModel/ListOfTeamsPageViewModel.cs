@@ -63,6 +63,7 @@ namespace Golf.ViewModel
             {
                 var item = parameter as MatchTeamItems;
                 App.User.TeamIdforPlayerListing = item.teamId;
+                App.User.TeamName = item.teamName;
                // UserDialogs.Instance.ShowLoading();
                 var view = new ViewParticipantPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);

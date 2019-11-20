@@ -143,11 +143,14 @@ namespace Golf.ViewModel
         public ICommand RegisterCommand => new AsyncCommand(RegisterAsync);
         async Task RegisterAsync()
         {
-            IsValid = Validate();
-            if (IsValid)
-            {
-                await Register();
-            }
+            var view = new OtpVerificationPage();
+            var navigationPage = ((NavigationPage)App.Current.MainPage);
+            await navigationPage.PushAsync(view);
+            //IsValid = Validate();
+            //if (IsValid)
+            //{
+            //    await Register();
+            //}
         }
 
         bool Validate()
@@ -243,7 +246,7 @@ namespace Golf.ViewModel
                     {
                         RegisterResponse res = JsonConvert.DeserializeObject<RegisterResponse>(responJsonText);
                         App.User.UserId = res.userId;
-
+                        App.User.OtpEmail = EmailText;
                         var view = new OtpVerificationPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
