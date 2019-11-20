@@ -133,6 +133,7 @@ namespace Golf.ViewModel
                     {
                         var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
                         App.User.CreateTeamId = Item.teamId;
+                        App.User.TeamName = TeamNameText;
                         var view = new AddParticipantPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);

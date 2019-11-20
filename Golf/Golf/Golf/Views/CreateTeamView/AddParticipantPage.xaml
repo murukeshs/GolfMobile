@@ -52,7 +52,7 @@
                         <ColumnDefinition Width="5.0*"/>
                     </Grid.ColumnDefinitions>
                 
-            <Label Text="Team Name"
+            <Label Text="{Binding TeamName}"
                    TextColor="{StaticResource BlackColor}"
                    FontSize="{StaticResource FontSize28}"
                    FontAttributes="Bold"

@@ -246,7 +246,7 @@ namespace Golf.ViewModel
                     {
                         RegisterResponse res = JsonConvert.DeserializeObject<RegisterResponse>(responJsonText);
                         App.User.UserId = res.userId;
-
+                        App.User.OtpEmail = EmailText;
                         var view = new OtpVerificationPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);

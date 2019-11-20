@@ -36,8 +36,8 @@
                    Margin="20"/>
             
             <Label Margin="5,10,5,20" 
-                   HorizontalOptions="CenterAndExpand"
-                   Text="We have sent an OTP to your registered&#x0a;email-ID example@gmail.com&#x0a;for verification"
+                   HorizontalOptions="CenterAndExpand" 
+                   Text="{Binding Email, StringFormat='We have sent an OTP to your registered email-ID {0:D} for verification'}"
                    FontSize="{StaticResource FontSize20}"
                    HorizontalTextAlignment="Center"
                    TextColor="{StaticResource BlackColor}"/>
@@ -77,7 +77,7 @@
             <Controls:RoundedButton Text="Verify"
                                     Margin="40,20,40,20"
                                     x:Name="OtpVerifyButton"
-                                    Clicked="OtpVerifyButton_Clicked"/>
+                                    Command="{Binding VerifyOtpCommand}"/>
 
             <StackLayout Orientation="Horizontal" 
                          HorizontalOptions="CenterAndExpand"

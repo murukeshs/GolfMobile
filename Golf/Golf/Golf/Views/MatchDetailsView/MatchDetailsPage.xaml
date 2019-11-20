@@ -135,12 +135,15 @@
                                     TitleColor="{StaticResource TextGrayColor}"
                                     TextColor="{StaticResource TextGrayColor}"
                                     Style="{StaticResource RectangleShapeEntryStyle}"/>
+                        <Label Text="Rules"
+                               Style="{StaticResource HeadingsLabel}"
+                               FontSize="{StaticResource FontSize18}"/>
                         <StackLayout>
                             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
-                                         Margin="20,5,20,0"
+                                         Margin="10,5,10,0"
                                         >
                             <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"

@@ -1,10 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
+using Golf.Utils;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Golf.ViewModel
@@ -24,10 +27,24 @@ namespace Golf.ViewModel
             }
         }
         private string _OTP = string.Empty;
+        public string Email
+        {
+            get
+            {
+                return _Email;
+            }
+            set
+            {
+                _Email = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _Email = string.Empty;
 
         public OTPVerificationViewModel()
         {
             generateOTP();
+            Email = App.User.OtpEmail;
         }
         #region generateOTP
         public async void generateOTP()
@@ -42,7 +59,7 @@ namespace Golf.ViewModel
 
                     var data = new GenerateOTPEmail
                     {
-                        email = "swathit@apptomate.co",
+                        email = "swathit@apptomate.co",  // Email
                         type = "Email Verify"
                     };
 
@@ -78,7 +95,9 @@ namespace Golf.ViewModel
 
 
         #region validateOTP
-        public async void verifyOTP()
+
+        public ICommand VerifyOtpCommand => new AsyncCommand(verifyOTP);
+        public async Task verifyOTP()
         {
             try
             {
@@ -91,7 +110,7 @@ namespace Golf.ViewModel
                     var data = new VerifyOTP
                     {
                         otpValue=OTP,
-                        emailorPhone="swathit@apptomate.co",
+                        emailorPhone="swathit@apptomate.co", // Email
                         type= "Email Verify",
                         sourceType="Email"
                     };

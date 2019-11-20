@@ -35,6 +35,10 @@ namespace Golf.Models
 
         internal bool IsModerator { get; set; } = false;
 
+        internal string OtpEmail { get; set; }
+
+        internal string TeamName { get; set; }
+
         public ObservableCollection<AddPlayersList> TeamPreviewList { get; set; } = new ObservableCollection<AddPlayersList>();
     }
 }
