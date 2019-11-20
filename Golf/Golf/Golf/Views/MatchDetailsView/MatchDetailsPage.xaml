@@ -118,27 +118,59 @@
                                                BackgroundColor="LightGray"
                                               FontSize="{StaticResource FontSize18}"/>
 
-                        <Label Text="Competition Type"
-                               Style="{StaticResource HeadingsLabel}"
+                        <Label Text="Competition Type" 
+                        Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding CompetitionType,Mode=TwoWay}"
-                                              Style="{StaticResource RectangleShapeEntryStyle}"
-                                              Margin="0,5,0,0"
-                                              IsCurvedCornersEnabled="True"
-                                              FontSize="{StaticResource FontSize18}"/>
+                        <controls:BoxPicker ItemsSource="{Binding CompetitionTypeItems}"
+                                    Title="Select Competition Type"
+                                    Image="down_arrow_gray.png"
+                                    Margin="0,5,0,0"
+                                    VerticalOptions="Center"
+                                    ItemDisplayBinding="{Binding competitionName}" 
+                                    SelectedIndex="{Binding competitionTypeId}" 
+                                    SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
+                                    FontSize="{StaticResource FontSize18}"
+                                    BorderColor="{StaticResource TextGrayColor}"
+                                    TitleColor="{StaticResource TextGrayColor}"
+                                    TextColor="{StaticResource TextGrayColor}"
+                                    Style="{StaticResource RectangleShapeEntryStyle}"/>
+                        <StackLayout>
+                            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                         BorderColor="{StaticResource BorderColor}"
+                                         CornerRadius="10"
+                                         HasShadow="True"
+                                         Margin="20,5,20,0"
+                                        >
+                            <controls:HorizontalList ListOrientation="Vertical"
+                                                 HeightRequest="200"
+                                                 Padding="0"
+                                                 Margin="0"
+                                                 BackgroundColor="Transparent"
+                                                 ItemsSource="{Binding RulesItems}">
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
 
-                        <Label Text="Type of Game"
-                               Style="{StaticResource HeadingsLabel}"
-                               FontSize="{StaticResource FontSize18}"/>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="10,10,10,5"
+                                                     Padding="0"
+                                                     Spacing="0">
 
-                        <controls:CustomEntry Text="{Binding TypeofGame,Mode=TwoWay}"
-                                  Style="{StaticResource RectangleShapeEntryStyle}"
-                                  Margin="0,5,0,0"
-                                  IsCurvedCornersEnabled="True"
-                                   FontSize="{StaticResource FontSize18}"/>
+                                            <CheckBox Color="{StaticResource TextGrayColor}"
+                                                  Margin="20,0"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+                                            <Label Text="{Binding ruleName}"
+                                               FontSize="Small"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Margin="0,0"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </plugins:PancakeView>
+                    </StackLayout>
 
-                        <Label Text="Match Location"
+                    <!--<Label Text="Match Location"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
@@ -146,7 +178,7 @@
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               Margin="0,5,0,0"
                                               IsCurvedCornersEnabled="True"
-                                              FontSize="{StaticResource FontSize18}"/>
+                                              FontSize="{StaticResource FontSize18}"/>-->
 
                         <Label Text="Context Settings"
                                Style="{StaticResource HeadingsLabel}"

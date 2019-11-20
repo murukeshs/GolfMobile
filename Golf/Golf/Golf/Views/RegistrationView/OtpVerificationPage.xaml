@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
              x:Class="Golf.Views.OtpVerificationPage"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="{StaticResource AppBackgroundColor}">
+    
+    <ContentPage.BindingContext>
+        <viewModels:OTPVerificationViewModel/>
+    </ContentPage.BindingContext>
 
     <ContentPage.Resources>
         <ResourceDictionary>
