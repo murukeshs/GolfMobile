@@ -61,7 +61,7 @@ namespace Golf.Views.MenuView
             
             public MenuPageMasterViewModel()
             {
-                if (!string.IsNullOrEmpty(App.User.UserProfileImage))
+                if (!string.IsNullOrEmpty(App.User.UserProfileImage) || App.User.UserProfileImage != null)
                 {
                     UserProfilePic = App.User.UserProfileImage;
                 }

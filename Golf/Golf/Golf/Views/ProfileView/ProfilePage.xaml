@@ -178,11 +178,13 @@
                     <Controls:CustomPicker Title="Gender" 
                                            Image="down_arrow_gray.png"
                                            Margin="20,0,20,0"
+                                           x:Name="GenderPicker"
                                            TitleColor="{StaticResource TextGrayColor}"
                                            TextColor="{StaticResource TextGrayColor}"
                                            ItemsSource="{Binding GenderList}"
                                            SelectedIndexChanged="GenderOnchange"
-                                           SelectedIndex="{Binding Gender, Mode = TwoWay}"/>
+                                           ItemDisplayBinding="{Binding gender}"
+                                           SelectedIndex="{Binding GenderId, Mode=TwoWay}"/>
 
 
                     <Label Text="User Type" 

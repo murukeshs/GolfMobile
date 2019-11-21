@@ -31,7 +31,7 @@ namespace Golf.ViewModel
         ImageSource srcThumb = null;
         public byte[] imageData = null;
 
-        public List<string> GenderList { get; set; }
+        public List<GenderType> GenderList { get; set; }
 
         public ProfilePageViewModel()
         {
@@ -43,9 +43,12 @@ namespace Golf.ViewModel
             {
                 ProfileImage = "profile_defalut_pic.png";
             }
-            GenderList = new List<string>();
-            GenderList.Add("Male");
-            GenderList.Add("Female");
+
+            GenderList = new List<GenderType>()
+            {
+                new GenderType{gender = "Male", genderId = 1},
+                new GenderType{gender = "Female", genderId = 2}
+            };
 
             UserTypeItems = new ObservableCollection<UserTypes>()
             {
@@ -135,6 +138,17 @@ namespace Golf.ViewModel
             }
         }
         private string _Gender = string.Empty;
+
+        public int GenderId
+        {
+            get { return _GenderId; }
+            set
+            {
+                _GenderId = value;
+                OnPropertyChanged(nameof(GenderId));
+            }
+        }
+        private int _GenderId;
 
         public string UserType
         {
@@ -482,10 +496,10 @@ namespace Golf.ViewModel
         void LoadType()
         {
             var list = new List<string>();
-           // var MatchRuleID = UserTypeValues.Split(",", list);
-            List<string> result = UserTypeValues.Split(',').ToList();
+            // var MatchRuleID = UserTypeValues.Split(",", list);
+            UserTypeList = UserTypeValues.Split(',').ToList();
             //var list = UserTypeValues.Split(",");
-            foreach (string item in result)
+            foreach (string item in UserTypeList)
             {
                 UserTypeItems.Where(w => w.RoleTypeName == item).ToList().ForEach(s => s.Checked = true);
             }
@@ -496,13 +510,35 @@ namespace Golf.ViewModel
         {
             if(Gender == "Male")
             {
-                Gender = "0";
+                GenderId = 0;
             }
             else
             {
-                Gender = "1";
+                GenderId = 1;
+                //GenderList.Where(w => w.gender == "Female").ToList().ForEach(s => s.genderId = 2);
             }
         }
+
+
+        #region Match Picker Selected Command Functionality
+
+        public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
+
+        void SelectedIndexChangedEvent(object parameter)
+        {
+            var item = parameter as int?;
+            if (item == 0)
+            {
+                GenderId = 0;
+                Gender = "Male";
+            }
+            else
+            {
+                GenderId = 1;
+                Gender = "Female";
+            }
+        }
+        #endregion Match Picker Selected Command Functionality
 
         #region UserTypeList Command
 
@@ -798,16 +834,50 @@ namespace Golf.ViewModel
                 return true;
             }
         }
+
+        public int typeid;
         async Task RegisterUserInfo()
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    var UserTypeId = string.Join(",", UserTypeList);
+                    var list = new List<int>();
+                    foreach(var item in UserTypeList)
+                    {
+                        if(item.ToString() == "Player")
+                        {
+                            typeid = 1;
+                        }
+                        else if(item.ToString() == "Moderator")
+                        {
+                            typeid = 2;
+                        }
+                        else if (item.ToString() == "Score Keeper")
+                        {
+                            typeid = 3;
+                        }
+                        else if (item.ToString() == "Spectator")
+                        {
+                            typeid = 4;
+                        }
+                        else if (item.ToString() == "Organizer")
+                        {
+                            typeid = 5;
+                        }
+                        list.Add(typeid);
+                    }
+                    var UserTypeId = string.Join(",", list);
+
                     UserDialogs.Instance.ShowLoading();
                     string RestURL = App.User.BaseUrl + "User/updateUser";
                     Uri requestUri = new Uri(RestURL);
+
+                    if(string.IsNullOrEmpty(ProfileImage) || ProfileImage == null || ProfileImage == "profile_defalut_pic.png")
+                    {
+                        ProfileImage = null;
+                    }
+                   
 
                     var data = new createUser
                     {
@@ -815,6 +885,7 @@ namespace Golf.ViewModel
                         firstName = FirstName,
                         lastName = LastName,
                         email = Email,
+                        profileImage = ProfileImage,
                         gender = Gender,
                         dob = Dob.ToString(),
                         userTypeId = UserTypeId
@@ -829,6 +900,10 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         UserDialogs.Instance.Alert("ProfileInfo SuccessFully Updated", "Alert", "Ok");
+                        if (ProfileImage != null)
+                        {
+                            App.User.UserProfileImage = ProfileImage;
+                        }
                         UserDialogs.Instance.HideLoading();
                     }
                     else

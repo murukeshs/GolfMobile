@@ -55,8 +55,8 @@ namespace Golf.Views.MenuView
                 }
                 else
                 {
-                    Detail = new NavigationPage(page);
                     IsPresented = false;
+                    Detail = new NavigationPage(page);
                 }
 
                 MasterPage.ListView.SelectedItem = null;

@@ -120,7 +120,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(IsPublicProfile));
             }
         }
-        private bool _IsPublicProfile = false;
+        private bool _IsPublicProfile = true;
 
         public RegistrationPageAdminViewModel()
         {

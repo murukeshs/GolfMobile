@@ -85,7 +85,9 @@ namespace Golf.Views
         private void GenderOnchange(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;
-            vm.Gender = picker.SelectedItem.ToString();
+            var index = GenderPicker.SelectedIndex;
+            ((ProfilePageViewModel)BindingContext).PickerSelectedCommand.Execute(index);
+            
         }
 
         private void CountryIndexChanged(object sender, EventArgs e)
