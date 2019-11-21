@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidSupportedAbis />
-    <JavaMaximumHeapSize>2g</JavaMaximumHeapSize>
+    <JavaMaximumHeapSize>3g</JavaMaximumHeapSize>
     <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>

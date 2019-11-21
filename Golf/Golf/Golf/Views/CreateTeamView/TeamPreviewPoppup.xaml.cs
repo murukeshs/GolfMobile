@@ -61,6 +61,16 @@ namespace Golf.Views.PoppupView
             TeamPreviewName = App.User.TeamName;
             TeamPreviewName = App.User.TeamPreviewName;
             ScoreKeeperName = App.User.TeamPreviewScoreKeeperName;
+            if(!string.IsNullOrEmpty(ScoreKeeperName))
+            {
+                ScoreKeeperCard.IsVisible = true;
+                NoScoreKeeperCard.IsVisible = false;
+            }
+            else
+            {
+                ScoreKeeperCard.IsVisible = false;
+                NoScoreKeeperCard.IsVisible = true;
+            }
             if (!string.IsNullOrEmpty(App.User.TeamPreviewScoreKeeperProfilePicture))
             {
                 ScoreKeeperProfileImage = App.User.TeamPreviewScoreKeeperProfilePicture;
@@ -109,6 +119,14 @@ namespace Golf.Views.PoppupView
         private async void CloseButton_Clicked(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PopAsync();
+        }
+
+        private void ImageButton_Clicked_1(object sender, EventArgs e)
+        {
+            ScoreKeeperCard.IsVisible = false;
+            NoScoreKeeperCard.IsVisible = true;
+            App.User.TeamPreviewScoreKeeperName = string.Empty;
+            App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
         }
     }
 }
