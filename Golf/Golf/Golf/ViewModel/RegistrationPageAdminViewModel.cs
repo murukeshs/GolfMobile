@@ -9,7 +9,7 @@ using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 using System.Windows.Input;
 using Xamarin.Forms;
 
