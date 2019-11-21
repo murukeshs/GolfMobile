@@ -75,7 +75,6 @@ namespace Golf.ViewModel
             CheckProfilePicture();
             if (IsValid)
             {
-                
                 await CreateTeamAsync();
             }
         }
