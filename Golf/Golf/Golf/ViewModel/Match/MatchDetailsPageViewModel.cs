@@ -20,6 +20,10 @@ namespace Golf.ViewModel.Match
     {
         bool IsSuccess = false;
 
+        public List<string> SettingsList { get; set; } 
+
+        public List<string> MatchExtrasList { get; set; }
+
         public getMatchById MatchDetails;
         //To Hide and UnHide Math details Page
         public bool IsVisibleMatchDetails
@@ -183,6 +187,18 @@ namespace Golf.ViewModel.Match
 
         public MatchDetailsPageViewModel()
         {
+            SettingsList = new List<string>();
+            SettingsList.Add("Carryover - if no one wins the hole");
+            SettingsList.Add("N tie");
+            SettingsList.Add("Greater than 1 or equal to");
+            SettingsList.Add("No Carryover");
+
+            MatchExtrasList = new List<string>();
+            MatchExtrasList.Add("Greenies");
+            MatchExtrasList.Add("Skins");
+            MatchExtrasList.Add("Closet to the pin");
+            MatchExtrasList.Add("Longest drive");
+
             //Get the Competition type values
             GetCompetitionType();
             //Get the Match rules
