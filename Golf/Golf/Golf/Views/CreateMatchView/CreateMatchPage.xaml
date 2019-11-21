@@ -152,12 +152,6 @@
                                      Command="{Binding CancelAddRuleCommand}"/>
                             </StackLayout>
                     </StackLayout>
-                 
-
-                    <!--<controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
-                                    Placeholder="Enter Rule"
-                                    Margin="20,5,20,0"
-                                    FontSize="{StaticResource FontSize18}"/>-->
 
             <Label Text="Choose Date and Time :"
                    TextColor="{StaticResource BlackColor}"

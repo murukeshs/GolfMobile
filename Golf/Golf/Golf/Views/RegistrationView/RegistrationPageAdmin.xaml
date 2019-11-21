@@ -34,6 +34,7 @@
                 <Label Text="Communication Information"
                        HorizontalOptions="CenterAndExpand"
                        Margin="20,20,20,0"
+                       HorizontalTextAlignment="Center"
                        Style="{StaticResource HeaderLabelStyleWhite28}"/>
 
                 <StackLayout Orientation="Horizontal" 
@@ -106,11 +107,12 @@
                            VerticalOptions="Center"
                            Margin="5,0"
                            FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource WhiteC0lor}"
+                           TextColor="{StaticResource WhiteColor}"
                            HorizontalOptions="StartAndExpand"/>
 
                     <Switch OnColor="{StaticResource LightGreenColor}"
                             ThumbColor="{StaticResource LightGreenColor}"
+                            BackgroundColor="Transparent"
                             HorizontalOptions="End"
                             IsToggled="{Binding IsPublicProfile, Mode=TwoWay}"
                             />

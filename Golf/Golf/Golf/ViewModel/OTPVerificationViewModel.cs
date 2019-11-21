@@ -2,6 +2,7 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
+using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -27,6 +28,92 @@ namespace Golf.ViewModel
             }
         }
         private string _OTP = string.Empty;
+
+        public string FirstDigit
+        {
+            get
+            {
+                return _FirstDigit;
+            }
+            set
+            {
+                _FirstDigit = value;
+                OnPropertyChanged("FirstDigit");
+            }
+        }
+        private string _FirstDigit = string.Empty;
+
+        public string SecondDigit
+        {
+            get
+            {
+                return _SecondDigit;
+            }
+            set
+            {
+                _SecondDigit = value;
+                OnPropertyChanged("SecondDigit");
+            }
+        }
+        private string _SecondDigit = string.Empty;
+
+        public string ThirdDigit
+        {
+            get
+            {
+                return _ThirdDigit;
+            }
+            set
+            {
+                _ThirdDigit = value;
+                OnPropertyChanged("ThirdDigit");
+            }
+        }
+        private string _ThirdDigit = string.Empty;
+
+        public string FourthDigit
+        {
+            get
+            {
+                return _FourthDigit;
+            }
+            set
+            {
+                _FourthDigit = value;
+                OnPropertyChanged("FourthDigit");
+            }
+        }
+        private string _FourthDigit = string.Empty;
+
+
+        public string FifthDigit
+        {
+            get
+            {
+                return _FifthDigit;
+            }
+            set
+            {
+                _FifthDigit = value;
+                OnPropertyChanged("FifthDigit");
+            }
+        }
+        private string _FifthDigit = string.Empty;
+
+        public string SixthDigit
+        {
+            get
+            {
+                return _SixthDigit;
+            }
+            set
+            {
+                _SixthDigit = value;
+                OnPropertyChanged("SixthDigit");
+            }
+        }
+        private string _SixthDigit = string.Empty;
+
         public string Email
         {
             get
@@ -36,15 +123,15 @@ namespace Golf.ViewModel
             set
             {
                 _Email = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Email));
             }
         }
         private string _Email = string.Empty;
 
         public OTPVerificationViewModel()
         {
-            generateOTP();
             Email = App.User.OtpEmail;
+            generateOTP();
         }
         #region generateOTP
         public async void generateOTP()
@@ -59,7 +146,7 @@ namespace Golf.ViewModel
 
                     var data = new GenerateOTPEmail
                     {
-                        email = "swathit@apptomate.co",  // Email
+                        email = Email,
                         type = "Email Verify"
                     };
 
@@ -109,20 +196,23 @@ namespace Golf.ViewModel
 
                     var data = new VerifyOTP
                     {
-                        otpValue=OTP,
-                        emailorPhone="swathit@apptomate.co", // Email
+                        otpValue=FirstDigit + SecondDigit + ThirdDigit + FourthDigit + FifthDigit + SixthDigit,
+                        emailorPhone=Email,
                         type= "Email Verify",
                         sourceType="Email"
                     };
 
                     string json = JsonConvert.SerializeObject(data);
                     var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert("OTP Verified successfully.", "Success", "Ok");
+                        await UserDialogs.Instance.AlertAsync("OTP Verified successfully.", "Success", "Ok");
+                        var view = new RegistrationPageAdmin();
+                        var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        await navigationPage.PushAsync(view);
                     }
                     else
                     {

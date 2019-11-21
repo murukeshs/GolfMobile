@@ -33,7 +33,7 @@
             <Image Source="otp_verfication.png"
                    HeightRequest="200"
                    WidthRequest="200"
-                   Margin="20"/>
+                   Margin="20,40,20,20"/>
             
             <Label Margin="5,10,5,20" 
                    HorizontalOptions="CenterAndExpand" 
@@ -47,17 +47,17 @@
                          Padding="0"
                          Spacing="0"
                          HorizontalOptions="CenterAndExpand">
-                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+                <Controls:ExtendedEntry Text="{Binding FirstDigit, Mode=TwoWay}" Style="{StaticResource OtpNumberEntryStyle}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+                <Controls:ExtendedEntry Text="{Binding SecondDigit, Mode=TwoWay}" Style="{StaticResource OtpNumberEntryStyle}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+                <Controls:ExtendedEntry Text="{Binding ThirdDigit, Mode=TwoWay}" Style="{StaticResource OtpNumberEntryStyle}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+                <Controls:ExtendedEntry Text="{Binding FourthDigit, Mode=TwoWay}" Style="{StaticResource OtpNumberEntryStyle}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+                <Controls:ExtendedEntry Text="{Binding FifthDigit, Mode=TwoWay}" Style="{StaticResource OtpNumberEntryStyle}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource OtpNumberEntryStyle}"/>
+                <Controls:ExtendedEntry Text="{Binding SixthDigit, Mode=TwoWay}" Style="{StaticResource OtpNumberEntryStyle}"/>
 
             </StackLayout>
 

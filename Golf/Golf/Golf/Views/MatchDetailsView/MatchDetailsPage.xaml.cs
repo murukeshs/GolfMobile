@@ -1,4 +1,5 @@
-﻿using Golf.Models;
+﻿using Golf.Controls;
+using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel.Match;
 using Xamarin.Forms;
@@ -53,10 +54,10 @@ namespace Golf.Views.MatchDetailsView
             ((MatchDetailsPageViewModel)BindingContext).CompetitionTypeSelectedCommand.Execute(Item);
         }
 
-        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        private void CheckBox_CheckedChanged(object sender, bool e)
         {
-            var item = (sender as CheckBox).BindingContext as MatchRules;
-            ((MatchDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
+            var value = (CustomCheckBox)sender;
+            ((MatchDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(value.DefaultValue);
         }
     }
 }
