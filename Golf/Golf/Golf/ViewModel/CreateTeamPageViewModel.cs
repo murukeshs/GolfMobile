@@ -304,6 +304,7 @@ namespace Golf.ViewModel
                     {
                         //Asign the Image URL repsonse to the Image
                         TeamProfilePicture = responJsonText;
+                        CheckProfilePicture();
                         UserDialogs.Instance.HideLoading();
                     }
                     else

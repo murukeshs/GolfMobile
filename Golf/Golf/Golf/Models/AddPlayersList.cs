@@ -11,6 +11,8 @@ namespace Golf.Models
 
         public string PlayerHCP { get; set; }
 
+        public string PlayerImage { get; set; }
+
         public string PlayerType { get; set; }
         public bool IsStoreKeeper { get; set; }
     }

@@ -122,7 +122,7 @@ namespace Golf.ViewModel
                 if (UserIdAleradyExists)
                 {
                     TeamPlayersIds.Remove(userId);
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true };
+                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true,PlayerImage=item.profileImage };
 
                     App.User.TeamPreviewList.Remove(list);
                 }
@@ -130,15 +130,15 @@ namespace Golf.ViewModel
                 {
                     TeamPlayersIds.Add(userId);
 
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true };
-                    
+                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+
                     App.User.TeamPreviewList.Add(list);
                 }
             }
             else
             {
                 TeamPlayersIds.Add(userId);
-                var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true };
+                var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
                 App.User.TeamPreviewList.Add(list);
             }
         }
