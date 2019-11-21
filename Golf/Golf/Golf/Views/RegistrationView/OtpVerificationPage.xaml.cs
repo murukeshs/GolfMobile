@@ -14,13 +14,6 @@ namespace Golf.Views
 			InitializeComponent ();
 		}
 
-        private async void OtpVerifyButton_Clicked(object sender, EventArgs e)
-        {
-            var view = new RegistrationPageAdmin();
-            var navigationPage = ((NavigationPage)App.Current.MainPage);
-            await navigationPage.PushAsync(view);
-        }
-
         #region screen adjusting
         protected override void OnAppearing()
         {

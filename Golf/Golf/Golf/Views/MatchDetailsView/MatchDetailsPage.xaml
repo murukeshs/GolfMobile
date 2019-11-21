@@ -21,6 +21,13 @@
 
             <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
 
+            <Style x:Key="CheckBoxStyle" 
+                   TargetType="controls:CustomCheckBox"
+                   BasedOn="{StaticResource CustomCheckBoxStyleGray}">
+                <Setter Property="Margin" Value="60,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
             <Style x:Key="HeadingsLabel" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="Margin" Value="0,5,0,0"/>
@@ -128,13 +135,14 @@
                                     Margin="0,5,0,0"
                                     VerticalOptions="Center"
                                     ItemDisplayBinding="{Binding competitionName}" 
-                                    SelectedIndex="{Binding competitionTypeId}" 
+                                    SelectedIndex="{Binding CompetitionTypeID, Mode=TwoWay}" 
                                     SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
                                     FontSize="{StaticResource FontSize18}"
                                     BorderColor="{StaticResource TextGrayColor}"
                                     TitleColor="{StaticResource TextGrayColor}"
                                     TextColor="{StaticResource TextGrayColor}"
                                     Style="{StaticResource RectangleShapeEntryStyle}"/>
+                        
                         <Label Text="Rules"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
@@ -145,35 +153,35 @@
                                          HasShadow="True"
                                          Margin="10,5,10,0"
                                         >
-                            <controls:HorizontalList ListOrientation="Vertical"
+                                <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
                                                  Padding="0"
                                                  Margin="0"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
-                                <controls:HorizontalList.ItemTemplate>
-                                    <DataTemplate>
+                                    <controls:HorizontalList.ItemTemplate>
+                                        <DataTemplate>
 
-                                        <StackLayout Orientation="Horizontal"
-                                                     Margin="10,10,10,5"
+                                            <StackLayout Orientation="Horizontal"
+                                                     Margin="10,5,10,5"
                                                      Padding="0"
                                                      Spacing="0">
 
-                                            <CheckBox Color="{StaticResource TextGrayColor}"
-                                                  Margin="20,0"
-                                                  CheckedChanged="CheckBox_CheckedChanged"/>
-                                            <Label Text="{Binding ruleName}"
-                                               FontSize="Small"
-                                               TextColor="{StaticResource TextGrayColor}"
-                                               Margin="0,0"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </controls:HorizontalList.ItemTemplate>
-                            </controls:HorizontalList>
-                        </plugins:PancakeView>
-                    </StackLayout>
+                                                <controls:CustomCheckBox BorderColor="{StaticResource TextGrayColor}"
+                                                             Margin="20,0"
+                                                             DefaultText="{Binding ruleName}"
+                                                             DefaultValue="{Binding matchRuleId}"
+                                                             Checked="{Binding Checked, Mode=TwoWay}"
+                                                             Style="{StaticResource CheckBoxStyle}"
+                                                             CheckedChanged="CheckBox_CheckedChanged"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </controls:HorizontalList.ItemTemplate>
+                                </controls:HorizontalList>
+                            </plugins:PancakeView>
+                        </StackLayout>
 
-                    <!--<Label Text="Match Location"
+                        <!--<Label Text="Match Location"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
@@ -192,114 +200,11 @@
                                               Margin="0,5,0,0"
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>
-                   
+
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
-
-            <!--Players List View Initially it set to be false-->
-            <!--<ListView Margin="20,10,20,0"
-                      x:Name="PlayersListView"
-                      ItemsSource="{Binding MatchPlayersItems}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      IsVisible="{Binding IsVisiblePlayersDetails}"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand"
-                      CachingStrategy="RecycleElement"
-                      SelectionMode="Single"
-                      VerticalScrollBarVisibility="Never"
-                      ItemTapped="PlayersListView_ItemTapped">
-                <ListView.ItemTemplate>
-
-                    <DataTemplate>
-                        <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
-                            <ContentView Padding="5" >
-                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
-                                                     CornerRadius="10"
-                                                     BorderColor="{StaticResource BorderColor}"
-                                                     HasShadow="True">
-                                    <StackLayout Orientation="Horizontal"
-                                                 Margin="10,2,10,2"
-                                                 Padding="0"
-                                                 Spacing="0">
-                                        <controls:CircleImage Source="{Binding Profile}"
-                                                      VerticalOptions="Center"
-                                                      WidthRequest="80"
-                                                      HeightRequest="80"/>
-
-                                        <StackLayout HorizontalOptions="FillAndExpand"
-                                                     Margin="10,5,0,5">
-                                            <Label FontSize="{StaticResource FontSize18}"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding Name}"
-                                               />
-                                            <Label FontSize="{StaticResource FontSize18}"
-                                                   TextColor="{StaticResource TextGrayColor}"
-                                                   Text="{Binding Path = Id ,StringFormat= 'ID : {0:D}'}"/>
-
-                                            <Grid HorizontalOptions="FillAndExpand">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackLayout Orientation="Horizontal"
-                                                             Padding="0"
-                                                             Margin="0"
-                                                             Spacing="0"
-                                                             Grid.Row="0"
-                                                             HorizontalOptions="StartAndExpand"
-                                                             Grid.Column="0">
-                                                    <Label Text="Invitation Approved:"
-                                                       Margin="0"
-                                                       VerticalOptions="Center"
-                                                       FontSize="{StaticResource FontSize12}"/>
-
-                                                    <Image Source="{Binding LinkApproved , Converter={StaticResource LinkApprovedConverter}}"
-                                                       HeightRequest="25"
-                                                       WidthRequest="25"
-                                                       VerticalOptions="Center"
-                                                       Margin="5,0,0,0"
-                                                       Aspect="AspectFit"/>
-                                                </StackLayout>
-
-                                                <StackLayout Orientation="Horizontal"
-                                                             Padding="0"
-                                                             Margin="0"
-                                                             Spacing="0"
-                                                             Grid.Row="0"
-                                                             HorizontalOptions="End"
-                                                             Grid.Column="1">
-                                                    <Label Text="Fee:"
-                                                           Grid.Row="0"
-                                                           Grid.Column="2"
-                                                           Margin="0"
-                                                           VerticalOptions="Center"
-                                                           FontSize="{StaticResource FontSize12}"/>
-
-                                                    <Image Source="{Binding PaymentSuccess , Converter={StaticResource PaymentConverter}}"
-                                                           HeightRequest="25"
-                                                           WidthRequest="25"
-                                                           VerticalOptions="Center"
-                                                           Margin="5,0,0,0"
-                                                           Aspect="AspectFit"/>
-                                                </StackLayout>
-                                            </Grid>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </plugins:PancakeView>
-                            </ContentView>
-                        </controls:UpdateViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
-
+            
             <!--Teams List View Initially it set to be false-->
             <ListView Margin="20,10,20,0"
                       x:Name="TeamListView"
@@ -423,7 +328,7 @@
                                                              Grid.Row="0"
                                                              HorizontalOptions="End"
                                                              Grid.Column="1">
-                                                                        <Label Text="Fee:"
+                                                          <Label Text="Fee:"
                                                            Grid.Row="0"
                                                            Grid.Column="2"
                                                            Margin="0"

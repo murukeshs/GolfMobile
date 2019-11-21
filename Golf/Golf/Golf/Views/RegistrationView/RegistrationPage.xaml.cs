@@ -19,15 +19,6 @@ namespace Golf.Views
             vm = BindingContext as RegistrationPageViewModel;
         }
 
-        private async void RegisterAdminButton_Clicked(object sender, EventArgs e)
-        {
-            UserDialogs.Instance.ShowLoading();
-            var view = new RegistrationPageAdmin();
-            var navigationPage = ((NavigationPage)App.Current.MainPage);
-            await navigationPage.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
-        }
-
         private void GenderOnchange(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;

@@ -117,7 +117,7 @@
                                                HorizontalOptions="Fill"
                                                Text="{Binding Path=StartTime, StringFormat='Time : {0:D}'}"/>
 
-                                        <Label Margin="0"
+                                        <Label Margin="100,0,0,0"
                                                    TextColor="Gray"
                                                    FontSize="{StaticResource FontSize16}"
                                                    VerticalOptions="Center"

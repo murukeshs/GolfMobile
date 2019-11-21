@@ -7,6 +7,7 @@ using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -169,16 +170,27 @@ namespace Golf.ViewModel.Match
         }
         private int _CompetitionTypeID = 0;
 
+        public ObservableCollection<MatchRules> RulesItems
+        {
+            get { return _RulesItems; }
+            set
+            {
+                _RulesItems = value;
+                OnPropertyChanged(nameof(RulesItems));
+            }
+        }
+        private ObservableCollection<MatchRules> _RulesItems = null;
+
         public MatchDetailsPageViewModel()
         {
-            //Using THis Method to Load the Match details
-            getMatchById();
-            //Using THis Method to Load the Match Team And Players List From an API.
-            getMatchesDetailsById();
             //Get the Competition type values
             GetCompetitionType();
             //Get the Match rules
             getMatchRulesList();
+            //Using THis Method to Load the Match details
+            getMatchById();
+            //Using THis Method to Load the Match Team And Players List From an API.
+            getMatchesDetailsById();
         }
 
         #region Match Details Button Command Functionality
@@ -455,6 +467,7 @@ namespace Golf.ViewModel.Match
                     {
                         matchId = Convert.ToInt32(App.User.MatchId),
                         competitionTypeId = CompetitionTypeID,
+                        matchRuleId = string.Join(",", ListofRules),
                         isSaveAndNotify = IsSaveAndNotify
                     };
 
@@ -543,10 +556,7 @@ namespace Golf.ViewModel.Match
                         CompetitionType = MatchDetails.competitionName;
                         MatchLocation = MatchDetails.matchLocation;
                         CompetitionTypeID = MatchDetails.competitionTypeId;
-                        //UserDialogs.Instance.Alert("Invite send to all the participants successfully.", "Success", "ok");
-                        //var view = new MenuPage();
-                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //await navigationPage.PushAsync(view);
+                        await LoadRulesType(MatchDetails.matchRuleId);
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -569,19 +579,15 @@ namespace Golf.ViewModel.Match
             }
         }
 
-        #region GetMatchRulesList Command Functionality
-
-
-        public ObservableCollection<MatchRules> RulesItems
+        public async Task LoadRulesType(string Rules)
         {
-            get { return _RulesItems; }
-            set
+            List<string> result = Rules.Split(',').ToList();
+            foreach (string item in result)
             {
-                _RulesItems = value;
-                OnPropertyChanged(nameof(RulesItems));
+                RulesItems.Where(w => w.matchRuleId == item).ToList().ForEach(s => s.Checked = true);
             }
         }
-        private ObservableCollection<MatchRules> _RulesItems = null;
+        #region GetMatchRulesList Command Functionality
 
         async void getMatchRulesList()
         {
@@ -595,8 +601,7 @@ namespace Golf.ViewModel.Match
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<ObservableCollection<MatchRules>>(content);
-                    RulesItems = Items;
+                    RulesItems = JsonConvert.DeserializeObject<ObservableCollection<MatchRules>>(content);
                     UserDialogs.Instance.HideLoading();
                 }
                 else
@@ -616,12 +621,10 @@ namespace Golf.ViewModel.Match
 
         #region MatchRule CheckBox Clicked Command Functionality
 
-        public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
+        public ICommand CheckBoxSelectedCommand => new Command<string>(CheckboxChangedEvent);
         public List<string> ListofRules = new List<string>();
-        void CheckboxChangedEvent(object parameter)
+        void CheckboxChangedEvent(string matchRuleId)
         {
-            var item = parameter as MatchRules;
-            var matchRuleId = item.matchRuleId;
             if (ListofRules.Count > 0)
             {
                 bool UserIdAleradyExists = ListofRules.Contains(matchRuleId);
