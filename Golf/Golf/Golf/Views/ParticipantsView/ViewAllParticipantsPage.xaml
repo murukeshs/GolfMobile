@@ -82,7 +82,7 @@
                                             <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImagaConverter}}"
                                                                   HeightRequest="60"
                                                                   WidthRequest="60"
-                                                                  Aspect="AspectFit"
+                                                                  Aspect="Fill"
                                                                   Margin="10,0"/>
                                             <StackLayout Margin="5,0,10,0"
                                                          HorizontalOptions="FillAndExpand">

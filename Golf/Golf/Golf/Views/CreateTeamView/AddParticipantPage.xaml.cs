@@ -22,11 +22,6 @@ namespace Golf.Views
             ((AddParticipantPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
 
-        private void Switch_Toggled(object sender, ToggledEventArgs e)
-        {
-           
-        }
-
         #region screen adjusting
         protected override void OnAppearing()
         {

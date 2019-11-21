@@ -234,7 +234,7 @@ namespace Golf.ViewModel.Match
             UserDialogs.Instance.HideLoading();
         }
 
-        public ObservableCollection<MatchDetailsListTeamList> matchTeamsItemsList = new ObservableCollection<MatchDetailsListTeamList>();
+        public List<MatchDetailsListTeamList> matchTeamsItemsList = new List<MatchDetailsListTeamList>();
 
         public ObservableCollection<MatchDetailsListTeamList> MatchTeamsItemsList
         {
@@ -260,26 +260,41 @@ namespace Golf.ViewModel.Match
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-
+                    //List<MatchDetailsListTeamList> matchTeamsItemsListssss = new List<MatchDetailsListTeamList>();
                     //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<getMatchesDetailsById>>(content);
-                        foreach (var item in Items)
-                        {
-                            var MatchTeamsPlayerList = JsonConvert.DeserializeObject<List<matchPlayerList>>(item.matchPlayerList);
-                            matchTeamsItemsList.Add(new MatchDetailsListTeamList
-                            {
-                                teamId = item.teamId,
-                                matchPlayerList = MatchTeamsPlayerList,
-                                createdByName = item.createdByName,
-                                NoOfPlayers = item.NoOfPlayers,
-                                teamIcon = item.teamIcon,
-                                teamName = item.teamName,
-                                Expanded = false
-                            });
-                        }
-                        MatchTeamsItemsList = matchTeamsItemsList;
+                        var Items = JsonConvert.DeserializeObject<ObservableCollection<getMatchesDetailsById>>(content).ToList();
+
+
+                        matchTeamsItemsList.AddRange((from item in Items
+                                           select new MatchDetailsListTeamList
+                                           {
+                                               teamId = item.teamId,
+                                               matchPlayerList = JsonConvert.DeserializeObject<List<matchPlayerList>>(item.matchPlayerList),
+                                               createdByName = item.createdByName,
+                                               NoOfPlayers = item.NoOfPlayers,
+                                               teamIcon = item.teamIcon,
+                                               teamName = item.teamName,
+                                               Expanded = false
+                                           }).ToList());
+
+                        //foreach (var item in Items)
+                        //{
+                        //    var MatchTeamsPlayerList = JsonConvert.DeserializeObject<List<matchPlayerList>>(item.matchPlayerList);
+                        //    matchTeamsItemsList.Add(new MatchDetailsListTeamList
+                        //    {
+                        //        teamId = item.teamId,
+                        //        matchPlayerList = MatchTeamsPlayerList,
+                        //        createdByName = item.createdByName,
+                        //        NoOfPlayers = item.NoOfPlayers,
+                        //        teamIcon = item.teamIcon,
+                        //        teamName = item.teamName,
+                        //        Expanded = false
+                        //    });
+                        //}
+                        ObservableCollection<MatchDetailsListTeamList> myCollection = new ObservableCollection<MatchDetailsListTeamList>(matchTeamsItemsList as List<MatchDetailsListTeamList>);
+                        MatchTeamsItemsList = myCollection;
                     }
                     else
                     {

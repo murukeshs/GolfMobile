@@ -9,32 +9,45 @@
              x:Class="Golf.Views.ViewParticipantPage"
              Title="Participant's Listing"
              BackgroundColor="{StaticResource AppBackgroundColor}">
-    
+
     <!--Bind Your View Model Class heer to access his properties,functions and fields etc...-->
     <ContentPage.BindingContext>
         <ViewModel:ViewParticipantsViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Resources>
-        
+
         <ResourceDictionary>
             <Converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
             <Converters:ConvertStringToList x:Key="convertToList"/>
+            <!--<Converters: x:Key="radioButtonConverter"/>-->
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <StackLayout>
 
-          
+            <StackLayout Orientation="Horizontal" Margin="20,20,20,10">
+                <Controls:RoundedButton Text="View Participant"
+                                        Margin="0"
+                                        x:Name="ViewParticipantButton"
+                                        Clicked="ViewParticipantButton_Clicked"/>
+
+                <Controls:RoundedButton Text="Update Participant"
+                                        Margin="10"
+                                        BackgroundColor="{StaticResource WhiteColor}"
+                                        TextColor="{StaticResource LightGreenColor}"
+                                        x:Name="UpdateParticipantButton"
+                                        Clicked="UpdateParticipantButton_Clicked"/>
+            </StackLayout>
 
 
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource BorderColor}"
                                  CornerRadius="25"
                                  HasShadow="True"
-                                 Margin="20,20,20,10">
-            <Controls:CustomSearchBar Placeholder="Search Participants..."
+                                 Margin="20,10,20,10">
+                <Controls:CustomSearchBar Placeholder="Search Participants..."
                                       Margin="0"
                                       CornerRadius="25"
                                       CancelButtonColor="{StaticResource LightGreenColor}"
@@ -45,6 +58,8 @@
                                       FontAttributes="Italic" 
                                       BackgroundColor="{StaticResource WhiteColor}"/>
             </plugins:PancakeView>
+
+
 
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource BorderColor}"
@@ -62,7 +77,8 @@
                        HorizontalTextAlignment="Center"/>
             </plugins:PancakeView>
 
-            <ListView Margin="20,0,20,5"
+            <StackLayout x:Name="ViewParticipantsStackLayout">
+                <ListView Margin="20,0,20,5"
                       x:Name="ListView"
                       ItemsSource="{Binding ParticipantItems}"
                       SeparatorVisibility="None"
@@ -72,17 +88,17 @@
                       ItemTapped="ListView_ItemTapped"
                       VerticalScrollBarVisibility="Never"
                       IsVisible="{Binding ListViewIsVisible,Mode=TwoWay}">
-                <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="ItemSelected" 
+                    <ListView.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="ItemSelected" 
                                                       Command="{Binding ItemTappedCommand}"
                                                       Converter="{StaticResource itemTappedEventArgsConverter}" />
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                        
-                    <DataTemplate>
-                        <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
-                            <ContentView Padding="5" >
-                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+                            <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                                <ContentView Padding="5" >
+                                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                                      CornerRadius="10"
                                                      HasShadow="True">
                                         <StackLayout Orientation="Horizontal"
@@ -92,7 +108,7 @@
                                             <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImagaConverter}}"
                                                                   HeightRequest="80"
                                                                   WidthRequest="80"
-                                                                  Aspect="AspectFit"
+                                                                  Aspect="Fill"
                                                                   Margin="10,0"/>
                                             <StackLayout Margin="5,0,10,0"
                                                          HorizontalOptions="FillAndExpand">
@@ -105,6 +121,132 @@
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding email}"
                                                Margin="0"/>
+                                                <Controls:HorizontalList ListOrientation="Horizontal" 
+                                                                 ItemsSource="{Binding roleType,Converter={StaticResource convertToList}}" 
+                                                                 Padding="0"
+                                                                 Margin="0,5,5,5"
+                                                                 >
+                                                    <Controls:HorizontalList.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
+                                                                         CornerRadius="25"
+                                                                         Margin="5,0,5,0"
+                                                                         Padding="5">
+                                                                <Label Text="{Binding .}"
+                                                                   Margin="10,5,10,5"
+                                                               TextColor="{StaticResource WhiteColor}"
+                                                               FontSize="{StaticResource FontSize12}"
+                                                               HorizontalTextAlignment="Center"
+                                                               />
+                                                            </plugins:PancakeView>
+                                                        </DataTemplate>
+                                                    </Controls:HorizontalList.ItemTemplate>
+                                                </Controls:HorizontalList>
+                                            </StackLayout>
+
+                                        </StackLayout>
+                                    </plugins:PancakeView>
+                                </ContentView>
+                            </Controls:UpdateViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout x:Name="UpdateParticpantsStackLayout" IsVisible="False">
+
+                <!--<Grid Margin="20,10,20,10">
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="5.0*"/>
+                        <ColumnDefinition Width="5.0*"/>
+                    </Grid.ColumnDefinitions>-->
+
+                <Label Text="{Binding TeamName}"
+                   TextColor="{StaticResource BlackColor}"
+                   FontSize="{StaticResource FontSize28}"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                   Margin="0"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   HorizontalOptions="FillAndExpand"/>
+
+                <!--<Controls:RoundedButton Text="Invite Participant"
+                                    Margin="0"
+                                    Grid.Row="0"
+                                    CornerRadius="10"
+                                    VerticalOptions="Center"
+                                    Grid.Column="1"
+                                    FontSize="Medium"
+                                    HorizontalOptions="FillAndExpand"
+                                    Command="{Binding AddParticipantsCommand}"
+                                    Padding="5,5"/>
+                </Grid>-->
+
+                <ListView Margin="20,0,20,0"
+                      x:Name="ListViewUpdatePartcipants"
+                       ItemsSource="{Binding ParticipantItems}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      ItemTapped="ListView_ItemTapped"
+                      VerticalScrollBarVisibility="Never">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                                <ContentView Padding="5" >
+                                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     HasShadow="False"
+                                                     BorderColor="{StaticResource LightGrayColor}"
+                                                     Padding="10">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal"
+                                                     Margin="0,5,0,5"
+                                                     Padding="0"
+                                                     Spacing="0">
+                                                <CheckBox 
+                                                  Margin="5,0,0,0"
+                                                  IsChecked="{Binding IsChecked}"
+                                                  HorizontalOptions="Start"
+                                                  Color="{StaticResource TextGrayColor}"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+
+                                                <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImagaConverter}}"
+                                                                  HeightRequest="60"
+                                                                  WidthRequest="60"
+                                                                  Aspect="Fill"
+                                                                  Margin="5,0"/>
+                                                <StackLayout Margin="5,0,10,0"
+                                                         HorizontalOptions="FillAndExpand">
+                                                    <Label FontSize="{StaticResource FontSize18}"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding playerName}"
+                                               Margin="0"/>
+                                                    <Label FontSize="{StaticResource FontSize14}"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding email}"
+                                               Margin="0"/>
+
+                                                </StackLayout>
+                                                <ImageButton Source="{Binding ImageIcon}"
+                                                         Grid.Row="0"
+                                                         Grid.Column="2"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="45"
+                                                         WidthRequest="45"
+                                                         HorizontalOptions="End"
+                                                         Clicked="ImageButton_Clicked"/>
+
+                                            </StackLayout>
                                             <Controls:HorizontalList ListOrientation="Horizontal" 
                                                                  ItemsSource="{Binding roleType,Converter={StaticResource convertToList}}" 
                                                                  Padding="0"
@@ -127,20 +269,26 @@
                                                 </Controls:HorizontalList.ItemTemplate>
                                             </Controls:HorizontalList>
                                         </StackLayout>
-                                            
-                                    </StackLayout>
-                                </plugins:PancakeView>
-                            </ContentView>
-                        </Controls:UpdateViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    </plugins:PancakeView>
+                                </ContentView>
+                            </Controls:UpdateViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-            <Controls:RoundedButton Text="Invite Participant"
-                                    Margin="40,0,40,10"
-                                    VerticalOptions="EndAndExpand"
-                                    x:Name="InviteParticipantButton"
-                                    Clicked="InviteParticipantButton_Clicked"/>
+                </ListView>
+
+                <StackLayout Orientation="Horizontal" 
+                         VerticalOptions="End" 
+                         Margin="20,10,20,10">
+                    
+                    <Controls:RoundedButton Text="Invite Participant"
+                                            Clicked="InviteParticipantButton_Clicked"/>
+
+                    <Controls:RoundedButton Text="Update Team"
+                                            Margin="10,0"
+                                            Command="{Binding CreateTeamButtonCommand}"/>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

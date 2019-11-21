@@ -146,17 +146,18 @@
                         <Label Text="Rules"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
-                        <StackLayout>
+                       
                             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
-                                         Margin="10,5,10,0"
+                                         Padding="5"
+                                         Margin="5,5,5,0"
                                         >
                                 <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
                                                  Padding="0"
-                                                 Margin="0"
+                                                 Margin="5"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
                                     <controls:HorizontalList.ItemTemplate>
@@ -179,7 +180,6 @@
                                     </controls:HorizontalList.ItemTemplate>
                                 </controls:HorizontalList>
                             </plugins:PancakeView>
-                        </StackLayout>
 
                         <!--<Label Text="Match Location"
                                Style="{StaticResource HeadingsLabel}"
@@ -231,9 +231,10 @@
                                                  Padding="0"
                                                  Spacing="0">
                                             <controls:CircleImage Source="{Binding teamIcon,Converter={StaticResource ProfileImageConverter}}"
-                                                      VerticalOptions="Center"
-                                                      WidthRequest="80"
-                                                      HeightRequest="80"/>
+                                                                  VerticalOptions="Center"
+                                                                  WidthRequest="80"
+                                                                  Aspect="Fill"
+                                                                  HeightRequest="80"/>
 
                                             <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,10,10,10">
@@ -282,7 +283,8 @@
                                                             <controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
                                                       VerticalOptions="Center"
                                                       WidthRequest="60"
-                                                      HeightRequest="60"/>
+                                                      HeightRequest="60"
+                                                                                  Aspect="Fill"/>
 
                                                             <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,5,0,5">

@@ -74,6 +74,23 @@
                                     Padding="5,5"/>
                 </Grid>
 
+            <StackLayout Orientation="Horizontal"
+                         Margin="30,0,20,0">
+
+                <Label Text="Player Name"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="StartAndExpand"/>
+
+                <Label Text="Is ScoreKeeper"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="EndAndExpand"/>
+
+            </StackLayout>
+
             <ListView Margin="20,0,20,0"
                       x:Name="ListView"
                       SeparatorVisibility="None"
@@ -93,7 +110,9 @@
                                                      BorderColor="{StaticResource LightGrayColor}"
                                                      Padding="10">
                                     <StackLayout>
-                                    <Grid>
+                                    <Grid Padding="0"
+                                          RowSpacing="0"
+                                          Margin="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
@@ -113,9 +132,10 @@
 
                                         <Label  Grid.Row="0"
                                                 Grid.Column="1"
-                                                Margin="20,0,0,0"
+                                                Margin="10,0,0,0"
                                                 x:Name="firstNameLabel"
                                                 Text="{Binding firstName}"
+                                                FontSize="{StaticResource FontSize20}"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>

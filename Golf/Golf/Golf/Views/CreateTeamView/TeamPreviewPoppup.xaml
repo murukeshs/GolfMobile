@@ -74,7 +74,8 @@
                                               Margin="0"
                                               Source="{Binding ScoreKeeperProfileImage}"
                                               HeightRequest="45"
-                                              WidthRequest="45"/>
+                                              WidthRequest="45"
+                                              Aspect="Fill"/>
 
                         <Label Text="{Binding ScoreKeeperName}"
                                TextColor="{StaticResource BlackColor}"
@@ -132,7 +133,8 @@
                                                                   Margin="0"
                                                                   Source="{Binding PlayerImage,Converter={StaticResource profileconverter}}"
                                                                   HeightRequest="45"
-                                                                  WidthRequest="45"/>
+                                                                  WidthRequest="45"
+                                                                  Aspect="Fill"/>
 
                                             <Label Text="{Binding PlayerName}"
                                                    TextColor="{StaticResource TextGrayColor}"
