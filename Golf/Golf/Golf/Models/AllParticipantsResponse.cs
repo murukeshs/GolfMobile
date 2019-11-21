@@ -15,6 +15,29 @@ namespace Golf.Models
         public string userType { get; set; }
         public bool isScoreKeeper { get; set; }
         public string profileImage { get; set; }
+
+        public bool IsChecked
+        {
+            get { return _IsChecked; }
+            set
+            {
+                _IsChecked = value;
+                OnPropertyChanged("IsChecked");
+            }
+        }
+        private bool _IsChecked { get; set; } = true;
+
+
+        public string ImageIcon
+        {
+            get { return _ImageIcon; }
+            set
+            {
+                _ImageIcon = value;
+                OnPropertyChanged("ImageIcon");
+            }
+        }
+        private string _ImageIcon { get; set; } = "unchecked_icon.png";
     }
 
     public class userTypeList
