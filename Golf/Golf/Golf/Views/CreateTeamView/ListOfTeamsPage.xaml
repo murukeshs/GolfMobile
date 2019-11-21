@@ -148,7 +148,7 @@
                                                       WidthRequest="80"
                                                       HeightRequest="80"
                                                       Margin="10,0"
-                                                      Aspect="AspectFit"/>
+                                                      Aspect="Fill"/>
 
                                         <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,5,10,5">

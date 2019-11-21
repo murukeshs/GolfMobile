@@ -69,7 +69,7 @@
                                                                  VerticalOptions="Center"
                                                                  Margin="10,0"/>
 
-                                        <controls:CircleImage Source="{Binding PlayerProfile}"
+                                        <controls:CircleImage Source="{Binding PlayerProfile}" Aspect="Fill"
                                                       VerticalOptions="Center"
                                                       WidthRequest="100"
                                                       HeightRequest="100"/>

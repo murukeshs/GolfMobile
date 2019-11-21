@@ -28,6 +28,7 @@
                     <Controls:CircleImage Source="{Binding UserProfilePic}"
                                           Margin="20,20,0,0"
                                           HeightRequest="80"
+                                          Aspect="Fill"
                                           WidthRequest="80"
                                           HorizontalOptions="Start"
                                           Grid.Row="0"

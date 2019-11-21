@@ -80,7 +80,7 @@
                                                       WidthRequest="80"
                                                       HeightRequest="80"
                                                       Margin="5,0"
-                                                      Aspect="AspectFit"
+                                                      Aspect="Fill"
                                                                   />
 
                                             <StackLayout HorizontalOptions="FillAndExpand"
@@ -151,7 +151,8 @@
                                                         <controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
                                                       VerticalOptions="Center"
                                                       WidthRequest="60"
-                                                      HeightRequest="60"/>
+                                                      HeightRequest="60"
+                                                                              Aspect="Fill"/>
 
                                                         <StackLayout HorizontalOptions="FillAndExpand"
                                                                      Margin="10,5,0,5">

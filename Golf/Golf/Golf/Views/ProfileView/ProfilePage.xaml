@@ -85,7 +85,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Controls:CircleImage HorizontalOptions="Center"
+                        <Controls:CircleImage HorizontalOptions="Center" Aspect="Fill"
                                               Margin="20,10,20,10"
                                               Source="{Binding ProfileImage}"
                                               HeightRequest="160"
