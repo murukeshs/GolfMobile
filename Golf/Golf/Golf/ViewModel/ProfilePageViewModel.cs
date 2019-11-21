@@ -35,6 +35,14 @@ namespace Golf.ViewModel
 
         public ProfilePageViewModel()
         {
+            if(!string.IsNullOrEmpty(App.User.UserProfileImage))
+            {
+                ProfileImage = App.User.UserProfileImage;
+            }
+            else
+            {
+                ProfileImage = "profile_defalut_pic.png";
+            }
             GenderList = new List<string>();
             GenderList.Add("Male");
             GenderList.Add("Female");
@@ -60,7 +68,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(ProfileImage));
             }
         }
-        private string _ProfileImage = "profile_defalut_pic.png";
+        private string _ProfileImage = string.Empty;
 
         public string Email
         {

@@ -9,9 +9,6 @@
     xmlns:viewModels="clr-namespace:Golf.ViewModel"
     x:Class="Golf.Views.PoppupView.TeamPreviewPage">
 
-    <pages:PopupPage.BindingContext>
-        <viewModels:AddParticipantPageViewModel/>
-    </pages:PopupPage.BindingContext>
     
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
@@ -36,7 +33,7 @@
 
                 <StackLayout Margin="20,10,20,10"
                              Orientation="Horizontal">
-                    <Label Text="{Binding TeamName}"
+                    <Label Text="{Binding TeamPreviewName}"
                        TextColor="{StaticResource BlackColor}"
                        FontSize="{StaticResource FontSize28}"
                        FontAttributes="Bold"
@@ -68,11 +65,11 @@
                                  Orientation="Horizontal">
                         <Controls:CircleImage HorizontalOptions="Center"
                                               Margin="0"
-                                              Source="profile_pic.jpg"
+                                              Source="{Binding ScoreKeeperProfileImage}"
                                               HeightRequest="45"
                                               WidthRequest="45"/>
 
-                        <Label Text="Emmy Stones"
+                        <Label Text="{Binding ScoreKeeperName}"
                                TextColor="{StaticResource BlackColor}"
                                FontSize="{StaticResource FontSize20}"
                                Margin="10,0,0,0"

@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -69,6 +70,7 @@ namespace Golf.ViewModel
                     var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
                     //Assign the Values to Listview
                     PlayersList = Items;
+                    App.User.PlayersList = PlayersList;
                     UserDialogs.Instance.HideLoading();
                 }
                 else
@@ -178,6 +180,9 @@ namespace Golf.ViewModel
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         UserDialogs.Instance.HideLoading();
+                        App.User.TeamPreviewList.Clear();
+                        App.User.TeamPreviewScoreKeeperName = string.Empty;
+                        App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
                     }
                     else
                     {
@@ -216,27 +221,35 @@ namespace Golf.ViewModel
        //private user _LastSelectedItem;
         void ToggleChangedEvent(object parameter)
         {
-            var item = parameter as user;
-            ScoreKeeperId = item.userId;
+            try
+            {
+                var Item = parameter as user;
+                //PlayersList.All(x => x.userId == item.userId ?  x.IsToggled = true : x.IsToggled = false);
 
-            if (_LastSelectedItem == item)
-            {
-                item.IsToggled = !item.IsToggled;
-                UpdateItems(item);
-            }
-            else
-            {
-                if (_LastSelectedItem != null)
+                // Get every record that is checked
+                // The variable "Items" is the ItemsSource of your ListView
+                // var checkedItems = PlayersList.Where(x => x.IsChecked == true).ToList();
+                // Do stuff with item
+                foreach (var item in PlayersList)
                 {
-                    //hide the previous selected item
-                    _LastSelectedItem.IsToggled = false;
-                    UpdateItems(_LastSelectedItem);
+                    if (item.userId == Item.userId)
+                    {
+                        PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
+                        ScoreKeeperId = item.userId;
+                        App.User.TeamPreviewScoreKeeperName = item.firstName;
+                        App.User.TeamPreviewScoreKeeperProfilePicture = item.profileImage;
+                    }
+                    else
+                    {
+                        PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
+                    }
                 }
-                //Or show the selected item
-                item.IsToggled = true;
-                UpdateItems(item);
+                
             }
-            _LastSelectedItem = item;
+            catch(Exception ex)
+            {
+
+            }
         }
 
 

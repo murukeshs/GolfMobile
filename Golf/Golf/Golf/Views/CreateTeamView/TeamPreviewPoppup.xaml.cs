@@ -12,9 +12,63 @@ namespace Golf.Views.PoppupView
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TeamPreviewPage : PopupPage
     {
+        public string TeamPreviewName
+        {
+            get
+            {
+                return _TeamPreviewName;
+            }
+            set
+            {
+                _TeamPreviewName = value;
+                OnPropertyChanged(nameof(TeamPreviewName));
+            }
+        }
+        private string _TeamPreviewName = string.Empty;
+
+        public string ScoreKeeperName
+        {
+            get
+            {
+                return _ScoreKeeperName;
+            }
+            set
+            {
+                _ScoreKeeperName = value;
+                OnPropertyChanged(nameof(ScoreKeeperName));
+            }
+        }
+        private string _ScoreKeeperName = string.Empty;
+
+        public string ScoreKeeperProfileImage
+        {
+            get
+            {
+                return _ScoreKeeperProfileImage;
+            }
+            set
+            {
+                _ScoreKeeperProfileImage = value;
+                OnPropertyChanged(nameof(ScoreKeeperProfileImage));
+            }
+        }
+        private string _ScoreKeeperProfileImage = string.Empty;
+
         public TeamPreviewPage ()
 		{
 			InitializeComponent ();
+            BindingContext = this;
+            TeamPreviewName = App.User.TeamName;
+            TeamPreviewName = App.User.TeamPreviewName;
+            ScoreKeeperName = App.User.TeamPreviewScoreKeeperName;
+            if (!string.IsNullOrEmpty(App.User.TeamPreviewScoreKeeperProfilePicture))
+            {
+                ScoreKeeperProfileImage = App.User.TeamPreviewScoreKeeperProfilePicture;
+            }
+            else
+            {
+                ScoreKeeperProfileImage = "profile_defalut_pic.png";
+            }
             ListView.ItemsSource = App.User.TeamPreviewList;
         }
 

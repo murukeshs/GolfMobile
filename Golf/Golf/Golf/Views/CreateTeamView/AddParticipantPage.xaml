@@ -100,7 +100,8 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                         </Grid.ColumnDefinitions>
 
                                         <CheckBox Grid.Row="0" 
                                                   Grid.Column="0"
@@ -112,15 +113,31 @@
 
                                         <Label  Grid.Row="0"
                                                 Grid.Column="1"
-                                                Margin="15,0,0,0"
+                                                Margin="20,0,0,0"
                                                 x:Name="firstNameLabel"
                                                 Text="{Binding firstName}"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>
-                                      
-                                        
-                                    </Grid>
+
+                                            <!--<Switch IsToggled="{Binding IsToggled}"
+                                                    OnColor="{StaticResource LightGreenColor}"
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Toggled="Switch_Toggled"
+                                                    HorizontalOptions="End"
+                                                />-->
+
+                                            <ImageButton Source="{Binding ImageIcon}"
+                                                         Grid.Row="0"
+                                                         Grid.Column="2"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="45"
+                                                         WidthRequest="45"
+                                                         HorizontalOptions="End"
+                                                         Clicked="ImageButton_Clicked"/>
+
+                                        </Grid>
                                     <Controls:HorizontalList ListOrientation="Horizontal" 
                                                                  ItemsSource="{Binding userType,Converter={StaticResource convertToList}}" 
                                                                  Padding="0"

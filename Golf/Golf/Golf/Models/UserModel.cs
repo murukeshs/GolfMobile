@@ -40,5 +40,13 @@ namespace Golf.Models
         internal string TeamName { get; set; }
 
         public ObservableCollection<AddPlayersList> TeamPreviewList { get; set; } = new ObservableCollection<AddPlayersList>();
+
+        public ObservableCollection<user> PlayersList { get; set; } = new ObservableCollection<user>();
+
+        internal string TeamPreviewName { get; set; }
+
+        internal string TeamPreviewScoreKeeperName { get; set; }
+
+        internal string TeamPreviewScoreKeeperProfilePicture { get; set; }
     }
 }

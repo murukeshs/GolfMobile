@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -10,8 +11,10 @@ namespace Golf.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((string)value == App.User.UserName)
-                return true; //Paymet is success
+            if ((bool)value == true)
+            {
+                 return "unchecked_icon.png";
+            }
             else
                 return false;//Paymet is failed
         }
@@ -19,9 +22,13 @@ namespace Golf.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value == true)
-                return true; //Paymet is success
+            {
+                bool result = App.User.PlayersList.All(x => x.IsToggled == x.IsToggled ? x.IsToggled = true : x.IsToggled = false);
+                //App.User.PlayersList.Where(x => x.IsToggled == true).ToList().ForEach(s => s.IsToggled = true);
+                return result; //Paymet is success
+            }
             else
-                return false;//Paymet is failed;
+                return false;//Paymet is failed
         }
     }
 }

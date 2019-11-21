@@ -24,8 +24,7 @@ namespace Golf.Views
 
         private void Switch_Toggled(object sender, ToggledEventArgs e)
         {
-            var item = (sender as Switch).BindingContext as user;
-            ((AddParticipantPageViewModel)BindingContext).ToggleSelectedCommand.Execute(item);
+           
         }
 
         #region screen adjusting
@@ -48,5 +47,11 @@ namespace Golf.Views
             }
         }
         #endregion
+
+        private void ImageButton_Clicked(object sender, System.EventArgs e)
+        {
+            var item = (sender as ImageButton).BindingContext as user;
+            ((AddParticipantPageViewModel)BindingContext).ToggleSelectedCommand.Execute(item);
+        }
     }
 }

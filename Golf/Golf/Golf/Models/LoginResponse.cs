@@ -40,8 +40,27 @@ namespace Golf.Models
         public string userTypeId { get; set; }
 
         public bool IsChecked { get; set; } = false;
-        public bool IsToggled { get; set; } = false;
+        public bool IsToggled
+        { get { return _IsToggled; }
+            set {
+                _IsToggled = value;
+                OnPropertyChanged("IsToggled");
+            }
+        }
+        private bool _IsToggled { get; set; } = false;
 
         public bool isModerator { get; set; } = false;
+
+       
+        public string ImageIcon
+        {
+            get { return _ImageIcon; }
+            set
+            {
+                _ImageIcon = value;
+                OnPropertyChanged("ImageIcon");
+            }
+        }
+        private string _ImageIcon { get; set; } = "unchecked_icon.png";
     }
 }

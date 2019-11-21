@@ -138,6 +138,9 @@ namespace Golf.ViewModel
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         //After the success full api process clear all the values
+                        App.User.TeamPreviewList.Clear();
+                        App.User.TeamPreviewScoreKeeperName = string.Empty;
+                        App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
                         Clear();
                         UserDialogs.Instance.HideLoading();
                     }
