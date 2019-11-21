@@ -191,16 +191,35 @@
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>-->
 
-                        <Label Text="Context Settings"
-                               Style="{StaticResource HeadingsLabel}"
-                               FontSize="{StaticResource FontSize18}"/>
+                        <Label Text="Match Settings:"
+                           Style="{StaticResource TextLabelStyleGrayColor20}"
+                           Margin="20,30,20,0"
+                           TextColor="{StaticResource BlackColor}"
+                           FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding ContextSettings ,Mode=TwoWay}"
-                                              Style="{StaticResource RectangleShapeEntryStyle}"
-                                              Margin="0,5,0,0"
-                                              IsCurvedCornersEnabled="True"
-                                              FontSize="{StaticResource FontSize18}"/>
+                        <controls:CustomPicker Title="Select Match Settings" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           FontSize="{StaticResource FontSize18}"
+                                           ItemsSource="{Binding SettingsList}"
+                                           SelectedIndex="0"/>
 
+                        <Label Text="Match Extras:"
+                           Style="{StaticResource TextLabelStyleGrayColor20}"
+                           Margin="20,20,20,0"
+                           TextColor="{StaticResource BlackColor}"
+                           FontSize="{StaticResource FontSize18}"/>
+
+                        <controls:CustomPicker Title="Select Match Extras" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           FontSize="{StaticResource FontSize18}"
+                                           ItemsSource="{Binding MatchExtrasList}"
+                                           SelectedIndex="0"/>
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
