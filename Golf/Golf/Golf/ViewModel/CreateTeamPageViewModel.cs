@@ -72,9 +72,10 @@ namespace Golf.ViewModel
         async Task CreateTeamButtonAsync()
         {
             IsValid = Validate();
+            CheckProfilePicture();
             if (IsValid)
             {
-                CheckProfilePicture();
+                
                 await CreateTeamAsync();
             }
         }
