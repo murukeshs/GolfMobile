@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <Converters:ToggledConverter x:Key="toggledConverter" />
             <Converters:ConvertStringToList x:Key="convertToList"/>
+            <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -130,7 +131,15 @@
                                                   Color="{StaticResource TextGrayColor}"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
 
-                                        <Label  Grid.Row="0"
+                                            <Controls:CircleImage Source="{Binding ProfileImage,Converter={StaticResource ProfileImageConverter}}"
+                                                              Grid.Row="0" 
+                                                              Grid.Column="0"    
+                                                              HeightRequest="80"
+                                                                  WidthRequest="80"
+                                                                  Aspect="Fill"
+                                                                  Margin="10,0"/>
+
+                                            <Label  Grid.Row="0"
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
                                                 x:Name="firstNameLabel"
