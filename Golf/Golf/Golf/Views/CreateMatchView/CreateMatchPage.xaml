@@ -168,7 +168,9 @@
                                              TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
                                              FontSize="{StaticResource FontSize18}"
-                                             Date="{Binding MatchStartDate}"/>
+                                             Date="{Binding MatchStartDate}"
+                                              x:Name="MatchStartDatePicker"
+                                             DateSelected="NullableDatePicker_DateSelected"/>
 
                         <TimePicker       TextColor="{StaticResource TextGrayColor}"
                                           HorizontalOptions="FillAndExpand"
@@ -182,11 +184,13 @@
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="End Date"
                                              Format="yyyy/MM/dd"
+                                              x:Name="MatchEndDatePicker"
                                              NullableDate="{Binding NullableENdDate}"
                                              Date="{Binding MatchEndDate}"
                                              TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
-                                             FontSize="{StaticResource FontSize18}"/>
+                                             FontSize="{StaticResource FontSize18}"
+                                             DateSelected="NullableDatePicker_DateSelected_1"/>
 
                         <TimePicker       TextColor="{StaticResource TextGrayColor}"
                                           HorizontalOptions="FillAndExpand"

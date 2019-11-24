@@ -25,8 +25,7 @@ namespace Golf.ViewModel
     {
         public bool IsValid { get; set; }
         public string UserTypeValues { get; set; }
-        public int stateId { get; set; }
-        public int countryId { get; set; }
+       
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
@@ -183,6 +182,28 @@ namespace Golf.ViewModel
         }
         private string _City = string.Empty;
 
+        public string EmailName
+        {
+            get { return _EmailName; }
+            set
+            {
+                _EmailName = value;
+                OnPropertyChanged(nameof(EmailName));
+            }
+        }
+        private string _EmailName = string.Empty;
+
+        public string PhoneNumber
+        {
+            get { return _PhoneNumber; }
+            set
+            {
+                _PhoneNumber = value;
+                OnPropertyChanged(nameof(PhoneNumber));
+            }
+        }
+        private string _PhoneNumber = string.Empty;
+
         public int StateID
         {
             get { return _StateID; }
@@ -194,6 +215,17 @@ namespace Golf.ViewModel
         }
         private int _StateID = 0;
 
+        public int stateID
+        {
+            get { return _stateID; }
+            set
+            {
+                _stateID = value;
+                OnPropertyChanged(nameof(stateID));
+            }
+        }
+        private int _stateID;
+
         public int CountryID
         {
             get { return _CountryID; }
@@ -204,6 +236,17 @@ namespace Golf.ViewModel
             }
         }
         private int _CountryID = 0;
+
+        public int countryID
+        {
+            get { return _countryID; }
+            set
+            {
+                _countryID = value;
+                OnPropertyChanged(nameof(countryID));
+            }
+        }
+        private int _countryID;
 
         public bool? IsPublicProfile
         {
@@ -456,8 +499,10 @@ namespace Golf.ViewModel
                         FirstName = User.firstName;
                         LastName = User.lastName;
                         Dob = Convert.ToDateTime(User.dob);
-                        NullableDob = Convert.ToDateTime(User.dob);
+                        //NullableDob = Convert.ToDateTime(User.dob);
                         Gender = User.gender;
+                        EmailName = User.email;
+                        PhoneNumber = User.phoneNumber;
                         LoadGender();
                         UserTypeValues = User.userType;
                         LoadType();
@@ -465,10 +510,10 @@ namespace Golf.ViewModel
                         IsSmsNotification = User.isSMSNotification;
                         Address = User.address;
                         CountryID = User.countryId;
+                        loadCountry();
                         StateID = User.stateId;
                         City = User.city;
                         IsPublicProfile = User.isPublicProfile;
-                        loadCountry();
                         CountryOnChange(CountryID);
                         UserDialogs.Instance.HideLoading();
                     }
@@ -587,12 +632,12 @@ namespace Golf.ViewModel
 
                         foreach (var a in CountryList) //CountryID
                         {
-                            countryId = a.countryId;
-                            if (countryId == CountryID)
+                            var countryIdValue = a.countryId;
+                            if (countryIdValue == CountryID)
                             {
-                                countryId = a.countryId;
-                                int index = CountryList.FindIndex(aa => aa.countryId == countryId);
-                                CountryID = index;
+                                CountryID = a.countryId;
+                                int index = CountryList.FindIndex(aa => aa.countryId == CountryID);
+                                countryID = index;
                             }
                         }
 
@@ -627,6 +672,7 @@ namespace Golf.ViewModel
         {
             try
             {
+                CountryID = countryId;
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
@@ -641,12 +687,12 @@ namespace Golf.ViewModel
 
                         foreach (var a in StateList) //CountryID
                         {
-                            stateId = a.stateId;
-                            if (stateId == StateID)
+                            var stateIdvalue = a.stateId;
+                            if (stateIdvalue == StateID)
                             {
-                                stateId = a.stateId;
-                                int index = StateList.FindIndex(aa => aa.stateId == stateId);
-                                StateID = index;
+                                StateID = a.stateId;
+                                int index = StateList.FindIndex(aa => aa.stateId == StateID);
+                                stateID = index;
                             }
                         }
                         UserDialogs.Instance.HideLoading();
@@ -672,6 +718,14 @@ namespace Golf.ViewModel
         }
         #endregion
 
+        #region State region
+        public ICommand StateChangedCommand => new Command<int>(StateOnChange);
+        void StateOnChange(int id)
+        {
+            StateID = id;
+        }
+        #endregion
+
         #region UpdateCommunicationInfo Command
         public ICommand UpdateCommunicationInfoCommand => new AsyncCommand(UpdateCommunicationInfo);
         async Task UpdateCommunicationInfo()
@@ -691,13 +745,13 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("Address should not be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (countryId == 0)
+            else if (countryID == 0)
             {
                 //Country Is Empty
                 UserDialogs.Instance.AlertAsync("Country cannot be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (stateId == 0)
+            else if (stateID == 0)
             {
                 //State Is Empty
                 UserDialogs.Instance.AlertAsync("State cannot be empty.", "Alert", "Ok");
@@ -735,8 +789,8 @@ namespace Golf.ViewModel
                     {
                         userId = App.User.UserId,
                         address = Address,
-                        stateId = stateId,
-                        countryId = countryId,
+                        stateId = StateID,
+                        countryId = CountryID,
                         city = City,
                         isEmailNotification = IsEmailNotification,
                         isSMSNotification = IsSmsNotification,
@@ -884,11 +938,12 @@ namespace Golf.ViewModel
                         userId = App.User.UserId,
                         firstName = FirstName,
                         lastName = LastName,
-                        email = Email,
+                        email = EmailName,
                         profileImage = ProfileImage,
                         gender = Gender,
                         dob = Dob.ToString(),
-                        userTypeId = UserTypeId
+                        userTypeId = UserTypeId,
+                        phoneNumber = PhoneNumber,
                     };
 
                     string json = JsonConvert.SerializeObject(data);

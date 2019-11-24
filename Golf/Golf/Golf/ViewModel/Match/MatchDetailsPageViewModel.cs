@@ -185,6 +185,9 @@ namespace Golf.ViewModel.Match
         }
         private ObservableCollection<MatchRules> _RulesItems = null;
 
+        public string selectedItem { get; set; }
+        public string MatchselectedItem { get; set; }
+
         public MatchDetailsPageViewModel()
         {
             SettingsList = new List<string>();
@@ -199,6 +202,8 @@ namespace Golf.ViewModel.Match
             MatchExtrasList.Add("Closet to the pin");
             MatchExtrasList.Add("Longest drive");
 
+            selectedItem = "Carryover - if no one wins the hole";
+            MatchselectedItem = "Greenies";
             //Get the Competition type values
             GetCompetitionType();
             //Get the Match rules

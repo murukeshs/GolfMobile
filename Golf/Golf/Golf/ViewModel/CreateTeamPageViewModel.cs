@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Plugin.Media;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,6 +19,23 @@ namespace Golf.ViewModel
 {
     public class CreateTeamPageViewModel : BaseViewModel
     {
+        public List<int> StartingHoleList
+        {
+            get { return _StartingHoleList; }
+            set
+            {
+                _StartingHoleList = value;
+                OnPropertyChanged("StartingHoleList");
+            }
+        }
+        private List<int> _StartingHoleList;
+        public CreateTeamPageViewModel()
+        {
+            StartingHoleList = new List<int>
+            {
+                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+            };
+        }
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
@@ -66,6 +84,27 @@ namespace Golf.ViewModel
 
         public string TeamIcon = string.Empty;
 
+        public int StartingHole
+        {
+            get { return _StartingHole; }
+            set
+            {
+                _StartingHole = value;
+                OnPropertyChanged("StartingHole");
+            }
+        }
+        private int _StartingHole = -1;
+
+        #region Match Picker Selected Command Functionality
+
+        public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
+
+        void SelectedIndexChangedEvent(object parameter)
+        {
+            var item = parameter as int?;
+            StartingHole = Convert.ToInt16(item);
+        }
+        #endregion Match Picker Selected Command Functionality
 
         #region CreateTeam Procced Button Command Functionality
         public ICommand CreateTeamProccedButtonCommand => new AsyncCommand(CreateTeamButtonAsync);
@@ -85,6 +124,7 @@ namespace Golf.ViewModel
             {
                 TeamIcon = string.Empty;
             }
+            
             else
             {
                 TeamIcon = TeamProfilePicture;
@@ -96,6 +136,11 @@ namespace Golf.ViewModel
             if (string.IsNullOrEmpty(TeamNameText))
             {
                 UserDialogs.Instance.AlertAsync("Team Name should not be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (StartingHole < 0)
+            {
+                UserDialogs.Instance.AlertAsync("Please select starting hole.", "Alert", "Ok");
                 return false;
             }
             else
@@ -120,7 +165,8 @@ namespace Golf.ViewModel
                     {
                         createdBy = App.User.UserWithTypeId,
                         teamIcon = TeamIcon,
-                        teamName = TeamNameText
+                        teamName = TeamNameText,
+                        startingHole = StartingHole
                     };
 
                     string json = JsonConvert.SerializeObject(data);

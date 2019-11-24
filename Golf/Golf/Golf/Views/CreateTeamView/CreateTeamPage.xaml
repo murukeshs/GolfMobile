@@ -80,7 +80,17 @@
                                     HorizontalTextAlignment="Center"
                                     Text="{Binding TeamNameText,Mode=TwoWay}"/>
 
-            <StackLayout Orientation="Horizontal" 
+                    <Controls:CustomPicker Title="Select Starting Hole" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="30,10,30,0"
+                                           ItemsSource="{Binding StartingHoleList}"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           SelectedIndexChanged="CustomPicker_SelectedIndexChanged"/>
+
+
+
+                    <StackLayout Orientation="Horizontal" 
                          Padding="0"
                          Spacing="0"
                          Margin="30"

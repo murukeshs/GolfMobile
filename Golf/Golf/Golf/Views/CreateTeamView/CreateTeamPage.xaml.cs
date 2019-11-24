@@ -1,4 +1,5 @@
 ﻿using Golf.Services;
+using Golf.ViewModel;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,5 +34,12 @@ namespace Golf.Views
             }
         }
         #endregion
+
+        private void CustomPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker picker = sender as Picker;
+            var item = (int)picker.SelectedItem;
+            ((CreateTeamPageViewModel)BindingContext).PickerSelectedCommand.Execute(item);
+        }
     }
 }

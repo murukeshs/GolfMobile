@@ -56,8 +56,7 @@ namespace Golf.Controls
         /// The font size property
         /// </summary>
         public static readonly BindableProperty FontSizeProperty =
-            BindableProperty.Create<CustomCheckBox, double>(
-                p => p.FontSize, -1);
+            BindableProperty.Create<CustomCheckBox, double>(p => p.FontSize, -1);
 
         /// <summary>
         /// The font name property.

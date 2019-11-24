@@ -94,15 +94,22 @@ namespace Golf.Views
         {
             Picker picker = sender as Picker;
             Country country = (Country)picker.SelectedItem;
-            vm.CountryID = country.countryId;
+            //vm.CountryID = country.countryId;
             ((ProfilePageViewModel)BindingContext).CountryChangedCommand.Execute(country.countryId);
         }
 
         private void StateIndexChanged(object sender, EventArgs e)
         {
-            Picker picker = sender as Picker;
-            State state = (State)picker.SelectedItem;
-            vm.StateID = state.stateId;
+            try
+            {
+                Picker picker = sender as Picker;
+                State state = (State)picker.SelectedItem;
+                ((ProfilePageViewModel)BindingContext).StateChangedCommand.Execute(state.stateId);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         private void UpdateCommunicationInfo_Clicked(object sender, EventArgs e)

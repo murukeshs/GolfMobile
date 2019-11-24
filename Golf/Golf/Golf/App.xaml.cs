@@ -1,5 +1,6 @@
 ﻿using Golf.Models;
 using Golf.Views;
+using Golf.Views.MenuView;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,6 +39,16 @@ namespace Golf
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        private void SetLoginPageAsRootPage(object sender)
+        {
+            MainPage = new NavigationPage(new LoginPage());
+        }
+
+        private void SetMainPageAsRootPage(object sender)
+        {
+            MainPage = new NavigationPage(new MenuPage());
         }
     }
 }

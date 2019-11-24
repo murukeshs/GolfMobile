@@ -39,12 +39,13 @@
                  Margin="20,50,20,50" 
                  BackgroundColor="Transparent">
         <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
-                                 BorderColor="{StaticResource BorderColor}"
+                                 BorderColor="{StaticResource LightGreenColor}"
                                  CornerRadius="15"
                                  HasShadow="True"
                                  Margin="0"
                                  HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="FillAndExpand">
+                                 VerticalOptions="FillAndExpand"
+                             >
 
             <StackLayout Margin="0"
                          HorizontalOptions="FillAndExpand">
@@ -69,14 +70,21 @@
 
                 </StackLayout>
 
-                 
-                <Controls:CustomEntry Placeholder="Add a new rule"
-                                    Style="{StaticResource RectangleShapeEntryStyle}"
-                                    Margin="20,10,20,0"
-                                    Text="{Binding AddNewRuleText, Mode = TwoWay}"
-                                     HorizontalOptions="FillAndExpand"/>
+                <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="5"
+                                 HasShadow="True"
+                                  Margin="20,10,20,0"
+                                 HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="FillAndExpand">
+                    <Editor Placeholder="Add a new rule"
+                            AutoSize="TextChanges"
+                            Text="{Binding AddNewRuleText, Mode = TwoWay}"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="White"
+                            VerticalOptions="FillAndExpand"/>
+                </plugins:PancakeView>
 
-                       
 
                 <Controls:RoundedButton Text="Add Rule"
                                         VerticalOptions="EndAndExpand"

@@ -60,6 +60,7 @@ namespace Golf.Droid.CustomRenderer
             {
                 Control.Typeface = TrySetFont(e.NewElement.FontName);
             }
+            Control.CompoundDrawablePadding = 25;
         }
 
         /// <summary>

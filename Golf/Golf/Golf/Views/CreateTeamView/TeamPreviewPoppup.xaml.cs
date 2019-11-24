@@ -59,7 +59,6 @@ namespace Golf.Views.PoppupView
 			InitializeComponent ();
             BindingContext = this;
             TeamPreviewName = App.User.TeamName;
-            TeamPreviewName = App.User.TeamPreviewName;
             ScoreKeeperName = App.User.TeamPreviewScoreKeeperName;
             if(!string.IsNullOrEmpty(ScoreKeeperName))
             {

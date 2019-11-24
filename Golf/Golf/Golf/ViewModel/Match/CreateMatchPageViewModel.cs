@@ -286,6 +286,7 @@ namespace Golf.ViewModel.Match
                         matchFee = Convert.ToInt32(MatchFee),
                         matchRuleId = MatchRuleID,
                         competitionTypeId = CompetitionTypeId,
+                        isSaveAndNotify = false,
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -593,7 +594,27 @@ namespace Golf.ViewModel.Match
             }
         }
 
-        #endregion 
+        #endregion
+
+        #region Match Start Date
+        public ICommand MatchStartCommand => new Command(MatchStartCommandChangedEvent);
+        public string matchstartdate;
+        void MatchStartCommandChangedEvent(object parameter)
+        {
+            var item = parameter as string;
+            matchstartdate = item;
+        }
+        #endregion
+
+        #region Match StartEnd Date
+        public ICommand MatchStartEndCommand => new Command(MatchStartENdCommandChangedEvent);
+        public string matchstartEnddate;
+        void MatchStartENdCommandChangedEvent(object parameter)
+        {
+            var item = parameter as string;
+            matchstartEnddate = item;
+        }
+        #endregion
 
     }
 }

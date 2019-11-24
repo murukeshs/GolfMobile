@@ -153,6 +153,22 @@
                                             Text="{Binding LastName, Mode = TwoWay}"
                                             />
 
+                    <Label Text="Email" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
+                                            Margin="20,0,20,0"
+                                            Placeholder="Email"
+                                            PlaceholderColor="{StaticResource TextGrayColor}"
+                                            LineColor="{StaticResource BorderColor}"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding EmailName, Mode = TwoWay}"
+                                            />
+
                     <Label Text="Date of Birth" 
                            Margin="20,0,20,0"
                            VerticalOptions="Center"
@@ -185,6 +201,23 @@
                                            SelectedIndexChanged="GenderOnchange"
                                            ItemDisplayBinding="{Binding gender}"
                                            SelectedIndex="{Binding GenderId, Mode=TwoWay}"/>
+
+                    <Label Text="Phone Number" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
+                                            Margin="20,0,20,0"
+                                            Placeholder="Phone Number"
+                                            Keyboard="Numeric"
+                                            PlaceholderColor="{StaticResource TextGrayColor}"
+                                            LineColor="{StaticResource BorderColor}"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding PhoneNumber, Mode = TwoWay}"
+                                            />
 
 
                     <Label Text="User Type" 
@@ -303,7 +336,7 @@
                                        ItemsSource="{Binding CountryList}"
                                        SelectedIndexChanged="CountryIndexChanged"
                                        ItemDisplayBinding="{Binding countryName}" 
-                                       SelectedIndex="{Binding CountryID, Mode=TwoWay}" />
+                                       SelectedIndex="{Binding countryID, Mode=TwoWay}" />
 
 
                     <Label Text="State" 
@@ -320,7 +353,7 @@
                                            ItemsSource="{Binding StateList}"
                                        SelectedIndexChanged="StateIndexChanged"
                                        ItemDisplayBinding="{Binding stateName}" 
-                                       SelectedIndex="{Binding StateID, Mode=TwoWay}" 
+                                       SelectedIndex="{Binding stateID, Mode=TwoWay}" 
                                          />
 
                     <Label Text="City" 

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             x:Class="Golf.Views.ParticipantsView.ViewParticipantByIdPage"
+             Title="View Participant"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CheckBoxStyle" 
+                   TargetType="Controls:CustomCheckBox"
+                   BasedOn="{StaticResource CustomCheckBoxStyleGray}">
+                <Setter Property="Margin" Value="60,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+        
+        <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+
+                <Controls:CircleImage HorizontalOptions="Center" Aspect="Fill"
+                                              Margin="20,30,20,10"
+                                              x:Name="ProfileImage"
+                                              HeightRequest="160"
+                                              WidthRequest="160"
+                                              />
+            
+                <Label Text="First Name" 
+                           Margin="20,10,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+                <Controls:CustomEntry HorizontalOptions="FillAndExpand"
+                                  Margin="20,0,20,0"
+                                  x:Name="FirstName"
+                                  Placeholder="First Name"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                  BorderColor="{StaticResource BorderColor}"
+                                  TextColor="{StaticResource TextGrayColor}"
+                                      IsReadOnly="True"
+                                  Text="{Binding FirstName, Mode = TwoWay}"
+                                  />
+
+                <Label Text="Last Name" 
+                   
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
+                                  Margin="20,0,20,0"
+                                  x:Name="LastName"
+                                   IsReadOnly="True"
+                                  Placeholder="Last Name"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                  BorderColor="{StaticResource BorderColor}"
+                                  TextColor="{StaticResource TextGrayColor}"
+                                  Text="{Binding FirstName, Mode = TwoWay}"
+                                  />
+
+            <Label Text="Gender" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
+                                  Margin="20,0,20,0"
+                                  x:Name="Gender"
+                                  Placeholder="Gender"
+                                   IsReadOnly="True"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                            BorderColor="{StaticResource BorderColor}"
+                                          TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding FirstName, Mode = TwoWay}"
+                                            />
+
+            <Label Text="Email" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
+                                  Margin="20,0,20,0"
+                                  Placeholder="Email"
+                                  x:Name="Email"
+                                   IsReadOnly="True"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                            BorderColor="{StaticResource BorderColor}"
+                                          TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding FirstName, Mode = TwoWay}"
+                                            />
+
+            <Label Text="Phone Number" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
+                                  Margin="20,0,20,0"
+                                  x:Name="Phone"
+                                  Placeholder="Phone Number"
+                                   IsReadOnly="True"
+                                  PlaceholderColor="{StaticResource TextGrayColor}"
+                                            BorderColor="{StaticResource BorderColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding FirstName, Mode = TwoWay}"
+                                            />
+                <Label Text="HCP" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+            
+                <Controls:CustomEntry HorizontalOptions="FillAndExpand"
+                                      Margin="20,0,20,0"
+                                       IsReadOnly="True"
+                                      Placeholder="Phone Number"
+                                      PlaceholderColor="{StaticResource TextGrayColor}"
+                                      BorderColor="{StaticResource BorderColor}"
+                                      TextColor="{StaticResource TextGrayColor}"
+                                      Text="10"/>
+
+                <Label Text="User Type" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+                <Controls:HorizontalList ListOrientation="Vertical"
+                                                 Padding="0"
+                                                 Margin="20"
+                                                 BackgroundColor="Transparent"
+                                                 x:Name="CheckboxList">
+                    <Controls:HorizontalList.ItemTemplate>
+                        <DataTemplate>
+
+                            <StackLayout Orientation="Horizontal"
+                                                     Margin="10,5,10,5"
+                                                     Padding="0"
+                                                     Spacing="0">
+
+                                <Controls:CustomCheckBox BorderColor="{StaticResource TextGrayColor}"
+                                                             Margin="50,0"
+                                                         IsEnabled="False"
+                                                         TextColor="{StaticResource TextGrayColor}"
+                                                             DefaultText="{Binding RoleTypeName}"
+                                                             DefaultValue="{Binding DefalutValue}"
+                                                             Checked="{Binding Checked, Mode=TwoWay}"
+                                                             Style="{StaticResource CheckBoxStyle}"
+                                                             />
+                            </StackLayout>
+                        </DataTemplate>
+                    </Controls:HorizontalList.ItemTemplate>
+                </Controls:HorizontalList>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

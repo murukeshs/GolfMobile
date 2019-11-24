@@ -32,9 +32,15 @@ namespace Golf.Views.MenuView
                 
                 var page = (Page)Activator.CreateInstance(item.TargetType);
                 page.Title = item.Title;
-                if (item.Title == "Invite a Participant")
+                
+                if (item.Title == "Home")
                 {
-                    DependencyService.Get<IShowPoppup>().ShowPoppupPage(); 
+                    IsPresented = false;
+                    //Detail =  new NavigationPage(page);
+                }
+                else if (item.Title == "Invite a Participant")
+                {
+                    DependencyService.Get<IShowPoppup>().ShowPoppupPage();
                     IsPresented = false;
                 }
                 else if (item.Title == "Logout")
@@ -56,7 +62,9 @@ namespace Golf.Views.MenuView
                 else
                 {
                     IsPresented = false;
-                    Detail = new NavigationPage(page);
+                    //Detail =  new NavigationPage(page);
+                    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    await navigationPage.PushAsync(page);
                 }
 
                 MasterPage.ListView.SelectedItem = null;
@@ -65,27 +73,6 @@ namespace Golf.Views.MenuView
             {
                 var a = ex.Message;
             }
-        }
-
-        public async Task PushRootView(Page newRootView)
-        {
-            Detail = new NavigationPage(newRootView);
-        }
-
-        public async Task ReplaceCurrentPage(Page currentPage, Page newPage)
-        {
-            Navigation.InsertPageBefore(currentPage, newPage);
-            await PopPage();
-        }
-
-        public async Task PushAsync(Page newPage)
-        {
-            await ((NavigationPage)Detail).PushAsync(newPage);
-        }
-
-        public async Task PopPage()
-        {
-            await ((NavigationPage)Detail).PopAsync();
         }
     }
 }

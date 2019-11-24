@@ -17,7 +17,7 @@ namespace Golf.ViewModel
 {
     public class ViewParticipantsViewModel : BaseViewModel
     {
-
+        public int ScoreKeeperId;
         public string TeamName
         {
             get { return _TeamName; }
@@ -68,9 +68,17 @@ namespace Golf.ViewModel
 
         public ViewParticipantsViewModel()
         {
-            ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
-            GetParticipantsList();
-            //LoadPlayerListAsync();
+            try
+            {
+                LoadPlayerListAsync();
+                ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
+                GetParticipantsList();
+            }
+            catch(Exception ex)
+            {
+
+            }
+    //LoadPlayerListAsync();
         }
 
         async void GetViewParticipantsDetails(AllParticipantsResponse obj)
@@ -86,25 +94,25 @@ namespace Golf.ViewModel
         {
             try
             {
-                var Item = parameter as AllParticipantsResponse;
+                var Item = parameter as user;
                 //PlayersList.All(x => x.userId == item.userId ?  x.IsToggled = true : x.IsToggled = false);
 
                 // Get every record that is checked
                 // The variable "Items" is the ItemsSource of your ListView
                 // var checkedItems = PlayersList.Where(x => x.IsChecked == true).ToList();
                 // Do stuff with item
-                foreach (var item in ParticipantItems)
+                foreach (var item in PlayersList)
                 {
                     if (item.userId == Item.userId)
                     {
-                        ParticipantItems.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
-                        //ScoreKeeperId = item.userId;
-                        App.User.TeamPreviewScoreKeeperName = item.playerName;
+                        PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
+                        ScoreKeeperId = item.userId;
+                        App.User.TeamPreviewScoreKeeperName = item.firstName;
                         App.User.TeamPreviewScoreKeeperProfilePicture = item.profileImage;
                     }
                     else
                     {
-                        ParticipantItems.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
+                        PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
                     }
                 }
 
@@ -201,6 +209,58 @@ namespace Golf.ViewModel
         #endregion CheckBox Selected Command Functionality
 
 
+        #region PlayerList API Functionality
+        public ObservableCollection<user> PlayersList
+        {
+            get { return _PlayersList; }
+            set
+            {
+                _PlayersList = value;
+                OnPropertyChanged(nameof(PlayersList));
+            }
+        }
+        public ObservableCollection<user> _PlayersList = null;
 
+        async void LoadPlayerListAsync()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    //player type is 1 to get player list
+                    var RestURL = App.User.BaseUrl + "User/listUser?userType=" + 1;
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
+                    //Assign the Values to Listview
+                    PlayersList = Items;
+                    if (PlayersList.Count > 0)
+                    {
+                        NoRecordsFoundLabel = false;
+                    }
+                    else
+                    {
+                        NoRecordsFoundLabel = true;
+                    }
+                    App.User.PlayersList = PlayersList;
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+
+        #endregion PlayerList API Functionality
     }
 }

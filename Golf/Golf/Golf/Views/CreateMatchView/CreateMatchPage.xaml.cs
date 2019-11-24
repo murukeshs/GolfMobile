@@ -48,5 +48,18 @@ namespace Golf.Views.CreateMatchView
             }
         }
         #endregion
+
+        private void NullableDatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var date = MatchStartDatePicker.Date.ToString("yyyy/MM/dd");
+            ((CreateMatchPageViewModel)BindingContext).MatchStartCommand.Execute(date);
+        }
+
+        private void NullableDatePicker_DateSelected_1(object sender, DateChangedEventArgs e)
+        {
+            var date = MatchEndDatePicker.Date.ToString("yyyy/MM/dd");
+            ((CreateMatchPageViewModel)BindingContext).MatchStartEndCommand.Execute(date);
+        }
+        
     }
 }

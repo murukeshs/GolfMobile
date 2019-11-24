@@ -54,7 +54,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(ParticipantName));
             }
         }
-        private string _ParticipantName = string.Empty;
+        private string _ParticipantName = App.User.UserName;
 
         public string ParticipantID
         {
@@ -65,7 +65,9 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(ParticipantID));
             }
         }
-        private string _ParticipantID = string.Empty;
+        private string _ParticipantID = App.User.UserId.ToString();
+
+
 
         public string MatchFee
         {

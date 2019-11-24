@@ -1,4 +1,6 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using Golf.Models;
+using Golf.Views.ParticipantsView;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +27,28 @@ namespace Golf.Views
             return true;
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
-                return;
+            try
+            {
+                if (e.Item == null)
+                    return;
 
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+                var item = (AllParticipantsResponse)e.Item;
+
+                var id = item.userId;
+
+                var view = new ViewParticipantByIdPage(id);
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+
+                //Deselect Item
+                ((ListView)sender).SelectedItem = null;
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         private async void InviteParticipantButton_Clicked(object sender, System.EventArgs e)

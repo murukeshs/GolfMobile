@@ -54,13 +54,13 @@ namespace Golf.Views
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            var item = (sender as CheckBox).BindingContext as AllParticipantsResponse;
+            var item = (sender as CheckBox).BindingContext as user;
             ((ViewParticipantsViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
 
         private void ImageButton_Clicked(object sender, System.EventArgs e)
         {
-            var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
+            var item = (sender as ImageButton).BindingContext as user;
             ((ViewParticipantsViewModel)BindingContext).ToggleSelectedCommand.Execute(item);
         }
     }
