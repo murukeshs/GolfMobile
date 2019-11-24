@@ -124,6 +124,13 @@
                                         Image="key.png"
                                         Text="{Binding Password, Mode = TwoWay}"/>
                 
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}" 
+                                        Margin="20,10,20,0"
+                                        Placeholder="Confirm Password"
+                                        IsPassword="True"
+                                        Image="key.png"
+                                        Text="{Binding ConfirmPassword, Mode = TwoWay}"/>
+
                 </StackLayout>
         </ScrollView>
 

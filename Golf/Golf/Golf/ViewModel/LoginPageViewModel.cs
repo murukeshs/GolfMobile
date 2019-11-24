@@ -131,7 +131,6 @@ namespace Golf.ViewModel
                         App.User.UserId = loginResponse.user.userId;
                         App.User.UserEmail = loginResponse.user.email;
                         App.User.IsModerator = loginResponse.user.isModerator;
-
                         App.User.UserWithTypeId = loginResponse.user.userWithTypeId;
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
@@ -142,8 +141,20 @@ namespace Golf.ViewModel
                     else
                     {
                         var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        if(error.errorMessage == "Email is not verified")
+                        {
+                            App.User.OtpEmail = UserNameText;
+                            UserDialogs.Instance.HideLoading();
+                            await UserDialogs.Instance.AlertAsync("Email is Not Verified", "Alert", "Ok");
+                            var view = new OtpVerificationPage();
+                            var navigationPage = ((NavigationPage)App.Current.MainPage);
+                            await navigationPage.PushAsync(view);
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.HideLoading();
+                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        }
                     }
                 }
                 else

@@ -139,6 +139,20 @@ namespace Golf.ViewModel
         }
         private string _Password = string.Empty;
 
+        public string ConfirmPassword
+        {
+            get
+            {
+                return _ConfirmPassword;
+            }
+            set
+            {
+                _ConfirmPassword = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _ConfirmPassword = string.Empty;
+
         #region Register Command Functionality
         public ICommand RegisterCommand => new AsyncCommand(RegisterAsync);
         async Task RegisterAsync()
@@ -202,6 +216,12 @@ namespace Golf.ViewModel
             {
                 //Password Is Empty
                 UserDialogs.Instance.AlertAsync("Password cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (Password != ConfirmPassword)
+            {
+                //Password check with confirm password
+                UserDialogs.Instance.AlertAsync("Confirm password must be same as password.", "Alert", "Ok");
                 return false;
             }
             else

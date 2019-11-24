@@ -42,6 +42,17 @@ namespace Golf.ViewModel
         }
         private string _TeamName = string.Empty;
 
+        public string ProfileImage
+        {
+            get { return _ProfileImage; }
+            set
+            {
+                _ProfileImage = value;
+                OnPropertyChanged("ProfileImage");
+            }
+        }
+        private string _ProfileImage = string.Empty;
+
         #region PlayerList API Functionality
         public ObservableCollection<user> PlayersList
         {
