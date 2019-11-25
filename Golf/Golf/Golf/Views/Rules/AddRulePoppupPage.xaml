@@ -39,13 +39,14 @@
                  Margin="20,50,20,50" 
                  BackgroundColor="Transparent">
         <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
-                                 BorderColor="{StaticResource LightGreenColor}"
-                                 CornerRadius="15"
-                                 HasShadow="True"
-                                 Margin="0"
-                                 HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="FillAndExpand"
-                             >
+                             BorderColor="{StaticResource LightGreenColor}"
+                             BorderThickness="4"
+                             BorderIsDashed="True"
+                             CornerRadius="15"
+                             HasShadow="True"
+                             Margin="0"
+                             HorizontalOptions="FillAndExpand"
+                             VerticalOptions="FillAndExpand">
 
             <StackLayout Margin="0"
                          HorizontalOptions="FillAndExpand">

@@ -7,7 +7,9 @@ namespace Golf.Models
 {
     public class UserModel
     {
-        internal string BaseUrl = "https://golfapp.azurewebsites.net/api/"; 
+        internal string BaseUrl = "https://golfapp.azurewebsites.net/api/";
+
+        internal string EVENT_REFRESH_PROFILE_ICON = "EVENT_REFRESH_PROFILE_ICON";
 
         internal string AccessToken { get; set; } = string.Empty;
 

@@ -12,18 +12,22 @@ namespace Golf.Views.MenuView
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuPageMaster : ContentPage
     {
+       
         public ListView ListView;
 
         public MenuPageMaster()
         {
             InitializeComponent();
-            
+           
             BindingContext = new MenuPageMasterViewModel();
             ListView = MenuItemsListView;
         }
 
+       
+
         public class MenuPageMasterViewModel : INotifyPropertyChanged
         {
+           
             public string UserName
             {
                 get { return _UserName; }
@@ -59,8 +63,14 @@ namespace Golf.Views.MenuView
 
             public ObservableCollection<MenuPageMenuItem> MenuItems { get; set; }
             
-            public MenuPageMasterViewModel()
+            public MenuPageMasterViewModel()    
             {
+                //Initialize the message center new profile image is changed
+                MessagingCenter.Subscribe<App, string>(this, App.User.EVENT_REFRESH_PROFILE_ICON, (sender, arg) => {
+                    var image = arg;
+                    RefreshImage(image);
+                });
+                //////////////////////////////////////////////////////////////////////////////////
                 if (!string.IsNullOrEmpty(App.User.UserProfileImage) || App.User.UserProfileImage != null)
                 {
                     UserProfilePic = App.User.UserProfileImage;
@@ -118,7 +128,12 @@ namespace Golf.Views.MenuView
                     });
                 }
             }
-            
+
+            private void RefreshImage(string image)
+            {
+                UserProfilePic = image;
+            }
+
             #region INotifyPropertyChanged Implementation
             public event PropertyChangedEventHandler PropertyChanged;
             void OnPropertyChanged([CallerMemberName] string propertyName = "")

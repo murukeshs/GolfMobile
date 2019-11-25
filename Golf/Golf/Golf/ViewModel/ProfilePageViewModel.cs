@@ -427,6 +427,7 @@ namespace Golf.ViewModel
                     {
                         //Asign the Image URL repsonse to the Image
                         ProfileImage = responJsonText;
+                        MessagingCenter.Send<App, string>((App)Application.Current, App.User.EVENT_REFRESH_PROFILE_ICON, responJsonText);
                         UserDialogs.Instance.HideLoading();
                     }
                     else
