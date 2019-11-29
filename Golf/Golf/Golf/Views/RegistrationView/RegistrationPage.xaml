@@ -76,47 +76,6 @@
                                         Image="phone_white.png"
                                         Text="{Binding PhoneNumber, Mode = TwoWay}"/>
 
-                <StackLayout Orientation="Horizontal" 
-                             Margin="20,0" 
-                             Spacing="0"
-                             Padding="0">
-                    <Image Source="usertype_white.png" 
-                           Margin="0" 
-                           HeightRequest="40"/>
-                    <Label Text="User Type" 
-                           Margin="10,0"
-                           VerticalOptions="Center"
-                           FontSize="{StaticResource FontSize20}"
-                           TextColor="{StaticResource WhiteColor}"/>
-
-                </StackLayout>
-                <Controls:CustomCheckBox DefaultText="Player" 
-                                         x:Name="PlayerCheckbox"
-                                         Style="{StaticResource CheckBoxStyle}"
-                                         CheckedChanged="UserTypeChanged"
-                                         DefaultValue ="1"/>
-
-                <Controls:CustomCheckBox DefaultText="Moderator"
-                                         Style="{StaticResource CheckBoxStyle}"
-                                         CheckedChanged="UserTypeChanged"
-                                         DefaultValue ="2"/>
-
-                <Controls:CustomCheckBox DefaultText="Score Keeper"
-                                         Style="{StaticResource CheckBoxStyle}" 
-                                         CheckedChanged="UserTypeChanged"
-                                         DefaultValue ="3"
-                                         />
-
-                <Controls:CustomCheckBox DefaultText="Organizer"
-                                         Style="{StaticResource CheckBoxStyle}" 
-                                         DefaultValue ="4"
-                                         CheckedChanged="UserTypeChanged"/>
-
-                <Controls:CustomCheckBox DefaultText="Spectator"
-                                         Style="{StaticResource CheckBoxStyle}"
-                                         DefaultValue ="5"
-                                         CheckedChanged="UserTypeChanged"/>
-
                     <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}" 
                                         Margin="20,10,20,0"
                                         Placeholder="Password"

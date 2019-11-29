@@ -3,6 +3,7 @@ using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
+using Golf.Views.CreateRoundView;
 using Golf.Views.MenuView;
 using Golf.Views.PoppupView;
 using Newtonsoft.Json;
@@ -22,7 +23,7 @@ namespace Golf.ViewModel
 {
     public class AddParticipantPageViewModel : BaseViewModel
     {
-        public int ScoreKeeperId;
+        public int ScoreKeeperId = 0;
         public AddParticipantPageViewModel()
         {
             LoadPlayerListAsync();
@@ -99,7 +100,6 @@ namespace Golf.ViewModel
 
         #endregion PlayerList API Functionality
 
-
         #region TeamPreview Command Functionality
         public ICommand TeamPreviewCommand => new AsyncCommand(TeamPreviewButtonAsync);
         async Task TeamPreviewButtonAsync()
@@ -118,42 +118,89 @@ namespace Golf.ViewModel
         #endregion TeamPreview Command Functionality
 
         #region CheckBox Selected Command Functionality
+
         public List<int> TeamPlayersIds = new List<int>();
-        // string joined = string.Join(",", TeamPlayersIds);
+
         public ObservableCollection<AddPlayersList> TeamPreviewList = new ObservableCollection<AddPlayersList>();
         public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
 
         async void CheckboxChangedEvent(object parameter)
         {
-            var item = parameter as user;
-            var userId = item.userId;
-            if (TeamPlayersIds.Count > 0)
+                var item = parameter as user;
+                var userId = item.userId;
+            if (App.User.ScoreKeeperId != userId)
             {
-                bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
-                if (UserIdAleradyExists)
+                if (TeamPlayersIds.Count > 0)
                 {
-                    TeamPlayersIds.Remove(userId);
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true,PlayerImage=item.profileImage };
-
-                    App.User.TeamPreviewList.Remove(list);
+                    bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
+                    if (UserIdAleradyExists)
+                    {
+                        TeamPlayersIds.Remove(userId);
+                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                        App.User.TeamPreviewList.Remove(list);
+                    }
+                    else
+                    {
+                        TeamPlayersIds.Add(userId);
+                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                        App.User.TeamPreviewList.Add(list);
+                    }
                 }
                 else
                 {
                     TeamPlayersIds.Add(userId);
-
                     var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
                     App.User.TeamPreviewList.Add(list);
                 }
             }
             else
             {
-                TeamPlayersIds.Add(userId);
-                var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
-                App.User.TeamPreviewList.Add(list);
+                UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
+                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
             }
         }
         #endregion CheckBox Selected Command Functionality
 
+        #region Toggle Selected Command Functionality
+        public ICommand ToggleSelectedCommand => new Command(ToggleChangedEvent);
+        void ToggleChangedEvent(object parameter)
+        {
+            try
+            {
+                var Item = parameter as user;
+
+                bool UserIdAleradyExists = TeamPlayersIds.Contains(Item.userId);
+                if (UserIdAleradyExists)
+                {
+                    UserDialogs.Instance.Alert("Player can't be added as a score keeper.","Alert","Ok");
+                    
+                }
+                else
+                {
+                    PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
+                    PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
+                    ScoreKeeperId = Item.userId;
+                    App.User.ScoreKeeperId = ScoreKeeperId;
+                    App.User.TeamPreviewScoreKeeperName = Item.firstName;
+                    App.User.TeamPreviewScoreKeeperProfilePicture = Item.profileImage;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        //To Hide and UnHide Players details Page
+        async void UpdateItems(user Items)
+        {
+            var index = PlayersList.IndexOf(Items);
+            PlayersList.Remove(Items);
+            PlayersList.Insert(index, Items);
+            OnPropertyChanged(nameof(PlayersList));
+        }
+        #endregion Toggle Selected Command Functionality
 
         #region CreateTeamPlayers Button Command Functionality
 
@@ -186,13 +233,13 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                        await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
-                        var view = new MenuPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
                         UserDialogs.Instance.HideLoading();
                         App.User.TeamPreviewList.Clear();
                         App.User.TeamPreviewScoreKeeperName = string.Empty;
                         App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
+                        var view = new FinalTeamsForRound();
+                        var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        await navigationPage.PushAsync(view);
                     }
                     else
                     {
@@ -223,59 +270,6 @@ namespace Golf.ViewModel
             }
         }
         #endregion CreateTeamPlayers Button Command Functionality
-
-
-        #region Toggle Selected Command Functionality
-        public user _LastSelectedItem;
-        public ICommand ToggleSelectedCommand => new Command(ToggleChangedEvent);
-       //private user _LastSelectedItem;
-        void ToggleChangedEvent(object parameter)
-        {
-            try
-            {
-                var Item = parameter as user;
-                //PlayersList.All(x => x.userId == item.userId ?  x.IsToggled = true : x.IsToggled = false);
-
-                // Get every record that is checked
-                // The variable "Items" is the ItemsSource of your ListView
-                // var checkedItems = PlayersList.Where(x => x.IsChecked == true).ToList();
-                // Do stuff with item
-                foreach (var item in PlayersList)
-                {
-                    if (item.userId == Item.userId)
-                    {
-                        PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
-                        ScoreKeeperId = item.userId;
-                        App.User.TeamPreviewScoreKeeperName = item.firstName;
-                        App.User.TeamPreviewScoreKeeperProfilePicture = item.profileImage;
-                    }
-                    else
-                    {
-                        PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
-                    }
-                }
-                
-            }
-            catch(Exception ex)
-            {
-
-            }
-        }
-
-
-        //To Hide and UnHide Players details Page
-
-
-
-        async void UpdateItems(user Items)
-        {
-            var index = PlayersList.IndexOf(Items);
-            PlayersList.Remove(Items);
-            PlayersList.Insert(index, Items);
-            OnPropertyChanged(nameof(PlayersList));
-        }
-        #endregion Toggle Selected Command Functionality
-
 
         #region AddParticipants Button Selected Command Functionality
         public ICommand AddParticipantsCommand => new AsyncCommand(AddParticipantsAsync);

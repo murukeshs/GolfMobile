@@ -39,15 +39,18 @@ namespace Golf.Models
         public bool? isPublicProfile { get; set; }
         public string userTypeId { get; set; }
 
-        public bool IsChecked { get; set; } = false;
-        public bool IsToggled
-        { get { return _IsToggled; }
-            set {
-                _IsToggled = value;
-                OnPropertyChanged("IsToggled");
+        //public bool IsChecked { get; set; } = false;
+
+        public bool IsChecked
+        {
+            get { return _IsChecked; }
+            set
+            {
+                _IsChecked = value;
+                OnPropertyChanged("IsChecked");
             }
         }
-        private bool _IsToggled { get; set; } = false;
+        private bool _IsChecked { get; set; } = false;
 
         public bool isModerator { get; set; } = false;
 
@@ -63,4 +66,5 @@ namespace Golf.Models
         }
         private string _ImageIcon { get; set; } = "unchecked_icon.png";
     }
+     
 }

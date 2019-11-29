@@ -5,11 +5,9 @@ using Golf.Views;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -18,7 +16,7 @@ namespace Golf.ViewModel
 {
     public class ListOfTeamsPageViewModel : BaseViewModel
     {
-        public ObservableCollection<MatchTeamItems> TeamItems
+        public ObservableCollection<RoundTeamItems> TeamItems
         {
             get { return _TeamItem; }
             set
@@ -27,7 +25,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(TeamItems));
             }
         }
-        private ObservableCollection<MatchTeamItems> _TeamItem= null;
+        private ObservableCollection<RoundTeamItems> _TeamItem= null;
 
         public bool NoRecordsFoundLabel
         {
@@ -61,7 +59,7 @@ namespace Golf.ViewModel
         {
             try
             {
-                var item = parameter as MatchTeamItems;
+                var item = parameter as RoundTeamItems;
                 App.User.TeamIdforPlayerListing = item.teamId;
                 App.User.TeamName = item.teamName;
                // UserDialogs.Instance.ShowLoading();
@@ -94,7 +92,7 @@ namespace Golf.ViewModel
                     //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
-                        TeamItems = JsonConvert.DeserializeObject<ObservableCollection<MatchTeamItems>>(content);
+                        TeamItems = JsonConvert.DeserializeObject<ObservableCollection<RoundTeamItems>>(content);
                         if (TeamItems.Count > 0)
                         {
                             ListViewIsVisible = true;

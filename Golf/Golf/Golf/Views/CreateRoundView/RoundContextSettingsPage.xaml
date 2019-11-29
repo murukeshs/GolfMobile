@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Round"
+             x:Class="Golf.Views.CreateRoundView.RoundContextSettingsPage"
+             Title="Round Contest Settings"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:RoundContextSettingsPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 CornerRadius="15"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 HasShadow="True"
+                                 Margin="25,0,25,0"
+                                 HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Padding="10">
+                <StackLayout>
+                    <Label Text="Round Settings:"
+                           Style="{StaticResource TextLabelStyleGrayColor20}"
+                           Margin="20,30,20,0"
+                           TextColor="{StaticResource BlackColor}"
+                           FontSize="{StaticResource FontSize18}"/>
+
+                    <controls:CustomPicker Title="Select Round Settings" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           FontSize="{StaticResource FontSize18}"
+                                           ItemsSource="{Binding SettingsList}"/>
+
+                    <Label Text="Round Extras:"
+                           Style="{StaticResource TextLabelStyleGrayColor20}"
+                           Margin="20,20,20,0"
+                           TextColor="{StaticResource BlackColor}"
+                           FontSize="{StaticResource FontSize18}"/>
+
+                    <controls:CustomPicker Title="Select Round Extras" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="20,5,20,0"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           FontSize="{StaticResource FontSize18}"
+                                           ItemsSource="{Binding RoundExtrasList}"/>
+
+                    <controls:RoundedButton Text="Proceed"
+                                    Margin="20,30,20,20"
+                                    VerticalOptions="EndAndExpand"
+                                    Command="{Binding SubmitCommand}"/>
+                    
+                </StackLayout>
+            </plugins:PancakeView>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

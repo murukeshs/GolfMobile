@@ -59,6 +59,11 @@ namespace Golf.Views.MenuView
                         return;
                     }
                 }
+                else if(item.TargetType == null)
+                {
+                    IsPresented = false;
+                    MasterPage.ListView.SelectedItem = null;
+                }
                 else
                 {
                     IsPresented = false;

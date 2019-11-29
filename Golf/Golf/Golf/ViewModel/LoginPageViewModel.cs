@@ -112,8 +112,7 @@ namespace Golf.ViewModel
                     var data = new Login
                     {
                         email = UserNameText,
-                        password = PasswordText,
-                        userTypeid = 2
+                        password = PasswordText
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -131,7 +130,6 @@ namespace Golf.ViewModel
                         App.User.UserId = loginResponse.user.userId;
                         App.User.UserEmail = loginResponse.user.email;
                         App.User.IsModerator = loginResponse.user.isModerator;
-                        App.User.UserWithTypeId = loginResponse.user.userWithTypeId;
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
@@ -144,6 +142,7 @@ namespace Golf.ViewModel
                         if(error.errorMessage == "Email is not verified")
                         {
                             App.User.OtpEmail = UserNameText;
+                            App.User.FromEmailNotValid = true;
                             UserDialogs.Instance.HideLoading();
                             await UserDialogs.Instance.AlertAsync("Email is Not Verified", "Alert", "Ok");
                             var view = new OtpVerificationPage();

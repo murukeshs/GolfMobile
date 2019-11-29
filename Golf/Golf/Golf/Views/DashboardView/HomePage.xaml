@@ -48,14 +48,14 @@
                                          IsVisible="{Binding IsModerator}">
 
                         <plugins:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NewMatchCommand}"/>
+                            <TapGestureRecognizer Command="{Binding NewRoundCommand}"/>
                         </plugins:PancakeView.GestureRecognizers>
 
                         <StackLayout Orientation="Horizontal">
                             <Image HorizontalOptions="Start"
                                    Source="new_match.png"
                                    Margin="0"/>
-                            <Label Text="New Match" 
+                            <Label Text="New Round" 
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
                                    Margin="50,0"/>
@@ -70,7 +70,7 @@
                                          HeightRequest="70">
                         
                         <plugins:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding JoinMatchCommand}"/>
+                            <TapGestureRecognizer Command="{Binding JoinRoundCommand}"/>
                         </plugins:PancakeView.GestureRecognizers>
                         
                         <StackLayout Orientation="Horizontal">
@@ -78,7 +78,7 @@
                                    Source="join_match.png"
                                     Margin="0"/>
                             
-                            <Label Text="Join Match" 
+                            <Label Text="Join Round" 
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
                                    Margin="50,0"/>

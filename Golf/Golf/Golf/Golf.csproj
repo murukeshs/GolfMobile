@@ -23,8 +23,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\MatchDetailsView\MatchListPage.xaml.cs">
-      <DependentUpon>MatchListPage.xaml</DependentUpon>
+    <Compile Update="Views\CreateRoundView\CreateRoundPage.xaml.cs">
+      <DependentUpon>CreateRoundPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CreateRoundView\RoundContextSettingsPage.xaml.cs">
+      <DependentUpon>RoundContextSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CreateRoundView\RoundTeamListPage.xaml.cs">
+      <DependentUpon>RoundTeamListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CreateRoundView\RoundCodePoppup.xaml.cs">
+      <DependentUpon>RoundCodePoppup.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\JoinRoundView\JoinRoundPage.xaml.cs">
+      <DependentUpon>JoinRoundPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RoundDetailsView\RoundDetailsPage.xaml.cs">
+      <DependentUpon>RoundDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RoundDetailsView\RoundListPage.xaml.cs">
+      <DependentUpon>RoundListPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MenuView\MenuPageMenuItem.cs">
       <SubType>Code</SubType>
@@ -41,22 +59,28 @@
     <EmbeddedResource Update="Styles\Fonts.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CreateMatchView\CreateMatchPage.xaml">
+    <EmbeddedResource Update="Views\CreateRoundView\CreateRoundPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CreateMatchView\ListofPlayersPage.xaml">
+    <EmbeddedResource Update="Views\CreateRoundView\FinalTeamsForRound.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CreateMatchView\MatchCodePoppup.xaml">
+    <EmbeddedResource Update="Views\CreateRoundView\ListofPlayersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CreateMatchView\MatchContextSettingsPage.xaml">
+    <EmbeddedResource Update="Views\CreateRoundView\RoundCodePoppup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CreateMatchView\MatchTeamListPage.xaml">
+    <EmbeddedResource Update="Views\CreateRoundView\RoundContextSettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CreateMatchView\SendInvitePoppup.xaml">
+    <EmbeddedResource Update="Views\CreateRoundView\RoundTeamListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CreateRoundView\SendInvitePoppup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CreateTeamView\AddNewTeamPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CreateTeamView\AddParticipantPage.xaml">
@@ -68,10 +92,10 @@
     <EmbeddedResource Update="Views\DashboardView\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\JoinMatchView\JoinMatchPage.xaml">
+    <EmbeddedResource Update="Views\JoinRoundView\JoinRoundPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MatchDetailsView\MatchListPage.xaml">
+    <EmbeddedResource Update="Views\RoundDetailsView\RoundListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ParticipantsView\InviteParticipantPage.xaml">
@@ -83,7 +107,7 @@
     <EmbeddedResource Update="Views\LoginView\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MatchDetailsView\MatchDetailsPage.xaml">
+    <EmbeddedResource Update="Views\RoundDetailsView\RoundDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MenuView\MenuPage.xaml">
@@ -102,6 +126,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ProfileView\ProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\RegistrationView\ForgotPassword.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegistrationView\RegistrationPageAdmin.xaml">

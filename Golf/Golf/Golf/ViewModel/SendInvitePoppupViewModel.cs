@@ -1,18 +1,12 @@
 ﻿using Acr.UserDialogs;
-using Golf.Services;
 using Golf.Utils;
-using Golf.Views.CreateMatchView;
+using Golf.Views.CreateRoundView;
 using Golf.Views.MenuView;
-using Newtonsoft.Json;
-using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Golf.Models;
 namespace Golf.ViewModel
 {
     public class SendInvitePoppupViewModel : BaseViewModel

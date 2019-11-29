@@ -1,8 +1,8 @@
 ﻿using Acr.UserDialogs;
 using Golf.Utils;
 using Golf.Views;
-using Golf.Views.CreateMatchView;
-using Golf.Views.JoinMatchView;
+using Golf.Views.CreateRoundView;
+using Golf.Views.JoinRoundView;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -30,15 +30,15 @@ namespace Golf.ViewModel
             IsModerator = App.User.IsModerator;
         }
 
-        #region Join Match Command Functionality
-        //Join Match Command
-        public ICommand JoinMatchCommand => new AsyncCommand(JoinMatchAsync);
-        async Task JoinMatchAsync()
+        #region Join Round Command Functionality
+        //Join Round Command
+        public ICommand JoinRoundCommand => new AsyncCommand(JoinRoundAsync);
+        async Task JoinRoundAsync()
         {
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                var view = new JoinMatchPage();
+                var view = new JoinRoundPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
@@ -48,18 +48,18 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-        #endregion Join Match Command Functionality
+        #endregion Join Round Command Functionality
 
 
-        #region New Match Command Functionality
-        public ICommand NewMatchCommand => new AsyncCommand(NewMatchAsync);
+        #region New Round Command Functionality
+        public ICommand NewRoundCommand => new AsyncCommand(NewRoundAsync);
 
-        async Task NewMatchAsync()
+        async Task NewRoundAsync()
         {
             try
             {
                 //UserDialogs.Instance.ShowLoading();
-                var view = new CreateMatchPage();
+                var view = new CreateRoundPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
                 //UserDialogs.Instance.HideLoading();
@@ -69,7 +69,7 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-        #endregion New Match Command Functionality
+        #endregion New Round Command Functionality
 
         #region Teams Command Functionality
         public ICommand TeamsCommand => new AsyncCommand(TeamsAsync);

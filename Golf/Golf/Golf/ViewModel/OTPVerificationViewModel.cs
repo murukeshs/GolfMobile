@@ -2,6 +2,7 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
+using Golf.Views;
 using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -15,6 +16,11 @@ namespace Golf.ViewModel
 {
     public class OTPVerificationViewModel : BaseViewModel
     {
+        public OTPVerificationViewModel()
+        {
+            Email = App.User.OtpEmail;
+            generateOTP();
+        }
         public string OTP
         {
             get
@@ -128,11 +134,6 @@ namespace Golf.ViewModel
         }
         private string _Email = string.Empty;
 
-        public OTPVerificationViewModel()
-        {
-            Email = App.User.OtpEmail;
-            generateOTP();
-        }
         #region generateOTP
         public async void generateOTP()
         {
@@ -141,13 +142,14 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/generateEmailOTP";
+                    var RestURL = App.User.BaseUrl + "User/generateOTP";
                     Uri requestUri = new Uri(RestURL);
 
                     var data = new GenerateOTPEmail
                     {
-                        email = Email,
-                        type = "Email Verify"
+                        emailorphone = Email,
+                        type = "Email Verify",
+                        sourceType = "Email"
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -210,9 +212,18 @@ namespace Golf.ViewModel
                     {
                         UserDialogs.Instance.HideLoading();
                         await UserDialogs.Instance.AlertAsync("OTP Verified successfully.", "Success", "Ok");
-                        var view = new RegistrationPageAdmin();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
+                        if(App.User.FromEmailNotValid)
+                        {
+                            var view = new LoginPage();
+                            var navigationPage = ((NavigationPage)App.Current.MainPage);
+                            await navigationPage.PushAsync(view);
+                        }
+                        else
+                        {
+                            var view = new RegistrationPageAdmin();
+                            var navigationPage = ((NavigationPage)App.Current.MainPage);
+                            await navigationPage.PushAsync(view);
+                        }
                     }
                     else
                     {

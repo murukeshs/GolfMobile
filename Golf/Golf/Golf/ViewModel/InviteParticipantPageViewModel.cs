@@ -170,8 +170,9 @@ namespace Golf.ViewModel
 
                     var data = new GenerateOTPEmail
                     {
-                        email = EmailText,
-                        type = "Email Verify"
+                        emailorphone = EmailText,
+                        type = "Forgot Password",
+                        sourceType = "Email"
                     };
 
                     string json = JsonConvert.SerializeObject(data);

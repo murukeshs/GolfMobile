@@ -37,6 +37,12 @@
                 <Setter Property="BorderColor" Value="{StaticResource BorderColor}"/>
             </Style>
 
+            <Style x:Key="RectangleShapeEntryStyleWhite" TargetType="{x:Type Controls:CustomEntry}">
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource WhiteColor}"/>
+                <Setter Property="BorderColor" Value="{StaticResource WhiteColor}"/>
+            </Style>
+
             <Style x:Key="CustomCheckBoxStyleWhite" TargetType="Controls:CustomCheckBox">
                 <Setter Property="FontSize" Value="{x:StaticResource FontSize18}"/>
                 <Setter Property="TextColor" Value="{x:StaticResource WhiteColor}"/>

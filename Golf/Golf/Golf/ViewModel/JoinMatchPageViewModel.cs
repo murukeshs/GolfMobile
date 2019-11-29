@@ -2,8 +2,8 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
-using Golf.Views.MatchDetailsView;
 using Golf.Views.MenuView;
+using Golf.Views.RoundDetailsView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -16,23 +16,23 @@ using Xamarin.Forms;
 
 namespace Golf.ViewModel
 {
-    public class JoinMatchPageViewModel : BaseViewModel
+    public class JoinRoundPageViewModel : BaseViewModel
     {
-        public JoinMatchPageViewModel()
+        public JoinRoundPageViewModel()
         {
-            JoinMatchListAPI();
+            JoinRoundListAPI();
         }
 
-        public string MatchID
+        public string RoundID
         {
-            get { return _MatchID; }
+            get { return _RoundID; }
             set
             {
-                _MatchID = value;
-                OnPropertyChanged(nameof(MatchID));
+                _RoundID = value;
+                OnPropertyChanged(nameof(RoundID));
             }
         }
-        private string _MatchID = string.Empty;
+        private string _RoundID = string.Empty;
 
         public string CompetitionType
         {
@@ -69,38 +69,38 @@ namespace Golf.ViewModel
 
 
 
-        public string MatchFee
+        public string RoundFee
         {
-            get { return _MatchFee; }
+            get { return _RoundFee; }
             set
             {
-                _MatchFee = value;
-                OnPropertyChanged(nameof(MatchFee));
+                _RoundFee = value;
+                OnPropertyChanged(nameof(RoundFee));
             }
         }
-        private string _MatchFee = "0.00";
+        private string _RoundFee = "0.00";
 
-        public string MatchName
+        public string RoundName
         {
-            get { return _MatchName; }
+            get { return _RoundName; }
             set
             {
-                _MatchName = value;
-                OnPropertyChanged(nameof(MatchName));
+                _RoundName = value;
+                OnPropertyChanged(nameof(RoundName));
             }
         }
-        private string _MatchName = string.Empty;
+        private string _RoundName = string.Empty;
 
 
 
-        #region JoinMatch Button Command Functionality
-        public ICommand JoinMatchButtonCommand => new AsyncCommand(JoinMatchAsync);
-        async Task JoinMatchAsync()
+        #region JoinRound Button Command Functionality
+        public ICommand JoinRoundButtonCommand => new AsyncCommand(JoinRoundAsync);
+        async Task JoinRoundAsync()
         {
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                var view = new MatchListPage();
+                var view = new RoundListPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
@@ -111,32 +111,32 @@ namespace Golf.ViewModel
             }
         }
 
-        public ObservableCollection<matchJoinlist> MatchList
+        public ObservableCollection<roundJoinlist> RoundList
         {
-            get { return _MatchList; }
+            get { return _RoundList; }
             set
             {
-                _MatchList = value;
-                OnPropertyChanged(nameof(MatchList));
+                _RoundList = value;
+                OnPropertyChanged(nameof(RoundList));
             }
         }
-        public ObservableCollection<matchJoinlist> _MatchList = null;
+        public ObservableCollection<roundJoinlist> _RoundList = null;
 
-        async void JoinMatchListAPI()
+        async void JoinRoundListAPI()
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Match/getMatchJoinList?matchId=0&userId=" + App.User.UserId;
+                    var RestURL = App.User.BaseUrl + "Round/getRoundJoinList?roundId=0&userId=" + App.User.UserId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        MatchList = JsonConvert.DeserializeObject<ObservableCollection<matchJoinlist>>(content);
+                        RoundList = JsonConvert.DeserializeObject<ObservableCollection<roundJoinlist>>(content);
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -158,41 +158,41 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
-        #endregion JoinMatch Button Command Functionality
+        #endregion JoinRound Button Command Functionality
 
-        #region Match Picker Selected Command Functionality
+        #region Round Picker Selected Command Functionality
 
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
 
         void SelectedIndexChangedEvent(object parameter)
         {
-            var Item = parameter as matchJoinlist;
-            MatchID = Item.matchId.ToString();
+            var Item = parameter as roundJoinlist;
+            RoundID = Item.roundId.ToString();
             CompetitionType = Item.CompetitionName;
             ParticipantName = Item.ParticipantName;
             ParticipantID = Item.ParticipantId.ToString();
-            MatchFee = Item.matchFee;
+            RoundFee = Item.roundFee;
         }
-        #endregion Match Picker Selected Command Functionality
+        #endregion Round Picker Selected Command Functionality
 
-        #region JoinMatch Button Command Functionality
+        #region JoinRound Button Command Functionality
 
-        public ICommand JoinMatchCommand => new AsyncCommand(JoinMatchButtonAsync);
+        public ICommand JoinRoundCommand => new AsyncCommand(JoinRoundButtonAsync);
 
-        async Task JoinMatchButtonAsync()
+        async Task JoinRoundButtonAsync()
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Match/acceptMatchInvitation";
+                    string RestURL = App.User.BaseUrl + "Round/acceptRoundInvitation";
                     Uri requestUri = new Uri(RestURL);
 
-                    var data = new acceptMatchInvitation
+                    var data = new acceptRoundInvitation
                     {
-                        matchId = Convert.ToInt32(MatchID),
-                        type = "Match",
+                        roundId = Convert.ToInt32(RoundID),
+                        type = "Round",
                         playerId = App.User.UserId
                     };
 
@@ -204,7 +204,7 @@ namespace Golf.ViewModel
 
                     if (response.IsSuccessStatusCode)
                     {
-                        await UserDialogs.Instance.AlertAsync("Match Joined Successfully.", "Join Match", "Ok");
+                        await UserDialogs.Instance.AlertAsync("Round Joined Successfully.", "Join Round", "Ok");
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
@@ -238,6 +238,6 @@ namespace Golf.ViewModel
                 }
             }
         }
-        #endregion JoinMatch Button Command Functionality
+        #endregion JoinRound Button Command Functionality
     }
 }

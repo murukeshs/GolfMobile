@@ -7,6 +7,7 @@
         public int createdBy { get; set; }
         public string CreatedOn { get; set; }
         public int startingHole { get; set; }
+        public int roundId { get; set; }
     }
 
     public class updateTeam : TeamModel

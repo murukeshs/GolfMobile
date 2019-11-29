@@ -25,15 +25,15 @@ namespace Golf.Models
 
         internal int CreateTeamId { get; set; } = 0;
 
-        internal string MatchCode { get; set; } = string.Empty;
+        internal string RoundCode { get; set; } = string.Empty;
 
         internal string CompetitionType { get; set; } = string.Empty;
 
-        internal int CreateMatchId { get; set; } = 0;
+        internal int CreateRoundId { get; set; } = 0;
 
         internal int TeamIdforPlayerListing { get; set; } = 0;
 
-        internal string MatchId { get; set; } = string.Empty;
+        internal string RoundId { get; set; } = string.Empty;
 
         internal bool IsModerator { get; set; } = false;
 
@@ -50,5 +50,12 @@ namespace Golf.Models
         internal string TeamPreviewScoreKeeperName { get; set; }
 
         internal string TeamPreviewScoreKeeperProfilePicture { get; set; }
+
+        internal bool FromEmailNotValid { get; set; } = false;
+
+        internal bool IsRadioButton { get; set; } = false;
+
+        internal int ScoreKeeperId { get; set; }
+
     }
 }

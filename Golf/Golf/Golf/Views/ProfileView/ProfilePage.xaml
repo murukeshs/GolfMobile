@@ -219,12 +219,12 @@
                                             Text="{Binding PhoneNumber, Mode = TwoWay}"
                                             />
 
-
-                    <Label Text="User Type" 
+                      <!-- Future Enhancement-->
+                    <!--<Label Text="User Type" 
                                Margin="20,0,0,0"
                                VerticalOptions="Center"
                                FontSize="{StaticResource FontSize20}"
-                               TextColor="Gray"/>
+                               TextColor="Gray"/>-->
                     <!--<StackLayout Orientation="Horizontal" 
                                  Margin="20,0" 
                                  Spacing="0"
@@ -239,7 +239,7 @@
                                TextColor="{StaticResource TextGrayColor}"/>
 
                     </StackLayout>-->
-                    <Controls:HorizontalList ListOrientation="Vertical"
+                    <!--<Controls:HorizontalList ListOrientation="Vertical"
                                                  Padding="0"
                                                  Margin="0"
                                                  BackgroundColor="Transparent"
@@ -262,7 +262,7 @@
                                 </StackLayout>
                             </DataTemplate>
                         </Controls:HorizontalList.ItemTemplate>
-                    </Controls:HorizontalList>
+                    </Controls:HorizontalList>-->
 
                     <Controls:RoundedButton Text="Update User Info"
                                             Margin="40,10,40,20"

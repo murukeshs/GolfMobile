@@ -103,13 +103,19 @@ namespace Golf.Views.Rules
                     if (CrossConnectivity.Current.IsConnected)
                     {
                         UserDialogs.Instance.ShowLoading();
-                        string RestURL = App.User.BaseUrl + "Match/matchRules?matchRules=" + AddNewRuleText;
+                        string RestURL = App.User.BaseUrl + "Round/roundRules";
                         Uri requestUri = new Uri(RestURL);
+
+                        var data = new Rule
+                        {
+                            roundRules = AddNewRuleText
+                        };
+
+                        string json = JsonConvert.SerializeObject(data);
                         var httpClient = new HttpClient();
                         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                        var response = await httpClient.PostAsync(requestUri, new StringContent(""));
+                        var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
                         string responJsonText = await response.Content.ReadAsStringAsync();
-
                         if (response.IsSuccessStatusCode)
                         {
                             AddNewRuleText = string.Empty;                           

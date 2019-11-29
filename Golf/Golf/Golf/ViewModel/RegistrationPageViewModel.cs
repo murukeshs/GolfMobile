@@ -207,11 +207,6 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("Phone Number cannot be empty.", "Alert", "Ok");
                 return false;
             }
-            else if(UserTypeList.Count == 0){
-                //UserType Is Empty
-                UserDialogs.Instance.AlertAsync("User Type cannot be empty.", "Alert", "Ok");
-                return false;
-            }
             else if (string.IsNullOrEmpty(Password))
             {
                 //Password Is Empty
@@ -236,7 +231,6 @@ namespace Golf.ViewModel
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    var UserTypeId = string.Join(",", UserTypeList);
                     UserDialogs.Instance.ShowLoading();
                     string RestURL = App.User.BaseUrl + "User/createUser";
                     Uri requestUri = new Uri(RestURL);
@@ -251,7 +245,7 @@ namespace Golf.ViewModel
                         dob= dob.ToString(),
                         phoneNumber= PhoneNumber,
                         password= Password,
-                        userTypeId= UserTypeId
+                        userTypeId = "1"
                     };
 
                     string json = JsonConvert.SerializeObject(data);
@@ -298,32 +292,8 @@ namespace Golf.ViewModel
             dob = null;
             PhoneNumber = string.Empty;
             Password = string.Empty;
-            UserTypeList.Clear();
+            ConfirmPassword = string.Empty;
         }
         #endregion Register Command Functionality
-
-        public List<string> UserTypeList = new List<string>();
-        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBox);
-        public void UserTypeCheckBox(object parameter)
-        {
-            var item = parameter as string;
-
-            if (UserTypeList.Count > 0)
-            {
-                bool UserIdAleradyExists = UserTypeList.Contains(item);
-                if (UserIdAleradyExists)
-                {
-                    UserTypeList.Remove(item);
-                }
-                else
-                {
-                    UserTypeList.Add(item);
-                }
-            }
-            else
-            {
-                UserTypeList.Add(item);
-            }
-        }
     }
 }

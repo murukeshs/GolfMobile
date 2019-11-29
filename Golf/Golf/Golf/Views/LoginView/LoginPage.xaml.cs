@@ -1,4 +1,5 @@
 ﻿using Golf.Services;
+using Golf.Views.RegistrationView;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -32,5 +33,12 @@ namespace Golf.Views
             }
         }
         #endregion
+
+        private async void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+        {
+            var view = new ForgotPassword();
+            var navigationPage = ((NavigationPage)App.Current.MainPage);
+            await navigationPage.PushAsync(view);
+        }
     }
 }

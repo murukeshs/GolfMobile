@@ -95,7 +95,7 @@ namespace Golf.ViewModel
         }
         private int _StartingHole = -1;
 
-        #region Match Picker Selected Command Functionality
+        #region Round Picker Selected Command Functionality
 
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
 
@@ -104,7 +104,7 @@ namespace Golf.ViewModel
             var item = parameter as int?;
             StartingHole = Convert.ToInt16(item);
         }
-        #endregion Match Picker Selected Command Functionality
+        #endregion Round Picker Selected Command Functionality
 
         #region CreateTeam Procced Button Command Functionality
         public ICommand CreateTeamProccedButtonCommand => new AsyncCommand(CreateTeamButtonAsync);
@@ -163,10 +163,11 @@ namespace Golf.ViewModel
 
                     var data = new TeamModel
                     {
-                        createdBy = App.User.UserWithTypeId,
+                        createdBy = App.User.UserId,
                         teamIcon = TeamIcon,
                         teamName = TeamNameText,
-                        startingHole = StartingHole
+                        startingHole = StartingHole,
+                        roundId = App.User.CreateRoundId
                     };
 
                     string json = JsonConvert.SerializeObject(data);

@@ -17,7 +17,7 @@ namespace Golf.Views
         }
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-        {
+        {       
             var item = (sender as CheckBox).BindingContext as user;
             ((AddParticipantPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }

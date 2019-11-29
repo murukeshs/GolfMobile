@@ -16,7 +16,7 @@ namespace Golf.Controls
         /// </summary>
         public static readonly BindableProperty CheckedProperty =
             BindableProperty.Create<CustomRadioButton, bool>(
-                p => p.Checked, false);
+                p => p.Checked, false, BindingMode.TwoWay, propertyChanged: OnCheckedPropertyChanged);
 
         /// <summary>
         ///     The default text property.
@@ -61,6 +61,13 @@ namespace Golf.Controls
             set => SetValue(CheckedProperty, value);
         }
 
+        public static readonly BindableProperty CheckedChangedCommandProperty = BindableProperty.Create(nameof(CheckedChangedCommand), typeof(Command), typeof(CustomRadioButton), null, BindingMode.OneWay);
+
+        public Command CheckedChangedCommand
+        {
+            get { return (Command)GetValue(CheckedChangedCommandProperty); }
+            set { SetValue(CheckedChangedCommandProperty, value); }
+        }
         /// <summary>
         /// Gets or sets the text.
         /// </summary>
@@ -128,5 +135,17 @@ namespace Golf.Controls
         /// <value>The identifier.</value>
         public int Id { get; set; }
 #pragma warning restore CS0108 // Member hides inherited member; missing new keyword
+
+        /// <summary>
+        /// Called when [checked property changed].
+        /// </summary>
+        /// <param name="bindable">The bindable.</param>
+        /// <param name="oldvalue">if set to <c>true</c> [oldvalue].</param>
+        /// <param name="newvalue">if set to <c>true</c> [newvalue].</param>
+        private static void OnCheckedPropertyChanged(BindableObject bindable, bool oldvalue, bool newvalue)
+        {
+            var radioButton = (CustomRadioButton)bindable;
+            radioButton.Checked = newvalue;
+        }
     }
 }

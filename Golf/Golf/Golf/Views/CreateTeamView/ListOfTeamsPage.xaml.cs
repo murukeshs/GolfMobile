@@ -20,7 +20,7 @@ namespace Golf.Views
         {
             if (e.Item == null)
                 return;
-            ((ListOfTeamsPageViewModel)BindingContext).TeamListItemsTabbedCommand.Execute(e.Item as MatchTeamItems);
+            ((ListOfTeamsPageViewModel)BindingContext).TeamListItemsTabbedCommand.Execute(e.Item as RoundTeamItems);
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
         }

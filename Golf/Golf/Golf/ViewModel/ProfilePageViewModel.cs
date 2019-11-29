@@ -10,7 +10,6 @@ using Golf.Utils;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -542,7 +541,7 @@ namespace Golf.ViewModel
         void LoadType()
         {
             var list = new List<string>();
-            // var MatchRuleID = UserTypeValues.Split(",", list);
+            // var RoundRuleID = UserTypeValues.Split(",", list);
             UserTypeList = UserTypeValues.Split(',').ToList();
             //var list = UserTypeValues.Split(",");
             foreach (string item in UserTypeList)
@@ -566,7 +565,7 @@ namespace Golf.ViewModel
         }
 
 
-        #region Match Picker Selected Command Functionality
+        #region Round Picker Selected Command Functionality
 
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
 
@@ -584,7 +583,7 @@ namespace Golf.ViewModel
                 Gender = "Female";
             }
         }
-        #endregion Match Picker Selected Command Functionality
+        #endregion Round Picker Selected Command Functionality
 
         #region UserTypeList Command
 

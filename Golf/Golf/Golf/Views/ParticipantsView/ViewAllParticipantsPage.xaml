@@ -97,7 +97,7 @@
                                                Margin="0"/>
                                             </StackLayout>
                                     </StackLayout>
-                                        <Controls:HorizontalList ListOrientation="Horizontal" 
+                                        <!--<Controls:HorizontalList ListOrientation="Horizontal" 
                                                                  ItemsSource="{Binding userType,Converter={StaticResource convertToList}}" 
                                                                  Padding="0"
                                                                  Margin="10,0,0,5"
@@ -114,7 +114,7 @@
                                                     </plugins:PancakeView>
                                                 </DataTemplate>
                                             </Controls:HorizontalList.ItemTemplate>
-                                        </Controls:HorizontalList>
+                                        </Controls:HorizontalList>-->
                                     </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>

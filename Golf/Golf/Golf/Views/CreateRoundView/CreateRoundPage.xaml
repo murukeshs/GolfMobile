@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Round"
+             x:Class="Golf.Views.CreateRoundView.CreateRoundPage"
+             Title="Create Round"
+             BackgroundColor="{StaticResource AppBackgroundColor}">
+
+    <ContentPage.BindingContext>
+        <viewModels:CreateRoundPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+       
+        <StackLayout >
+
+            <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                <StackLayout>
+                <controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
+                                        Placeholder="Enter The Round Name"
+                                        FontSize="{StaticResource FontSize18}"
+                                        Text="{Binding RoundNameText}"
+                                        Margin="20,10,20,0"
+                                        />
+            <!--<Label Text="Round Type"
+                   TextColor="{StaticResource BlackColor}"
+                   Margin="20,5,20,0"
+                   FontAttributes="Bold"
+                   FontSize="{StaticResource FontSize18}"/>
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5,20,0"
+                         HorizontalOptions="CenterAndExpand">
+                <controls:CustomRadioButton Text="Teams" 
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            FontSize="{StaticResource FontSize16}"/>
+
+                <controls:CustomRadioButton Text="Player" 
+                                            Margin="30,0"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            FontSize="{StaticResource FontSize16}"/>
+            </StackLayout>-->
+
+            <controls:CustomPicker  ItemsSource="{Binding CompetitionTypeItems}"
+                                    Title="Select Competition Type"
+                                    Image="down_arrow_gray.png"
+                                    Margin="20,5,20,0"
+                                    VerticalOptions="Center"
+                                    ItemDisplayBinding="{Binding competitionName}" 
+                                    SelectedIndex="{Binding competitionTypeId}" 
+                                    SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
+                                    FontSize="{StaticResource FontSize18}"
+                                    TitleColor="{StaticResource TextGrayColor}"
+                                    TextColor="{StaticResource TextGrayColor}"/>
+
+                    <StackLayout  IsVisible="{Binding RulesIsVisible}">
+                        <StackLayout Margin="20,5,20,0"
+                                 Orientation="Horizontal"
+                                 Spacing="0"
+                                 Padding="0">
+                            <Label Text="Rule :"
+                           TextColor="{StaticResource BlackColor}"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize18}"/>
+                            <ImageButton Source="add_rule.png"
+                                     HeightRequest="45"
+                                     WidthRequest="45"
+                                     Aspect="AspectFit"
+                                     Padding="0"
+                                     Margin="0"
+                                     Command="{Binding AddRuleCommand}"
+                                     BackgroundColor="Transparent"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Center"/>
+                        </StackLayout>
+
+                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                         BorderColor="{StaticResource BorderColor}"
+                                         CornerRadius="10"
+                                         HasShadow="True"
+                                         Margin="20,5,20,0"
+                                        >
+                            <controls:HorizontalList ListOrientation="Vertical"
+                                                 HeightRequest="200"
+                                                 Padding="0"
+                                                 Margin="0"
+                                                 BackgroundColor="Transparent"
+                                                 ItemsSource="{Binding RulesItems}">
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="10,10,10,5"
+                                                     Padding="0"
+                                                     Spacing="0">
+
+                                            <CheckBox Color="{StaticResource TextGrayColor}"
+                                                  Margin="20,0"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+                                            <Label Text="{Binding ruleName}"
+                                               FontSize="Small"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Margin="0,0"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </plugins:PancakeView>
+                    </StackLayout>
+
+                    <Label Text="Choose Date and Time :"
+                   TextColor="{StaticResource BlackColor}"
+                   Margin="20,5,20,0"
+                   FontSize="{StaticResource FontSize18}"
+                   FontAttributes="Bold"/>
+
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5,20,0"
+                         HorizontalOptions="FillAndExpand">
+                <controls:NullableDatePicker PlaceHolder="Start Date"
+                                             Format="yyyy/MM/dd"
+                                             NullableDate="{Binding NullableStartDate}"
+                                             TextColor="{StaticResource TextGrayColor}"
+                                             HorizontalOptions="FillAndExpand"
+                                             FontSize="{StaticResource FontSize18}"
+                                             Date="{Binding RoundStartDate}"
+                                              x:Name="RoundStartDatePicker"
+                                             DateSelected="NullableDatePicker_DateSelected"/>
+
+                        <TimePicker       TextColor="{StaticResource TextGrayColor}"
+                                          HorizontalOptions="FillAndExpand"
+                                          Format="hh:mm tt"
+                                          FontSize="{StaticResource FontSize18}"
+                                          Time="{Binding RoundEndTime}"/>
+                    </StackLayout>
+
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5,20,0"
+                         HorizontalOptions="FillAndExpand">
+                <controls:NullableDatePicker PlaceHolder="End Date"
+                                             Format="yyyy/MM/dd"
+                                              x:Name="RoundEndDatePicker"
+                                             NullableDate="{Binding NullableENdDate}"
+                                             Date="{Binding RoundEndDate}"
+                                             TextColor="{StaticResource TextGrayColor}"
+                                             HorizontalOptions="FillAndExpand"
+                                             FontSize="{StaticResource FontSize18}"
+                                             DateSelected="NullableDatePicker_DateSelected_1"/>
+
+                        <TimePicker       TextColor="{StaticResource TextGrayColor}"
+                                          HorizontalOptions="FillAndExpand"
+                                          Time="{Binding RoundStartTime}"
+                                           Format="hh:mm tt"
+                                          FontSize="{StaticResource FontSize18}"/>
+                    </StackLayout>
+
+            <!--<controls:CustomPicker Title="Choose Location" 
+                                       Image="down_arrow.png"
+                                       Margin="20,5,20,0"
+                                    FontSize="{StaticResource FontSize18}"
+                                       TitleColor="{StaticResource TextGrayColor}"
+                                       TextColor="{StaticResource TextGrayColor}"/>-->
+
+                    <Label Text="Round Fee : "
+                   FontSize="{StaticResource FontSize18}"
+                   TextColor="{StaticResource BlackColor}"
+                   FontAttributes="Bold"
+                   Margin="20,5,20,0"/>
+
+            <controls:CustomEntry IsCurvedCornersEnabled="True"
+                                  CornerRadius="25"
+                                  Keyboard="Numeric"
+                                  Margin="20,5,20,0"
+                                  ImageAlignment="Right"
+                                  Image="dollar.png"
+                                  ImageHeight="40"
+                                  Text="{Binding RoundFee}"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"/>
+
+           
+                </StackLayout>
+            </ScrollView>
+
+            <controls:RoundedButton Text="Proceed"
+                                    Margin="40,0,40,10"
+                                    Command="{Binding ProceedCommand}"
+                                    VerticalOptions="EndAndExpand"/>
+        </StackLayout>
+            
+       
+    </ContentPage.Content>
+</ContentPage>

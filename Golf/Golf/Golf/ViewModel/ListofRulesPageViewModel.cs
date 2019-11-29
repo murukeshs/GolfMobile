@@ -25,15 +25,15 @@ namespace Golf.ViewModel
             MessagingCenter.Subscribe<App>((App)Application.Current, "OnCategoryCreated", (sender) => {
                 RefreshData();
             });
-            getMatchRulesList();
+            getRoundRulesList();
         }
 
         void RefreshData()
         {
-            getMatchRulesList();
+            getRoundRulesList();
         }
 
-        public ObservableCollection<MatchRules> RulesItems
+        public ObservableCollection<RoundRules> RulesItems
         {
             get { return _RulesItems; }
             set
@@ -42,21 +42,21 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(RulesItems));
             }
         }
-        private ObservableCollection<MatchRules> _RulesItems = null;
+        private ObservableCollection<RoundRules> _RulesItems = null;
 
-        public async void getMatchRulesList()
+        public async void getRoundRulesList()
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Match/getMatchRulesList";
+                    var RestURL = App.User.BaseUrl + "Round/getRoundRulesList";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<ObservableCollection<MatchRules>>(content);
+                    var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
                     RulesItems = Items;
                     UserDialogs.Instance.HideLoading();
                 }

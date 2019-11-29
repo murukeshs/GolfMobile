@@ -92,9 +92,7 @@ namespace Golf.Views.ParticipantsView
         void LoadType()
         {
             var list = new List<string>();
-            // var MatchRuleID = UserTypeValues.Split(",", list);
             var UserTypeList = UserTypeValues.Split(',').ToList();
-            //var list = UserTypeValues.Split(",");
             foreach (string item in UserTypeList)
             {
                 UserTypeItems.Where(w => w.RoleTypeName == item).ToList().ForEach(s => s.Checked = true);

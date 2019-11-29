@@ -30,13 +30,6 @@ namespace Golf.Views
             vm.dob = DobPicker.Date;
         }
 
-        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
-        {
-            var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            ((RegistrationPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
-        }
-
         #region screen adjusting
         protected override void OnAppearing()
         {

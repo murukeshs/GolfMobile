@@ -6,8 +6,10 @@ namespace Golf.Models
 {
     public class GenerateOTPEmail
     {
-        public string email { get; set; }
+        public string emailorphone { get; set; }
 
         public string type { get; set; }
+
+        public string sourceType { get; set; }
     }
 }

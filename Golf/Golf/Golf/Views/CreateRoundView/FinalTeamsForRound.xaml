@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel.Round"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:Controls="clr-namespace:Golf.Controls"
+             xmlns:Converters="clr-namespace:Golf.Converters"
+             x:Class="Golf.Views.CreateRoundView.FinalTeamsForRound"
+              Title="Final Teams For Round">
+    
+    <ContentPage.BindingContext>
+        <viewModels:FinalTeamsForRoundViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Converters:PaymentImageConverter x:Key="PaymentConverter" />
+        <Converters:LinkApprovedImageConverter x:Key="LinkApprovedConverter" />
+        <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout>
+                <ListView Margin="20,10,20,0"
+                      x:Name="TeamListView"
+                      ItemsSource="{Binding RoundTeamsItemsList}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      VerticalScrollBarVisibility="Never"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      CachingStrategy="RecycleElement"
+                      ItemTapped="TeamListView_ItemTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Controls:UpdateViewCell SelectedBackgroundColor="#ffffff">
+                                <ContentView Padding="5" >
+                                    <StackLayout>
+                                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     BorderColor="{StaticResource BorderColor}"
+                                                     HasShadow="True">
+                                            <StackLayout Orientation="Horizontal"
+                                                 Margin="10,5,10,5"
+                                                 Padding="0"
+                                                 Spacing="0">
+                                                <Controls:CircleImage Source="{Binding teamIcon,Converter={StaticResource ProfileImageConverter}}"
+                                                                  VerticalOptions="Center"
+                                                                  WidthRequest="80"
+                                                                  Aspect="Fill"
+                                                                  HeightRequest="80"/>
+
+                                                <StackLayout HorizontalOptions="FillAndExpand"
+                                                     Margin="10,10,10,10">
+                                                    <Label FontSize="{StaticResource FontSize18}"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding teamName}"
+                                               />
+                                                    <Label FontSize="{StaticResource FontSize16}"
+                                                   TextColor="{StaticResource TextGrayColor}"
+                                                   Text="{Binding Path = createdByName}"/>
+                                                    <Label Text="{Binding Path = NoOfPlayers  ,StringFormat= 'No of Players : {0:D}'}"
+                                                       Margin="0"
+                                                       VerticalOptions="Center"
+                                                       FontSize="{StaticResource FontSize16}"/>
+                                                </StackLayout>
+
+                                                <ImageButton HorizontalOptions="End"
+                                                         VerticalOptions="Center"
+                                                         Margin="0,10"
+                                                         Aspect="AspectFit"
+                                                         BackgroundColor="Transparent"
+                                                         Source="createteam.png"
+                                                         HeightRequest="35"
+                                                         WidthRequest="35" />
+                                                <!--Clicked="EditTeam_Clicked"-->
+
+                                                <ImageButton HorizontalOptions="End"
+                                                         VerticalOptions="Center"
+                                                         Margin="0,10"
+                                                         Aspect="AspectFit"
+                                                         BackgroundColor="Transparent"
+                                                         Source="{Binding StateIcon}"
+                                                         HeightRequest="35"
+                                                         WidthRequest="35"/>
+                                            </StackLayout>
+                                        </plugins:PancakeView>
+
+                                        <Controls:HorizontalList ListOrientation="Vertical" 
+                                                             ItemsSource="{Binding roundPlayerList}" 
+                                                             Padding="0"
+                                                             BackgroundColor="Transparent"
+                                                             Margin="5"
+                                                             IsVisible="{Binding Expanded,Mode=TwoWay}">
+                                            <Controls:HorizontalList.ItemTemplate>
+                                                <DataTemplate>
+                                                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     BorderColor="{StaticResource BorderColor}"
+                                                     HasShadow="True"
+                                                     Margin="5">
+                                                        <StackLayout Orientation="Horizontal"
+                                                 Margin="10,10"
+                                                 Padding="0"
+                                                 Spacing="0">
+                                                            <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
+                                                      VerticalOptions="Center"
+                                                      WidthRequest="60"
+                                                      HeightRequest="60"
+                                                                                  
+                                                                                  Aspect="Fill"/>
+
+                                                            <StackLayout HorizontalOptions="FillAndExpand"
+                                                     Margin="10,5,0,5">
+                                                                <Label FontSize="{StaticResource FontSize18}"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding firstName}"
+                                               />
+                                                                <Grid HorizontalOptions="FillAndExpand">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="*"/>
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <StackLayout Orientation="Horizontal"
+                                                             Padding="0"
+                                                             Margin="0"
+                                                             Spacing="0"
+                                                             Grid.Row="0"
+                                                             HorizontalOptions="StartAndExpand"
+                                                             Grid.Column="0">
+                                                                        <Label Text="Invitation Approved:"
+                                                       Margin="0"
+                                                       VerticalOptions="Center"
+                                                       FontSize="{StaticResource FontSize12}"/>
+
+                                                                        <Image Source="{Binding isInvitationAccept , Converter={StaticResource LinkApprovedConverter}}"
+                                                       HeightRequest="25"
+                                                       WidthRequest="25"
+                                                       VerticalOptions="Center"
+                                                       Margin="5,0,0,0"
+                                                       Aspect="AspectFit"/>
+                                                                    </StackLayout>
+
+                                                                    <StackLayout Orientation="Horizontal"
+                                                             Padding="0"
+                                                             Margin="0"
+                                                             Spacing="0"
+                                                             Grid.Row="0"
+                                                             HorizontalOptions="End"
+                                                             Grid.Column="1">
+                                                                        <Label Text="Fee:"
+                                                           Grid.Row="0"
+                                                           Grid.Column="2"
+                                                           Margin="0"
+                                                           VerticalOptions="Center"
+                                                           FontSize="{StaticResource FontSize12}"/>
+
+                                                                        <Image Source="{Binding isPaymentMade , Converter={StaticResource PaymentConverter}}"
+                                                           HeightRequest="25"
+                                                           WidthRequest="25"
+                                                           VerticalOptions="Center"
+                                                           Margin="5,0,0,0"
+                                                           Aspect="AspectFit"/>
+                                                                    </StackLayout>
+                                                                </Grid>
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                    </plugins:PancakeView>
+                                                </DataTemplate>
+                                            </Controls:HorizontalList.ItemTemplate>
+                                        </Controls:HorizontalList>
+                                    </StackLayout>
+                                </ContentView>
+                            </Controls:UpdateViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" 
+                         VerticalOptions="End" 
+                         Margin="20,10,20,10">
+                <Controls:RoundedButton Text="Complete Round"
+                                        Command="{Binding CompleteRoundCommand}"/>
+
+                <Controls:RoundedButton Text="Create Another Team"
+                                        Command="{Binding CreateAnotherTeamCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
