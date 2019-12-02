@@ -3,6 +3,7 @@ using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
+using Golf.Views.UpdateTeamView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -659,21 +660,28 @@ namespace Golf.ViewModel.Round
         public List<string> ListofRules = new List<string>();
         void CheckboxChangedEvent(string roundRuleId)
         {
-            if (ListofRules.Count > 0)
+            try
             {
-                bool UserIdAleradyExists = ListofRules.Contains(roundRuleId);
-                if (UserIdAleradyExists)
+                if (ListofRules.Count > 0)
                 {
-                    ListofRules.Remove(roundRuleId);
+                    bool UserIdAleradyExists = ListofRules.Contains(roundRuleId);
+                    if (UserIdAleradyExists)
+                    {
+                        ListofRules.Remove(roundRuleId);
+                    }
+                    else
+                    {
+                        ListofRules.Add(roundRuleId);
+                    }
                 }
                 else
                 {
                     ListofRules.Add(roundRuleId);
                 }
             }
-            else
+            catch(Exception ex)
             {
-                ListofRules.Add(roundRuleId);
+                var a = ex.Message;
             }
         }
 
@@ -684,11 +692,18 @@ namespace Golf.ViewModel.Round
 
         async void EditTeam(object parameter)
         {
-            var Item = parameter as getRoundById;
-            var id = Item.roundId;
-            //var view = new LoginPage();
-            //var navigationPage = ((NavigationPage)App.Current.MainPage);
-            //await navigationPage.PushAsync(view);
+            try
+            {
+                var Item = parameter as RoundDetailsListTeamList;
+                App.User.CreateTeamId = Item.teamId;
+                var view = new UpdateTeam();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
         #endregion
 

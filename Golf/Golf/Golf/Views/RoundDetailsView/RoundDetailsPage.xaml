@@ -101,9 +101,7 @@
                          IsVisible="{Binding IsVisibleRoundDetails}"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="CenterAndExpand">
-                <ScrollView>
-                    <StackLayout>
-                        <Label Text="Round Name"
+                <Label Text="Round Name"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
@@ -233,24 +231,22 @@
                                            SelectedIndex="0"
                                            SelectedItem="{Binding RoundselectedItem}"
                                             Style="{StaticResource RectangleShapeEntryStyle}"/>
-                        <StackLayout Orientation="Horizontal"
+                <StackLayout Orientation="Horizontal"
                          Margin="10"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="EndAndExpand">
 
-                            <controls:RoundedButton Margin="0"
+                    <controls:RoundedButton Margin="0"
                                         Text="Save"
                                         HeightRequest="45"
                                         Command="{Binding SaveButtonCommand}"/>
 
-                            <controls:RoundedButton Margin="10,0"
+                    <controls:RoundedButton Margin="10,0"
                                         Text="Save and Notify"
                                         HeightRequest="45"
                                         Command="{Binding SaveAndNotifyButtonCommand}"/>
 
-                        </StackLayout>
-                    </StackLayout>
-                </ScrollView>
+                </StackLayout>
             </StackLayout>
             
             <!--Teams List View Initially it set to be false-->

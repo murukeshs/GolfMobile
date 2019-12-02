@@ -2,6 +2,7 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel.Round;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -56,14 +57,28 @@ namespace Golf.Views.RoundDetailsView
 
         private void CheckBox_CheckedChanged(object sender, bool e)
         {
-            var value = (CustomCheckBox)sender;
-            ((RoundDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(value.DefaultValue);
+            try
+            {
+                var value = (CustomCheckBox)sender;
+                ((RoundDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(value.DefaultValue);
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         private void EditTeam_Clicked(object sender, System.EventArgs e)
         {
-            var item = (sender as ImageButton).BindingContext as getRoundById;
-            ((RoundDetailsPageViewModel)BindingContext).EditTeamCommand.Execute(item);
+            try
+            {
+                var item = (sender as ImageButton).BindingContext as RoundDetailsListTeamList;
+                ((RoundDetailsPageViewModel)BindingContext).EditTeamCommand.Execute(item);
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
     }
 }

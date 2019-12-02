@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Golf.Controls"
+             xmlns:viewModels="clr-namespace:Golf.ViewModel"
+             xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="Golf.Views.UpdateTeamView.UpdateTeam"
+             Title="Update Team">
+
+    <ContentPage.BindingContext>
+        <viewModels:UpdateTeamViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+            <Grid Margin="10"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="StartAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5.0*"/>
+                    <ColumnDefinition Width="5.0*"/>
+                </Grid.ColumnDefinitions>
+
+                <controls:RoundedButton Margin="0"
+                                        Text="Team Details"
+                                        Grid.Row="0"
+                                        x:Name="TeamDetailsButton"
+                                        Grid.Column="0"
+                                        FontSize="Medium"
+                                        HeightRequest="45"
+                                        BackgroundColor="{Binding TeamDetailsBackground}"
+                                        BorderColor="{Binding TeamDetailsBorder}"
+                                        Command="{Binding TeamDetailsCommand}"
+                                        TextColor="{Binding TeamDetailsBorder}"/>
+
+                <controls:RoundedButton Margin="10,0"
+                                        Text="Team Players"
+                                        Grid.Row="0"
+                                        x:Name="TeamsButton"
+                                        Grid.Column="1"
+                                        FontSize="Medium"
+                                        HeightRequest="45"
+                                        BackgroundColor="{Binding ParticipantListBackground}"
+                                        BorderColor="{Binding ParticipantListBorder}"
+                                        TextColor="{Binding ParticipantListBorder}"
+                                        Command="{Binding ParticipantListCommand}"
+                                        />
+                
+            </Grid>
+
+            <BoxView HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     Margin="20,0,20,0"
+                     Color="{StaticResource LightGreenColor}"/>
+
+            <StackLayout x:Name="RoundDetailsStackLayout"
+                         Margin="20,10,20,0"
+                         IsVisible="{Binding IsVisibleTeamDetails}"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="CenterAndExpand">
+                
+                <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <controls:CircleImage HorizontalOptions="Center"
+                                      Margin="20,10,20,10"
+                                      Source="{Binding TeamProfilePicture}"
+                                      HeightRequest="160"
+                                      Aspect="Fill"
+                                      WidthRequest="160"
+                                      Grid.Row="0"/>
+
+                            <StackLayout Orientation="Horizontal"
+                                 Margin="20,10,20,10"
+                             Grid.Row="1"
+                                 HorizontalOptions="FillAndExpand">
+
+                                <controls:RoundedButton Text="Take Picture"
+                                            Margin="0"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding TakeCaptureCommand}"/>
+
+                                <controls:RoundedButton Text="Gallery"
+                                            Margin="10,0"
+                                            CornerRadius="10"
+                                            FontSize="{StaticResource FontSize16}"
+                                            Command="{Binding GalleryCommand}"/>
+
+                            </StackLayout>
+                        </Grid>
+
+                        <controls:ExtendedEntry Placeholder="Enter Team Name"
+                                    Style="{StaticResource EntryStyleGray}"
+                                    Margin="30,10,30,0"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding TeamNameText,Mode=TwoWay}"/>
+
+                        <controls:CustomPicker Title="Select Starting Hole" 
+                                           Image="down_arrow_gray.png"
+                                           Margin="30,10,30,0"
+                                           ItemsSource="{Binding StartingHoleList}"
+                                           TitleColor="{StaticResource TextGrayColor}"
+                                           TextColor="{StaticResource TextGrayColor}"
+                                           SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
+                                           x:Name="StartingHolePicker"
+                                           SelectedIndex="{Binding DefaultStartingHole, Mode=TwoWay}"/>
+
+
+
+                        <StackLayout Orientation="Horizontal" 
+                         Padding="0"
+                         Spacing="0"
+                         Margin="30"
+                         HorizontalOptions="CenterAndExpand">
+
+                            <Label Text="Created by:"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Start" 
+                       FontSize="{StaticResource FontSize20}"
+                       FontAttributes="Bold"/>
+
+                            <Label Text="{Binding UserNameText}"
+                       TextColor="{StaticResource BlackColor}"
+                       HorizontalOptions="StartAndExpand" 
+                       FontSize="{StaticResource FontSize20}"
+                       FontAttributes="Bold"
+                       Margin="20,0"/>
+
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+
+                <controls:RoundedButton Text="Update Team"
+                                    Margin="40,20,40,40"
+                                    x:Name="ProceedButton"
+                                    VerticalOptions="EndAndExpand"
+                                    Command="{Binding UpdateTeamProccedButtonCommand}"/>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding IsVisibleParticipantsDetails}">
+
+                <StackLayout Orientation="Horizontal"
+                         Margin="30,0,30,0">
+
+                        <Label Text="Selected Player Name"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="StartAndExpand"/>
+
+                        <Label Text="Delete"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="EndAndExpand"/>
+
+                </StackLayout>
+
+                <ListView Margin="20,0,20,0"
+                      x:Name="SelectedPartcipants"
+                       ItemsSource="{Binding TeamPlayersList}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      VerticalScrollBarVisibility="Never">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                                <ContentView Padding="5" >
+                                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     HasShadow="False"
+                                                     BorderColor="{StaticResource LightGrayColor}"
+                                                     Padding="10">
+                                        <StackLayout>
+                                            <Grid Padding="0"
+                                          RowSpacing="0"
+                                          Margin="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label  Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="10,0,0,0"
+                                                x:Name="firstNameLabel"
+                                                Text="{Binding playerName}"
+                                                FontSize="{StaticResource FontSize20}"
+                                                TextColor="{StaticResource BlackColor}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+
+                                                <ImageButton Source="remove_icon.png"
+                                                         Grid.Row="0"
+                                                         Grid.Column="2"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="45"
+                                                         WidthRequest="45"
+                                                         HorizontalOptions="End"
+                                                         Clicked="RemoveParticipantClicked"/>
+
+                                            </Grid>
+                                        </StackLayout>
+                                    </plugins:PancakeView>
+                                </ContentView>
+                            </controls:UpdateViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+
+                <BoxView HeightRequest="1"
+                     HorizontalOptions="FillAndExpand"
+                     Margin="20,0,20,0"
+                     Color="{StaticResource LightGreenColor}"/>
+
+                <StackLayout Orientation="Horizontal"
+                         Margin="30,0,30,0">
+
+                    <Label Text="Player Name"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="StartAndExpand"/>
+
+                    <Label Text="Is ScoreKeeper"
+                       FontAttributes="Bold"
+                       FontSize="{StaticResource FontSize20}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="EndAndExpand"/>
+
+                </StackLayout>
+
+                <ListView Margin="20,0,20,0"
+                      x:Name="ListViewUpdatePartcipants"
+                       ItemsSource="{Binding PlayersList}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      CachingStrategy="RecycleElement"
+                      SelectionMode="Single"
+                      VerticalScrollBarVisibility="Never">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
+                                    <ContentView Padding="5" >
+                                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                                     CornerRadius="10"
+                                                     HasShadow="False"
+                                                     BorderColor="{StaticResource LightGrayColor}"
+                                                     Padding="10">
+                                            <StackLayout>
+                                            <Grid Padding="0"
+                                          RowSpacing="0"
+                                          Margin="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <CheckBox Grid.Row="0" 
+                                                  Grid.Column="0"
+                                                  Margin="10,0,0,0"
+                                                  IsChecked="{Binding IsChecked}"
+                                                  HorizontalOptions="Start"
+                                                  Color="{StaticResource TextGrayColor}"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+
+                                                <Label  Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="10,0,0,0"
+                                                x:Name="firstNameLabel"
+                                                Text="{Binding firstName}"
+                                                FontSize="{StaticResource FontSize20}"
+                                                TextColor="{StaticResource BlackColor}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+
+                                                <ImageButton Source="{Binding ImageIcon}"
+                                                         Grid.Row="0"
+                                                         Grid.Column="2"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="45"
+                                                         WidthRequest="45"
+                                                         HorizontalOptions="End"
+                                                         Clicked="ImageButton_Clicked"/>
+
+                                            </Grid>
+                                        </StackLayout>
+                                        </plugins:PancakeView>
+                                    </ContentView>
+                                </controls:UpdateViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+
+                <StackLayout Orientation="Horizontal" 
+                         VerticalOptions="End" 
+                         Margin="20,10,20,10">
+
+                        <controls:RoundedButton Text="Invite Participant"
+                                            Command="{Binding InviteParticipantCommand}"/>
+
+                        <controls:RoundedButton Text="Update Team"
+                                            Margin="10,0"
+                                            Command="{Binding UpdateTeamButtonCommand}"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
