@@ -51,6 +51,12 @@
 
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
+                                        Placeholder="First Name"
+                                        Text="{Binding NickNameText, Mode = TwoWay}"
+                                        Image="user_white.png"/>
+
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
+                                        Margin="20,10,20,0"
                                         Placeholder="E-mail"
                                         Text="{Binding EmailText, Mode = TwoWay}"
                                         Image="gmail.png"/>

@@ -18,7 +18,7 @@ namespace Golf.Models
 
         public string roundFee { get; set; }
 
-        public string roundId { get; set; }
+        public int roundId { get; set; }
     }
 
    

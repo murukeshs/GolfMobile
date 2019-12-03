@@ -10,6 +10,7 @@ namespace Golf.Models
         public int userWithTypeId { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public string nickName { get; set; }
         public string email { get; set; }
         public string gender { get; set; }
         public string dob { get; set; }

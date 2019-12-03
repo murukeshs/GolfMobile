@@ -55,7 +55,6 @@
                                     TitleColor="{StaticResource TextGrayColor}"
                                     TextColor="{StaticResource TextGrayColor}"/>
 
-                    <StackLayout  IsVisible="{Binding RulesIsVisible}">
                         <StackLayout Margin="20,5,20,0"
                                  Orientation="Horizontal"
                                  Spacing="0"
@@ -78,39 +77,38 @@
                                      VerticalOptions="Center"/>
                         </StackLayout>
 
-                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
                                          Margin="20,5,20,0"
                                         >
-                            <controls:HorizontalList ListOrientation="Vertical"
+                        <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
                                                  Padding="0"
                                                  Margin="0"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
-                                <controls:HorizontalList.ItemTemplate>
-                                    <DataTemplate>
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
 
-                                        <StackLayout Orientation="Horizontal"
+                                    <StackLayout Orientation="Horizontal"
                                                      Margin="10,10,10,5"
                                                      Padding="0"
                                                      Spacing="0">
 
-                                            <CheckBox Color="{StaticResource TextGrayColor}"
+                                        <CheckBox Color="{StaticResource TextGrayColor}"
                                                   Margin="20,0"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
-                                            <Label Text="{Binding ruleName}"
+                                        <Label Text="{Binding ruleName}"
                                                FontSize="Small"
                                                TextColor="{StaticResource TextGrayColor}"
                                                Margin="0,0"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </controls:HorizontalList.ItemTemplate>
-                            </controls:HorizontalList>
-                        </plugins:PancakeView>
-                    </StackLayout>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </plugins:PancakeView>
 
                     <Label Text="Choose Date and Time :"
                    TextColor="{StaticResource BlackColor}"

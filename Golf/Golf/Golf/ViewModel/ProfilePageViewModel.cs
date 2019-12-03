@@ -23,7 +23,6 @@ namespace Golf.ViewModel
     public class ProfilePageViewModel : BaseViewModel
     {
         public bool IsValid { get; set; }
-        public string UserTypeValues { get; set; }
        
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
@@ -46,15 +45,6 @@ namespace Golf.ViewModel
             {
                 new GenderType{gender = "Male", genderId = 1},
                 new GenderType{gender = "Female", genderId = 2}
-            };
-
-            UserTypeItems = new ObservableCollection<UserTypes>()
-            {
-            new UserTypes {RoleTypeName = "Player", DefalutValue = "1", Checked = false },
-            new UserTypes {RoleTypeName = "Moderator", DefalutValue = "2", Checked = false },
-            new UserTypes {RoleTypeName = "Score Keeper", DefalutValue = "3", Checked = false },
-            new UserTypes {RoleTypeName = "Organizer", DefalutValue = "4", Checked = false },
-            new UserTypes {RoleTypeName = "Spectator", DefalutValue = "5", Checked = false },
             };
 
             loadProfileData();
@@ -104,6 +94,17 @@ namespace Golf.ViewModel
         }
         private string _LastName = string.Empty;
 
+        public string NickName
+        {
+            get { return _NickName; }
+            set
+            {
+                _NickName = value;
+                OnPropertyChanged(nameof(NickName));
+            }
+        }
+        private string _NickName = string.Empty;
+
         public DateTime? Dob
         {
             get { return _Dob; }
@@ -147,17 +148,6 @@ namespace Golf.ViewModel
             }
         }
         private int _GenderId;
-
-        public string UserType
-        {
-            get { return _UserType; }
-            set
-            {
-                _UserType = value;
-                OnPropertyChanged(nameof(UserType));
-            }
-        }
-        private string _UserType = string.Empty;
 
         public string Address
         {
@@ -504,8 +494,6 @@ namespace Golf.ViewModel
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
                         LoadGender();
-                        UserTypeValues = User.userType;
-                        LoadType();
                         IsEmailNotification = User.isEmailNotification;
                         IsSmsNotification = User.isSMSNotification;
                         Address = User.address;
@@ -514,6 +502,7 @@ namespace Golf.ViewModel
                         StateID = User.stateId;
                         City = User.city;
                         IsPublicProfile = User.isPublicProfile;
+                        NickName = User.nickName;
                         CountryOnChange(CountryID);
                         UserDialogs.Instance.HideLoading();
                     }
@@ -537,19 +526,6 @@ namespace Golf.ViewModel
             }
         }
         #endregion
-
-        void LoadType()
-        {
-            var list = new List<string>();
-            // var RoundRuleID = UserTypeValues.Split(",", list);
-            UserTypeList = UserTypeValues.Split(',').ToList();
-            //var list = UserTypeValues.Split(",");
-            foreach (string item in UserTypeList)
-            {
-                UserTypeItems.Where(w => w.RoleTypeName == item).ToList().ForEach(s => s.Checked = true);
-            }
-            OnPropertyChanged("UserTypeItems");
-        }
 
         void LoadGender()
         {
@@ -584,34 +560,6 @@ namespace Golf.ViewModel
             }
         }
         #endregion Round Picker Selected Command Functionality
-
-        #region UserTypeList Command
-
-        public List<string> UserTypeList = new List<string>();
-        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBox);
-        public void UserTypeCheckBox(object parameter)
-        {
-            var item = parameter as string;
-
-            if (UserTypeList.Count > 0)
-            {
-                bool UserIdAleradyExists = UserTypeList.Contains(item);
-                if (UserIdAleradyExists)
-                {
-                    UserTypeList.Remove(item);
-                }
-                else
-                {
-                    UserTypeList.Add(item);
-                }
-            }
-            else
-            {
-                UserTypeList.Add(item);
-            }
-        }
-     
-        #endregion
       
         #region loadcountry
         public async void loadCountry()
@@ -853,6 +801,12 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("LastName cannot be empty.", "Alert", "Ok");
                 return false;
             }
+            else if (string.IsNullOrEmpty(NickName))
+            {
+                //NickName Is Empty
+                UserDialogs.Instance.AlertAsync("NickName cannot be empty.", "Alert", "Ok");
+                return false;
+            }
             else if (string.IsNullOrEmpty(Email))
             {
                 //Email Is Empty
@@ -876,12 +830,6 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("DOB cannot be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (UserTypeList.Count == 0)
-            {
-                //UserType Is Empty
-                UserDialogs.Instance.AlertAsync("User Type cannot be empty.", "Alert", "Ok");
-                return false;
-            }
             else
             {
                 //Validation Is Success
@@ -896,33 +844,6 @@ namespace Golf.ViewModel
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    var list = new List<int>();
-                    foreach(var item in UserTypeList)
-                    {
-                        if(item.ToString() == "Player")
-                        {
-                            typeid = 1;
-                        }
-                        else if(item.ToString() == "Moderator")
-                        {
-                            typeid = 2;
-                        }
-                        else if (item.ToString() == "Score Keeper")
-                        {
-                            typeid = 3;
-                        }
-                        else if (item.ToString() == "Spectator")
-                        {
-                            typeid = 4;
-                        }
-                        else if (item.ToString() == "Organizer")
-                        {
-                            typeid = 5;
-                        }
-                        list.Add(typeid);
-                    }
-                    var UserTypeId = string.Join(",", list);
-
                     UserDialogs.Instance.ShowLoading();
                     string RestURL = App.User.BaseUrl + "User/updateUser";
                     Uri requestUri = new Uri(RestURL);
@@ -931,18 +852,19 @@ namespace Golf.ViewModel
                     {
                         ProfileImage = null;
                     }
-                   
+
 
                     var data = new createUser
                     {
                         userId = App.User.UserId,
                         firstName = FirstName,
                         lastName = LastName,
+                        nickName = NickName,
                         email = EmailName,
                         profileImage = ProfileImage,
                         gender = Gender,
                         dob = Dob.ToString(),
-                        userTypeId = UserTypeId,
+                        userTypeId = "1",
                         phoneNumber = PhoneNumber,
                     };
 
@@ -979,34 +901,6 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-        #endregion
-
-        public ObservableCollection<UserTypes> UserTypeItems
-        {
-            get { return _UserTypeItems; }
-            set
-            {
-                _UserTypeItems = value;
-                OnPropertyChanged("UserTypeItems");
-            }
-        }
-        public ObservableCollection<UserTypes> _UserTypeItems = null;
-
-        
-    }
-
-    public class UserTypes : BaseViewModel
-    {
-        public string RoleTypeName { get; set; }
-        public string DefalutValue { get; set; }
-        public bool Checked {
-            get { return _Checked; }
-            set
-            {
-                _Checked = value;
-                OnPropertyChanged(nameof(Checked));
-            }
-        }
-        private bool _Checked { get; set; }
+        #endregion     
     }
 }

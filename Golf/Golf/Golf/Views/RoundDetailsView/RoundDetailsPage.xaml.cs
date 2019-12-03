@@ -55,19 +55,6 @@ namespace Golf.Views.RoundDetailsView
             ((RoundDetailsPageViewModel)BindingContext).CompetitionTypeSelectedCommand.Execute(Item);
         }
 
-        private void CheckBox_CheckedChanged(object sender, bool e)
-        {
-            try
-            {
-                var value = (CustomCheckBox)sender;
-                ((RoundDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(value.DefaultValue);
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
-            }
-        }
-
         private void EditTeam_Clicked(object sender, System.EventArgs e)
         {
             try
@@ -79,6 +66,12 @@ namespace Golf.Views.RoundDetailsView
             {
                 var a = ex.Message;
             }
+        }
+
+        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            var item = (sender as CheckBox).BindingContext as RoundRules;
+            ((RoundDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
     }
 }

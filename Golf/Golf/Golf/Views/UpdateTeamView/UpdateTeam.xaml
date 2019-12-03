@@ -154,7 +154,7 @@
                 <StackLayout Orientation="Horizontal"
                          Margin="30,0,30,0">
 
-                        <Label Text="Selected Player Name"
+                        <Label Text="Selected Players"
                        FontAttributes="Bold"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource LightGreenColor}"

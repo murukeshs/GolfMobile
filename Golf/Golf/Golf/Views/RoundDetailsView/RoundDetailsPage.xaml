@@ -101,33 +101,38 @@
                          IsVisible="{Binding IsVisibleRoundDetails}"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="CenterAndExpand">
-                <Label Text="Round Name"
+                
+                <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                    <StackLayout>
+                    
+                    <Label Text="Round Name"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding RoundName,Mode=TwoWay}"
+                    <controls:CustomEntry Text="{Binding RoundName,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               FontSize="{StaticResource FontSize18}"
                                               Margin="0,5,0,0"
                                                IsEnabled="False"
                                                BackgroundColor="LightGray"/>
 
-                        <Label Text="Round Code"
+                    <Label Text="Round Code"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:CustomEntry Text="{Binding RoundCode,Mode=TwoWay}"
+                    <controls:CustomEntry Text="{Binding RoundCode,Mode=TwoWay}"
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               Margin="0,5,0,0"
                                                IsEnabled="False"
                                                BackgroundColor="LightGray"
                                               FontSize="{StaticResource FontSize18}"/>
 
-                        <Label Text="Competition Type" 
+                    <Label Text="Competition Type" 
                         Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:BoxPicker ItemsSource="{Binding CompetitionTypeItems}"
+                    <controls:BoxPicker ItemsSource="{Binding CompetitionTypeItems}"
                                     Title="Select Competition Type"
                                     Image="down_arrow_gray.png"
                                     Margin="0,5,0,0"
@@ -141,52 +146,45 @@
                                     TextColor="{StaticResource TextGrayColor}"
                                     Style="{StaticResource RectangleShapeEntryStyle}"/>
 
-                        <Label Text="Rules"
+                    <Label Text="Rules"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
-                                         Padding="5"
-                                         Margin="5,5,5,0"
+                                         Margin="20,5,20,0"
                                         >
-                            <controls:HorizontalList ListOrientation="Vertical"
+                        <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
                                                  Padding="0"
-                                                 Margin="5"
+                                                 Margin="0"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
-                                <controls:HorizontalList.ItemTemplate>
-                                    <DataTemplate>
+                            <controls:HorizontalList.ItemTemplate>
+                                <DataTemplate>
 
-                                        <StackLayout Orientation="Horizontal"
-                                                     Margin="10,5,10,5"
+                                    <StackLayout Orientation="Horizontal"
+                                                     Margin="10,10,10,5"
                                                      Padding="0"
                                                      Spacing="0">
 
-                                            <controls:CustomCheckBox BorderColor="{StaticResource TextGrayColor}"
-                                                             Margin="20,0,0,0"
-                                                                         HorizontalOptions="Fill"
-                                                             FontSize="{StaticResource FontSize14}"
-                                                             DefaultValue="{Binding roundRuleId}"
-                                                             Checked="{Binding Checked, Mode=TwoWay}"
-                                                             Style="{StaticResource CheckBoxStyle}"
-                                                             CheckedChanged="CheckBox_CheckedChanged"/>
+                                        <CheckBox Color="{StaticResource TextGrayColor}"
+                                                  Margin="20,0"
+                                                  IsChecked="{Binding Checked}"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+                                        <Label Text="{Binding ruleName}"
+                                               FontSize="Small"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Margin="0,0"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </controls:HorizontalList.ItemTemplate>
+                        </controls:HorizontalList>
+                    </plugins:PancakeView>
 
-                                            <Label Text="{Binding ruleName}"
-                                                   FontSize="Small"
-                                                   HorizontalOptions="FillAndExpand"
-                                                   TextColor="{StaticResource TextGrayColor}"
-                                                   Margin="5,10"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </controls:HorizontalList.ItemTemplate>
-                            </controls:HorizontalList>
-                        </plugins:PancakeView>
-
-                        <!--<Label Text="Round Location"
+                    <!--<Label Text="Round Location"
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
@@ -196,13 +194,13 @@
                                               IsCurvedCornersEnabled="True"
                                               FontSize="{StaticResource FontSize18}"/>-->
 
-                        <Label Text="Round Settings:"
+                    <Label Text="Round Settings:"
                            Style="{StaticResource TextLabelStyleGrayColor20}"
                            Margin="0,10,0,0"
                            TextColor="{StaticResource BlackColor}"
                            FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:BoxPicker Title="Select Round Settings" 
+                    <controls:BoxPicker Title="Select Round Settings" 
                                            Image="down_arrow_gray.png"
                                            Margin="0,5,0,0"
                                             BorderColor="{StaticResource TextGrayColor}"
@@ -214,13 +212,13 @@
                                                SelectedItem="{Binding selectedItem}"
                                                Style="{StaticResource RectangleShapeEntryStyle}"/>
 
-                        <Label Text="Round Extras:"
+                    <Label Text="Round Extras:"
                            Style="{StaticResource TextLabelStyleGrayColor20}"
                            Margin="0,5,0,0"
                            TextColor="{StaticResource BlackColor}"
                            FontSize="{StaticResource FontSize18}"/>
 
-                        <controls:BoxPicker Title="Select Round Extras" 
+                    <controls:BoxPicker Title="Select Round Extras" 
                                            Image="down_arrow_gray.png"
                                            Margin="0,5,0,10"
                                             BorderColor="{StaticResource TextGrayColor}"
@@ -231,22 +229,24 @@
                                            SelectedIndex="0"
                                            SelectedItem="{Binding RoundselectedItem}"
                                             Style="{StaticResource RectangleShapeEntryStyle}"/>
-                <StackLayout Orientation="Horizontal"
+                    <StackLayout Orientation="Horizontal"
                          Margin="10"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="EndAndExpand">
 
-                    <controls:RoundedButton Margin="0"
+                        <controls:RoundedButton Margin="0"
                                         Text="Save"
                                         HeightRequest="45"
                                         Command="{Binding SaveButtonCommand}"/>
 
-                    <controls:RoundedButton Margin="10,0"
+                        <controls:RoundedButton Margin="10,0"
                                         Text="Save and Notify"
                                         HeightRequest="45"
                                         Command="{Binding SaveAndNotifyButtonCommand}"/>
 
-                </StackLayout>
+                    </StackLayout>
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
             
             <!--Teams List View Initially it set to be false-->
@@ -338,8 +338,7 @@
                                                       VerticalOptions="Center"
                                                       WidthRequest="60"
                                                       HeightRequest="60"
-                                                                                  
-                                                                                  Aspect="Fill"/>
+                                                        Aspect="Fill"/>
 
                                                         <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,5,0,5">

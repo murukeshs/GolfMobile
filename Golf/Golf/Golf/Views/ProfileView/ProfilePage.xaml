@@ -153,6 +153,22 @@
                                             Text="{Binding LastName, Mode = TwoWay}"
                                             />
 
+                    <Label Text="Nick Name" 
+                           Margin="20,0,20,0"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="{StaticResource FontSize20}"
+                           TextColor="Gray"/>
+
+                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
+                                            Margin="20,0,20,0"
+                                            Placeholder="Nick Name"
+                                            PlaceholderColor="{StaticResource TextGrayColor}"
+                                            LineColor="{StaticResource BorderColor}"
+                                            TextColor="{StaticResource TextGrayColor}"
+                                            Text="{Binding NickName, Mode = TwoWay}"
+                                            />
+                    
                     <Label Text="Email" 
                            Margin="20,0,20,0"
                            VerticalOptions="Center"
@@ -218,52 +234,7 @@
                                             TextColor="{StaticResource TextGrayColor}"
                                             Text="{Binding PhoneNumber, Mode = TwoWay}"
                                             />
-
-                      <!-- Future Enhancement-->
-                    <!--<Label Text="User Type" 
-                               Margin="20,0,0,0"
-                               VerticalOptions="Center"
-                               FontSize="{StaticResource FontSize20}"
-                               TextColor="Gray"/>-->
-                    <!--<StackLayout Orientation="Horizontal" 
-                                 Margin="20,0" 
-                                 Spacing="0"
-                                 Padding="0">
-                        <Image Source="gmail.png" 
-                               Margin="0" 
-                               HeightRequest="40"/>
-                        <Label Text="User Type" 
-                               Margin="10,0"
-                               VerticalOptions="Center"
-                               FontSize="{StaticResource FontSize20}"
-                               TextColor="{StaticResource TextGrayColor}"/>
-
-                    </StackLayout>-->
-                    <!--<Controls:HorizontalList ListOrientation="Vertical"
-                                                 Padding="0"
-                                                 Margin="0"
-                                                 BackgroundColor="Transparent"
-                                                 ItemsSource="{Binding UserTypeItems}">
-                        <Controls:HorizontalList.ItemTemplate>
-                            <DataTemplate>
-
-                                <StackLayout Orientation="Horizontal"
-                                                     Margin="10,5,10,5"
-                                                     Padding="0"
-                                                     Spacing="0">
-
-                                    <Controls:CustomCheckBox BorderColor="{StaticResource TextGrayColor}"
-                                                             Margin="50,0"
-                                                             DefaultText="{Binding RoleTypeName}"
-                                                             DefaultValue="{Binding DefalutValue}"
-                                                             Checked="{Binding Checked, Mode=TwoWay}"
-                                                             Style="{StaticResource CheckBoxStyle}"
-                                                             CheckedChanged="UserTypeChanged"/>
-                                </StackLayout>
-                            </DataTemplate>
-                        </Controls:HorizontalList.ItemTemplate>
-                    </Controls:HorizontalList>-->
-
+                    
                     <Controls:RoundedButton Text="Update User Info"
                                             Margin="40,10,40,20"
                                             x:Name="UpdateUserInfo"

@@ -278,7 +278,7 @@ namespace Golf.ViewModel.Round
                 {
                     UserDialogs.Instance.ShowLoading();
                     //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "Round/getRoundDetailsById/" + App.User.RoundId;
+                    var RestURL = App.User.BaseUrl + "Round/getRoundDetailsById/" + App.User.CreateRoundId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
@@ -302,20 +302,6 @@ namespace Golf.ViewModel.Round
                                                           Expanded = false
                                                       }).ToList());
 
-                        //foreach (var item in Items)
-                        //{
-                        //    var RoundTeamsPlayerList = JsonConvert.DeserializeObject<List<roundPlayerList>>(item.roundPlayerList);
-                        //    roundTeamsItemsList.Add(new RoundDetailsListTeamList
-                        //    {
-                        //        teamId = item.teamId,
-                        //        roundPlayerList = RoundTeamsPlayerList,
-                        //        createdByName = item.createdByName,
-                        //        NoOfPlayers = item.NoOfPlayers,
-                        //        teamIcon = item.teamIcon,
-                        //        teamName = item.teamName,
-                        //        Expanded = false
-                        //    });
-                        //}
                         ObservableCollection<RoundDetailsListTeamList> myCollection = new ObservableCollection<RoundDetailsListTeamList>(roundTeamsItemsList as List<RoundDetailsListTeamList>);
                         RoundTeamsItemsList = myCollection;
                     }
@@ -501,7 +487,7 @@ namespace Golf.ViewModel.Round
 
                     var data = new CreateRound
                     {
-                        roundId = Convert.ToInt32(App.User.RoundId),
+                        roundId = Convert.ToInt32(App.User.CreateRoundId),
                         competitionTypeId = CompetitionTypeID,
                         roundRuleId = string.Join(",", ListofRules),
                         isSaveAndNotify = IsSaveAndNotify
@@ -577,7 +563,7 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Round/getRoundById/" + App.User.RoundId;
+                    var RestURL = App.User.BaseUrl + "Round/getRoundById/" + App.User.CreateRoundId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
@@ -656,32 +642,27 @@ namespace Golf.ViewModel.Round
 
         #region Rule CheckBox Clicked Command Functionality
 
-        public ICommand CheckBoxSelectedCommand => new Command<string>(CheckboxChangedEvent);
+        public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
         public List<string> ListofRules = new List<string>();
-        void CheckboxChangedEvent(string roundRuleId)
+        void CheckboxChangedEvent(object parameter)
         {
-            try
+            var item = parameter as RoundRules;
+            var RoundRuleId = item.roundRuleId;
+            if (ListofRules.Count > 0)
             {
-                if (ListofRules.Count > 0)
+                bool UserIdAleradyExists = ListofRules.Contains(RoundRuleId);
+                if (UserIdAleradyExists)
                 {
-                    bool UserIdAleradyExists = ListofRules.Contains(roundRuleId);
-                    if (UserIdAleradyExists)
-                    {
-                        ListofRules.Remove(roundRuleId);
-                    }
-                    else
-                    {
-                        ListofRules.Add(roundRuleId);
-                    }
+                    ListofRules.Remove(RoundRuleId);
                 }
                 else
                 {
-                    ListofRules.Add(roundRuleId);
+                    ListofRules.Add(RoundRuleId);
                 }
             }
-            catch(Exception ex)
+            else
             {
-                var a = ex.Message;
+                ListofRules.Add(RoundRuleId);
             }
         }
 

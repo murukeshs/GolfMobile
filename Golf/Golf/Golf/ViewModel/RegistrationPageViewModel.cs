@@ -55,6 +55,20 @@ namespace Golf.ViewModel
         }
         private string _LastNameText = string.Empty;
 
+        public string NickNameText
+        {
+            get
+            {
+                return _NickNameText;
+            }
+            set
+            {
+                _NickNameText = value;
+                OnPropertyChanged(nameof(NickNameText));
+            }
+        }
+        private string _NickNameText = string.Empty;
+
         public string EmailText
         {
             get
@@ -178,6 +192,12 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("LastName cannot be empty.", "Alert", "Ok");
                 return false;
             }
+            else if (string.IsNullOrEmpty(NickNameText))
+            {
+                //NickName Is Empty
+                UserDialogs.Instance.AlertAsync("NickName cannot be empty.", "Alert", "Ok");
+                return false;
+            }
             else if (string.IsNullOrEmpty(EmailText))
             {
                 //Email Is Empty
@@ -240,12 +260,13 @@ namespace Golf.ViewModel
                         userId= 0,
                         firstName= FirstNameText,
                         lastName= LastNameText,
-                        email= EmailText,
+                        nickName = NickNameText,
+                        email = EmailText,
                         gender= GenderText,
                         dob= dob.ToString(),
                         phoneNumber= PhoneNumber,
                         password= Password,
-                        userTypeId = "1"
+                        userTypeId = "1"           //Player
                     };
 
                     string json = JsonConvert.SerializeObject(data);

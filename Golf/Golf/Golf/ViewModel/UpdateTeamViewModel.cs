@@ -511,7 +511,7 @@ namespace Golf.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading();
                     //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "Round/getRoundDetailsById/" + App.User.RoundId;
+                    var RestURL = App.User.BaseUrl + "Round/getRoundDetailsById/" + App.User.CreateRoundId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
