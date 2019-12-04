@@ -19,6 +19,7 @@
     <ContentPage.BindingContext>
         <viewModels:AddParticipantPageViewModel/>
     </ContentPage.BindingContext>
+    
     <ContentPage.Content>
         <StackLayout>
 

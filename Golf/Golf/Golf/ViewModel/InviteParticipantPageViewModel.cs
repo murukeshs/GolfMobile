@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
+using Golf.Models.userModel;
 using Golf.Services;
 using Golf.Utils;
 using Newtonsoft.Json;
@@ -96,6 +97,28 @@ namespace Golf.ViewModel
         }
         private string _PhoneNumber = string.Empty;
 
+        public bool IsEmailNotification
+        {
+            get { return _IsEmailNotification; }
+            set
+            {
+                _IsEmailNotification = value;
+                OnPropertyChanged(nameof(IsEmailNotification));
+            }
+        }
+        private bool _IsEmailNotification = false;
+
+        public bool IsSMSNotification
+        {
+            get { return _IsSMSNotification; }
+            set
+            {
+                _IsSMSNotification = value;
+                OnPropertyChanged(nameof(IsSMSNotification));
+            }
+        }
+        private bool _IsSMSNotification = false;
+
         #region Send Invite Button Command Functionality
         public ICommand InviteParticipantCommand => new AsyncCommand(SendInviteAsync);
 
@@ -145,12 +168,6 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("Phone Number cannot be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (UserTypeList.Count == 0)
-            {
-                //UserType Is Empty
-                UserDialogs.Instance.AlertAsync("User Type cannot be empty.", "Alert", "Ok");
-                return false;
-            }
             else
             {
                 //Validation Is Success
@@ -165,19 +182,23 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/generateEmailOTP";
+                    var RestURL = App.User.BaseUrl + "User/inviteParticipant";
                     Uri requestUri = new Uri(RestURL);
 
-                    var data = new GenerateOTPEmail
+                    var data = new createUser
                     {
-                        emailorphone = EmailText,
-                        type = "Forgot Password",
-                        sourceType = "Email"
+                        firstName = FirstNameText,
+                        lastName = LastNameText,
+                        email = EmailText,
+                        gender = GenderText,
+                        phoneNumber = PhoneNumber,
+                        isEmailNotification = IsEmailNotification,
+                        isSMSNotification = IsSMSNotification,
                     };
 
                     string json = JsonConvert.SerializeObject(data);
                     var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
@@ -206,27 +227,17 @@ namespace Golf.ViewModel
         }
         #endregion Send Invite Button Command Functionality
 
-        public List<string> UserTypeList = new List<string>();
-        public ICommand UserTypeCheckBoxCommand => new Command(UserTypeCheckBox);
-        public void UserTypeCheckBox(object parameter)
+        public ICommand CommunicationViaCheckBoxCommand => new Command(CommunicationViaCheckBox);
+        public void CommunicationViaCheckBox(object parameter)
         {
-            var item = parameter as string;
-
-            if (UserTypeList.Count > 0)
+            var type =  parameter as string;
+            if(type == "Email")
             {
-                bool UserIdAleradyExists = UserTypeList.Contains(item);
-                if (UserIdAleradyExists)
-                {
-                    UserTypeList.Remove(item);
-                }
-                else
-                {
-                    UserTypeList.Add(item);
-                }
+                IsEmailNotification = true;
             }
             else
             {
-                UserTypeList.Add(item);
+                IsSMSNotification = true;
             }
         }
     }

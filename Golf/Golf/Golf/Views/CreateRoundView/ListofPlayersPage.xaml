@@ -49,11 +49,7 @@
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
                       >
-                <!--<ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="ItemSelected" 
-                                                      Command="{Binding ItemTappedCommand}"
-                                                      Converter="{StaticResource itemTappedEventArgsConverter}" />
-                </ListView.Behaviors>-->
+                
                 <ListView.ItemTemplate>
 
                     <DataTemplate>

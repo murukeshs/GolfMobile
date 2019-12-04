@@ -1,4 +1,5 @@
-﻿using Golf.Models;
+﻿using Acr.UserDialogs;
+using Golf.Models;
 using Golf.Views.ParticipantsView;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -31,23 +32,28 @@ namespace Golf.Views
         {
             try
             {
-                if (e.Item == null)
-                    return;
+                
+                    if (e.Item == null)
+                        return;
 
                 var item = (AllParticipantsResponse)e.Item;
-
-                var id = item.userId;
-
-                var view = new ViewParticipantByIdPage(id);
-                var navigationPage = ((NavigationPage)App.Current.MainPage);
-                await navigationPage.PushAsync(view);
-
-                //Deselect Item
-                ((ListView)sender).SelectedItem = null;
+                if (!item.isPublicProfile)
+                {
+                    UserDialogs.Instance.Alert("It is a Private Profile!!!", "Alert", "Ok");
+                }
+                else
+                {
+                    var id = item.userId;
+                    var view = new ViewParticipantByIdPage(id);
+                    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    await navigationPage.PushAsync(view);     
+                }
+                    //Deselect Item
+                    ((ListView)sender).SelectedItem = null;
             }
             catch(Exception ex)
             {
-
+                var a = ex.Message;
             }
         }
 

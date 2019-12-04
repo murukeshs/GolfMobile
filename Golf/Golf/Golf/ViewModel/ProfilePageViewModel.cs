@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Golf.Views;
 
 namespace Golf.ViewModel
 {
@@ -465,7 +466,9 @@ namespace Golf.ViewModel
         }
         async void LogoutFunction()
         {
-            await ((NavigationPage)App.Current.MainPage).PopAsync();//this line navigate to previous page of your application
+            var LoginView = new LoginPage();
+            var navigationPage = ((NavigationPage)App.Current.MainPage);
+            await navigationPage.PushAsync(LoginView);
         }
         #endregion
 
@@ -864,7 +867,6 @@ namespace Golf.ViewModel
                         profileImage = ProfileImage,
                         gender = Gender,
                         dob = Dob.ToString(),
-                        userTypeId = "1",
                         phoneNumber = PhoneNumber,
                     };
 

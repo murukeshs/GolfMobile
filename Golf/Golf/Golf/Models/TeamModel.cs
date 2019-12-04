@@ -31,5 +31,6 @@
         public int teamId { get; set; }
         public int scoreKeeperID { get; set; }
         public string playerId { get; set; }
+        public int roundId { get; set; }
     }
 }

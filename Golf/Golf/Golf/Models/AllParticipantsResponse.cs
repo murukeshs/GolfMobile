@@ -15,6 +15,8 @@ namespace Golf.Models
         public string userType { get; set; }
         public bool isScoreKeeper { get; set; }
         public string profileImage { get; set; }
+        public bool isPublicProfile { get; set; }
+        public string nickName { get; set; }
 
         public bool IsChecked
         {
@@ -25,7 +27,7 @@ namespace Golf.Models
                 OnPropertyChanged("IsChecked");
             }
         }
-        private bool _IsChecked { get; set; } = true;
+        private bool _IsChecked { get; set; } = false;
 
 
         public string ImageIcon

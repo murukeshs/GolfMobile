@@ -55,7 +55,7 @@ namespace Golf.ViewModel.Round
         private async Task SaveTeamButtonCLicked()
         {
             //ViewModelNavigation.PushAsync(new ItemPageViewModel() { Item = parameter as RssItem });
-            await createRoundplayersAsync();
+            await CreateRoundplayersAsync();
         }
         #endregion SaveTeamButtonCLicked Command Functionality
 
@@ -158,7 +158,7 @@ namespace Golf.ViewModel.Round
         }
 
 
-        async Task createRoundplayersAsync()
+        async Task CreateRoundplayersAsync()
         {
             try
             {

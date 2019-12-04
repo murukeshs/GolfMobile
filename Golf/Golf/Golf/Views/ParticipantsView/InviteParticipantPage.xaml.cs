@@ -63,16 +63,16 @@ namespace Golf.Views
             vm.GenderText = picker.SelectedItem.ToString();
         }
 
-        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
-        {
-            var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            ((InviteParticipantPageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
-        }
-
         private async void ImageButton_Clicked(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PopAsync();
+        }
+
+        private void CommunicationViaChanged(object sender, bool e)
+        {
+            var value = (CustomCheckBox)sender;
+            var item = value.DefaultValue;
+            ((InviteParticipantPageViewModel)BindingContext).CommunicationViaCheckBoxCommand.Execute(item);
         }
     }
 }

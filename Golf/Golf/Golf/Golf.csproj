@@ -26,6 +26,9 @@
     <Compile Update="Views\CreateRoundView\CreateRoundPage.xaml.cs">
       <DependentUpon>CreateRoundPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\CreateRoundView\PreviewPlayersPage.xaml.cs">
+      <DependentUpon>PreviewPlayersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CreateRoundView\RoundContextSettingsPage.xaml.cs">
       <DependentUpon>RoundContextSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -66,6 +69,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CreateRoundView\ListofPlayersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CreateRoundView\ParticipantSelection.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CreateRoundView\PreviewPlayersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CreateRoundView\RoundCodePoppup.xaml">

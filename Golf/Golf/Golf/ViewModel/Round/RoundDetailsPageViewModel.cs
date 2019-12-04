@@ -187,33 +187,27 @@ namespace Golf.ViewModel.Round
         }
         private ObservableCollection<RoundRules> _RulesItems = null;
 
-        public string selectedItem { get; set; }
+        public string SelectedItem { get; set; }
         public string RoundselectedItem { get; set; }
 
         public RoundDetailsPageViewModel()
         {
-            SettingsList = new List<string>();
-            SettingsList.Add("Carryover - if no one wins the hole");
-            SettingsList.Add("N tie");
-            SettingsList.Add("Greater than 1 or equal to");
-            SettingsList.Add("No Carryover");
 
-            RoundExtrasList = new List<string>();
-            RoundExtrasList.Add("Greenies");
-            RoundExtrasList.Add("Skins");
-            RoundExtrasList.Add("Closet to the pin");
-            RoundExtrasList.Add("Longest drive");
+            SettingsList = new List<string>(new[] { "Carryover - if no one wins the hole", "N tie",
+                "Greater than 1 or equal to", "No Carryover" });
 
-            selectedItem = "Carryover - if no one wins the hole";
+            RoundExtrasList = new List<string>(new[] { "Greenies", "Skins","Closet to the pin","Longest drive"});
+
+            SelectedItem = "Carryover - if no one wins the hole";
             RoundselectedItem = "Greenies";
             //Get the Competition type values
             GetCompetitionType();
             //Get the Round rules
-            getRoundRulesList();
+            GetRoundRulesList();
             //Using THis Method to Load the Round details
-            getRoundById();
+            GetRoundById();
             //Using THis Method to Load the Round Team And Players List From an API.
-            getRoundsDetailsById();
+            GetRoundsDetailsById();
         }
 
         #region Round Details Button Command Functionality
@@ -270,7 +264,7 @@ namespace Golf.ViewModel.Round
         }
         private ObservableCollection<RoundDetailsListTeamList> _RoundTeamsItemsList = null;
 
-        async void getRoundsDetailsById()
+        async void GetRoundsDetailsById()
         {
             try
             {
@@ -472,10 +466,10 @@ namespace Golf.ViewModel.Round
 
         async Task SaveButtonAsync()
         {
-            await updateRound(false);
+            await UpdateRound(false);
         }
 
-        async Task updateRound(bool IsSaveAndNotify)
+        async Task UpdateRound(bool IsSaveAndNotify)
         {
             try
             {
@@ -551,12 +545,12 @@ namespace Golf.ViewModel.Round
 
         async Task SaveAndNotifyButtonAsync()
         {
-            await updateRound(true);
+            await UpdateRound(true);
         }
 
         #endregion Save Button Command Functionality
 
-        async void getRoundById()
+        async void GetRoundById()
         {
             try
             {
@@ -610,7 +604,7 @@ namespace Golf.ViewModel.Round
 
         #region GetRoundRulesList Command Functionality
 
-        async void getRoundRulesList()
+        async void GetRoundRulesList()
         {
             try
             {

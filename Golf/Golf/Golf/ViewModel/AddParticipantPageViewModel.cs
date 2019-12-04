@@ -73,17 +73,26 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "User/listUser?userType=" + 1;
+                    var RestURL = App.User.BaseUrl + "Round/GetRoundPlayers?roundId=" + App.User.CreateRoundId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
-                    //Assign the Values to Listview
-                    PlayersList = Items;
-                    App.User.PlayersList = PlayersList;
-                    UserDialogs.Instance.HideLoading();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
+                        //Assign the Values to Listview
+                        PlayersList = Items;
+                        App.User.PlayersList = PlayersList;
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                  
                 }
                 else
                 {
@@ -222,6 +231,7 @@ namespace Golf.ViewModel
                        teamId = App.User.CreateTeamId,
                        scoreKeeperID = ScoreKeeperId,
                        playerId = PlayerId,
+                       roundId = App.User.CreateRoundId
                     };
 
                     string json = JsonConvert.SerializeObject(data);

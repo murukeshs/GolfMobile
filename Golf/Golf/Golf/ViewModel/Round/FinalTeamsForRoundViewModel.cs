@@ -21,7 +21,7 @@ namespace Golf.ViewModel.Round
     {
         public FinalTeamsForRoundViewModel()
         {
-            getRoundsDetailsById();
+            GetRoundsDetailsById();
         }
         #region CreateAnotherTeam Command
         public ICommand CreateAnotherTeamCommand => new Command(CreateAnotherTeam);
@@ -97,7 +97,7 @@ namespace Golf.ViewModel.Round
         }
         private ObservableCollection<RoundDetailsListTeamList> _RoundTeamsItemsList = null;
 
-        async void getRoundsDetailsById()
+        async void GetRoundsDetailsById()
         {
             try
             {

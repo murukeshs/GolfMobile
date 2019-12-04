@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Golf.Utils;
 using Golf.Views;
+using Golf.Views.CreateRoundView;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Golf.ViewModel.Round
             {
                 await PopupNavigation.Instance.PopAsync();
                 UserDialogs.Instance.ShowLoading();
-                var view = new CreateTeamPage();
+                var view = new ParticipantSelection();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
                 UserDialogs.Instance.HideLoading();

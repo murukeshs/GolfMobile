@@ -6,12 +6,9 @@ using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -22,23 +19,12 @@ namespace Golf.Views.ParticipantsView
 	public partial class ViewParticipantByIdPage : ContentPage
 	{
         public int playerId;
-        public string UserTypeValues;
-        public ObservableCollection<UserTypes> UserTypeItems = new ObservableCollection<UserTypes>();
 
         public ViewParticipantByIdPage (int id)
 		{
 			InitializeComponent ();
             playerId = id;
             LoadPlayerListAsync();
-
-            UserTypeItems = new ObservableCollection<UserTypes>()
-            {
-                new UserTypes {RoleTypeName = "Player", DefalutValue = "1", Checked = false },
-                new UserTypes {RoleTypeName = "Moderator", DefalutValue = "2", Checked = false },
-                new UserTypes {RoleTypeName = "Score Keeper", DefalutValue = "3", Checked = false },
-                new UserTypes {RoleTypeName = "Organizer", DefalutValue = "4", Checked = false },
-                new UserTypes {RoleTypeName = "Spectator", DefalutValue = "5", Checked = false },
-            };
         }
 
         async void LoadPlayerListAsync()
@@ -61,8 +47,6 @@ namespace Golf.Views.ParticipantsView
                     Gender.Text = Items.gender;
                     Email.Text = Items.email;
                     Phone.Text = Items.phoneNumber;
-                    UserTypeValues = Items.userType;
-                    LoadType();
                     var profile = Items.profileImage;
                     if(!string.IsNullOrEmpty(profile) || profile != null)
                     {
@@ -72,7 +56,6 @@ namespace Golf.Views.ParticipantsView
                     {
                         ProfileImage.Source = "profile_defalut_pic.png";
                     }
-                    LoadType();
                     //Assign the Values to Listview
                     UserDialogs.Instance.HideLoading();
                 }
@@ -87,17 +70,6 @@ namespace Golf.Views.ParticipantsView
                 UserDialogs.Instance.HideLoading();
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
-        }
-
-        void LoadType()
-        {
-            var list = new List<string>();
-            var UserTypeList = UserTypeValues.Split(',').ToList();
-            foreach (string item in UserTypeList)
-            {
-                UserTypeItems.Where(w => w.RoleTypeName == item).ToList().ForEach(s => s.Checked = true);
-            }
-            CheckboxList.ItemsSource = UserTypeItems;
         }
     }
 }

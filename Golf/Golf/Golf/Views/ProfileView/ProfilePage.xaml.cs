@@ -62,13 +62,6 @@ namespace Golf.Views
         }
         #endregion
 
-        private void UserTypeChanged(object sender, Xamarin.Forms.Internals.EventArg<bool> e)
-        {
-            var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            ((ProfilePageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
-        }
-
         private void NotificationTypeChanged(object sender, bool e)
         {
             var value = (CustomCheckBox)sender;
@@ -125,13 +118,6 @@ namespace Golf.Views
         private void DOB_DateSelected(object sender, DateChangedEventArgs e)
         {
             DOB.Date = Convert.ToDateTime(vm.Dob);
-        }
-
-        private void UserTypeChanged(object sender, bool e)
-        {
-            var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            ((ProfilePageViewModel)BindingContext).UserTypeCheckBoxCommand.Execute(item);
         }
     }
 }

@@ -114,42 +114,26 @@
                                 <Image Source="usertype_green.png" 
                            Margin="0" 
                            HeightRequest="40"/>
-                                <Label Text="User Type" 
+                                <Label Text="Communication Via" 
                        Margin="10,0"
                        VerticalOptions="Center"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource TextGrayColor}"/>
 
                             </StackLayout>
-                            <Controls:CustomCheckBox DefaultText="Player"
+                            <Controls:CustomCheckBox DefaultText="Email"
                                      Style="{StaticResource CheckBoxStyle}"
-                                     CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="1"
-                                                       HorizontalOptions="FillAndExpand"/>
+                                     CheckedChanged="CommunicationViaChanged"
+                                     DefaultValue ="Email"
+                                     HorizontalOptions="FillAndExpand"/>
 
-                            <Controls:CustomCheckBox DefaultText="Moderator"
+                            <Controls:CustomCheckBox DefaultText="SMS"
                                      Style="{StaticResource CheckBoxStyle}"
-                                     CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="2"
-                                                       HorizontalOptions="FillAndExpand"/>
+                                     CheckedChanged="CommunicationViaChanged"
+                                     DefaultValue ="SMS"
+                                     HorizontalOptions="FillAndExpand"/>
 
-                            <Controls:CustomCheckBox DefaultText="Score Keeper"
-                                     Style="{StaticResource CheckBoxStyle}"
-                                     CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="3"
-                                                       HorizontalOptions="FillAndExpand"/>
-
-                            <Controls:CustomCheckBox DefaultText="Organizer"
-                                     Style="{StaticResource CheckBoxStyle}"
-                                     CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="4"
-                                                       HorizontalOptions="FillAndExpand"/>
-
-                            <Controls:CustomCheckBox DefaultText="Spectator"
-                                     Style="{StaticResource CheckBoxStyle}"
-                                     CheckedChanged="UserTypeChanged"
-                                     DefaultValue ="5"
-                                                       HorizontalOptions="FillAndExpand"/>
+                         
                         </StackLayout>
 
                     </ScrollView>

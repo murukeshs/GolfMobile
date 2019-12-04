@@ -124,7 +124,7 @@
                            HorizontalOptions="FillAndExpand"
                            FontSize="{StaticResource FontSize20}"
                            TextColor="Gray"/>
-            
+
                 <Controls:CustomEntry HorizontalOptions="FillAndExpand"
                                       Margin="20,0,20,0"
                                        IsReadOnly="True"
@@ -133,40 +133,6 @@
                                       BorderColor="{StaticResource BorderColor}"
                                       TextColor="{StaticResource TextGrayColor}"
                                       Text="10"/>
-
-                <Label Text="User Type" 
-                           Margin="20,0,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize20}"
-                           TextColor="Gray"/>
-
-                <Controls:HorizontalList ListOrientation="Vertical"
-                                                 Padding="0"
-                                                 Margin="20"
-                                                 BackgroundColor="Transparent"
-                                                 x:Name="CheckboxList">
-                    <Controls:HorizontalList.ItemTemplate>
-                        <DataTemplate>
-
-                            <StackLayout Orientation="Horizontal"
-                                                     Margin="10,5,10,5"
-                                                     Padding="0"
-                                                     Spacing="0">
-
-                                <Controls:CustomCheckBox BorderColor="{StaticResource TextGrayColor}"
-                                                             Margin="50,0"
-                                                         IsEnabled="False"
-                                                         TextColor="{StaticResource TextGrayColor}"
-                                                             DefaultText="{Binding RoleTypeName}"
-                                                             DefaultValue="{Binding DefalutValue}"
-                                                             Checked="{Binding Checked, Mode=TwoWay}"
-                                                             Style="{StaticResource CheckBoxStyle}"
-                                                             />
-                            </StackLayout>
-                        </DataTemplate>
-                    </Controls:HorizontalList.ItemTemplate>
-                </Controls:HorizontalList>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

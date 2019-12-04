@@ -24,12 +24,12 @@ namespace Golf.ViewModel.Round
         public CreateRoundPageViewModel()
         {
             MessagingCenter.Subscribe<App>((App)Application.Current, "OnCategoryCreated", (sender) => {
-                getRoundRulesList();
+                GetRoundRulesList();
             });
             //Get the Competition type values
             GetCompetitionType();
             //Get the Round rules
-            getRoundRulesList();
+            GetRoundRulesList();
         }
         public bool IsValid { get; set; }
         public string RoundNameText
@@ -410,7 +410,7 @@ namespace Golf.ViewModel.Round
         }
         private ObservableCollection<RoundRules> _RulesItems = null;
 
-        async void getRoundRulesList()
+        async void GetRoundRulesList()
         {
             try
             {

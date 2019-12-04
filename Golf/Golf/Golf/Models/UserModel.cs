@@ -11,6 +11,8 @@ namespace Golf.Models
 
         internal string EVENT_REFRESH_PROFILE_ICON = "EVENT_REFRESH_PROFILE_ICON";
 
+        internal string ISPLAYERLISTREFRESH = "false";
+
         internal string AccessToken { get; set; } = string.Empty;
 
         internal string UserName { get; set; } = string.Empty;
@@ -56,6 +58,8 @@ namespace Golf.Models
         internal bool IsRadioButton { get; set; } = false;
 
         internal int ScoreKeeperId { get; set; }
+
+        public ObservableCollection<AddPlayersList> PlayersPreviewList { get; set; } = new ObservableCollection<AddPlayersList>();
 
     }
 }

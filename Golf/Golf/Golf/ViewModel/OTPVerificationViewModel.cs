@@ -19,7 +19,7 @@ namespace Golf.ViewModel
         public OTPVerificationViewModel()
         {
             Email = App.User.OtpEmail;
-            generateOTP();
+            GenerateOTP();
         }
         public string OTP
         {
@@ -135,7 +135,7 @@ namespace Golf.ViewModel
         private string _Email = string.Empty;
 
         #region generateOTP
-        public async void generateOTP()
+        public async void GenerateOTP()
         {
             try
             {
@@ -185,8 +185,8 @@ namespace Golf.ViewModel
 
         #region validateOTP
 
-        public ICommand VerifyOtpCommand => new AsyncCommand(verifyOTP);
-        public async Task verifyOTP()
+        public ICommand VerifyOtpCommand => new AsyncCommand(VerifyOTP);
+        public async Task VerifyOTP()
         {
             try
             {

@@ -780,6 +780,7 @@ namespace Golf.ViewModel
                         teamId = App.User.CreateTeamId,
                         scoreKeeperID = ScoreKeeperId,
                         playerId = PlayerId,
+                        roundId = App.User.CreateRoundId
                     };
 
                     string json = JsonConvert.SerializeObject(data);
