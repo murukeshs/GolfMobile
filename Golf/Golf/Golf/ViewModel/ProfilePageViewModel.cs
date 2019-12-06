@@ -205,7 +205,7 @@ namespace Golf.ViewModel
         }
         private int _StateID = 0;
 
-        public int stateID
+        public int? stateID
         {
             get { return _stateID; }
             set
@@ -214,7 +214,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(stateID));
             }
         }
-        private int _stateID;
+        private int? _stateID;
 
         public int CountryID
         {
@@ -292,6 +292,8 @@ namespace Golf.ViewModel
             }
         }
         private List<State> _StateList = null;
+
+        private bool FromLoadProfileData = false;
 
         #region TakePicture Command Functionality
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
@@ -502,10 +504,11 @@ namespace Golf.ViewModel
                         Address = User.address;
                         CountryID = User.countryId;
                         loadCountry();
-                        StateID = User.stateId;
                         City = User.city;
                         IsPublicProfile = User.isPublicProfile;
                         NickName = User.nickName;
+                        StateID = User.stateId;
+                        FromLoadProfileData = true;
                         CountryOnChange(CountryID);
                         UserDialogs.Instance.HideLoading();
                     }
@@ -634,19 +637,16 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        StateList = JsonConvert.DeserializeObject<List<State>>(content);
-
-                        foreach (var a in StateList) //CountryID
+                        if (FromLoadProfileData == false)
                         {
-                            var stateIdvalue = a.stateId;
-                            if (stateIdvalue == StateID)
-                            {
-                                StateID = a.stateId;
-                                int index = StateList.FindIndex(aa => aa.stateId == StateID);
-                                stateID = index;
-                            }
+                            StateID = 0;
                         }
-                        UserDialogs.Instance.HideLoading();
+                        else {
+                            StateList = JsonConvert.DeserializeObject<List<State>>(content);
+                            int index = StateList.FindIndex(a => a.stateId == StateID);
+                            stateID = index;
+                            UserDialogs.Instance.HideLoading();
+                        }
                     }
                     else
                     {

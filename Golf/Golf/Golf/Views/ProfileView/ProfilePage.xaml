@@ -277,10 +277,6 @@
 
                 </StackLayout>
                 
-                <!--<Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
-                                            Margin="20,5,20,0"
-                                            Placeholder="E-mail"
-                                            />-->
                 <Label Text="Address" 
                            VerticalOptions="Center"
                        Margin="20,0,20,0"

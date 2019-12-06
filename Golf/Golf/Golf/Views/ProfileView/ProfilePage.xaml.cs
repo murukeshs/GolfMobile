@@ -87,7 +87,6 @@ namespace Golf.Views
         {
             Picker picker = sender as Picker;
             Country country = (Country)picker.SelectedItem;
-            //vm.CountryID = country.countryId;
             ((ProfilePageViewModel)BindingContext).CountryChangedCommand.Execute(country.countryId);
         }
 
