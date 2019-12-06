@@ -223,50 +223,58 @@ namespace Golf.ViewModel
         {
             try
             {
-                var PlayerId = string.Join(",", TeamPlayersIds);
-                if (CrossConnectivity.Current.IsConnected)
-                {
-                    UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
-                    Uri requestUri = new Uri(RestURL);
-
-                    var data = new TeamPlayer
+                    var PlayerId = string.Join(",", TeamPlayersIds);
+                    if (CrossConnectivity.Current.IsConnected)
                     {
-                       teamId = App.User.CreateTeamId,
-                       scoreKeeperID = ScoreKeeperId,
-                       playerId = PlayerId,
-                       roundId = App.User.CreateRoundId
-                    };
+                            if (ScoreKeeperId != 0)
+                            {
+                                UserDialogs.Instance.ShowLoading();
+                                string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
+                                Uri requestUri = new Uri(RestURL);
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                                var data = new TeamPlayer
+                                {
+                                    teamId = App.User.CreateTeamId,
+                                    scoreKeeperID = ScoreKeeperId,
+                                    playerId = PlayerId,
+                                    roundId = App.User.CreateRoundId
+                                };
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                       await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
-                        UserDialogs.Instance.HideLoading();
-                        App.User.TeamPreviewList.Clear();
-                        App.User.TeamPreviewScoreKeeperName = string.Empty;
-                        App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
-                        var view = new FinalTeamsForRound();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
+                                string json = JsonConvert.SerializeObject(data);
+                                var httpClient = new HttpClient();
+                                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                                var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                                string responJsonText = await response.Content.ReadAsStringAsync();
+
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
+                                    UserDialogs.Instance.HideLoading();
+                                    App.User.TeamPreviewList.Clear();
+                                    App.User.TeamPreviewScoreKeeperName = string.Empty;
+                                    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
+                                    var view = new FinalTeamsForRound();
+                                    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                                    await navigationPage.PushAsync(view);
+                                }
+                                else
+                                {
+                                    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                                    UserDialogs.Instance.HideLoading();
+                                    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                                }
+                            }
+                            else
+                            {
+                                UserDialogs.Instance.Alert("Please Select ScoreKeeper !", "Alert", "Ok");
+                            }
                     }
                     else
                     {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        DependencyService.Get<IToast>().Show("Please check internet connection");
                     }
-                }
-                else
-                {
-                    UserDialogs.Instance.HideLoading();
-                    DependencyService.Get<IToast>().Show("Please check internet connection");
-                }
+              
             }
             catch (Exception ex)
             {

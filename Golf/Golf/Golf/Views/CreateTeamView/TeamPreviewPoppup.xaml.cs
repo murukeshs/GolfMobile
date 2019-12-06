@@ -88,10 +88,6 @@ namespace Golf.Views.PoppupView
 
                 var userId = item.UserId;
 
-                //App.User.TeamPreviewList.Remove(item);
-
-                //ListView.ItemsSource = App.User.TeamPreviewList;
-
                 MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPARTICIPANTLISTREFRESH, userId.ToString());
             }
             catch(Exception ex)
@@ -121,12 +117,12 @@ namespace Golf.Views.PoppupView
             await PopupNavigation.Instance.PopAsync();
         }
 
-        private void ImageButton_Clicked_1(object sender, EventArgs e)
-        {
-            ScoreKeeperCard.IsVisible = false;
-            NoScoreKeeperCard.IsVisible = true;
-            App.User.TeamPreviewScoreKeeperName = string.Empty;
-            App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
-        }
+        //private void ImageButton_Clicked_1(object sender, EventArgs e)
+        //{
+        //    ScoreKeeperCard.IsVisible = false;
+        //    NoScoreKeeperCard.IsVisible = true;
+        //    App.User.TeamPreviewScoreKeeperName = string.Empty;
+        //    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
+        //}
     }
 }

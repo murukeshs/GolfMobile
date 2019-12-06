@@ -696,13 +696,13 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("Address should not be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (countryID == 0)
+            else if (CountryID == 0)
             {
                 //Country Is Empty
                 UserDialogs.Instance.AlertAsync("Country cannot be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (stateID == 0)
+            else if (StateID == 0)
             {
                 //State Is Empty
                 UserDialogs.Instance.AlertAsync("State cannot be empty.", "Alert", "Ok");

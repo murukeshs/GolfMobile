@@ -82,11 +82,11 @@
                                Margin="10,0,0,0"
                                HorizontalOptions="FillAndExpand"
                                VerticalOptions="Center"/>
-                        <ImageButton Source="remove_icon.png"
+                        <!--<ImageButton Source="remove_icon.png"
                                      HorizontalOptions="End"
                                      BackgroundColor="Transparent"
                                      Clicked="ImageButton_Clicked_1"
-                                     HeightRequest="40"/>
+                                     HeightRequest="40"/>-->
                     </StackLayout>
                 </plugins:PancakeView>
 
