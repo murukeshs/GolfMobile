@@ -18,7 +18,7 @@ namespace Golf.Views
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {       
-            var item = (sender as CheckBox).BindingContext as user;
+            var item = (sender as CheckBox).BindingContext as AllParticipantsResponse;
             ((AddParticipantPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
 
@@ -45,7 +45,7 @@ namespace Golf.Views
 
         private void ImageButton_Clicked(object sender, System.EventArgs e)
         {
-            var item = (sender as ImageButton).BindingContext as user;
+            var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
             ((AddParticipantPageViewModel)BindingContext).ToggleSelectedCommand.Execute(item);
         }
     }

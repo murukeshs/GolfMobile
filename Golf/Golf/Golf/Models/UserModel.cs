@@ -13,6 +13,8 @@ namespace Golf.Models
 
         internal string ISPLAYERLISTREFRESH = "false";
 
+        internal string ISPARTICIPANTLISTREFRESH = "false";
+
         internal string AccessToken { get; set; } = string.Empty;
 
         internal string UserName { get; set; } = string.Empty;
@@ -45,7 +47,7 @@ namespace Golf.Models
 
         public ObservableCollection<AddPlayersList> TeamPreviewList { get; set; } = new ObservableCollection<AddPlayersList>();
 
-        public ObservableCollection<user> PlayersList { get; set; } = new ObservableCollection<user>();
+        public ObservableCollection<AllParticipantsResponse> PlayersList { get; set; } = new ObservableCollection<AllParticipantsResponse>();
 
         internal string TeamPreviewName { get; set; }
 

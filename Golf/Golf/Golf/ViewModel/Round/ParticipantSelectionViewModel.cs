@@ -91,8 +91,10 @@ namespace Golf.ViewModel.Round
 
         void CheckboxChangedEvent(AllParticipantsResponse item)
         {
-            var userId = item.userId;
-             
+            try
+            {
+                var userId = item.userId;
+
                 if (TeamPlayersIds.Count > 0)
                 {
                     bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
@@ -118,7 +120,11 @@ namespace Golf.ViewModel.Round
                     var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
                     App.User.PlayersPreviewList.Add(list);
                 }
-            
+            }
+            catch(Exception e)
+            {
+                var message = e.Message;
+            }
         }
         #endregion CheckBox Selected Command Functionality
 

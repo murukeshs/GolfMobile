@@ -39,6 +39,29 @@ namespace Golf.ViewModel.Round
         }
         private bool _IsVisibleRoundDetails = true;
 
+        public bool IsVisibleRoundParticipants
+        {
+            get { return _IsVisibleRoundParticipants; }
+            set
+            {
+                _IsVisibleRoundParticipants = value;
+                OnPropertyChanged(nameof(IsVisibleRoundParticipants));
+            }
+        }
+        private bool _IsVisibleRoundParticipants = true;
+
+        //To Hide and UnHide Teams details Page
+        public bool IsVisibleTeamsDetails
+        {
+            get { return _IsVisibleTeamsDetails; }
+            set
+            {
+                _IsVisibleTeamsDetails = value;
+                OnPropertyChanged(nameof(IsVisibleTeamsDetails));
+            }
+        }
+        private bool _IsVisibleTeamsDetails = false;
+
         public int CompetitionTypeId
         {
             get
@@ -52,18 +75,6 @@ namespace Golf.ViewModel.Round
             }
         }
         private int _CompetitionTypeId = 0;
-
-        //To Hide and UnHide Teams details Page
-        public bool IsVisibleTeamsDetails
-        {
-            get { return _IsVisibleTeamsDetails; }
-            set
-            {
-                _IsVisibleTeamsDetails = value;
-                OnPropertyChanged(nameof(IsVisibleTeamsDetails));
-            }
-        }
-        private bool _IsVisibleTeamsDetails = false;
 
         public string RoundName
         {
@@ -130,7 +141,27 @@ namespace Golf.ViewModel.Round
             }
         }
         private Color _TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
+        public Color RoundPlayersBorder
+        {
+            get { return _RoundPlayersBorder; }
+            set
+            {
+                _RoundPlayersBorder = value;
+                OnPropertyChanged(nameof(RoundPlayersBorder));
+            }
+        }
+        private Color _RoundPlayersBorder = (Color)App.Current.Resources["LightGreenColor"];
 
+        public Color RoundPlayersBackground
+        {
+            get { return _RoundPlayersBackground; }
+            set
+            {
+                _RoundPlayersBackground = value;
+                OnPropertyChanged(nameof(RoundPlayersBackground));
+            }
+        }
+        private Color _RoundPlayersBackground = Color.White;
 
         public string CompetitionType
         {
@@ -187,6 +218,17 @@ namespace Golf.ViewModel.Round
         }
         private ObservableCollection<RoundRules> _RulesItems = null;
 
+        public ObservableCollection<AllParticipantsResponse> RoundPlayersList
+        {
+            get { return _RoundPlayersList; }
+            set
+            {
+                _RoundPlayersList = value;
+                OnPropertyChanged(nameof(RoundPlayersList));
+            }
+        }
+        public ObservableCollection<AllParticipantsResponse> _RoundPlayersList = null;
+
         public string SelectedItem { get; set; }
         public string RoundselectedItem { get; set; }
 
@@ -217,12 +259,37 @@ namespace Golf.ViewModel.Round
         {
             IsVisibleRoundDetails = true;
             IsVisibleTeamsDetails = false;
+            IsVisibleRoundParticipants = false;
+
             RoundDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
             TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
             RoundDetailsBorder = Color.White;
             TeamListBackground = Color.White;
+            RoundPlayersBackground = Color.White;
+            RoundPlayersBorder = (Color)App.Current.Resources["LightGreenColor"];
         }
         #endregion Round Details Button Command Functionality
+
+        #region roundplayers command
+        public ICommand RoundPlayersCommand => new AsyncCommand(RoundPlayersAsync);
+
+        async Task RoundPlayersAsync()
+        {
+            UserDialogs.Instance.ShowLoading();
+            IsVisibleRoundDetails = false;
+            IsVisibleTeamsDetails = false;
+            IsVisibleRoundParticipants = true;
+
+            TeamListBackground = Color.White;
+            TeamListBorder =(Color)App.Current.Resources["LightGreenColor"];
+            RoundDetailsBackground = Color.White;
+            RoundDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
+            RoundPlayersBorder = Color.White;
+            RoundPlayersBackground = (Color)App.Current.Resources["LightGreenColor"];
+
+            UserDialogs.Instance.HideLoading();
+        }
+        #endregion
 
         #region CompetitionType SelectedIndex Changes Command Functionality
         public ICommand CompetitionTypeSelectedCommand => new Command(CompetitionTypeChangedEvent);
@@ -242,11 +309,14 @@ namespace Golf.ViewModel.Round
             UserDialogs.Instance.ShowLoading();
             IsVisibleRoundDetails = false;
             IsVisibleTeamsDetails = true;
+            IsVisibleRoundParticipants = false;
 
             TeamListBackground = (Color)App.Current.Resources["LightGreenColor"];
             TeamListBorder = Color.White;
             RoundDetailsBackground = Color.White;
             RoundDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
+            RoundPlayersBorder = (Color)App.Current.Resources["LightGreenColor"];
+            RoundPlayersBackground = Color.White;
 
             UserDialogs.Instance.HideLoading();
         }
@@ -700,6 +770,48 @@ namespace Golf.ViewModel.Round
                 UserDialogs.Instance.HideLoading();
             }
         }
+        #endregion
+
+        #region load RoundPlayers Details
+        async void GetRoundPlayers()
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    var RestURL = App.User.BaseUrl + "Round/GetRoundPlayers?roundId=" + App.User.CreateRoundId;
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.GetAsync(RestURL);
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Items = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        //Assign the Values to Listview
+                        RoundPlayersList = Items;
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+            }
+        }
+
         #endregion
     }
 }
