@@ -245,7 +245,6 @@ namespace Golf.ViewModel
                     {
                         NoRecordsFoundLabel = true;
                     }
-                    App.User.PlayersList = PlayersList;
                     UserDialogs.Instance.HideLoading();
                 }
                 else

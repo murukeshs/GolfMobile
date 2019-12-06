@@ -2,6 +2,7 @@
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -87,9 +88,11 @@ namespace Golf.Views.PoppupView
 
                 var userId = item.UserId;
 
-                App.User.TeamPreviewList.Remove(item);
+                //App.User.TeamPreviewList.Remove(item);
 
-                ListView.ItemsSource = App.User.TeamPreviewList;
+                //ListView.ItemsSource = App.User.TeamPreviewList;
+
+                MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPARTICIPANTLISTREFRESH, userId.ToString());
             }
             catch(Exception ex)
             {

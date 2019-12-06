@@ -30,6 +30,11 @@ namespace Golf.ViewModel
             TeamName = App.User.TeamName;
             //For Clear the team preview list
             App.User.TeamPreviewList.Clear();
+
+            MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
+                int userId = Int32.Parse(arg);
+                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+            });
         }
 
         public string TeamName
@@ -55,7 +60,7 @@ namespace Golf.ViewModel
         private string _ProfileImage = string.Empty;
 
         #region PlayerList API Functionality
-        public ObservableCollection<user> PlayersList
+        public ObservableCollection<AllParticipantsResponse> PlayersList
         {
             get { return _PlayersList;}
             set
@@ -64,7 +69,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(PlayersList));
             }
         }
-        public ObservableCollection<user> _PlayersList = null;
+        public ObservableCollection<AllParticipantsResponse> _PlayersList = null;
 
         async void LoadPlayerListAsync()
         {
@@ -80,10 +85,9 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
+                        var Items = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
                         //Assign the Values to Listview
                         PlayersList = Items;
-                        App.User.PlayersList = PlayersList;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -135,7 +139,7 @@ namespace Golf.ViewModel
 
         async void CheckboxChangedEvent(object parameter)
         {
-                var item = parameter as user;
+                var item = parameter as AllParticipantsResponse;
                 var userId = item.userId;
             if (App.User.ScoreKeeperId != userId)
             {
@@ -145,20 +149,20 @@ namespace Golf.ViewModel
                     if (UserIdAleradyExists)
                     {
                         TeamPlayersIds.Remove(userId);
-                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
-                        App.User.TeamPreviewList.Remove(list);
+                        var itemToRemove = App.User.TeamPreviewList.Single(r => r.UserId == userId);
+                        App.User.TeamPreviewList.Remove(itemToRemove);
                     }
                     else
                     {
                         TeamPlayersIds.Add(userId);
-                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
                         App.User.TeamPreviewList.Add(list);
                     }
                 }
                 else
                 {
                     TeamPlayersIds.Add(userId);
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.firstName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
                     App.User.TeamPreviewList.Add(list);
                 }
             }
@@ -176,7 +180,7 @@ namespace Golf.ViewModel
         {
             try
             {
-                var Item = parameter as user;
+                var Item = parameter as AllParticipantsResponse;
 
                 bool UserIdAleradyExists = TeamPlayersIds.Contains(Item.userId);
                 if (UserIdAleradyExists)
@@ -190,7 +194,7 @@ namespace Golf.ViewModel
                     PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
                     ScoreKeeperId = Item.userId;
                     App.User.ScoreKeeperId = ScoreKeeperId;
-                    App.User.TeamPreviewScoreKeeperName = Item.firstName;
+                    App.User.TeamPreviewScoreKeeperName = Item.playerName;
                     App.User.TeamPreviewScoreKeeperProfilePicture = Item.profileImage;
                 }
             }
@@ -202,7 +206,7 @@ namespace Golf.ViewModel
 
 
         //To Hide and UnHide Players details Page
-        async void UpdateItems(user Items)
+        async void UpdateItems(AllParticipantsResponse Items)
         {
             var index = PlayersList.IndexOf(Items);
             PlayersList.Remove(Items);

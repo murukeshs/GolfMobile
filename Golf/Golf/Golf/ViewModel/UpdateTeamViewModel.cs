@@ -658,7 +658,6 @@ namespace Golf.ViewModel
                         var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
                         //Assign the Values to Listview
                         PlayersList = Items;
-                        App.User.PlayersList = PlayersList;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
