@@ -114,7 +114,7 @@
                                                      Margin="10,5,0,5">
                                                                 <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
-                                               TextColor="{StaticResource TextGrayColor}"
+                                               TextColor="{StaticResource LightGreenColor}"
                                                Text="{Binding firstName}"
                                                />
                                                                 <Grid HorizontalOptions="FillAndExpand">

@@ -33,13 +33,39 @@
                 <Setter Property="Margin" Value="0,5,0,0"/>
                 <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
             </Style>
+
+            <Style x:Key="TabTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="HorizontalTextAlignment"  Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="24, 0" />
+
+            </Style>
+
+            <Color x:Key="AccentTabColor">#34a574</Color>
+            <Color x:Key="TabSeparatorColor">#778899</Color>
+
+            <Style x:Key="TabSeparatorStyle" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource TabSeparatorColor}" />
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="VerticalOptions" Value="End" />
+            </Style>
+
+            <Style x:Key="SelectedTabStyle" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentTabColor}" />
+                <Setter Property="HeightRequest" Value="2" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="Margin" Value="24, 1" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
-            <Grid Margin="10"
+            <!--<Grid Margin="10"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="StartAndExpand">
                 <Grid.RowDefinitions>
@@ -91,16 +117,103 @@
                                         />
 
 
+            </Grid>-->
+
+            <Grid   
+                        ColumnSpacing="0"
+                        RowSpacing="0"
+                        VerticalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="62" />
+                </Grid.RowDefinitions>
+                <Grid
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            BackgroundColor="{StaticResource WhiteColor}">
+                    <Label   
+                                Text="Round Details"
+                                Style="{StaticResource TabTextStyle}"
+                            >
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding RoundDetailsTab}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Grid 
+                                Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid   
+                                IsVisible="{Binding RoundDetailsTab}"
+                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                    Command="{Binding RoundDetailsTabCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Grid
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            BackgroundColor="{StaticResource WhiteColor}">
+                    <Label   
+                                Text="Teams"
+                                Style="{StaticResource TabTextStyle}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding RoundTeamsTab}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Grid 
+                                Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid  
+                                IsVisible="{Binding RoundTeamsTab}"
+                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                    Command="{Binding RoundTeamsTabCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Grid
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            BackgroundColor="{StaticResource WhiteColor}">
+                    <Label   
+                                Text="Round Players"
+                                Style="{StaticResource TabTextStyle}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding RoundPlayersTab}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Grid 
+                                Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid  
+                                IsVisible="{Binding RoundPlayersTab}"
+                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                    Command="{Binding RoundPlayersTabCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
             </Grid>
 
-            <BoxView HeightRequest="1"
+            <!--<BoxView HeightRequest="1"
                      HorizontalOptions="FillAndExpand"
                      Margin="20,0,20,0"
-                     Color="{StaticResource LightGreenColor}"/>
+                     Color="{StaticResource LightGreenColor}"/>-->
 
             <StackLayout x:Name="RoundDetailsStackLayout"
                          Margin="20,10,20,0"
-                         IsVisible="{Binding IsVisibleRoundDetails}"
+                         IsVisible="{Binding RoundDetailsTab}"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="CenterAndExpand">
                 
@@ -156,7 +269,7 @@
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
-                                         Margin="20,5,20,0"
+                                         Margin="5,5,5,0"
                                         >
                         <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
@@ -232,7 +345,7 @@
                                            SelectedItem="{Binding RoundselectedItem}"
                                             Style="{StaticResource RectangleShapeEntryStyle}"/>
                     <StackLayout Orientation="Horizontal"
-                         Margin="10"
+                         Margin="0,5,0,15"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="EndAndExpand">
 
@@ -241,7 +354,7 @@
                                         HeightRequest="45"
                                         Command="{Binding SaveButtonCommand}"/>
 
-                        <controls:RoundedButton Margin="10,0"
+                        <controls:RoundedButton Margin="5,0,0,0"
                                         Text="Save and Notify"
                                         HeightRequest="45"
                                         Command="{Binding SaveAndNotifyButtonCommand}"/>
@@ -252,7 +365,7 @@
             </StackLayout>
             
             <!--Teams List View Initially it set to be false-->
-            <StackLayout IsVisible="{Binding IsVisibleTeamsDetails}">
+            <StackLayout IsVisible="{Binding RoundTeamsTab}">
             <ListView Margin="20,10,20,0"
                       x:Name="TeamListView"
                       ItemsSource="{Binding RoundTeamsItemsList}"
@@ -346,7 +459,7 @@
                                                      Margin="10,5,0,5">
                                                             <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
-                                               TextColor="{StaticResource TextGrayColor}"
+                                               TextColor="{StaticResource LightGreenColor}"
                                                Text="{Binding firstName}"
                                                />
                                                             <Grid HorizontalOptions="FillAndExpand">
@@ -420,6 +533,10 @@
                                         HeightRequest="45"
                                         Command="{Binding AddNewTeamCommand}"/>
 
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding RoundPlayersTab}">
+                
             </StackLayout>
             
             <!--Round Players Details Layout-->

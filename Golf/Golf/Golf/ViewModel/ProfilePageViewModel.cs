@@ -31,9 +31,41 @@ namespace Golf.ViewModel
 
         public List<GenderType> GenderList { get; set; }
 
+        bool personalInfo;
+        bool communicationInfo;
+
+        public bool PersonalInfo
+        {
+            get => personalInfo;
+            set => SetProperty(ref personalInfo, value);
+        }
+
+        public bool CommunicationInfo
+        {
+            get => communicationInfo;
+            set => SetProperty(ref communicationInfo, value);
+        }
+
+        public ICommand PersonalInfoCommand => new Command(SetPersonalInfo);
+
+        public ICommand CommunicationInfoCommand => new Command(SetCommunicationInfo);
+
+        void SetPersonalInfo()
+        {
+            PersonalInfo = true;
+            CommunicationInfo = false;
+        }
+
+        void SetCommunicationInfo()
+        {
+            PersonalInfo = false;
+            CommunicationInfo = true;
+        }
+
         public ProfilePageViewModel()
         {
-            if(!string.IsNullOrEmpty(App.User.UserProfileImage))
+            SetPersonalInfo();
+            if (!string.IsNullOrEmpty(App.User.UserProfileImage))
             {
                 ProfileImage = App.User.UserProfileImage;
             }

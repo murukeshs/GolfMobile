@@ -22,11 +22,11 @@ namespace Golf.Views
         {
             CommunicationInfoStackLayout.IsVisible = true;
             PersonalInfoStackLayout.IsVisible = false;
-            CommunicationInfoButton.BackgroundColor = (Color)App.Current.Resources["LightGreenColor"];
-            CommunicationInfoButton.TextColor = (Color)App.Current.Resources["WhiteColor"];
+            //CommunicationInfoButton.BackgroundColor = (Color)App.Current.Resources["LightGreenColor"];
+            //CommunicationInfoButton.TextColor = (Color)App.Current.Resources["WhiteColor"];
 
-            PersonalInfoButton.BackgroundColor = (Color)App.Current.Resources["WhiteColor"];
-            PersonalInfoButton.TextColor = (Color)App.Current.Resources["LightGreenColor"];
+            //PersonalInfoButton.BackgroundColor = (Color)App.Current.Resources["WhiteColor"];
+            //PersonalInfoButton.TextColor = (Color)App.Current.Resources["LightGreenColor"];
         }
 
         private void PersonalInfoButton_Clicked(object sender, EventArgs e)
@@ -34,11 +34,11 @@ namespace Golf.Views
             CommunicationInfoStackLayout.IsVisible = false;
             PersonalInfoStackLayout.IsVisible = true;
 
-            PersonalInfoButton.BackgroundColor = (Color)App.Current.Resources["LightGreenColor"];
-            PersonalInfoButton .TextColor = (Color)App.Current.Resources["WhiteColor"];
+            //PersonalInfoButton.BackgroundColor = (Color)App.Current.Resources["LightGreenColor"];
+            //PersonalInfoButton .TextColor = (Color)App.Current.Resources["WhiteColor"];
 
-            CommunicationInfoButton.BackgroundColor = (Color)App.Current.Resources["WhiteColor"];
-            CommunicationInfoButton.TextColor = (Color)App.Current.Resources["LightGreenColor"];
+            //CommunicationInfoButton.BackgroundColor = (Color)App.Current.Resources["WhiteColor"];
+            //CommunicationInfoButton.TextColor = (Color)App.Current.Resources["LightGreenColor"];
         }
 
         #region screen adjusting

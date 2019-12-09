@@ -73,7 +73,7 @@
                         <BoxView VerticalOptions="Center" 
                                  Margin="10,0,20,0" 
                                  IsVisible="{Binding IsUnderlined}" 
-                                 Color="{StaticResource TextGrayColor}"
+                                 Color="#a7a7a7"
                                  HeightRequest="1"/>
                     </StackLayout>
                     </ViewCell>

@@ -6,6 +6,7 @@
 
     <!-- Colors -->
     <Color x:Key="AppBackgroundColor">#f4f4f4</Color>
+    <Color x:Key="BlackTextColor">#253748</Color>
     <Color x:Key="TitleColor">#1a1a1a</Color>
     <Color x:Key="BorderColor">#727272</Color>
     <Color x:Key="WhiteColor">#FFFFFF</Color>
