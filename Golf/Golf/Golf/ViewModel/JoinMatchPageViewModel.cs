@@ -136,7 +136,10 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        RoundList = JsonConvert.DeserializeObject<ObservableCollection<roundJoinlist>>(content);
+                        if(content != "Please Enter RoundId")
+                        { 
+                          RoundList = JsonConvert.DeserializeObject<ObservableCollection<roundJoinlist>>(content);
+                        }
                         UserDialogs.Instance.HideLoading();
                     }
                     else

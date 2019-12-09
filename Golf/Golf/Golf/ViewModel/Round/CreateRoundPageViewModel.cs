@@ -228,24 +228,24 @@ namespace Golf.ViewModel.Round
                 UserDialogs.Instance.AlertAsync("Please Select the Round Competition Type.", "Alert", "Ok");
                 return false;
             }
-            else if (NullableStartDate == null)
+            else if (RoundStartDate == null)
             {
                 UserDialogs.Instance.AlertAsync("Please Select Round Start Date.", "Alert", "Ok");
                 RoundStartDate = null;
                 return false;
             }
-            else if(NullableENdDate == null)
+            else if(RoundEndDate == null)
             {
                 UserDialogs.Instance.AlertAsync("Please Select Round End Date.", "Alert", "Ok");
                 RoundEndDate = null;
                 return false;
             }
-            //else if (NullableStartTime == null)
-            //{
-            //    UserDialogs.Instance.AlertAsync("Please Select Round Start Time.","Alert", "Ok");
-            //    RoundStartTime = null;
-            //    return false;
-            //}
+            else if (RoundEndDate < RoundStartDate)
+            {
+                UserDialogs.Instance.AlertAsync("End date can't be less then start date.", "Alert", "Ok");
+                RoundEndDate = null;
+                return false;
+            }
             //else if (NullableEndTime == null)
             //{
             //    UserDialogs.Instance.AlertAsync("Please Select Round Start Time.", "Alert", "Ok");
@@ -485,7 +485,7 @@ namespace Golf.ViewModel.Round
         void RoundStartCommandChangedEvent(object parameter)
         {
             var item = parameter as string;
-            Roundstartdate = item;
+            Roundstartdate = NullableStartDate.ToString();
         }
         #endregion
 
@@ -495,7 +495,7 @@ namespace Golf.ViewModel.Round
         void RoundStartENdCommandChangedEvent(object parameter)
         {
             var item = parameter as string;
-            RoundstartEnddate = item;
+            RoundstartEnddate = NullableENdDate.ToString();
         }
         #endregion
 

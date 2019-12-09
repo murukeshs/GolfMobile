@@ -107,8 +107,8 @@
                                                      Padding="0"
                                                      Spacing="0">
                                             <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImagaConverter}}"
-                                                                  HeightRequest="80"
-                                                                  WidthRequest="80"
+                                                                  HeightRequest="70"
+                                                                  WidthRequest="70"
                                                                   Aspect="Fill"
                                                                   Margin="10,0"/>
                                             <StackLayout Margin="5,0,10,0"

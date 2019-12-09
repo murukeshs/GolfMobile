@@ -232,9 +232,58 @@ namespace Golf.ViewModel.Round
         public string SelectedItem { get; set; }
         public string RoundselectedItem { get; set; }
 
+        bool roundDetailsTab;
+        bool roundTeamsTab;
+        bool roundPlayersTab;
+
+        public bool RoundDetailsTab
+        {
+            get => roundDetailsTab;
+            set => SetProperty(ref roundDetailsTab, value);
+        }
+
+        public bool RoundTeamsTab
+        {
+            get => roundTeamsTab;
+            set => SetProperty(ref roundTeamsTab, value);
+        }
+
+        public bool RoundPlayersTab
+        {
+            get => roundPlayersTab;
+            set => SetProperty(ref roundPlayersTab, value);
+        }
+
+        public ICommand RoundDetailsTabCommand => new Command(SetRoundDetailsInfo);
+
+        public ICommand RoundTeamsTabCommand => new Command(SetRoundTeamsInfo);
+
+        public ICommand RoundPlayersTabCommand => new Command(SetRoundPlayersInfo);
+
+        void SetRoundDetailsInfo()
+        {
+            RoundDetailsTab = true;
+            RoundTeamsTab = false;
+            RoundPlayersTab = false;
+        }
+
+        void SetRoundTeamsInfo()
+        {
+            RoundDetailsTab = false;
+            RoundTeamsTab = true;
+            RoundPlayersTab = false;
+        }
+
+        void SetRoundPlayersInfo()
+        {
+            RoundDetailsTab = false;
+            RoundTeamsTab = false;
+            RoundPlayersTab = true;
+        }
+
         public RoundDetailsPageViewModel()
         {
-
+            SetRoundDetailsInfo();
             SettingsList = new List<string>(new[] { "Carryover - if no one wins the hole", "N tie",
                 "Greater than 1 or equal to", "No Carryover" });
 

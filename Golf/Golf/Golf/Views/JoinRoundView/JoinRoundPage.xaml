@@ -28,6 +28,7 @@
                      VerticalOptions="FillAndExpand">
 
                 <Label Text="Round Name" 
+                       Margin="20,20,20,0"
                         Style="{StaticResource HeadingsLabel}"/>
 
                 <controls:BoxPicker Title="Select Round Name"

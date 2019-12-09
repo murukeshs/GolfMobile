@@ -134,16 +134,17 @@
                                                               HeightRequest="70"
                                                                   WidthRequest="70"
                                                                   Aspect="Fill"
-                                                                  Margin="5,0"/>
+                                                                  Margin="0"/>
 
                                     <Label  Grid.Row="0"
                                                 Grid.Column="2"
-                                                Margin="5,0,0,0"
+                                                Margin="0,0,0,0"
                                                 x:Name="firstNameLabel"
                                                 Text="{Binding playerName}"
-                                                FontSize="{StaticResource FontSize20}"
+                                                FontSize="{StaticResource FontSize16}"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"
+                                            FontAttributes="Bold"
                                                 HorizontalOptions="FillAndExpand"/>
 
                                     <ImageButton Source="{Binding ImageIcon}"
