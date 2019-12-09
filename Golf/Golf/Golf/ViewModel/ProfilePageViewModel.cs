@@ -494,7 +494,7 @@ namespace Golf.ViewModel
                         FirstName = User.firstName;
                         LastName = User.lastName;
                         Dob = Convert.ToDateTime(User.dob);
-                        //NullableDob = Convert.ToDateTime(User.dob);
+                        NullableDob = Convert.ToDateTime(User.dob);
                         Gender = User.gender;
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
@@ -637,12 +637,14 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
+                        StateList = JsonConvert.DeserializeObject<List<State>>(content);
                         if (FromLoadProfileData == false)
                         {
                             StateID = 0;
+                            UserDialogs.Instance.HideLoading();
                         }
                         else {
-                            StateList = JsonConvert.DeserializeObject<List<State>>(content);
+                            FromLoadProfileData = false;
                             int index = StateList.FindIndex(a => a.stateId == StateID);
                             stateID = index;
                             UserDialogs.Instance.HideLoading();

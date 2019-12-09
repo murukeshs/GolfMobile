@@ -116,7 +116,7 @@ namespace Golf.Views
 
         private void DOB_DateSelected(object sender, DateChangedEventArgs e)
         {
-            DOB.Date = Convert.ToDateTime(vm.Dob);
+            vm.Dob = DOBDatePicker.Date;
         }
     }
 }

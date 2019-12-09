@@ -192,12 +192,17 @@
                            FontSize="{StaticResource FontSize20}"
                           TextColor="Gray"/>
 
-                    <DatePicker Margin="20,0,20,0"
-                                                 x:Name="DOB"
+                    <Controls:NullableDatePicker
+                                             Format="yyyy/MM/dd"
+                                             NullableDate="{Binding NullableDob}"
+                                             HorizontalOptions="FillAndExpand"
+                                             FontSize="{StaticResource FontSize18}"
+                                                 Margin="20,0,20,0"
+                                                 x:Name="DOBDatePicker"
                                                  TextColor="{StaticResource TextGrayColor}"
                                                  Date="{Binding Dob}"
-                                                 DateSelected="DOB_DateSelected"
-                                                />
+                                                 DateSelected="DOB_DateSelected"/>
+
 
                     <Label Text="Gender" 
                            Margin="20,0,20,0"
