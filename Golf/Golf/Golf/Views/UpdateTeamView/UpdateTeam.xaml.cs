@@ -1,11 +1,6 @@
 ﻿using Golf.Models;
 using Golf.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,20 +23,20 @@ namespace Golf.Views.UpdateTeamView
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            var item = (sender as CheckBox).BindingContext as user;
+            var item = (sender as CheckBox).BindingContext as TeamPlayerDetails;
             ((UpdateTeamViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            var item = (sender as ImageButton).BindingContext as user;
+            var item = (sender as ImageButton).BindingContext as TeamPlayerDetails;
             ((UpdateTeamViewModel)BindingContext).ToggleSelectedCommand.Execute(item);
         }
 
         private void RemoveParticipantClicked(object sender, EventArgs e)
         {
             var item = (sender as ImageButton).BindingContext as TeamPlayerDetails;
-            ((UpdateTeamViewModel)BindingContext).RemoveParticipantCommand.Execute(item.teamPlayerListId);
+            ((UpdateTeamViewModel)BindingContext).RemoveParticipantCommand.Execute(item);
         }
     }
 }

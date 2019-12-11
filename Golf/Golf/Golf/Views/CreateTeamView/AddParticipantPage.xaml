@@ -95,8 +95,11 @@
             <Controls:HorizontalList ListOrientation="Vertical"
                                                  Padding="0"
                                                  Margin="20,0,20,0"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand"
+                                     ItemsSource="{Binding PlayersListItems}"
                                                  BackgroundColor="Transparent"
-                                                 ItemsSource="{Binding PlayersList}">
+                                                 x:Name="PlayerListForTeam">
                 <Controls:HorizontalList.ItemTemplate>
                     <DataTemplate>
 
@@ -120,21 +123,21 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <CheckBox Grid.Row="0" 
+                                    <Controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
+                                                  Grid.Row="0" 
                                                   Grid.Column="0"
                                                   Margin="5,0,0,0"
-                                                  IsChecked="{Binding IsChecked}"
+                                                  Checked="{Binding IsChecked}"
                                                   HorizontalOptions="Start"
-                                                  Color="{StaticResource TextGrayColor}"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
 
                                     <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
                                                               Grid.Row="0" 
-                                                               Grid.Column="1"    
+                                                              Grid.Column="1"    
                                                               HeightRequest="70"
-                                                                  WidthRequest="70"
-                                                                  Aspect="Fill"
-                                                                  Margin="0"/>
+                                                              WidthRequest="70"
+                                                              Aspect="Fill"
+                                                              Margin="0"/>
 
                                     <Label  Grid.Row="0"
                                                 Grid.Column="2"
@@ -156,7 +159,8 @@
                                                          Aspect="AspectFit"
                                                          HorizontalOptions="End"
                                                          VerticalOptions="Center"
-                                                         Clicked="ImageButton_Clicked"/>
+                                                         Clicked="ImageButton_Clicked"
+                                                 />
 
                                 </Grid>
                             </StackLayout>
@@ -164,93 +168,6 @@
                     </DataTemplate>
                 </Controls:HorizontalList.ItemTemplate>
             </Controls:HorizontalList>
-
-            <!--<ListView Margin="20,0,20,0"
-                      x:Name="ListView"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      CachingStrategy="RecycleElementAndDataTemplate"
-                      SelectionMode="None"
-                      VerticalScrollBarVisibility="Never"
-                      ItemsSource="{Binding PlayersList}">
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
-                            <ContentView Padding="5" >
-                                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
-                                                     CornerRadius="10"
-                                                     HasShadow="False"
-                                                     BorderColor="{StaticResource LightGrayColor}"
-                                                     Padding="10">
-                                    <StackLayout>
-                                        <Grid Padding="0"
-                                          RowSpacing="0"
-                                          Margin="0">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="35"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <CheckBox Grid.Row="0" 
-                                                  Grid.Column="0"
-                                                  Margin="5,0,0,0"
-                                                  IsChecked="{Binding IsChecked}"
-                                                  HorizontalOptions="Start"
-                                                  Color="{StaticResource TextGrayColor}"
-                                                  CheckedChanged="CheckBox_CheckedChanged"/>
-
-                                            <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
-                                                              Grid.Row="0" 
-                                                               Grid.Column="1"    
-                                                              HeightRequest="70"
-                                                                  WidthRequest="70"
-                                                                  Aspect="Fill"
-                                                                  Margin="5,0"/>
-
-                                            <Label  Grid.Row="0"
-                                                Grid.Column="2"
-                                                Margin="5,0,0,0"
-                                                x:Name="firstNameLabel"
-                                                Text="{Binding firstName}"
-                                                FontSize="{StaticResource FontSize20}"
-                                                TextColor="{StaticResource BlackColor}"
-                                                VerticalOptions="Center"
-                                                HorizontalOptions="FillAndExpand"/>
-
-                                            --><!--<Switch IsToggled="{Binding IsToggled}"
-                                                    OnColor="{StaticResource LightGreenColor}"
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    Toggled="Switch_Toggled"
-                                                    HorizontalOptions="End"
-                                                />--><!--
-
-                                            <ImageButton Source="{Binding ImageIcon}"
-                                                         Grid.Row="0"
-                                                         Grid.Column="3"
-                                                         BackgroundColor="Transparent"
-                                                         HeightRequest="30"
-                                                         WidthRequest="30"
-                                                         Aspect="AspectFit"
-                                                         HorizontalOptions="End"
-                                                         VerticalOptions="Center"
-                                                         Clicked="ImageButton_Clicked"/>
-                                                                       
-                                        </Grid>
-                                    </StackLayout>
-                                </plugins:PancakeView>
-                            </ContentView>
-                        </Controls:UpdateViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-
-            </ListView>-->
 
             <StackLayout Orientation="Horizontal" 
                          VerticalOptions="End" 

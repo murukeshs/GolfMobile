@@ -104,7 +104,7 @@
                                                   Margin="5,0,0,0"
                                                   HorizontalOptions="Start"
                                                   Color="{StaticResource TextGrayColor}"
-                                                  IsChecked="{Binding IsChecked}"
+                                                  IsChecked="{Binding IsChecked, Mode=TwoWay}"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
 
                                     <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
@@ -138,7 +138,7 @@
                                                 HorizontalOptions="End"/>
                                         </StackLayout>
 
-                                        <Label      Margin="0"
+                                         <Label Margin="0"
                                                 Text="{Binding email}"
                                                 FontSize="{StaticResource FontSize16}"
                                                 TextColor="{StaticResource BlackColor}"

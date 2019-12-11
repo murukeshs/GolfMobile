@@ -1,7 +1,9 @@
-﻿using Golf.Models;
+﻿using Golf.Controls;
+using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,12 +16,6 @@ namespace Golf.Views
         public AddParticipantPage ()
 		{
 			InitializeComponent ();
-        }
-
-        private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-        {       
-            var item = (sender as CheckBox).BindingContext as AllParticipantsResponse;
-            ((AddParticipantPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
 
         #region screen adjusting
@@ -47,6 +43,12 @@ namespace Golf.Views
         {
             var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
             ((AddParticipantPageViewModel)BindingContext).ToggleSelectedCommand.Execute(item);
+        }
+
+        private void CheckBox_CheckedChanged(object sender, bool e)
+        {
+             var item = (sender as CustomCheckBox).BindingContext as AllParticipantsResponse;
+            ((AddParticipantPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
     }
 }

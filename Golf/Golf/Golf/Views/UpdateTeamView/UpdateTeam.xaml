@@ -4,13 +4,20 @@
              xmlns:controls="clr-namespace:Golf.Controls"
              xmlns:viewModels="clr-namespace:Golf.ViewModel"
              xmlns:plugins="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:Converters="clr-namespace:Golf.Converters"
              x:Class="Golf.Views.UpdateTeamView.UpdateTeam"
              Title="Update Team">
 
     <ContentPage.BindingContext>
         <viewModels:UpdateTeamViewModel/>
     </ContentPage.BindingContext>
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converters:BoolOppositeConverter x:Key="BoolOppositeConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
@@ -151,104 +158,6 @@
 
             <StackLayout IsVisible="{Binding IsVisibleParticipantsDetails}">
 
-                <StackLayout Orientation="Horizontal"
-                         Margin="30,0,30,0">
-
-                        <Label Text="Selected Players"
-                       FontAttributes="Bold"
-                       FontSize="{StaticResource FontSize20}"
-                       TextColor="{StaticResource LightGreenColor}"
-                       HorizontalOptions="StartAndExpand"/>
-
-                        <Label Text="Delete"
-                       FontAttributes="Bold"
-                       FontSize="{StaticResource FontSize20}"
-                       TextColor="{StaticResource LightGreenColor}"
-                       HorizontalOptions="EndAndExpand"/>
-
-                </StackLayout>
-
-                <ListView Margin="20,0,20,0"
-                      x:Name="SelectedPartcipants"
-                       ItemsSource="{Binding TeamPlayersList}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      CachingStrategy="RecycleElement"
-                      SelectionMode="Single"
-                      VerticalScrollBarVisibility="Never">
-
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <controls:UpdateViewCell SelectedBackgroundColor="#fdcf0f">
-                                <ContentView Padding="5" >
-                                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
-                                                     CornerRadius="10"
-                                                     HasShadow="False"
-                                                     BorderColor="{StaticResource LightGrayColor}"
-                                                     Padding="10">
-                                        <StackLayout>
-                                            <Grid Padding="0"
-                                          RowSpacing="0"
-                                          Margin="0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <Label  Grid.Row="0"
-                                                Grid.Column="0"
-                                                Margin="10,0,0,0"
-                                                x:Name="firstNameLabel"
-                                                Text="{Binding playerName}"
-                                                FontSize="{StaticResource FontSize20}"
-                                                TextColor="{StaticResource BlackColor}"
-                                                VerticalOptions="Center"
-                                                HorizontalOptions="FillAndExpand"/>
-
-                                                <ImageButton Source="remove_icon.png"
-                                                         Grid.Row="0"
-                                                         Grid.Column="2"
-                                                         BackgroundColor="Transparent"
-                                                         HeightRequest="45"
-                                                         WidthRequest="45"
-                                                         HorizontalOptions="End"
-                                                         Clicked="RemoveParticipantClicked"/>
-
-                                            </Grid>
-                                        </StackLayout>
-                                    </plugins:PancakeView>
-                                </ContentView>
-                            </controls:UpdateViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-
-                </ListView>
-
-                <BoxView HeightRequest="1"
-                     HorizontalOptions="FillAndExpand"
-                     Margin="20,0,20,0"
-                     Color="{StaticResource LightGreenColor}"/>
-
-                <StackLayout Orientation="Horizontal"
-                         Margin="30,0,30,0">
-
-                    <Label Text="Player Name"
-                       FontAttributes="Bold"
-                       FontSize="{StaticResource FontSize20}"
-                       TextColor="{StaticResource LightGreenColor}"
-                       HorizontalOptions="StartAndExpand"/>
-
-                    <Label Text="Is ScoreKeeper"
-                       FontAttributes="Bold"
-                       FontSize="{StaticResource FontSize20}"
-                       TextColor="{StaticResource LightGreenColor}"
-                       HorizontalOptions="EndAndExpand"/>
-
-                </StackLayout>
-
                 <ListView Margin="20,0,20,0"
                       x:Name="ListViewUpdatePartcipants"
                        ItemsSource="{Binding PlayersList}"
@@ -286,13 +195,13 @@
                                                   IsChecked="{Binding IsChecked}"
                                                   HorizontalOptions="Start"
                                                   Color="{StaticResource TextGrayColor}"
-                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+                                                  CheckedChanged="CheckBox_CheckedChanged"
+                                                  IsVisible="{Binding isChecked,Converter={StaticResource BoolOppositeConverter}}"/>
 
                                                 <Label  Grid.Row="0"
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
-                                                x:Name="firstNameLabel"
-                                                Text="{Binding firstName}"
+                                                Text="{Binding playerName}"
                                                 FontSize="{StaticResource FontSize20}"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"
@@ -305,9 +214,33 @@
                                                          HeightRequest="45"
                                                          WidthRequest="45"
                                                          HorizontalOptions="End"
-                                                         Clicked="ImageButton_Clicked"/>
+                                                         Clicked="ImageButton_Clicked"
+                                                         IsVisible="{Binding isChecked,Converter={StaticResource BoolOppositeConverter}}"/>
+
+                                                <ImageButton Source="remove_icon.png"
+                                                         Grid.Row="0"
+                                                         Grid.Column="2"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="45"
+                                                         WidthRequest="45"
+                                                         HorizontalOptions="End"
+                                                         Clicked="RemoveParticipantClicked"
+                                                         IsVisible="{Binding isChecked}"/>
 
                                             </Grid>
+                                            <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
+                                                                 HorizontalOptions="Fill"
+                                                                 Padding="5"
+                                                                 WidthRequest="100"
+                                                                         CornerRadius="25"
+                                                                         Margin="5,0,5,0"
+                                                                 IsVisible="{Binding isChecked}">
+                                                <Label Text="{Binding RoleType}"
+                                                       HorizontalTextAlignment="Center"
+                                                               TextColor="{StaticResource WhiteColor}"
+                                                               FontSize="{StaticResource FontSize16}"
+                                                               Margin="10,5,10,5"/>
+                                            </plugins:PancakeView>
                                         </StackLayout>
                                         </plugins:PancakeView>
                                     </ContentView>
@@ -327,7 +260,7 @@
                         <controls:RoundedButton Text="Update Team"
                                             Margin="10,0"
                                             Command="{Binding UpdateTeamButtonCommand}"/>
-                    </StackLayout>
+                </StackLayout>
 
                 </StackLayout>
 

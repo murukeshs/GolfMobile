@@ -23,10 +23,13 @@ namespace Golf.ViewModel
 {
     public class AddParticipantPageViewModel : BaseViewModel
     {
+        public ObservableCollection<AllParticipantsResponse> PlayersList = new ObservableCollection<AllParticipantsResponse>();
+
         public int ScoreKeeperId = 0;
         public AddParticipantPageViewModel()
         {
             LoadPlayerListAsync();
+
             TeamName = App.User.TeamName;
             //For Clear the team preview list
             App.User.TeamPreviewList.Clear();
@@ -34,6 +37,7 @@ namespace Golf.ViewModel
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                TeamPlayersIds.Remove(userId);
             });
         }
 
@@ -60,16 +64,17 @@ namespace Golf.ViewModel
         private string _ProfileImage = string.Empty;
 
         #region PlayerList API Functionality
-        public ObservableCollection<AllParticipantsResponse> PlayersList
+
+        public ObservableCollection<AllParticipantsResponse> PlayersListItems
         {
-            get { return _PlayersList;}
+            get { return _PlayersListItems; }
             set
             {
-                _PlayersList = value;
-                OnPropertyChanged(nameof(PlayersList));
+                _PlayersListItems = value;
+                OnPropertyChanged("PlayersListItems");
             }
         }
-        public ObservableCollection<AllParticipantsResponse> _PlayersList = null;
+        private ObservableCollection<AllParticipantsResponse> _PlayersListItems;
 
         async void LoadPlayerListAsync()
         {
@@ -85,9 +90,22 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        ObservableCollection<AllParticipantsResponse> Items = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+
+                        foreach (var item in Items.Where(w => w.isChecked == true))
+                        {
+                            var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
+                            if (item.roleType == "ScoreKeeper")
+                            {
+                                ScoreKeeperId = item.userId;
+                            }
+                            PlayersList.Add(value);
+                        }
+                        OnPropertyChanged("PlayersList");
+                        //var value = Items.Where(x => x.userId == ).ToList().ForEach(s => s.isChecked = true);
                         //Assign the Values to Listview
-                        PlayersList = Items;
+                        //PlayersList = Items;
+                        PlayersListItems = PlayersList;
                         UserDialogs.Instance.HideLoading();
                     }
                     else

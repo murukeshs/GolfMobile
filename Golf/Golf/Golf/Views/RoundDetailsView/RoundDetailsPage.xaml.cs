@@ -73,5 +73,17 @@ namespace Golf.Views.RoundDetailsView
             var item = (sender as CheckBox).BindingContext as RoundRules;
             ((RoundDetailsPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
+
+        private void RemoveParticipantClicked(object sender, EventArgs e)
+        {
+            var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
+            ((RoundDetailsPageViewModel)BindingContext).RemoveParticipantCommand.Execute(item);
+        }
+
+        private void UserCheckBox_CheckedChanged(object sender, bool e)
+        {
+            var item = (sender as CustomCheckBox).BindingContext as AllParticipantsResponse;
+            ((RoundDetailsPageViewModel)BindingContext).UserCheckBoxSelectedCommand.Execute(item);
+        }
     }
 }

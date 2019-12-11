@@ -17,18 +17,7 @@ namespace Golf.Models
         public string profileImage { get; set; }
         public bool isPublicProfile { get; set; }
         public string nickName { get; set; }
-
-        public bool IsChecked
-        {
-            get { return _IsChecked; }
-            set
-            {
-                _IsChecked = value;
-                OnPropertyChanged("IsChecked");
-            }
-        }
-        private bool _IsChecked { get; set; } = false;
-
+        public bool isChecked { get; set; }
 
         public string ImageIcon
         {
@@ -40,6 +29,17 @@ namespace Golf.Models
             }
         }
         private string _ImageIcon { get; set; } = "unchecked_icon.png";
+
+        public bool IsChecked
+        {
+            get { return _IsChecked; }
+            set
+            {
+                _IsChecked = value;
+                OnPropertyChanged("IsChecked");
+            }
+        }
+        private bool _IsChecked { get; set; } = false;
     }
 
     public class userTypeList

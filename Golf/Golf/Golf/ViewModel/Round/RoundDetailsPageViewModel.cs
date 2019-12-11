@@ -6,6 +6,7 @@ using Golf.Views;
 using Golf.Views.UpdateTeamView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,8 @@ namespace Golf.ViewModel.Round
         public List<string> SettingsList { get; set; }
 
         public List<string> RoundExtrasList { get; set; }
+
+        public List<int> RoundPlayersIds = new List<int>();
 
         public getRoundById RoundDetails;
         //To Hide and UnHide Math details Page
@@ -293,12 +296,10 @@ namespace Golf.ViewModel.Round
             RoundselectedItem = "Greenies";
             //Get the Competition type values
             GetCompetitionType();
-            //Get the Round rules
-            GetRoundRulesList();
-            //Using THis Method to Load the Round details
-            GetRoundById();
             //Using THis Method to Load the Round Team And Players List From an API.
             GetRoundsDetailsById();
+            //Get RoundPlayers
+            GetRoundPlayers();
         }
 
         #region Round Details Button Command Functionality
@@ -560,9 +561,21 @@ namespace Golf.ViewModel.Round
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
-                    CompetitionTypeItems = Items;
-                    UserDialogs.Instance.HideLoading();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
+                        CompetitionTypeItems = Items;
+                        //Get the Round rules
+                        GetRoundRulesList();
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                   
                 }
                 else
                 {
@@ -735,8 +748,20 @@ namespace Golf.ViewModel.Round
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
-                    UserDialogs.Instance.HideLoading();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
+                        //Using THis Method to Load the Round details
+                        GetRoundById();
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                   
                 }
                 else
                 {
@@ -822,6 +847,7 @@ namespace Golf.ViewModel.Round
         #endregion
 
         #region load RoundPlayers Details
+
         async void GetRoundPlayers()
         {
             try
@@ -862,5 +888,174 @@ namespace Golf.ViewModel.Round
         }
 
         #endregion
+
+        #region InviteParticipant Button Command Functionality
+        public ICommand InviteParticipantCommand => new AsyncCommand(InviteParticipantsAsync);
+
+        async Task InviteParticipantsAsync()
+        {
+            UserDialogs.Instance.ShowLoading();
+            var view = new InviteParticipantPage();
+            await PopupNavigation.Instance.PushAsync(view);
+            UserDialogs.Instance.HideLoading();
+        }
+        #endregion InviteParticipant Button Command Functionality
+
+        #region remove participant command
+
+        public ICommand RemoveParticipantCommand => new Command<AllParticipantsResponse>(RemoveParticipant);
+
+        public async void RemoveParticipant(AllParticipantsResponse item)
+        {
+            try
+            {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    string RestURL = App.User.BaseUrl + "Round/DeleteRoundPlayer?userId=" + item.userId + "&roundId=" + App.User.CreateRoundId;
+                    Uri requestUri = new Uri(RestURL);
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.DeleteAsync(requestUri);
+                    string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        GetRoundPlayers();
+                        UserDialogs.Instance.Alert("Player Deleted successfully.", "Success", "Ok");
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region User Checkbox Command
+
+        public ICommand UserCheckBoxSelectedCommand => new Command(UserCheckboxChangedEvent);
+      
+        void UserCheckboxChangedEvent(object parameter)
+        {
+            var item = parameter as AllParticipantsResponse;
+            var userId = item.userId;
+            try
+            {
+                if (RoundPlayersIds.Count > 0)
+                {
+                    bool UserIdAleradyExists = RoundPlayersIds.Contains(userId);
+                    if (UserIdAleradyExists)
+                    {
+                        RoundPlayersIds.Remove(userId);
+                        RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.isChecked = false);
+                    }
+                    else
+                    {
+                        RoundPlayersIds.Add(userId);
+                        RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.isChecked = true);
+                    }
+                }
+                else
+                {
+                    RoundPlayersIds.Add(userId);
+                    RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.isChecked = true);
+                }
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+            }
+        }
+        #endregion
+
+        #region Update RoundPlayers Command
+        
+        public ICommand UpdateRoundPlayersButtonCommand => new AsyncCommand(UpdateRoundPlayers);
+
+        async Task UpdateRoundPlayers()
+        {
+            try
+            {
+                var PlayerId = string.Join(",", RoundPlayersIds);
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    UserDialogs.Instance.ShowLoading();
+                    string RestURL = App.User.BaseUrl + "Round/SaveRoundPlayer";
+                    Uri requestUri = new Uri(RestURL);
+
+                    var data = new RoundPlayers
+                    {
+                        userId = PlayerId,
+                        roundId = App.User.CreateRoundId
+                    };
+
+                    string json = JsonConvert.SerializeObject(data);
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        GetRoundPlayers();
+                        await UserDialogs.Instance.AlertAsync("Round Players Successfully Added", "Success", "Ok");
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
+            }
+        }
+        #endregion
+
     }
 }

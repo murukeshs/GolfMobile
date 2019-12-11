@@ -18,9 +18,7 @@ namespace Golf.Models
     {
         public int userId { get; set; }
 
-        public string firstName { get; set; }
-
-        public string lastName { get; set; }
+        public string playerName { get; set; }
 
         public bool isInvitationAccept { get; set; }
 

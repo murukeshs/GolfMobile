@@ -24,6 +24,7 @@ namespace Golf.ViewModel
     public class UpdateTeamViewModel : BaseViewModel
     {
         public int ScoreKeeperId = 0;
+        public int DefaultScoreKeeperId = 0;
         public UpdateTeamViewModel()
         {
             StartingHoleList = new List<int>
@@ -31,7 +32,6 @@ namespace Golf.ViewModel
                 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
             };
             TeamName = App.User.TeamName;
-            LoadPlayerList();
             LoadTeamDetails();        
         }
         public bool IsVisibleTeamDetails
@@ -191,6 +191,17 @@ namespace Golf.ViewModel
             }
         }
         private string _TeamName = string.Empty;
+
+        public List<TeamPlayerDetails> PlayersList
+        {
+            get { return _PlayersList; }
+            set
+            {
+                _PlayersList = value;
+                OnPropertyChanged(nameof(PlayersList));
+            }
+        }
+        public List<TeamPlayerDetails> _PlayersList = null;
 
         #region Round Picker Selected Command Functionality
 
@@ -563,16 +574,7 @@ namespace Golf.ViewModel
         #endregion Team Button Command Functionality
 
         #region LoadTeamDetails
-        public List<TeamPlayerDetails> TeamPlayersList
-        {
-            get { return _TeamPlayersList; }
-            set
-            {
-                _TeamPlayersList = value;
-                OnPropertyChanged(nameof(TeamPlayersList));
-            }
-        }
-        public List<TeamPlayerDetails> _TeamPlayersList = null;
+
         public async void LoadTeamDetails()
         {
             try
@@ -594,12 +596,13 @@ namespace Golf.ViewModel
                         TeamNameText = Item.teamName;
                         DefaultStartingHole = Item.startingHole;
                         TeamProfilePicture = Item.teamIcon;
-                        TeamPlayersList = Item.TeamPlayerDetails;
                         UserNameText = Item.createdByName;
+                        PlayersList = Item.TeamPlayerDetails;
+                        DefaultScoreKeeperId = Item.scoreKeeperId;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
-                    {
+                    { 
                         var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
@@ -628,60 +631,6 @@ namespace Golf.ViewModel
         }
         #endregion
 
-        #region PlayerList API Functionality
-        public ObservableCollection<user> PlayersList
-        {
-            get { return _PlayersList; }
-            set
-            {
-                _PlayersList = value;
-                OnPropertyChanged(nameof(PlayersList));
-            }
-        }
-        public ObservableCollection<user> _PlayersList = null;
-        async void LoadPlayerList()
-        {
-            try
-            {
-                if (CrossConnectivity.Current.IsConnected)
-                {
-                    UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
-                    var RestURL = App.User.BaseUrl + "User/listUser?userType=" + 1;
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<user>>(content);
-                        //Assign the Values to Listview
-                        PlayersList = Items;
-                        UserDialogs.Instance.HideLoading();
-                    }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
-                }
-                else
-                {
-                    DependencyService.Get<IToast>().Show("Please check internet connection");
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
-            }
-        }
-
-        #endregion LoadPlayerList
-
         #region CheckBox Selected Command Functionality
 
         public List<int> TeamPlayersIds = new List<int>();
@@ -690,9 +639,9 @@ namespace Golf.ViewModel
 
         async void CheckboxChangedEvent(object parameter)
         {
-            var item = parameter as user;
+            var item = parameter as TeamPlayerDetails;
             var userId = item.userId;
-            if (App.User.ScoreKeeperId != userId)
+            if (ScoreKeeperId != userId)
             {
                 if (TeamPlayersIds.Count > 0)
                 {
@@ -737,19 +686,24 @@ namespace Golf.ViewModel
         {
             try
             {
-                var Item = parameter as user;
-
-                bool UserIdAleradyExists = TeamPlayersIds.Contains(Item.userId);
-                if (UserIdAleradyExists)
+                var Item = parameter as TeamPlayerDetails;
+                if (DefaultScoreKeeperId == 0)
                 {
-                    UserDialogs.Instance.Alert("Player can't be added as a score keeper.", "Alert", "Ok");
-
+                    bool UserIdAleradyExists = TeamPlayersIds.Contains(Item.userId);
+                    if (UserIdAleradyExists)
+                    {
+                        UserDialogs.Instance.Alert("Player can't be added as a score keeper.", "Alert", "Ok");
+                    }
+                    else
+                    {
+                        PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
+                        PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
+                        ScoreKeeperId = Item.userId;
+                    }
                 }
                 else
                 {
-                    PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
-                    PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
-                    ScoreKeeperId = Item.userId;
+                    UserDialogs.Instance.Alert("This Team Already have a ScoreKeeper !", "Alert", "Ok");
                 }
             }
             catch (Exception ex)
@@ -770,47 +724,51 @@ namespace Golf.ViewModel
                 var PlayerId = string.Join(",", TeamPlayersIds);
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
-                    Uri requestUri = new Uri(RestURL);
-
-                    var data = new TeamPlayer
+                    if (DefaultScoreKeeperId == 0 && ScoreKeeperId == 0)
                     {
-                        teamId = App.User.CreateTeamId,
-                        scoreKeeperID = ScoreKeeperId,
-                        playerId = PlayerId,
-                        roundId = App.User.CreateRoundId
-                    };
-
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
-                        UserDialogs.Instance.HideLoading();
-                        App.User.TeamPreviewList.Clear();
-                        App.User.TeamPreviewScoreKeeperName = string.Empty;
-                        App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
-                        var view = new RoundDetailsPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
+                        UserDialogs.Instance.Alert("Please Select ScoreKeeperID", "Alert", "Ok");
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    else {
+                        UserDialogs.Instance.ShowLoading();
+                        string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
+                        Uri requestUri = new Uri(RestURL);
+
+                        var data = new TeamPlayer
+                        {
+                            teamId = App.User.CreateTeamId,
+                            scoreKeeperID = ScoreKeeperId != 0 ? ScoreKeeperId : DefaultScoreKeeperId,
+                            playerId = PlayerId,
+                            roundId = App.User.CreateRoundId
+                        };
+
+                        string json = JsonConvert.SerializeObject(data);
+                        var httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
+                            UserDialogs.Instance.HideLoading();
+                            var view = new RoundDetailsPage();
+                            var navigationPage = ((NavigationPage)App.Current.MainPage);
+                            await navigationPage.PushAsync(view);
+                        }
+                        else
+                        {
+                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                            UserDialogs.Instance.HideLoading();
+                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        }
                     }
                 }
                 else
                 {
-                    UserDialogs.Instance.HideLoading();
-                    DependencyService.Get<IToast>().Show("Please check internet connection");
-                }
+                        UserDialogs.Instance.HideLoading();
+                        DependencyService.Get<IToast>().Show("Please check internet connection");
+                    }
+             
             }
             catch (Exception ex)
             {
@@ -831,33 +789,43 @@ namespace Golf.ViewModel
 
         #region RemoveParticipant Command
      
-       public ICommand RemoveParticipantCommand => new Command<int>(RemoveParticipant);
+       public ICommand RemoveParticipantCommand => new Command<TeamPlayerDetails>(RemoveParticipant);
 
-        public async void RemoveParticipant(int id)
+        public async void RemoveParticipant(TeamPlayerDetails item)
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Team/deleteTeamPlayers?teamPlayerListId=" + id;
-                    Uri requestUri = new Uri(RestURL);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.DeleteAsync(requestUri);
-                    string responJsonText = await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode)
+                    if (item.RoleType != "Score Keeper")
                     {
-                        TeamPlayersList = JsonConvert.DeserializeObject<List<TeamPlayerDetails>>(responJsonText);               
-                        UserDialogs.Instance.Alert("Participant Successfully Removed", "Success", "Ok");
-                        UserDialogs.Instance.HideLoading();
+                        string RestURL = App.User.BaseUrl + "Team/deleteTeamPlayers?teamPlayerListId=" + item.teamPlayerListId;
+                        Uri requestUri = new Uri(RestURL);
+                        var httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        var response = await httpClient.DeleteAsync(requestUri);
+                        string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            LoadTeamDetails();
+                            UserDialogs.Instance.Alert("Participant Successfully Removed", "Success", "Ok");
+                            UserDialogs.Instance.HideLoading();
+                        }
+                        else
+                        {
+                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                            UserDialogs.Instance.HideLoading();
+                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        }
                     }
                     else
                     {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        UserDialogs.Instance.Alert("ScoreKeeper Successfully Removed", "Success", "Ok");
+                        PlayersList.Where(x => x.userId == item.userId).ToList().ForEach(s => s.isChecked = false);
+                        DefaultScoreKeeperId = 0;
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else

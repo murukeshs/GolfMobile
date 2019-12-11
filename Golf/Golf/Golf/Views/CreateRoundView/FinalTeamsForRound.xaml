@@ -115,7 +115,7 @@
                                                                 <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource LightGreenColor}"
-                                               Text="{Binding firstName}"
+                                               Text="{Binding playerName}"
                                                />
                                                                 <Grid HorizontalOptions="FillAndExpand">
                                                                     <Grid.RowDefinitions>

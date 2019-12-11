@@ -63,7 +63,7 @@ namespace Golf.ViewModel
             IsValid = Validate();
             if (IsValid)
             {
-               await LoginAuthentication();
+                await LoginAuthentication();
             }
         }
 

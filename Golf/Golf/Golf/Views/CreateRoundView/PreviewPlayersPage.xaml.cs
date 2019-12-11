@@ -48,9 +48,7 @@ namespace Golf.Views.PoppupView
 
                 var userId = item.UserId;
 
-                var itemToRemove = App.User.PlayersPreviewList.Single(r => r.UserId == userId);
-
-                App.User.PlayersPreviewList.Remove(itemToRemove);
+                App.User.PlayersPreviewList.Remove(item);
 
                 ListView.ItemsSource = App.User.PlayersPreviewList;
 
