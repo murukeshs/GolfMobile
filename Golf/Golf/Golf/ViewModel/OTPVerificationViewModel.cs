@@ -18,7 +18,8 @@ namespace Golf.ViewModel
     {
         public OTPVerificationViewModel()
         {
-            Email = App.User.OtpEmail;
+              Email = App.User.OtpEmail;
+            //Email = "swathit@apptomate.co";
             GenerateOTP();
         }
         public string OTP
@@ -133,6 +134,16 @@ namespace Golf.ViewModel
             }
         }
         private string _Email = string.Empty;
+
+        #region Resend OTP Command Functionality
+        public ICommand ResendOTPCommand => new AsyncCommand(ResendOTP);
+
+        async Task ResendOTP()
+        {
+            GenerateOTP();
+        }
+
+        #endregion
 
         #region generateOTP
         public async void GenerateOTP()

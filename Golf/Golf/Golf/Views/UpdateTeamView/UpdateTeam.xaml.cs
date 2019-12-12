@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Golf.Views.UpdateTeamView
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    //[XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UpdateTeam : ContentPage
     {
         public UpdateTeam()

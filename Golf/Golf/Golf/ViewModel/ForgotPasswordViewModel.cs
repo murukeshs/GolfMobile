@@ -162,6 +162,12 @@ namespace Golf.ViewModel
         }
         #endregion
 
+        #region Resend OTP Command Functionalit
+
+        public ICommand ResendOTPCommand => new Command(ContinueAsync);
+
+        #endregion
+
         #region Continue Clicked Command
         public ICommand ContinueClickedCommand => new Command(ContinueAsync);
 

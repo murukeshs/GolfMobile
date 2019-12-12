@@ -35,6 +35,13 @@ namespace Golf.Controls
             set { SetValue(NullableDateProperty, value); UpdateDate(); }
         }
 
+        private static void OnPropertyChanged(BindableObject bindable, object oldVal, object newVal)
+        {
+            var bar = bindable as NullableDatePicker;
+            bar?.OnBindingContextChanged();
+            //bar?.SetValue();
+        }
+
         public static readonly new BindableProperty TextColorProperty =
          BindableProperty.Create("TextColor", typeof(Color), typeof(CustomRadioButton), Color.Default);
         public new Color TextColor

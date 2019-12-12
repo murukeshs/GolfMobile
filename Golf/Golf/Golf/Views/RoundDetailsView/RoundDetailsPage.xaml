@@ -254,7 +254,7 @@
                                     Margin="0,5,0,0"
                                     VerticalOptions="Center"
                                     ItemDisplayBinding="{Binding competitionName}" 
-                                    SelectedIndex="{Binding CompetitionTypeID, Mode=TwoWay}" 
+                                    SelectedIndex="{Binding CompetitionTypeIndex}" 
                                     SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
                                     FontSize="{StaticResource FontSize18}"
                                     BorderColor="{StaticResource TextGrayColor}"

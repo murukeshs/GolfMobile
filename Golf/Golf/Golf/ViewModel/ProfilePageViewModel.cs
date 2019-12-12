@@ -138,7 +138,7 @@ namespace Golf.ViewModel
         }
         private string _NickName = string.Empty;
 
-        public DateTime? Dob
+        public string Dob
         {
             get { return _Dob; }
             set
@@ -147,9 +147,9 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(Dob));
             }
         }
-        private DateTime? _Dob = null;
+        private string _Dob = null;
 
-        public DateTime? NullableDob
+        public string NullableDob
         {
             get { return _NullableDob; }
             set
@@ -158,7 +158,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(NullableDob));
             }
         }
-        private DateTime? _NullableDob = null;
+        private string _NullableDob = null;
 
         public string Gender
         {
@@ -246,7 +246,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(stateID));
             }
         }
-        private int? _stateID;
+        private int? _stateID = -1;
 
         public int CountryID
         {
@@ -324,8 +324,6 @@ namespace Golf.ViewModel
             }
         }
         private List<State> _StateList = null;
-
-        private bool FromLoadProfileData = false;
 
         #region TakePicture Command Functionality
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
@@ -525,8 +523,8 @@ namespace Golf.ViewModel
                         Email = User.email;
                         FirstName = User.firstName;
                         LastName = User.lastName;
-                        Dob = Convert.ToDateTime(User.dob);
-                        NullableDob = Convert.ToDateTime(User.dob);
+                        Dob =User.dob;
+                        NullableDob = User.dob;
                         Gender = User.gender;
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
@@ -540,7 +538,6 @@ namespace Golf.ViewModel
                         IsPublicProfile = User.isPublicProfile;
                         NickName = User.nickName;
                         StateID = User.stateId;
-                        FromLoadProfileData = true;
                         CountryOnChange(CountryID);
                         UserDialogs.Instance.HideLoading();
                     }
@@ -574,9 +571,17 @@ namespace Golf.ViewModel
             else
             {
                 GenderId = 1;
-                //GenderList.Where(w => w.gender == "Female").ToList().ForEach(s => s.genderId = 2);
             }
         }
+
+        #region Date Changed Event Command
+        public ICommand DateChangedEventCommand => new Command(DateChanged);
+        void DateChanged(object parameter)
+        {
+            var item = parameter as string;
+            Dob = item;
+        }
+        #endregion
 
 
         #region Round Picker Selected Command Functionality
@@ -670,17 +675,9 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         StateList = JsonConvert.DeserializeObject<List<State>>(content);
-                        if (FromLoadProfileData == false)
-                        {
-                            StateID = 0;
-                            UserDialogs.Instance.HideLoading();
-                        }
-                        else {
-                            FromLoadProfileData = false;
-                            int index = StateList.FindIndex(a => a.stateId == StateID);
-                            stateID = index;
-                            UserDialogs.Instance.HideLoading();
-                        }
+                        int index = StateList.FindIndex(a => a.stateId == StateID);
+                        stateID = index;
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
@@ -736,7 +733,7 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.AlertAsync("Country cannot be empty.", "Alert", "Ok");
                 return false;
             }
-            else if (StateID == 0)
+            else if (StateID == 0 || stateID == -1)
             {
                 //State Is Empty
                 UserDialogs.Instance.AlertAsync("State cannot be empty.", "Alert", "Ok");
@@ -900,7 +897,7 @@ namespace Golf.ViewModel
                         email = EmailName,
                         profileImage = ProfileImage,
                         gender = Gender,
-                        dob = Dob.ToString(),
+                        dob = Dob,
                         phoneNumber = PhoneNumber,
                     };
 

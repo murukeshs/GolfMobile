@@ -79,6 +79,20 @@ namespace Golf.ViewModel.Round
         }
         private int _CompetitionTypeId = 0;
 
+        public int CompetitionTypeIndex
+        {
+            get
+            {
+                return _CompetitionTypeIndex;
+            }
+            set
+            {
+                _CompetitionTypeIndex = value;
+                OnPropertyChanged(nameof(CompetitionTypeIndex));
+            }
+        }
+        private int _CompetitionTypeIndex = -1;
+
         public string RoundName
         {
             get { return _RoundName; }
@@ -703,6 +717,7 @@ namespace Golf.ViewModel.Round
                         RoundLocation = RoundDetails.roundLocation;
                         CompetitionTypeID = RoundDetails.competitionTypeId;
                         await LoadRulesType(RoundDetails.roundRuleId);
+                        await LoadCompetitionType(RoundDetails.competitionTypeId);
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -732,6 +747,12 @@ namespace Golf.ViewModel.Round
             {
                 RulesItems.Where(w => w.roundRuleId == item).ToList().ForEach(s => s.Checked = true);
             }
+        }
+
+        public async Task LoadCompetitionType(int id)
+        {
+            int index = CompetitionTypeItems.FindIndex(c => c.competitionTypeId == id);
+            CompetitionTypeIndex = index;
         }
 
         #region GetRoundRulesList Command Functionality
@@ -903,7 +924,29 @@ namespace Golf.ViewModel.Round
 
         #region remove participant command
 
-        public ICommand RemoveParticipantCommand => new Command<AllParticipantsResponse>(RemoveParticipant);
+        public ICommand RemoveParticipantCommand => new Command<AllParticipantsResponse>(RemoveParticipantAsync);
+
+        public async void RemoveParticipantAsync(AllParticipantsResponse item)
+        {
+
+            var confirmdialog = new ConfirmConfig()
+            {
+                CancelText = "No",
+                OkText = "Yes",
+                Message = "Are sure you want to Delete?."
+            };
+
+            var result = await UserDialogs.Instance.ConfirmAsync(confirmdialog);
+
+            if (result)
+            {
+                RemoveParticipant(item);
+            }
+            else
+            {
+                return;
+            }
+        }
 
         public async void RemoveParticipant(AllParticipantsResponse item)
         {

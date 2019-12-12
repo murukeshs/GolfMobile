@@ -7,7 +7,9 @@ namespace Golf.Models
     public class roundJoinlist
     {
         public int userId { get; set; }
+
         public string ParticipantName { get; set; }
+
         public int ParticipantId { get; set; }
 
         public string roundName { get; set; }
@@ -23,5 +25,7 @@ namespace Golf.Models
         public string competitionTypeId { get; set; }
 
         public bool isAllowRound { get; set; }
+
+        public string teamName { get; set; }
     }
 }

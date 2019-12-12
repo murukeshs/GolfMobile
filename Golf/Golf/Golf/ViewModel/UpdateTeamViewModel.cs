@@ -24,9 +24,12 @@ namespace Golf.ViewModel
     public class UpdateTeamViewModel : BaseViewModel
     {
         public int ScoreKeeperId = 0;
+
         public int DefaultScoreKeeperId = 0;
+
         public UpdateTeamViewModel()
         {
+            SetTeamDetails();
             StartingHoleList = new List<int>
             {
                 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
@@ -34,27 +37,38 @@ namespace Golf.ViewModel
             TeamName = App.User.TeamName;
             LoadTeamDetails();        
         }
+
+        bool isVisibleTeamDetails;
+
+        bool isVisibleParticipantsDetails;
+
         public bool IsVisibleTeamDetails
         {
-            get { return _IsVisibleTeamDetails; }
-            set
-            {
-                _IsVisibleTeamDetails = value;
-                OnPropertyChanged(nameof(IsVisibleTeamDetails));
-            }
+            get => isVisibleTeamDetails;
+            set => SetProperty(ref isVisibleTeamDetails, value);
         }
-        private bool _IsVisibleTeamDetails = true;
 
         public bool IsVisibleParticipantsDetails
         {
-            get { return _IsVisibleParticipantsDetails; }
-            set
-            {
-                _IsVisibleParticipantsDetails = value;
-                OnPropertyChanged(nameof(IsVisibleParticipantsDetails));
-            }
+            get => isVisibleParticipantsDetails;
+            set => SetProperty(ref isVisibleParticipantsDetails, value);
         }
-        private bool _IsVisibleParticipantsDetails = false;
+
+        public ICommand TeamDetailsCommand => new Command(SetTeamDetails);
+
+        public ICommand ParticipantListCommand => new Command(SetParticipantList);
+
+        void SetTeamDetails()
+        {
+            IsVisibleTeamDetails = true;
+            IsVisibleParticipantsDetails = false;
+        }
+
+        void SetParticipantList()
+        {
+            IsVisibleTeamDetails = false;
+            IsVisibleParticipantsDetails = true;
+        }
 
         public Color TeamDetailsBackground
         {
@@ -469,37 +483,7 @@ namespace Golf.ViewModel
 
         #endregion
 
-        #region Team Details Button Command Functionality
-        public ICommand TeamDetailsCommand => new AsyncCommand(TeamDetailsAsync);
-
-        async Task TeamDetailsAsync()
-        {
-            IsVisibleTeamDetails = true;
-            IsVisibleParticipantsDetails = false;
-            TeamDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
-            ParticipantListBorder = (Color)App.Current.Resources["LightGreenColor"];
-            TeamDetailsBorder = Color.White;
-            ParticipantListBackground = Color.White;
-        }
-        #endregion Team Details Button Command Functionality
-
         #region Participant Button Command Functionality
-
-        public ICommand ParticipantListCommand => new AsyncCommand(ParticipantListAsync);
-
-        async Task ParticipantListAsync()
-        {
-            UserDialogs.Instance.ShowLoading();
-            IsVisibleTeamDetails = false;
-            IsVisibleParticipantsDetails = true;
-
-            ParticipantListBackground = (Color)App.Current.Resources["LightGreenColor"];
-            ParticipantListBorder = Color.White;
-            TeamDetailsBackground = Color.White;
-            TeamDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
-
-            UserDialogs.Instance.HideLoading();
-        }
 
         public List<RoundDetailsListTeamList> roundTeamsItemsList = new List<RoundDetailsListTeamList>();
 
@@ -789,7 +773,29 @@ namespace Golf.ViewModel
 
         #region RemoveParticipant Command
      
-       public ICommand RemoveParticipantCommand => new Command<TeamPlayerDetails>(RemoveParticipant);
+       public ICommand RemoveParticipantCommand => new Command<TeamPlayerDetails>(RemoveParticipantAsync);
+
+        public async void RemoveParticipantAsync(TeamPlayerDetails item)
+        {
+
+            var confirmdialog = new ConfirmConfig()
+            {
+                CancelText = "No",
+                OkText = "Yes",
+                Message = "Are sure you want to Delete?."
+            };
+
+            var result = await UserDialogs.Instance.ConfirmAsync(confirmdialog);
+
+            if (result)
+            {
+                RemoveParticipant(item);
+            }
+            else
+            {
+                return;
+            }
+        }
 
         public async void RemoveParticipant(TeamPlayerDetails item)
         {

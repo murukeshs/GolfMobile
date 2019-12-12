@@ -71,7 +71,11 @@
                 <Controls:UnderlineLabel Margin="5,0"
                                          VerticalOptions="Center"
                                          Text="RESEND OTP"
-                                         TextColor="{StaticResource LightGreenColor}"/>
+                                         TextColor="{StaticResource LightGreenColor}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ResendOTPCommand}" />
+                    </Label.GestureRecognizers>
+                </Controls:UnderlineLabel>
             </StackLayout>
 
             <Controls:RoundedButton Text="Verify"

@@ -34,7 +34,8 @@
                                       HorizontalTextAlignment="Center"
                                       FontSize="{StaticResource FontSize20}"
                                       FontAttributes="Italic" 
-                                      BackgroundColor="{StaticResource WhiteColor}"/>
+                                      BackgroundColor="{StaticResource WhiteColor}"
+                                      TextChanged="SearchBar_TextChanged"/>
             </plugins:PancakeView>
 
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
@@ -54,7 +55,7 @@
             </plugins:PancakeView>
 
             <ListView Margin="20,0,20,5"
-                      x:Name="ListView"
+                      x:Name="ParticipantListView"
                       ItemsSource="{Binding ParticipantItems}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"

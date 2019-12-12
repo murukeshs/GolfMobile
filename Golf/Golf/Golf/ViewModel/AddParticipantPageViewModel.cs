@@ -33,7 +33,7 @@ namespace Golf.ViewModel
             TeamName = App.User.TeamName;
             //For Clear the team preview list
             App.User.TeamPreviewList.Clear();
-
+            App.User.ScoreKeeperId = 0;
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);

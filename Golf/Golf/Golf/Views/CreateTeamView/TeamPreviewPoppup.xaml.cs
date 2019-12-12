@@ -80,19 +80,28 @@ namespace Golf.Views.PoppupView
             ListView.ItemsSource = App.User.TeamPreviewList;
         }
 
-        private void ImageButton_Clicked(object sender, System.EventArgs e)
+        private async void ImageButton_Clicked(object sender, System.EventArgs e)
         {
             try
             {
-                var item = (sender as ImageButton).BindingContext as AddPlayersList;
+                var result = await DisplayAlert("", "Are sure you want to Remove?.", "Yes", "No");
 
-                var userId = item.UserId;
+                if (!result)
+                {
+                    return;
+                }
+                else
+                {
+                    var item = (sender as ImageButton).BindingContext as AddPlayersList;
 
-                App.User.TeamPreviewList.Remove(item);
+                    var userId = item.UserId;
 
-                ListView.ItemsSource = App.User.TeamPreviewList;
+                    App.User.TeamPreviewList.Remove(item);
 
-                MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPARTICIPANTLISTREFRESH, userId.ToString());
+                    ListView.ItemsSource = App.User.TeamPreviewList;
+
+                    MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPARTICIPANTLISTREFRESH, userId.ToString());
+                }
             }
             catch(Exception ex)
             {
@@ -121,12 +130,5 @@ namespace Golf.Views.PoppupView
             await PopupNavigation.Instance.PopAsync();
         }
 
-        //private void ImageButton_Clicked_1(object sender, EventArgs e)
-        //{
-        //    ScoreKeeperCard.IsVisible = false;
-        //    NoScoreKeeperCard.IsVisible = true;
-        //    App.User.TeamPreviewScoreKeeperName = string.Empty;
-        //    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
-        //}
     }
 }

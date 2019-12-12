@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
+using Golf.ViewModel;
 using Golf.Views.ParticipantsView;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -61,6 +62,11 @@ namespace Golf.Views
         {
             var view = new InviteParticipantPage();
             await PopupNavigation.Instance.PushAsync(view);
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+                ((ViewAllParticipantsViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);
         }
     }
 }
