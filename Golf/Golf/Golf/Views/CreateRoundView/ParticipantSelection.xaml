@@ -37,6 +37,7 @@
                                       FontSize="{StaticResource FontSize20}"
                                       FontAttributes="Italic" 
                                       BackgroundColor="{StaticResource WhiteColor}"
+                                      TextChanged="SearchBar_TextChanged"
                                      />
             </plugins:PancakeView>
 

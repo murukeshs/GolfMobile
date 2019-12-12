@@ -23,6 +23,20 @@ namespace Golf.ViewModel.Round
         {
             GetRoundsDetailsById();
         }
+
+        public List<RoundDetailsListTeamList> roundTeamsItemsList = new List<RoundDetailsListTeamList>();
+
+        public ObservableCollection<RoundDetailsListTeamList> RoundTeamsItemsList
+        {
+            get { return _RoundTeamsItemsList; }
+            set
+            {
+                _RoundTeamsItemsList = value;
+                OnPropertyChanged(nameof(RoundTeamsItemsList));
+            }
+        }
+        private ObservableCollection<RoundDetailsListTeamList> _RoundTeamsItemsList = null;
+
         #region CreateAnotherTeam Command
         public ICommand CreateAnotherTeamCommand => new Command(CreateAnotherTeam);
         public async void CreateAnotherTeam()
@@ -79,23 +93,22 @@ namespace Golf.ViewModel.Round
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
 
-        public List<RoundDetailsListTeamList> roundTeamsItemsList = new List<RoundDetailsListTeamList>();
-
-        public ObservableCollection<RoundDetailsListTeamList> RoundTeamsItemsList
-        {
-            get { return _RoundTeamsItemsList; }
-            set
-            {
-                _RoundTeamsItemsList = value;
-                OnPropertyChanged(nameof(RoundTeamsItemsList));
-            }
-        }
-        private ObservableCollection<RoundDetailsListTeamList> _RoundTeamsItemsList = null;
+        #region GetRoundDetails
 
         async void GetRoundsDetailsById()
         {
@@ -151,6 +164,9 @@ namespace Golf.ViewModel.Round
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+
+        #endregion
+
         #region Team Item Tabbed Command Functionality
 
         //To Hide and UnHide Players details Page

@@ -65,20 +65,6 @@ namespace Golf.ViewModel.Round
         }
         private bool _IsVisibleTeamsDetails = false;
 
-        public int CompetitionTypeId
-        {
-            get
-            {
-                return _CompetitionTypeId;
-            }
-            set
-            {
-                _CompetitionTypeId = value;
-                OnPropertyChanged(nameof(CompetitionTypeId));
-            }
-        }
-        private int _CompetitionTypeId = 0;
-
         public int CompetitionTypeIndex
         {
             get
@@ -360,7 +346,7 @@ namespace Golf.ViewModel.Round
         void CompetitionTypeChangedEvent(object parameter)
         {
             var item = parameter as CompetitionType;
-            CompetitionTypeId = item.competitionTypeId;
+            CompetitionTypeID = item.competitionTypeId;
         }
         #endregion CompetitionType SelectedIndex Changes Command Functionality
 

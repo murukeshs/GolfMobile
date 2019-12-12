@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Golf.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,11 @@ namespace Golf.Views.Rules
         protected override void OnAppearing()
         {
             base.OnAppearing();
+        }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((ListofRulesPageViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);
         }
     }
 }

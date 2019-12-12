@@ -43,5 +43,10 @@ namespace Golf.Views.RoundDetailsView
             }
         }
         #endregion
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((RoundListPageViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);
+        }
     }
 }

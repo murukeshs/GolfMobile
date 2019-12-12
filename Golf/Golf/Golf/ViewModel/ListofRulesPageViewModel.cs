@@ -9,6 +9,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -44,6 +45,10 @@ namespace Golf.ViewModel
         }
         private ObservableCollection<RoundRules> _RulesItems = null;
 
+        private ObservableCollection<RoundRules> OriginalRulesList = new ObservableCollection<RoundRules>();
+
+        #region LoadRulesCommand
+
         public async void getRoundRulesList()
         {
             try
@@ -56,9 +61,18 @@ namespace Golf.ViewModel
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
-                    RulesItems = Items;
-                    UserDialogs.Instance.HideLoading();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
+                        OriginalRulesList = RulesItems;
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
                 }
                 else
                 {
@@ -73,7 +87,12 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
+
+        #region AddRule Command
+
         public ICommand AddRuleCommand => new AsyncCommand(AddRuleCommandAsync);
+
         async Task AddRuleCommandAsync()
         {
             try
@@ -89,21 +108,47 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.HideLoading();
             }
         }
+        #endregion
 
-        //public ICommand AddRuleCancelCommand => new AsyncCommand(AddRuleCancelCommandAsync);
-        //async Task AddRuleCancelCommandAsync()
-        //{
-        //    try
-        //    {
-        //        UserDialogs.Instance.ShowLoading();
-        //        await PopupNavigation.Instance.PopAsync(true);
-        //        UserDialogs.Instance.HideLoading();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var a = ex.Message;
-        //        UserDialogs.Instance.HideLoading();
-        //    }
-        //}
+        #region Serach Command
+
+        private ObservableCollection<RoundRules> RulesListItems = new ObservableCollection<RoundRules>();
+
+        public ICommand SearchCommand => new Command<string>(Search);
+
+        public void Search(string keyword)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    RulesItems = new ObservableCollection<RoundRules>();
+
+                    RulesListItems = new ObservableCollection<RoundRules>();
+
+                    var query = OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()));
+
+                    foreach (var item in query)
+                    {
+                        var value = new RoundRules() { roundRuleId = item.roundRuleId, ruleName = item.ruleName, Checked = item.Checked };
+
+                        RulesListItems.Add(value);
+                    }
+
+                    RulesItems = RulesListItems;
+                }
+                else
+                {
+                    RulesItems = OriginalRulesList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+
+        #endregion
     }
 }

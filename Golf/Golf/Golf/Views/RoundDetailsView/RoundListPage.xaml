@@ -28,7 +28,8 @@
                                   HorizontalTextAlignment="Center"
                                   FontSize="{StaticResource FontSize20}"
                                   FontAttributes="Italic"
-                                  BackgroundColor="{StaticResource WhiteColor}"/>
+                                  BackgroundColor="{StaticResource WhiteColor}"
+                                  TextChanged="SearchBar_TextChanged"/>
           </plugins:PancakeView>
 
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"

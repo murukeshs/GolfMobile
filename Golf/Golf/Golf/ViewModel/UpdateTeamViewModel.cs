@@ -578,7 +578,8 @@ namespace Golf.ViewModel
                         var Item = JsonConvert.DeserializeObject<TeamDetails>(responJsonText);
                         App.User.CreateTeamId = Item.teamId;
                         TeamNameText = Item.teamName;
-                        DefaultStartingHole = Item.startingHole;
+                        StartingHole = Item.startingHole;
+                        await LoadStartingHole(Item.startingHole);
                         TeamProfilePicture = Item.teamIcon;
                         UserNameText = Item.createdByName;
                         PlayersList = Item.TeamPlayerDetails;
@@ -612,6 +613,12 @@ namespace Golf.ViewModel
                     DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
                 }
             }
+        }
+
+        public async Task LoadStartingHole(int id)
+        {
+            int index = StartingHoleList.FindIndex(c => c == id);
+            DefaultStartingHole = index;
         }
         #endregion
 

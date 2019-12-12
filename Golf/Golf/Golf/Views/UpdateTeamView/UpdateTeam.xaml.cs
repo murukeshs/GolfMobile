@@ -17,7 +17,7 @@ namespace Golf.Views.UpdateTeamView
         private void CustomPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;
-            var item = (int)picker.SelectedIndex;
+            var item = (int)picker.SelectedItem;
             ((UpdateTeamViewModel)BindingContext).PickerSelectedCommand.Execute(item);
         }
 

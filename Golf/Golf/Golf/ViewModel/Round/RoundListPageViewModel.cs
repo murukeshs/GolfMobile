@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Input;
@@ -25,6 +26,8 @@ namespace Golf.ViewModel.Round
             }
         }
         private ObservableCollection<RoundList> _RoundListItems = null;
+
+        private ObservableCollection<RoundList> OriginalRoundsList = new ObservableCollection<RoundList>();
 
         public bool NoRecordsFoundLabel
         {
@@ -69,6 +72,7 @@ namespace Golf.ViewModel.Round
                     if (response.IsSuccessStatusCode)
                     {
                         RoundListItems = JsonConvert.DeserializeObject<ObservableCollection<RoundList>>(content);
+                        OriginalRoundsList = RoundListItems;
                         if (RoundListItems.Count > 0)
                         {
                             ListViewIsVisible = true;
@@ -117,5 +121,46 @@ namespace Golf.ViewModel.Round
             UserDialogs.Instance.HideLoading();
         }
         #endregion List ItemTabbed Command Functionality
+
+        #region Serach Command
+
+        private ObservableCollection<RoundList> RoundsList = new ObservableCollection<RoundList>();
+
+        public ICommand SearchCommand => new Command<string>(Search);
+
+        public void Search(string keyword)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    RoundListItems = new ObservableCollection<RoundList>();
+
+                    RoundsList = new ObservableCollection<RoundList>();
+
+                    var query = OriginalRoundsList.Where(x => x.roundName.StartsWith(keyword));
+
+                    foreach (var item in query)
+                    {
+                        var value = new RoundList() { roundCode = item.roundCode, roundName = item.roundName, roundStartDate = item.roundStartDate, StartDate = item.StartDate, StartTime = item.StartTime, roundFee = item.roundFee, roundId = item.roundId };
+
+                        RoundsList.Add(value);
+                    }
+
+                    RoundListItems = RoundsList;
+                }
+                else
+                {
+                    RoundListItems = OriginalRoundsList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+
+        #endregion
     }
 }
