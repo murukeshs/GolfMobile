@@ -129,8 +129,8 @@
                                                 FontAttributes="Bold"
                                                 HorizontalOptions="FillAndExpand"/>
                                             <Image  
-                                            HeightRequest="25"
-                                            WidthRequest="25"
+                                            HeightRequest="40"
+                                            WidthRequest="40"
                                             Aspect="AspectFit"
                                                
                                                 Margin="5,0,0,0"

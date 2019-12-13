@@ -8,6 +8,7 @@ namespace Golf.Models
     public class GenderType : BaseViewModel
     {
         public int genderId { get; set; }
+
         public string gender { get; set; }
     }
 }

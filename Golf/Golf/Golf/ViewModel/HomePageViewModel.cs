@@ -12,6 +12,13 @@ namespace Golf.ViewModel
 {
     public class HomePageViewModel : BaseViewModel
     {
+        public HomePageViewModel()
+        {
+            IsModerator = App.User.IsModerator;
+        }
+
+        #region Property Declaration
+
         public bool IsModerator
         {
             get
@@ -25,10 +32,8 @@ namespace Golf.ViewModel
             }
         }
         public bool _IsModerator;
-        public HomePageViewModel()
-        {
-            IsModerator = App.User.IsModerator;
-        }
+
+        #endregion      
 
         #region Join Round Command Functionality
         //Join Round Command
@@ -49,7 +54,6 @@ namespace Golf.ViewModel
             }
         }
         #endregion Join Round Command Functionality
-
 
         #region New Round Command Functionality
         public ICommand NewRoundCommand => new AsyncCommand(NewRoundAsync);

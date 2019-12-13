@@ -18,13 +18,11 @@ namespace Golf.ViewModel
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        //readonly IAuthenticationServices _authenticationServices;
-        public Page page;
-        public LoginPageViewModel()
-        {
-            
-        }
+
+        #region Property Declaration
+
         public bool IsValid { get; set; }
+
         public string UserNameText
         {
             get
@@ -53,9 +51,10 @@ namespace Golf.ViewModel
         }
         private string _PasswordText = "123";
 
-       
+        #endregion
 
         #region LogIn Command Functionality
+
         public ICommand LoginInCommand => new AsyncCommand(SignInAsync);
 
         async Task SignInAsync()
@@ -93,12 +92,7 @@ namespace Golf.ViewModel
             }
         }
 
-
-        /// <summary>
         /// Login Authentication Api Functionality
-        /// Login URL - 
-        /// </summary>
-        /// <returns></returns>
         async Task LoginAuthentication()
         {
             try
@@ -186,10 +180,10 @@ namespace Golf.ViewModel
 
         #endregion LogIn Command Functionality
 
-
-
         #region Register Command Functionality
+
         public ICommand RegisterCommand => new AsyncCommand(RegisterAsync);
+
         async Task RegisterAsync()
         {
             try
@@ -205,6 +199,8 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
+
         #endregion Register Command Functionality
+
     }
 }

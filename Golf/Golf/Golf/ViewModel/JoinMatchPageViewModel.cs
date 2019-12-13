@@ -23,6 +23,8 @@ namespace Golf.ViewModel
             JoinRoundListAPI();
         }
 
+        #region Property Declaration
+
         public string RoundID
         {
             get { return _RoundID; }
@@ -67,8 +69,6 @@ namespace Golf.ViewModel
         }
         private string _ParticipantID = App.User.UserId.ToString();
 
-
-
         public string RoundFee
         {
             get { return _RoundFee; }
@@ -102,9 +102,12 @@ namespace Golf.ViewModel
         }
         private string _TeamName = string.Empty;
 
+        #endregion
 
         #region GetJoinRoundList Command Functionality
+
         public ICommand JoinRoundButtonCommand => new AsyncCommand(JoinRoundAsync);
+
         async Task JoinRoundAsync()
         {
             try
@@ -171,6 +174,7 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+
         #endregion JoinRound Button Command Functionality
 
         #region Round Picker Selected Command Functionality
@@ -187,6 +191,7 @@ namespace Golf.ViewModel
             TeamName = Item.teamName;
             RoundFee = Item.roundFee;
         }
+
         #endregion Round Picker Selected Command Functionality
 
         #region JoinRound Button Command Functionality

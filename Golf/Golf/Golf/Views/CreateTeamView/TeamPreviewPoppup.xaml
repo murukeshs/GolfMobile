@@ -109,6 +109,22 @@
                        Margin="20,10,20,0"
                        TextColor="{StaticResource TextGrayColor}"
                        FontSize="{StaticResource FontSize20}"/>
+
+                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                     CornerRadius="10"
+                                     Padding="10"
+                                     Margin="20,10,20,20"
+                                     HasShadow="True"
+                                     IsVisible="False"
+                                     x:Name="NoPlayerCard">
+                    <Label Text="No Player Selected."
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource LightGreenColor}"
+                           HorizontalOptions="FillAndExpand"
+                           Margin="10"
+                           FontAttributes="Bold"/>
+                </plugins:PancakeView>
+                
                 <ListView Margin="20,10,20,20"
                           x:Name="ListView"
                           SeparatorVisibility="None"

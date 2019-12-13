@@ -17,7 +17,14 @@ namespace Golf.ViewModel
 {
     public class RegistrationPageAdminViewModel : BaseViewModel
     {
-        public bool IsValid { get; set; }
+
+        public RegistrationPageAdminViewModel()
+        {
+            loadCountry();
+        }
+
+        #region Property Declaration
+
         public string Address
         {
             get
@@ -122,10 +129,7 @@ namespace Golf.ViewModel
         }
         private bool _IsPublicProfile = true;
 
-        public RegistrationPageAdminViewModel()
-        {
-            loadCountry();
-        }
+        #endregion
 
         #region loadcountry
         public async void loadCountry()
@@ -211,7 +215,10 @@ namespace Golf.ViewModel
 
         #region RegisterCommunicationInfo
 
+        public bool IsValid { get; set; }
+
         public ICommand RegisterCommunicationInfoCommand => new AsyncCommand(RegisterCommunicationInfoCommandAsync);
+
         async Task RegisterCommunicationInfoCommandAsync()
         {
             IsValid = Validate();

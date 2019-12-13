@@ -57,6 +57,7 @@ namespace Golf.Controls
                 if (_originalFormat != null)
                 {
                     Format = _originalFormat;
+                    Date = NullableDate.Value;
                 }
             }
             else

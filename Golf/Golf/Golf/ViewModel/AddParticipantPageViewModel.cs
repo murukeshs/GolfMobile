@@ -4,7 +4,6 @@ using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
 using Golf.Views.CreateRoundView;
-using Golf.Views.MenuView;
 using Golf.Views.PoppupView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -24,6 +23,25 @@ namespace Golf.ViewModel
     public class AddParticipantPageViewModel : BaseViewModel
     {
 
+        public AddParticipantPageViewModel()
+        {
+            LoadPlayerListAsync();
+
+            TeamName = App.User.TeamName;
+            //For Clear the team preview list
+            App.User.TeamPreviewList.Clear();
+            App.User.ScoreKeeperId = 0;
+
+            MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
+                int userId = Int32.Parse(arg);
+                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                TeamPlayersIds.Remove(userId);
+            });
+
+        }
+
+        #region Property Declaration
+
         public ObservableCollection<AllParticipantsResponse> PlayersListItems
         {
             get { return _PlayersListItems; }
@@ -37,22 +55,7 @@ namespace Golf.ViewModel
 
         private ObservableCollection<AllParticipantsResponse> OriginalPlayersList = new ObservableCollection<AllParticipantsResponse>();
 
-        public int ScoreKeeperId = 0;
-
-        public AddParticipantPageViewModel()
-        {
-            LoadPlayerListAsync();
-
-            TeamName = App.User.TeamName;
-            //For Clear the team preview list
-            App.User.TeamPreviewList.Clear();
-            App.User.ScoreKeeperId = 0;
-            MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
-                int userId = Int32.Parse(arg);
-                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                TeamPlayersIds.Remove(userId);
-            });
-        }
+        public int ScoreKeeperId = 0; 
 
         public string TeamName
         {
@@ -75,6 +78,8 @@ namespace Golf.ViewModel
             }
         }
         private string _ProfileImage = string.Empty;
+
+        #endregion
 
         #region PlayerList API Functionality
 
@@ -133,7 +138,9 @@ namespace Golf.ViewModel
         #endregion PlayerList API Functionality
 
         #region TeamPreview Command Functionality
+
         public ICommand TeamPreviewCommand => new AsyncCommand(TeamPreviewButtonAsync);
+
         async Task TeamPreviewButtonAsync()
         {
             try
@@ -147,6 +154,7 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
+
         #endregion TeamPreview Command Functionality
 
         #region CheckBox Selected Command Functionality
@@ -222,25 +230,16 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
             }
         }
 
-
-        //To Hide and UnHide Players details Page
-        async void UpdateItems(AllParticipantsResponse Items)
-        {
-            var index = PlayersList.IndexOf(Items);
-            PlayersList.Remove(Items);
-            PlayersList.Insert(index, Items);
-            OnPropertyChanged(nameof(PlayersList));
-        }
         #endregion Toggle Selected Command Functionality
 
         #region CreateTeamPlayers Button Command Functionality
 
         public ICommand CreateTeamButtonCommand => new AsyncCommand(CreateTeamPlayersAsync);
-        //Create Team Players API Function
+
         async Task CreateTeamPlayersAsync()
         {
             try
@@ -316,6 +315,7 @@ namespace Golf.ViewModel
         #endregion CreateTeamPlayers Button Command Functionality
 
         #region AddParticipants Button Selected Command Functionality
+
         public ICommand AddParticipantsCommand => new AsyncCommand(AddParticipantsAsync);
 
         async Task AddParticipantsAsync()
@@ -325,6 +325,7 @@ namespace Golf.ViewModel
             await PopupNavigation.Instance.PushAsync(view);
             UserDialogs.Instance.HideLoading();
         }
+
         #endregion AddParticipants Button Command Functionality
 
         #region Serach Command
@@ -333,7 +334,7 @@ namespace Golf.ViewModel
 
         public ICommand SearchCommand => new Command<string>(Search);
 
-        public void Search(string keyword)
+        public async void Search(string keyword)
         {
             try
             {

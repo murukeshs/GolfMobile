@@ -21,7 +21,27 @@ namespace Golf.ViewModel.Round
 {
     public class RoundDetailsPageViewModel : BaseViewModel
     {
-        bool IsSuccess = false;
+
+        public RoundDetailsPageViewModel()
+        {
+            SetRoundDetailsInfo();
+
+            SettingsList = new List<string>(new[] { "Carryover - if no one wins the hole", "N tie",
+                "Greater than 1 or equal to", "No Carryover" });
+
+            RoundExtrasList = new List<string>(new[] { "Greenies", "Skins", "Closet to the pin", "Longest drive" });
+
+            SelectedItem = "Carryover - if no one wins the hole";
+            RoundselectedItem = "Greenies";
+            //Get the Competition type values
+            GetCompetitionType();
+            //Using THis Method to Load the Round Team And Players List From an API.
+            GetRoundsDetailsById();
+            //Get RoundPlayers
+            GetRoundPlayers();
+        }
+
+        #region PropertyDeclaration
 
         public List<string> SettingsList { get; set; }
 
@@ -30,6 +50,7 @@ namespace Golf.ViewModel.Round
         public List<int> RoundPlayersIds = new List<int>();
 
         public getRoundById RoundDetails;
+
         //To Hide and UnHide Math details Page
         public bool IsVisibleRoundDetails
         {
@@ -101,71 +122,6 @@ namespace Golf.ViewModel.Round
         }
         private string _RoundCode = string.Empty;
 
-        public Color RoundDetailsBackground
-        {
-            get { return _RoundDetailsBackground; }
-            set
-            {
-                _RoundDetailsBackground = value;
-                OnPropertyChanged(nameof(RoundDetailsBackground));
-            }
-        }
-        private Color _RoundDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
-
-        public Color TeamListBackground
-        {
-            get { return _TeamListBackground; }
-            set
-            {
-                _TeamListBackground = value;
-                OnPropertyChanged(nameof(TeamListBackground));
-            }
-        }
-        private Color _TeamListBackground = Color.White;
-
-        public Color RoundDetailsBorder
-        {
-            get { return _RoundDetailsBorder; }
-            set
-            {
-                _RoundDetailsBorder = value;
-                OnPropertyChanged(nameof(RoundDetailsBorder));
-            }
-        }
-        private Color _RoundDetailsBorder = Color.White;
-
-        public Color TeamListBorder
-        {
-            get { return _TeamListBorder; }
-            set
-            {
-                _TeamListBorder = value;
-                OnPropertyChanged(nameof(TeamListBorder));
-            }
-        }
-        private Color _TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
-        public Color RoundPlayersBorder
-        {
-            get { return _RoundPlayersBorder; }
-            set
-            {
-                _RoundPlayersBorder = value;
-                OnPropertyChanged(nameof(RoundPlayersBorder));
-            }
-        }
-        private Color _RoundPlayersBorder = (Color)App.Current.Resources["LightGreenColor"];
-
-        public Color RoundPlayersBackground
-        {
-            get { return _RoundPlayersBackground; }
-            set
-            {
-                _RoundPlayersBackground = value;
-                OnPropertyChanged(nameof(RoundPlayersBackground));
-            }
-        }
-        private Color _RoundPlayersBackground = Color.White;
-
         public string CompetitionType
         {
             get { return _CompetitionType; }
@@ -233,7 +189,12 @@ namespace Golf.ViewModel.Round
         public ObservableCollection<AllParticipantsResponse> _RoundPlayersList = null;
 
         public string SelectedItem { get; set; }
+
         public string RoundselectedItem { get; set; }
+
+        #endregion
+
+        #region tab functionality
 
         bool roundDetailsTab;
         bool roundTeamsTab;
@@ -283,62 +244,6 @@ namespace Golf.ViewModel.Round
             RoundTeamsTab = false;
             RoundPlayersTab = true;
         }
-
-        public RoundDetailsPageViewModel()
-        {
-            SetRoundDetailsInfo();
-            SettingsList = new List<string>(new[] { "Carryover - if no one wins the hole", "N tie",
-                "Greater than 1 or equal to", "No Carryover" });
-
-            RoundExtrasList = new List<string>(new[] { "Greenies", "Skins","Closet to the pin","Longest drive"});
-
-            SelectedItem = "Carryover - if no one wins the hole";
-            RoundselectedItem = "Greenies";
-            //Get the Competition type values
-            GetCompetitionType();
-            //Using THis Method to Load the Round Team And Players List From an API.
-            GetRoundsDetailsById();
-            //Get RoundPlayers
-            GetRoundPlayers();
-        }
-
-        #region Round Details Button Command Functionality
-        public ICommand RoundDetailsCommand => new AsyncCommand(RoundDetailsAsync);
-
-        async Task RoundDetailsAsync()
-        {
-            IsVisibleRoundDetails = true;
-            IsVisibleTeamsDetails = false;
-            IsVisibleRoundParticipants = false;
-
-            RoundDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
-            TeamListBorder = (Color)App.Current.Resources["LightGreenColor"];
-            RoundDetailsBorder = Color.White;
-            TeamListBackground = Color.White;
-            RoundPlayersBackground = Color.White;
-            RoundPlayersBorder = (Color)App.Current.Resources["LightGreenColor"];
-        }
-        #endregion Round Details Button Command Functionality
-
-        #region roundplayers command
-        public ICommand RoundPlayersCommand => new AsyncCommand(RoundPlayersAsync);
-
-        async Task RoundPlayersAsync()
-        {
-            UserDialogs.Instance.ShowLoading();
-            IsVisibleRoundDetails = false;
-            IsVisibleTeamsDetails = false;
-            IsVisibleRoundParticipants = true;
-
-            TeamListBackground = Color.White;
-            TeamListBorder =(Color)App.Current.Resources["LightGreenColor"];
-            RoundDetailsBackground = Color.White;
-            RoundDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
-            RoundPlayersBorder = Color.White;
-            RoundPlayersBackground = (Color)App.Current.Resources["LightGreenColor"];
-
-            UserDialogs.Instance.HideLoading();
-        }
         #endregion
 
         #region CompetitionType SelectedIndex Changes Command Functionality
@@ -351,25 +256,6 @@ namespace Golf.ViewModel.Round
         #endregion CompetitionType SelectedIndex Changes Command Functionality
 
         #region Team Button Command Functionality
-
-        public ICommand TeamCommand => new AsyncCommand(TeamAsync);
-
-        async Task TeamAsync()
-        {
-            UserDialogs.Instance.ShowLoading();
-            IsVisibleRoundDetails = false;
-            IsVisibleTeamsDetails = true;
-            IsVisibleRoundParticipants = false;
-
-            TeamListBackground = (Color)App.Current.Resources["LightGreenColor"];
-            TeamListBorder = Color.White;
-            RoundDetailsBackground = Color.White;
-            RoundDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
-            RoundPlayersBorder = (Color)App.Current.Resources["LightGreenColor"];
-            RoundPlayersBackground = Color.White;
-
-            UserDialogs.Instance.HideLoading();
-        }
 
         public List<RoundDetailsListTeamList> roundTeamsItemsList = new List<RoundDetailsListTeamList>();
 
@@ -391,13 +277,11 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
                     var RestURL = App.User.BaseUrl + "Round/getRoundDetailsById/" + App.User.CreateRoundId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    //List<RoundDetailsListTeamList> roundTeamsItemsListssss = new List<RoundDetailsListTeamList>();
                     //Assign the Values to Listview
                     if (response.IsSuccessStatusCode)
                     {
@@ -627,20 +511,11 @@ namespace Golf.ViewModel.Round
 
                     if (response.IsSuccessStatusCode)
                     {
-                        //var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
-                        //App.User.CreateTeamId = Item.teamId;
-                        //var view = new MenuPage();
-                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //await navigationPage.PushAsync(view);
-                        ////After the success full api process clear all the values
-                        //Clear();
                         UserDialogs.Instance.Alert("Round details updated successfully.", "Round Details", "Ok");
-                        IsSuccess = true;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
-                        IsSuccess = false;
                         var error = JsonConvert.DeserializeObject<error>(responJsonText);
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
@@ -681,6 +556,8 @@ namespace Golf.ViewModel.Round
         }
 
         #endregion Save Button Command Functionality
+
+        #region LoadRoundDetails
 
         async void GetRoundById()
         {
@@ -741,6 +618,8 @@ namespace Golf.ViewModel.Round
             CompetitionTypeIndex = index;
         }
 
+        #endregion
+
         #region GetRoundRulesList Command Functionality
 
         async void GetRoundRulesList()
@@ -758,7 +637,6 @@ namespace Golf.ViewModel.Round
                     if (response.IsSuccessStatusCode)
                     {
                         RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
-                        //Using THis Method to Load the Round details
                         GetRoundById();
                         UserDialogs.Instance.HideLoading();
                     }

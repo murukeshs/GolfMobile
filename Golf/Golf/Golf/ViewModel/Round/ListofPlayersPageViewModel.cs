@@ -12,6 +12,8 @@ namespace Golf.ViewModel.Round
 {
     public class ListofPlayersPageViewModel : BaseViewModel
     {
+        #region PropertyDeclaration
+
         public ObservableCollection<PlayersList> ParticipantItems
         {
             get { return _ParticipantItems; }
@@ -21,24 +23,14 @@ namespace Golf.ViewModel.Round
                 OnPropertyChanged(nameof(ParticipantItems));
             }
         }
-        private ObservableCollection<PlayersList> _ParticipantItems = null;
+        private ObservableCollection<PlayersList> _ParticipantItems = new ObservableCollection<PlayersList>();
 
-        public ListofPlayersPageViewModel()
-        {
-
-            ParticipantItems = new ObservableCollection<PlayersList>(new[]
-              {
-                    new PlayersList { PlayerProfile = "profile_pic.jpg", PlayerName = "John Mic" ,PlayerGmail = "johnmic@gmail.com",HCP= "5" ,Type = "P",Gender = "man_gray.png"},
-                    new PlayersList { PlayerProfile = "profile_pic.jpg", PlayerName = "Charlotte Mia" ,PlayerGmail = "Charlotte@gmail.com",HCP= "5" ,Type = "P",Gender = "woman_gray.png" },
-                    new PlayersList { PlayerProfile = "profile_pic.jpg", PlayerName = "MsDhoni" ,PlayerGmail = "msd@gmail.com",HCP= "8" ,Type = "P",Gender = "man_gray.png"},
-                    new PlayersList { PlayerProfile = "profile_pic.jpg", PlayerName = "John Mic" ,PlayerGmail = "johnmic@gmail.com",HCP= "5" ,Type = "P",Gender = "man_gray.png"},
-                    new PlayersList { PlayerProfile = "profile_pic.jpg", PlayerName = "Charlotte Mia" ,PlayerGmail = "Charlotte@gmail.com",HCP= "10" ,Type = "P",Gender = "woman_gray.png" },
-                    new PlayersList { PlayerProfile = "profile_pic.jpg", PlayerName = "MsDhoni" ,PlayerGmail = "msd@gmail.com",HCP= "7" ,Type = "P",Gender = "man_gray.png"}
-              });
-        }
+        #endregion
 
         #region Next ImageButton Command Functionality
+
         public ICommand NextImageButtonCommand => new AsyncCommand(NextImageButtonAsync);
+
         async Task NextImageButtonAsync()
         {
             try
@@ -54,6 +46,7 @@ namespace Golf.ViewModel.Round
                 var a = ex.Message;
             }
         }
+
         #endregion Next ImageButton Command Functionality
     }
 }

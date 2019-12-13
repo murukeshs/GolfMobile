@@ -24,6 +24,8 @@ namespace Golf.ViewModel.Round
             GetRoundsDetailsById();
         }
 
+        #region PropertyDeclaration
+
         public List<RoundDetailsListTeamList> roundTeamsItemsList = new List<RoundDetailsListTeamList>();
 
         public ObservableCollection<RoundDetailsListTeamList> RoundTeamsItemsList
@@ -36,6 +38,8 @@ namespace Golf.ViewModel.Round
             }
         }
         private ObservableCollection<RoundDetailsListTeamList> _RoundTeamsItemsList = null;
+
+        #endregion
 
         #region CreateAnotherTeam Command
         public ICommand CreateAnotherTeamCommand => new Command(CreateAnotherTeam);
@@ -55,7 +59,9 @@ namespace Golf.ViewModel.Round
         #endregion
 
         #region Complete Round Command
+
         public ICommand CompleteRoundCommand => new Command(CompleteRound);
+
         public async void CompleteRound()
         {
             try
@@ -106,6 +112,7 @@ namespace Golf.ViewModel.Round
                 }
             }
         }
+
         #endregion
 
         #region GetRoundDetails
@@ -117,7 +124,6 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
                     var RestURL = App.User.BaseUrl + "Round/getRoundDetailsById/" + App.User.CreateRoundId;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);

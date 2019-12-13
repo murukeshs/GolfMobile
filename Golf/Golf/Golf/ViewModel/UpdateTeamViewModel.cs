@@ -23,9 +23,6 @@ namespace Golf.ViewModel
 {
     public class UpdateTeamViewModel : BaseViewModel
     {
-        public int ScoreKeeperId = 0;
-
-        public int DefaultScoreKeeperId = 0;
 
         public UpdateTeamViewModel()
         {
@@ -35,8 +32,10 @@ namespace Golf.ViewModel
                 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
             };
             TeamName = App.User.TeamName;
-            LoadTeamDetails();        
+            LoadTeamDetails();
         }
+
+        #region Tab Functionality
 
         bool isVisibleTeamDetails;
 
@@ -70,49 +69,13 @@ namespace Golf.ViewModel
             IsVisibleParticipantsDetails = true;
         }
 
-        public Color TeamDetailsBackground
-        {
-            get { return _TeamDetailsBackground; }
-            set
-            {
-                _TeamDetailsBackground = value;
-                OnPropertyChanged(nameof(TeamDetailsBackground));
-            }
-        }
-        private Color _TeamDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
+        #endregion
 
-        public Color ParticipantListBackground
-        {
-            get { return _ParticipantListBackground; }
-            set
-            {
-                _ParticipantListBackground = value;
-                OnPropertyChanged(nameof(ParticipantListBackground));
-            }
-        }
-        private Color _ParticipantListBackground = Color.White;
+        #region Property  Declartion
 
-        public Color TeamDetailsBorder
-        {
-            get { return _TeamDetailsBorder; }
-            set
-            {
-                _TeamDetailsBorder = value;
-                OnPropertyChanged(nameof(TeamDetailsBorder));
-            }
-        }
-        private Color _TeamDetailsBorder = Color.White;
+        public int ScoreKeeperId = 0;
 
-        public Color ParticipantListBorder
-        {
-            get { return _ParticipantListBorder; }
-            set
-            {
-                _ParticipantListBorder = value;
-                OnPropertyChanged(nameof(ParticipantListBorder));
-            }
-        }
-        private Color _ParticipantListBorder = (Color)App.Current.Resources["LightGreenColor"];
+        public int DefaultScoreKeeperId = 0;  
 
         public List<int> StartingHoleList
         {
@@ -128,7 +91,7 @@ namespace Golf.ViewModel
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
-        public bool IsValid { get; set; }
+
         public string TeamNameText
         {
             get
@@ -217,6 +180,8 @@ namespace Golf.ViewModel
         }
         public List<TeamPlayerDetails> _PlayersList = null;
 
+        #endregion
+
         #region Round Picker Selected Command Functionality
 
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
@@ -226,10 +191,15 @@ namespace Golf.ViewModel
             var item = parameter as int?;
             StartingHole = Convert.ToInt16(item);
         }
+
         #endregion Round Picker Selected Command Functionality
 
         #region UpdateTeam Procced Button Command Functionality
+
+        public bool IsValid { get; set; }
+
         public ICommand UpdateTeamProccedButtonCommand => new AsyncCommand(UpdateTeamButtonAsync);
+
         async Task UpdateTeamButtonAsync()
         {
             IsValid = Validate();
@@ -423,6 +393,10 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
+
+        #region SendImageToCloud
+
         async Task SendIssueImageToCloud()
         {
             try
@@ -430,7 +404,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //string RestURL = App.User.BaseUrl + "UploadFile/UploadFile";
                     string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
                     Uri requestUri = new Uri(RestURL);
 
@@ -480,7 +453,6 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
-
         #endregion
 
         #region Participant Button Command Functionality
@@ -745,6 +717,7 @@ namespace Golf.ViewModel
                             var view = new RoundDetailsPage();
                             var navigationPage = ((NavigationPage)App.Current.MainPage);
                             await navigationPage.PushAsync(view);
+                            await Task.Delay(20);
                         }
                         else
                         {

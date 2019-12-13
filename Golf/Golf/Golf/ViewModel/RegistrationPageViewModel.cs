@@ -19,14 +19,16 @@ namespace Golf.ViewModel
 {
     public class RegistrationPageViewModel : BaseViewModel
     {
-        public bool IsValid { get; set; }
-        public IList<string> GenderList { get; set; }
+
         public RegistrationPageViewModel()
         {
-            GenderList = new List<string>();
-            GenderList.Add("Male");
-            GenderList.Add("Female");
+            GenderList = new List<string>(new[] { "Male", "Female"});
         }
+
+        #region Property Declaration
+
+        public IList<string> GenderList { get; set; }
+
         public string FirstNameText
         {
             get
@@ -167,8 +169,14 @@ namespace Golf.ViewModel
         }
         private string _ConfirmPassword = string.Empty;
 
+        #endregion
+
         #region Register Command Functionality
+
+        public bool IsValid { get; set; }
+
         public ICommand RegisterCommand => new AsyncCommand(RegisterAsync);
+
         async Task RegisterAsync()
         {
             IsValid = Validate();

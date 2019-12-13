@@ -17,11 +17,8 @@
         public string city { get; set; }
         public string address { get; set; }
         public string pinCode { get; set; }
-        //[DefaultValue(false)]
         public bool? isEmailNotification { get; set; }
-        //[DefaultValue(false)]
         public bool? isSMSNotification { get; set; }
-        //[DefaultValue(false)]
         public bool? isPublicProfile { get; set; }
         public string userTypeId { get; set; }
         public string nickName { get; set; }

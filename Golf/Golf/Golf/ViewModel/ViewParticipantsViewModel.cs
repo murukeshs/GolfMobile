@@ -17,7 +17,32 @@ namespace Golf.ViewModel
 {
     public class ViewParticipantsViewModel : BaseViewModel
     {
+
+        public ViewParticipantsViewModel()
+        {
+            try
+            {
+                LoadPlayerListAsync();
+                ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
+                GetParticipantsList();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+
+        async void GetViewParticipantsDetails(AllParticipantsResponse obj)
+        {
+
+        }
+
+        public ICommand ItemTappedCommand { get; private set; }
+
+        #region Property Declaraion
+
         public int ScoreKeeperId;
+
         public string TeamName
         {
             get { return _TeamName; }
@@ -63,44 +88,18 @@ namespace Golf.ViewModel
         }
         private bool _ListViewIsVisible = false;
 
-
-        public ICommand ItemTappedCommand { get; private set; }
-
-        public ViewParticipantsViewModel()
-        {
-            try
-            {
-                LoadPlayerListAsync();
-                ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
-                GetParticipantsList();
-            }
-            catch(Exception ex)
-            {
-
-            }
-    //LoadPlayerListAsync();
-        }
-
-        async void GetViewParticipantsDetails(AllParticipantsResponse obj)
-        {
-
-        }
-
+        #endregion
 
         #region Toggle Selected Command Functionality
+
         public ICommand ToggleSelectedCommand => new Command(ToggleChangedEvent);
-        //private user _LastSelectedItem;
+
         void ToggleChangedEvent(object parameter)
         {
             try
             {
                 var Item = parameter as user;
-                //PlayersList.All(x => x.userId == item.userId ?  x.IsToggled = true : x.IsToggled = false);
 
-                // Get every record that is checked
-                // The variable "Items" is the ItemsSource of your ListView
-                // var checkedItems = PlayersList.Where(x => x.IsChecked == true).ToList();
-                // Do stuff with item
                 foreach (var item in PlayersList)
                 {
                     if (item.userId == Item.userId)
@@ -119,13 +118,13 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
             }
         }
 
-
-
         #endregion Toggle Selected Command Functionality
+
+        #region GetParticipant List Functionality
 
         async void GetParticipantsList()
         {
@@ -134,7 +133,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
                     var RestURL = App.User.BaseUrl + "Team/selectTeamById?teamId=" + App.User.TeamIdforPlayerListing;
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
@@ -178,6 +176,7 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
 
         #region CheckBox Selected Command Functionality
         public List<int> TeamPlayersIds = new List<int>();
@@ -208,8 +207,8 @@ namespace Golf.ViewModel
         }
         #endregion CheckBox Selected Command Functionality
 
-
         #region PlayerList API Functionality
+
         public ObservableCollection<user> PlayersList
         {
             get { return _PlayersList; }

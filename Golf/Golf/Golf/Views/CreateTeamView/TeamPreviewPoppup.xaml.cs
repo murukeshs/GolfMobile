@@ -77,7 +77,18 @@ namespace Golf.Views.PoppupView
             {
                 ScoreKeeperProfileImage = "profile_defalut_pic.png";
             }
-            ListView.ItemsSource = App.User.TeamPreviewList;
+            if(App.User.TeamPreviewList.Count == 0)
+            {
+                NoPlayerCard.IsVisible = true;
+                ListView.IsVisible = false;
+            }
+            else
+            {
+                ListView.ItemsSource = App.User.TeamPreviewList;
+                ListView.IsVisible = true;
+                NoPlayerCard.IsVisible = false;
+            }
+
         }
 
         private async void ImageButton_Clicked(object sender, System.EventArgs e)
@@ -99,6 +110,12 @@ namespace Golf.Views.PoppupView
                     App.User.TeamPreviewList.Remove(item);
 
                     ListView.ItemsSource = App.User.TeamPreviewList;
+
+                    if (App.User.TeamPreviewList.Count == 0)
+                    {
+                        NoPlayerCard.IsVisible = true;
+                        ListView.IsVisible = false;
+                    }
 
                     MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPARTICIPANTLISTREFRESH, userId.ToString());
                 }

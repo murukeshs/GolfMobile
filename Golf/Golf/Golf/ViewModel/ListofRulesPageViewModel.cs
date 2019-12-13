@@ -24,15 +24,13 @@ namespace Golf.ViewModel
         public ListofRulesPageViewModel()
         {
             MessagingCenter.Subscribe<App>((App)Application.Current, "OnCategoryCreated", (sender) => {
-                RefreshData();
+                getRoundRulesList();
             });
+
             getRoundRulesList();
         }
 
-        void RefreshData()
-        {
-            getRoundRulesList();
-        }
+        #region Property Declaration
 
         public ObservableCollection<RoundRules> RulesItems
         {
@@ -46,6 +44,8 @@ namespace Golf.ViewModel
         private ObservableCollection<RoundRules> _RulesItems = null;
 
         private ObservableCollection<RoundRules> OriginalRulesList = new ObservableCollection<RoundRules>();
+
+        #endregion
 
         #region LoadRulesCommand
 
@@ -108,6 +108,7 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.HideLoading();
             }
         }
+
         #endregion
 
         #region Serach Command
@@ -116,7 +117,7 @@ namespace Golf.ViewModel
 
         public ICommand SearchCommand => new Command<string>(Search);
 
-        public void Search(string keyword)
+        public async void Search(string keyword)
         {
             try
             {

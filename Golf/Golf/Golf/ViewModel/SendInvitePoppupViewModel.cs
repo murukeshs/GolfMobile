@@ -12,7 +12,7 @@ namespace Golf.ViewModel
     public class SendInvitePoppupViewModel : BaseViewModel
     {
         #region Invite Okay Button Command Functionality
-        //Close the Popup when user clicks the "Okay" Button
+
         public ICommand InviteOkayButtonCommand => new AsyncCommand(InviteOkayButtonAsync);
 
         async Task InviteOkayButtonAsync()

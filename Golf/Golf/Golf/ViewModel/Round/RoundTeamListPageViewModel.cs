@@ -24,7 +24,11 @@ namespace Golf.ViewModel.Round
         {
             LoadTeamListAsync();
         }
+
+        #region Property Declaration
+
         public ObservableCollection<RoundTeamWithPlayers> roundTeamsItemsList = new ObservableCollection<RoundTeamWithPlayers>();
+
         public ObservableCollection<RoundTeamWithPlayers> RoundTeamsItemsList 
         {
             get { return _RoundTeamsItemsList; }
@@ -47,6 +51,7 @@ namespace Golf.ViewModel.Round
         }
         private List<teamplayerList> _RoundTeamsPlayerList = null;
 
+        #endregion
 
         #region SaveTeamButtonCLicked Command Functionality
 
@@ -59,8 +64,10 @@ namespace Golf.ViewModel.Round
         }
         #endregion SaveTeamButtonCLicked Command Functionality
 
+        #region checkbox command
 
         public List<int> TeamIdList = new List<int>();
+
         public ICommand CheckBoxSelectedCommand => new Command(CheckBoxChanged);
 
         async void CheckBoxChanged(object parameter)
@@ -96,6 +103,9 @@ namespace Golf.ViewModel.Round
             }
         }
 
+        #endregion
+
+        #region LoadTeamList 
 
         async void LoadTeamListAsync()
         {
@@ -157,6 +167,9 @@ namespace Golf.ViewModel.Round
             }
         }
 
+        #endregion
+
+        #region CreateRound Players Functionality
 
         async Task CreateRoundplayersAsync()
         {
@@ -221,6 +234,7 @@ namespace Golf.ViewModel.Round
             }
         }
 
+        #endregion
 
         #region Team Item Tabbed Command Functionality
 

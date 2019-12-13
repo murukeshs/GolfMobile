@@ -13,23 +13,38 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Linq;
 using Golf.Views;
 
 namespace Golf.ViewModel
 {
     public class ProfilePageViewModel : BaseViewModel
     {
-        public bool IsValid { get; set; }
-       
-        public Plugin.Media.Abstractions.MediaFile file = null;
-        ImageSource srcThumb = null;
-        public byte[] imageData = null;
 
-        public List<GenderType> GenderList { get; set; }
+        public ProfilePageViewModel()
+        {
+            SetPersonalInfo();
+
+            if (!string.IsNullOrEmpty(App.User.UserProfileImage))
+            {
+                ProfileImage = App.User.UserProfileImage;
+            }
+            else
+            {
+                ProfileImage = "profile_defalut_pic.png";
+            }
+
+            GenderList = new List<GenderType>()
+            {
+                new GenderType{gender = "Male", genderId = 1},
+                new GenderType{gender = "Female", genderId = 2}
+            };
+
+            loadProfileData();
+        }
+
+        #region Tab Functionality
 
         bool personalInfo;
         bool communicationInfo;
@@ -62,27 +77,19 @@ namespace Golf.ViewModel
             CommunicationInfo = true;
         }
 
-        public ProfilePageViewModel()
-        {
-            SetPersonalInfo();
-            if (!string.IsNullOrEmpty(App.User.UserProfileImage))
-            {
-                ProfileImage = App.User.UserProfileImage;
-            }
-            else
-            {
-                ProfileImage = "profile_defalut_pic.png";
-            }
+        #endregion
 
-            GenderList = new List<GenderType>()
-            {
-                new GenderType{gender = "Male", genderId = 1},
-                new GenderType{gender = "Female", genderId = 2}
-            };
+        #region Property Declaration
 
-            loadProfileData();
-        }
+        public bool IsValid { get; set; }
+       
+        public Plugin.Media.Abstractions.MediaFile file = null;
+        ImageSource srcThumb = null;
+        public byte[] imageData = null;
 
+        public List<GenderType> GenderList { get; set; }
+
+    
         public string ProfileImage
         {
             get { return _ProfileImage; }
@@ -325,8 +332,14 @@ namespace Golf.ViewModel
         }
         private List<State> _StateList = null;
 
+        #endregion
+
+        #region Image Upload Functionality
+
         #region TakePicture Command Functionality
+
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
+
         async Task CaptureImageButton_Clicked()
         {
             try
@@ -372,7 +385,6 @@ namespace Golf.ViewModel
 
         #endregion
 
-
         #region Gallery Command Functionality
         public ICommand GalleryCommand => new AsyncCommand(GalleryImageButton_Clicked);
         private async Task GalleryImageButton_Clicked()
@@ -414,6 +426,8 @@ namespace Golf.ViewModel
 
 
         #endregion
+
+        #region SendIssueImageTo Cloud Functionality
 
         async Task SendIssueImageToCloud()
         {
@@ -472,7 +486,12 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
+
+        #endregion
+
         #region Logout Command Functionality
+
         public ICommand LogoutCommand => new  AsyncCommand(LogoutAsync);
 
         async Task LogoutAsync()
@@ -505,6 +524,7 @@ namespace Golf.ViewModel
         #endregion
 
         #region loadProfileData
+
         public async void loadProfileData()
         {
             try
@@ -560,11 +580,10 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
-        #endregion
 
         void LoadGender()
         {
-            if(Gender == "Male")
+            if (Gender == "Male")
             {
                 GenderId = 0;
             }
@@ -574,15 +593,19 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
+
         #region Date Changed Event Command
+
         public ICommand DateChangedEventCommand => new Command(DateChanged);
+
         void DateChanged(object parameter)
         {
             var item = parameter as string;
             Dob = item;
         }
-        #endregion
 
+        #endregion
 
         #region Round Picker Selected Command Functionality
 
@@ -700,16 +723,21 @@ namespace Golf.ViewModel
         }
         #endregion
 
-        #region State region
+        #region State Change Functionality
+
         public ICommand StateChangedCommand => new Command<int>(StateOnChange);
+
         void StateOnChange(int id)
         {
             StateID = id;
         }
+
         #endregion
 
         #region UpdateCommunicationInfo Command
+
         public ICommand UpdateCommunicationInfoCommand => new AsyncCommand(UpdateCommunicationInfo);
+
         async Task UpdateCommunicationInfo()
         {
             IsValid = Validate();
@@ -811,7 +839,9 @@ namespace Golf.ViewModel
         #endregion
 
         #region UpdateProfileInfo Command
+
         public ICommand UpdateUserInfoCommand => new AsyncCommand(UpdateUserInfo);
+
         async Task UpdateUserInfo()
         {
             IsValid = ValidateUserInfo();

@@ -16,6 +16,14 @@ namespace Golf.ViewModel
 {
     public class ListOfTeamsPageViewModel : BaseViewModel
     {
+
+        public ListOfTeamsPageViewModel()
+        {
+            LoadTeamListAsync();
+        }
+
+        #region Property Declaration
+
         public ObservableCollection<RoundTeamItems> TeamItems
         {
             get { return _TeamItem; }
@@ -48,10 +56,8 @@ namespace Golf.ViewModel
             }
         }
         private bool _ListViewIsVisible = false;
-        public ListOfTeamsPageViewModel()
-        {
-            LoadTeamListAsync();
-        }
+
+        #endregion
 
         #region Register Command Functionality
         public ICommand TeamListItemsTabbedCommand => new Command(TeamListItemsTabbed);
@@ -74,6 +80,8 @@ namespace Golf.ViewModel
             }
         }
         #endregion Register Command Functionality
+
+        #region Load TeamList Functionality
 
         async void LoadTeamListAsync()
         {
@@ -125,5 +133,7 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+
+        #endregion
     }
 }

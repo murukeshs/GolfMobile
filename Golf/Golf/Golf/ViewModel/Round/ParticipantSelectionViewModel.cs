@@ -21,16 +21,23 @@ namespace Golf.ViewModel.Round
 {
     public class ParticipantSelectionViewModel : BaseViewModel
     {
-        public List<int> TeamPlayersIds = new List<int>();
+       
         public ParticipantSelectionViewModel()
         {
             App.User.PlayersPreviewList.Clear();
+
             LoadPlayerList();
+
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPLAYERLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
             });
+
         }
+
+        #region Property Declaration
+
+        public List<int> TeamPlayersIds = new List<int>();
 
         public ObservableCollection<AllParticipantsResponse> PlayersList
         {
@@ -44,6 +51,8 @@ namespace Golf.ViewModel.Round
         public ObservableCollection<AllParticipantsResponse> _PlayersList = null;
 
         private ObservableCollection<AllParticipantsResponse> OriginalPlayersList = new ObservableCollection<AllParticipantsResponse>();
+
+        #endregion
 
         #region PlayerList API Functionality
 
@@ -234,7 +243,7 @@ namespace Golf.ViewModel.Round
 
         public ICommand SearchCommand => new Command<string>(Search);
 
-        public void Search(string keyword)
+        public async void Search(string keyword)
         {
             try
             {

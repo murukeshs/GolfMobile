@@ -11,11 +11,23 @@ namespace Golf.Views.PoppupView
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PreviewPlayersPage : PopupPage
     {
+
         public PreviewPlayersPage()
         {
             InitializeComponent();
             BindingContext = this;
-            ListView.ItemsSource = App.User.PlayersPreviewList;
+          
+            if(App.User.PlayersPreviewList.Count == 0)
+            {
+                NoPlayersCard.IsVisible = true;
+                PlayersListView.IsVisible = false;
+            }
+            else
+            {
+                PlayersListView.ItemsSource = App.User.PlayersPreviewList;
+                NoPlayersCard.IsVisible = false;
+                PlayersListView.IsVisible = true;
+            }
         }
 
 
@@ -58,7 +70,13 @@ namespace Golf.Views.PoppupView
 
                     App.User.PlayersPreviewList.Remove(item);
 
-                    ListView.ItemsSource = App.User.PlayersPreviewList;
+                    PlayersListView.ItemsSource = App.User.PlayersPreviewList;
+
+                    if (App.User.PlayersPreviewList.Count == 0)
+                    {
+                        NoPlayersCard.IsVisible = true;
+                        PlayersListView.IsVisible = false;
+                    }
 
                     MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPLAYERLISTREFRESH, userId.ToString());
                 }

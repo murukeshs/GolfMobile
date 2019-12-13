@@ -1,16 +1,13 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
-using Golf.Utils;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -18,6 +15,14 @@ namespace Golf.ViewModel
 {
     public class ViewAllParticipantsViewModel : BaseViewModel
     {
+
+        public ViewAllParticipantsViewModel()
+        {
+            GetParticipantsList();
+        }
+
+        #region Property Declaration
+
         public ObservableCollection<AllParticipantsResponse> ParticipantItems
         {
             get { return _ParticipantItems; }
@@ -53,12 +58,10 @@ namespace Golf.ViewModel
         }
         private bool _ListViewIsVisible = false;
 
-        public ViewAllParticipantsViewModel()
-        {
-            GetParticipantsList();
-        }
+        #endregion
 
         #region Getparticipant List
+
         async void GetParticipantsList()
         {
             try
@@ -118,7 +121,7 @@ namespace Golf.ViewModel
 
         public ICommand SearchCommand => new Command<string>(Search);
 
-        public void Search(string keyword)
+        public async void Search(string keyword)
         {
             try
             {

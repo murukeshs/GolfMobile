@@ -31,7 +31,9 @@ namespace Golf.ViewModel.Round
             //Get the Round rules
             GetRoundRulesList();
         }
-        public bool IsValid { get; set; }
+
+        #region Property Declaration
+
         public string RoundNameText
         {
             get
@@ -98,11 +100,6 @@ namespace Golf.ViewModel.Round
             }
         }
         private DateTime? _RoundStartDate =null;
-
-
-      
-
-
 
         public DateTime? NullableENdDate
         {
@@ -197,8 +194,14 @@ namespace Golf.ViewModel.Round
         }
         private string _RoundFee = string.Empty;
 
+        #endregion
+
         #region Proceed Button Command Functionality
+
+        public bool IsValid { get; set; }
+
         public ICommand ProceedCommand => new AsyncCommand(ProceedAsync);
+
         async Task ProceedAsync()
         {
             IsValid = Validate();
@@ -246,12 +249,6 @@ namespace Golf.ViewModel.Round
                 RoundEndDate = null;
                 return false;
             }
-            //else if (NullableEndTime == null)
-            //{
-            //    UserDialogs.Instance.AlertAsync("Please Select Round Start Time.", "Alert", "Ok");
-            //    NullableEndTime = null;
-            //    return false;
-            //}
             else if (string.IsNullOrEmpty(RoundFee))
             {
                 UserDialogs.Instance.AlertAsync("Round Fee should not be empty.", "Alert", "Ok");
@@ -306,8 +303,6 @@ namespace Golf.ViewModel.Round
                         var view = new RoundContextSettingsPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
-                        //After the success full api process clear all the values
-                        //Clear();
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -479,6 +474,34 @@ namespace Golf.ViewModel.Round
         }
         #endregion CompetitionType SelectedIndex Changes Command Functionality
 
+        //#region Round Start Date
+
+        //public ICommand RoundStartCommand => new Command(RoundStartCommandChangedEvent);
+
+        //public string Roundstartdate;
+
+        //void RoundStartCommandChangedEvent(object parameter)
+        //{
+        //    var item = parameter as DateTime?;
+        //    RoundStartDate = item;
+        //}
+
+        //#endregion
+
+        //#region Round StartEnd Date
+
+        //public ICommand RoundStartEndCommand => new Command(RoundStartENdCommandChangedEvent);
+
+        //public string RoundstartEnddate;
+
+        //void RoundStartENdCommandChangedEvent(object parameter)
+        //{
+        //    var item = parameter as DateTime?;
+        //    RoundEndDate = item;
+        //}
+
+        //#endregion
+
         #region Round Start Date
         public ICommand RoundStartCommand => new Command(RoundStartCommandChangedEvent);
         public string Roundstartdate;
@@ -498,7 +521,6 @@ namespace Golf.ViewModel.Round
             RoundstartEnddate = NullableENdDate.ToString();
         }
         #endregion
-
 
         #region Add Rule Popup
         public ICommand AddRuleCommand => new AsyncCommand(AddRuleCommandAsync);

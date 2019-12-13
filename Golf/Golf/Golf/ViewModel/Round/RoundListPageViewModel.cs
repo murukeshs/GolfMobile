@@ -16,6 +16,14 @@ namespace Golf.ViewModel.Round
 {
     public class RoundListPageViewModel : BaseViewModel
     {
+        public RoundListPageViewModel()
+        {
+            //Load the match details list using this api.
+            getRoundList();
+        }
+
+        #region Property Declaration
+
         public ObservableCollection<RoundList> RoundListItems
         {
             get { return _RoundListItems; }
@@ -51,11 +59,9 @@ namespace Golf.ViewModel.Round
         }
         private bool _ListViewIsVisible = false;
 
-        public RoundListPageViewModel()
-        {
-            //Load the match details list using this api.
-            getRoundList();
-        }
+        #endregion
+
+        #region GetRoundList
 
         async void getRoundList()
         {
@@ -104,8 +110,10 @@ namespace Golf.ViewModel.Round
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+        #endregion
 
         #region List ItemTabbed Command Functionality
+
         public ICommand ListItemTabbedCommand => new Command(HandleItemSelected);
 
         private async void HandleItemSelected(object parameter)
@@ -120,6 +128,7 @@ namespace Golf.ViewModel.Round
             await navigationPage.PushAsync(view);
             UserDialogs.Instance.HideLoading();
         }
+
         #endregion List ItemTabbed Command Functionality
 
         #region Serach Command
@@ -128,7 +137,7 @@ namespace Golf.ViewModel.Round
 
         public ICommand SearchCommand => new Command<string>(Search);
 
-        public void Search(string keyword)
+        public async void Search(string keyword)
         {
             try
             {

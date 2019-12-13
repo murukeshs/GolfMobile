@@ -39,7 +39,6 @@ namespace Golf.Models
         public bool? isPublicProfile { get; set; }
         public string userTypeId { get; set; }
 
-        //public bool IsChecked { get; set; } = false;
 
         public bool IsChecked
         {

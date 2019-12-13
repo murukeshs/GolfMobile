@@ -69,72 +69,66 @@
                                                      CornerRadius="10"
                                                      BorderColor="{StaticResource BorderColor}"
                                                      HasShadow="True">
-                                    <StackLayout Margin="10,10">
+                                        <Grid Margin="10,5,10,5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
 
-                                        <Label Text="{Binding roundName}"
+                                            <Label Text="{Binding roundName}" Grid.Row="0"
                                                TextColor="{StaticResource BlackColor}"
                                                FontSize="{StaticResource FontSize20}"
                                                FontAttributes="Bold"
                                                VerticalOptions="Center"/>
 
-                                        <Label Margin="0"
+                                            <Label Margin="0" Grid.Row="1"
                                                TextColor="Gray"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Code : "/>
-                                                    <Span Text="{Binding roundCode}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Code : "/>
+                                                        <Span Text="{Binding roundCode}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
-                                        <!--<Label Margin="0"
-                                               TextColor="{StaticResource TextGrayColor}"
-                                               FontSize="{StaticResource FontSize16}"
-                                               VerticalOptions="Center">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Type : "/>
-                                                    <Span Text="{Binding RoundType}"
-                                                          ForegroundColor="{StaticResource DarkGreenColor}" 
-                                                          FontAttributes="Bold"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>-->
-
-                                        <Label Margin="0"
+                                            <Label Margin="0" Grid.Row="2"
                                                TextColor="Gray"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center"
                                                HorizontalOptions="FillAndExpand"
                                                Text="{Binding Path=StartDate, StringFormat='Start date : {0:D}'}"/>
 
-                                        <StackLayout Orientation="Horizontal">
-                                        <Label Margin="0"
+                                            <StackLayout Orientation="Horizontal"
+                                                         Grid.Row="3"
+                                                     HorizontalOptions="FillAndExpand">
+                                                <Label Margin="0"
                                                TextColor="Gray"
                                                FontSize="{StaticResource FontSize16}"
                                                VerticalOptions="Center"
                                                HorizontalOptions="FillAndExpand"
                                                Text="{Binding Path=StartTime, StringFormat='Time : {0:D}'}"/>
 
-                                        <Label Margin="0,0,0,0"
+                                                <Label Margin="0,0,0,0"
                                                    TextColor="Gray"
-                                                   FontSize="{StaticResource FontSize16}"
+                                                   FontSize="{StaticResource FontSize14}"
                                                    VerticalOptions="Center"
-                                                   HorizontalOptions="End">
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span Text="Fee : "/>
-                                                    <Span Text="{Binding Path=roundFee, StringFormat='${0:D}'}"
+                                                   HorizontalOptions="EndAndExpand">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Fee : "/>
+                                                            <Span Text="{Binding Path=roundFee, StringFormat='${0:D}'}"
                                                               FontSize="{StaticResource FontSize18}"
                                                               ForegroundColor="{StaticResource LightGreenColor}" 
                                                               FontAttributes="Bold"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                        </StackLayout>
-                                    </StackLayout>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </Grid>
                                 </plugins:PancakeView>
                             </ContentView>
                         </controls:UpdateViewCell>
