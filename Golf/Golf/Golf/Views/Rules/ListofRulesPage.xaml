@@ -10,6 +10,24 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
+
+            <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="25"
+                                 HasShadow="True"
+                                 Margin="20,20,20,10">
+                <controls:CustomSearchBar Placeholder="Search Rules..."
+                                      Margin="0"
+                                      CornerRadius="25"
+                                      CancelButtonColor="{StaticResource LightGreenColor}"
+                                      PlaceholderColor="{StaticResource TextGrayColor}"
+                                      TextColor="{StaticResource BlackColor}"
+                                      HorizontalTextAlignment="Center"
+                                      FontSize="{StaticResource FontSize20}"
+                                      FontAttributes="Italic" 
+                                      BackgroundColor="{StaticResource WhiteColor}"
+                                      TextChanged="SearchBar_TextChanged"/>
+            </plugins:PancakeView>
             
             <controls:HorizontalList ListOrientation="Vertical"
                                      HorizontalOptions="FillAndExpand"

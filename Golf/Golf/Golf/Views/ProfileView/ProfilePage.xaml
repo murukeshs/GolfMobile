@@ -37,7 +37,6 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="Margin" Value="0" />
-               
             </Style>
 
             <Color x:Key="AccentTabColor">#34a574</Color>
@@ -70,14 +69,6 @@
                        FontSize="{StaticResource FontSize24}"
                        TextColor="{StaticResource BlackTextColor}"/>
 
-                <!--<Controls:RoundedButton Text="Sign Out"
-                                        CornerRadius="10"
-                                        HeightRequest="40"
-                                        FontAttributes="Bold"
-                                        HorizontalOptions="End"
-                                        VerticalOptions="Center"
-                                        Command="{Binding LogoutCommand}"
-                                        Margin="20,0,5,10"/>-->
                 <ImageButton Source="signout.png"
                              HeightRequest="40"
                              Padding="0"
@@ -88,96 +79,69 @@
                                         Margin="0,0,0,0"/>
             </StackLayout>
 
-
-                <Grid   BackgroundColor="White"
+            <Grid   BackgroundColor="White"
                         Margin="0"
                         Padding="0"
                         ColumnSpacing="0"
                         RowSpacing="0"
                         VerticalOptions="FillAndExpand">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="62" />
-                    </Grid.RowDefinitions>
-                    <Grid
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="62" />
+                </Grid.RowDefinitions>
+                <Grid
                             Grid.Column="0"
                             Grid.Row="0"
                             BackgroundColor="{StaticResource WhiteColor}">
-                        <Label   
+                    <Label   
                                 Text="Personal Info"
                                 Style="{StaticResource TabTextStyle}"
                             >
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding PersonalInfo}" Value="true" >
-                                    <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding PersonalInfo}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
                                 <Setter Property="FontAttributes" Value="Bold"/>
                             </DataTrigger>
-                            </Label.Triggers>
-                        </Label>
-                        <Grid 
+                        </Label.Triggers>
+                    </Label>
+                    <Grid 
                                 Style="{StaticResource TabSeparatorStyle}"/>
-                        <Grid   
+                    <Grid   
                                 IsVisible="{Binding PersonalInfo}"
                                 Style="{StaticResource SelectedTabStyle}"/>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer 
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
                                     Command="{Binding PersonalInfoCommand}" />
-                        </Grid.GestureRecognizers>
-                    </Grid>
-                    <Grid
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Grid
                             Grid.Column="1"
                             Grid.Row="0"
                             BackgroundColor="{StaticResource WhiteColor}">
-                        <Label   
+                    <Label   
                                 Text="Communication Info"
                                 Style="{StaticResource TabTextStyle}">
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding CommunicationInfo}" Value="true" >
-                                    <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding CommunicationInfo}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
                                 <Setter Property="FontAttributes" Value="Bold"/>
                             </DataTrigger>
-                            </Label.Triggers>
-                        </Label>
-                        <Grid Style="{StaticResource TabSeparatorStyle}"/>
-                        <Grid  
+                        </Label.Triggers>
+                    </Label>
+                    <Grid Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid  
                                 IsVisible="{Binding CommunicationInfo}"
                                 Style="{StaticResource SelectedTabStyle}"/>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer 
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
                                     Command="{Binding CommunicationInfoCommand}" />
-                        </Grid.GestureRecognizers>
-                    </Grid>
+                    </Grid.GestureRecognizers>
                 </Grid>
-           
-
-            <!--<StackLayout Orientation="Horizontal"
-                             Margin="20,10,20,10"
-                             HorizontalOptions="FillAndExpand">
-                <Controls:RoundedButton Text="   Personal Info  "
-                                            Margin="0"
-                                            x:Name="PersonalInfoButton"
-                                            CornerRadius="10"
-                                            FontSize="{StaticResource FontSize16}"
-                                            Clicked="PersonalInfoButton_Clicked"/>
-
-                <Controls:RoundedButton Text="Communication Info"
-                                            Margin="10,0"
-                                            x:Name="CommunicationInfoButton"
-                                            CornerRadius="10"
-                                            BackgroundColor="{StaticResource WhiteColor}"
-                                            TextColor="{StaticResource LightGreenColor}"
-                                            FontSize="{StaticResource FontSize16}"
-                                            Clicked="CommunicationInfoButton_Clicked"/>
-            </StackLayout>
-
-            <BoxView HeightRequest="1"
-                         HorizontalOptions="FillAndExpand"
-                         Color="{StaticResource TextGrayColor}"
-                         Margin="20,10,20,0"/>-->
-
+            </Grid>
+            
             <ScrollView x:Name="PersonalInfoStackLayout"
                         Margin="0"
                         BackgroundColor="White"
@@ -298,8 +262,7 @@
                                                  x:Name="DOBDatePicker"
                                                  TextColor="{StaticResource TextGrayColor}"
                                                  Date="{Binding Dob}"
-                                                 DateSelected="DOB_DateSelected"/>
-
+                                                 DateSelected="DOBDatePicker_DateSelected"/>
 
                     <Label Text="Gender" 
                            Margin="20,0,20,0"
@@ -340,6 +303,7 @@
 
                 </StackLayout>
             </ScrollView>
+
             <ScrollView x:Name="CommunicationInfoStackLayout" 
                         BackgroundColor="White"
                         Margin="0"
@@ -347,34 +311,34 @@
                      IsVisible="{Binding CommunicationInfo}"
                          HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
-            <StackLayout Padding="0"
+                <StackLayout Padding="0"
                          Margin="0">
 
-                <Label Text="Send Partcipant Tournament Information" 
+                    <Label Text="Send Partcipant Tournament Information" 
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                <StackLayout Orientation="Horizontal"
+                    <StackLayout Orientation="Horizontal"
                              Margin="20,0,20,0"
                              HorizontalOptions="CenterAndExpand">
 
-                    <Controls:CustomCheckBox DefaultText="Email"
+                        <Controls:CustomCheckBox DefaultText="Email"
                                              Style="{StaticResource CheckBoxStyle}"
                                              DefaultValue ="1"
                                              CheckedChanged="NotificationTypeChanged"
                                              Margin="20,0,0,0"
                                              Checked="{Binding IsEmailNotification, Mode=TwoWay}"/>
 
-                    <Controls:CustomCheckBox DefaultText="Sms"
+                        <Controls:CustomCheckBox DefaultText="Sms"
                                              DefaultValue ="2"
                                              Style="{StaticResource CheckBoxStyle}" 
                                              CheckedChanged="NotificationTypeChanged"
                                              Margin="30,0,0,0"
                                              Checked="{Binding IsSmsNotification, Mode=TwoWay}"/>
 
-                </StackLayout>
-                
-                <Label Text="Address" 
+                    </StackLayout>
+
+                    <Label Text="Address" 
                         Margin="20,0,20,0"
                       Style="{StaticResource HeaderLabelTextStyle}"/>
                     <Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
@@ -386,7 +350,7 @@
                     <Label Text="Country" 
                             Margin="20,0,20,0"
                        Style="{StaticResource HeaderLabelTextStyle}"/>
-                <Controls:CustomPicker Title="Country" 
+                    <Controls:CustomPicker Title="Country" 
                                            Image="down_arrow_gray.png"
                                             Margin="20,0,20,0"
                                            TitleColor="{StaticResource TextGrayColor}"
@@ -421,22 +385,22 @@
                                         TextColor="{StaticResource TextGrayColor}"
                                         PlaceholderColor="{StaticResource WhiteColor}"
                                         Text="{Binding City, Mode = TwoWay}"/>
-                
+
                     <StackLayout Orientation="Horizontal"
                              Margin="20,0,20,10"
                              HorizontalOptions="FillAndExpand">
 
-                    <Label Text="Is Public Profile" 
+                        <Label Text="Is Public Profile" 
                            Margin="5,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Switch OnColor="{StaticResource LightGreenColor}"
+                        <Switch OnColor="{StaticResource LightGreenColor}"
                             ThumbColor="{StaticResource LightGreenColor}"
                             HorizontalOptions="End"
                             IsToggled="{Binding IsPublicProfile, Mode=TwoWay}"
                             />
 
-                </StackLayout>
+                    </StackLayout>
 
                     <Controls:RoundedButton Text="Update Communication Info"
                                             Margin="40,10,40,20"
@@ -446,13 +410,7 @@
                                             Command="{Binding UpdateCommunicationInfoCommand}"/>
                 </StackLayout>
             </ScrollView>
-            <!--<BoxView HeightRequest="1"
-                     HorizontalOptions="FillAndExpand"
-                     Color="{StaticResource TextGrayColor}"
-                     Margin="20,0,20,0"
-                     VerticalOptions="EndAndExpand"/>-->
-
-           
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

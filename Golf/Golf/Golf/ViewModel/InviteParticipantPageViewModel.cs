@@ -9,7 +9,6 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,14 +18,15 @@ namespace Golf.ViewModel
 {
     public class InviteParticipantPageViewModel : BaseViewModel
     {
-        public bool IsValid { get; set; }
-        public IList<string> GenderList { get; set; }
         public InviteParticipantPageViewModel()
         {
-            GenderList = new List<string>();
-            GenderList.Add("Male");
-            GenderList.Add("Female");
+            GenderList = new List<string>(new[] {"Male", "Female"});
         }
+
+        #region Property Declaration
+
+        public IList<string> GenderList { get; set; }
+
         public string FirstNameText
         {
             get
@@ -97,29 +97,12 @@ namespace Golf.ViewModel
         }
         private string _PhoneNumber = string.Empty;
 
-        public bool IsEmailNotification
-        {
-            get { return _IsEmailNotification; }
-            set
-            {
-                _IsEmailNotification = value;
-                OnPropertyChanged(nameof(IsEmailNotification));
-            }
-        }
-        private bool _IsEmailNotification = false;
-
-        public bool IsSMSNotification
-        {
-            get { return _IsSMSNotification; }
-            set
-            {
-                _IsSMSNotification = value;
-                OnPropertyChanged(nameof(IsSMSNotification));
-            }
-        }
-        private bool _IsSMSNotification = false;
+        #endregion
 
         #region Send Invite Button Command Functionality
+
+        public bool IsValid { get; set; }
+
         public ICommand InviteParticipantCommand => new AsyncCommand(SendInviteAsync);
 
         async Task SendInviteAsync()
@@ -166,6 +149,12 @@ namespace Golf.ViewModel
             {
                 //PhoneNo Is Empty
                 UserDialogs.Instance.AlertAsync("Phone Number cannot be empty.", "Alert", "Ok");
+                return false;
+            }
+            else if (IsEmailNotification == false && IsSMSNotification == false)
+            {
+                //Invitation Via Not Selected
+                UserDialogs.Instance.AlertAsync("The Mode of Invitation cannot be empty.", "Alert", "Ok");
                 return false;
             }
             else
@@ -227,7 +216,32 @@ namespace Golf.ViewModel
         }
         #endregion Send Invite Button Command Functionality
 
+        #region CommunicationVia Functionality
+
+        public bool IsEmailNotification
+        {
+            get { return _IsEmailNotification; }
+            set
+            {
+                _IsEmailNotification = value;
+                OnPropertyChanged(nameof(IsEmailNotification));
+            }
+        }
+        private bool _IsEmailNotification = false;
+
+        public bool IsSMSNotification
+        {
+            get { return _IsSMSNotification; }
+            set
+            {
+                _IsSMSNotification = value;
+                OnPropertyChanged(nameof(IsSMSNotification));
+            }
+        }
+        private bool _IsSMSNotification = false;
+
         public ICommand CommunicationViaCheckBoxCommand => new Command(CommunicationViaCheckBox);
+
         public void CommunicationViaCheckBox(object parameter)
         {
             var type =  parameter as string;
@@ -240,5 +254,7 @@ namespace Golf.ViewModel
                 IsSMSNotification = true;
             }
         }
+
+        #endregion
     }
 }

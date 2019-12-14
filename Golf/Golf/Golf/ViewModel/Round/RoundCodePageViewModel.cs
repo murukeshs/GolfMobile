@@ -12,12 +12,18 @@ namespace Golf.ViewModel.Round
 {
     public class RoundCodePageViewModel : BaseViewModel
     {
+        #region Property Declaration
+
         public string RoundCodeText { get; set; } = App.User.CompetitionType;
+
         public string RoundCode { get; set; } = App.User.RoundCode;
-        //New round of the competition type &quot; Auto Win &quot; is successfully scheduled. Here is the Round participation code
+
+        #endregion
 
         #region Round Code Proceed Button Command Functionality
+
         public ICommand RoundCodeProccedCommand => new AsyncCommand(ProceedAsync);
+
         async Task ProceedAsync()
         {
             try
@@ -34,6 +40,7 @@ namespace Golf.ViewModel.Round
                 var a = ex.Message;
             }
         }
+
         #endregion Round Code Proceed Button Command Functionality
     }
 }

@@ -11,11 +11,23 @@ namespace Golf.Views.PoppupView
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PreviewPlayersPage : PopupPage
     {
+
         public PreviewPlayersPage()
         {
             InitializeComponent();
             BindingContext = this;
-            ListView.ItemsSource = App.User.PlayersPreviewList;
+          
+            if(App.User.PlayersPreviewList.Count == 0)
+            {
+                NoPlayersCard.IsVisible = true;
+                PlayersListView.IsVisible = false;
+            }
+            else
+            {
+                PlayersListView.ItemsSource = App.User.PlayersPreviewList;
+                NoPlayersCard.IsVisible = false;
+                PlayersListView.IsVisible = true;
+            }
         }
 
 
@@ -40,19 +52,35 @@ namespace Golf.Views.PoppupView
             await PopupNavigation.Instance.PopAsync();
         }
 
-        private void RemoveButton_Clicked(object sender, EventArgs e)
+        private async void RemoveButton_Clicked(object sender, EventArgs e)
         {
             try
             {
-                var item = (sender as ImageButton).BindingContext as AddPlayersList;
+                var result = await DisplayAlert("", "Are sure you want to Remove?.", "Yes", "No");
 
-                var userId = item.UserId;
+                if (!result)
+                {
+                    return;
+                }
+                else
+                {
+                    var item = (sender as ImageButton).BindingContext as AddPlayersList;
 
-                App.User.PlayersPreviewList.Remove(item);
+                    var userId = item.UserId;
 
-                ListView.ItemsSource = App.User.PlayersPreviewList;
+                    App.User.PlayersPreviewList.Remove(item);
 
-                MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPLAYERLISTREFRESH, userId.ToString());
+                    PlayersListView.ItemsSource = App.User.PlayersPreviewList;
+
+                    if (App.User.PlayersPreviewList.Count == 0)
+                    {
+                        NoPlayersCard.IsVisible = true;
+                        PlayersListView.IsVisible = false;
+                    }
+
+                    MessagingCenter.Send<App, string>((App)Application.Current, App.User.ISPLAYERLISTREFRESH, userId.ToString());
+                }
+
             }
             catch (Exception ex)
             {

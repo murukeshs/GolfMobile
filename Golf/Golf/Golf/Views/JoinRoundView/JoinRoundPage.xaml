@@ -60,12 +60,23 @@
             <controls:CustomEntry Placeholder="Competition Type"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   Margin="20,0,20,0"
-                                   IsEnabled="False"
+                                  IsEnabled="False"
                                   Text="{Binding CompetitionType,Mode=TwoWay}"
                                   BackgroundColor="LightGray"
                                   FontSize="{StaticResource FontSize18}"/>
 
-            <Label Text="Participant Name"
+                    <Label Text="Team Name"
+                   Style="{StaticResource HeadingsLabel}"/>
+
+                    <controls:CustomEntry Placeholder="Team Name"
+                                  Style="{StaticResource RectangleShapeEntryStyle}"
+                                  Margin="20,0,20,0"
+                                  IsEnabled="False"
+                                  Text="{Binding TeamName}"
+                                  BackgroundColor="LightGray"
+                                  FontSize="{StaticResource FontSize18}"/>
+
+                    <Label Text="Participant Name"
                    Style="{StaticResource HeadingsLabel}"
                    />
 
@@ -81,7 +92,7 @@
             <Label Text="Participant ID"
                    Style="{StaticResource HeadingsLabel}"/>
 
-                <controls:CustomEntry Placeholder="Participant Id"
+                    <controls:CustomEntry Placeholder="Participant Id"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   BackgroundColor="LightGray"
                                   Margin="20,0,20,0"
@@ -90,19 +101,7 @@
                                   FontSize="{StaticResource FontSize18}"
                                   IsCurvedCornersEnabled="True"/>
 
-                <!--<Label Text="Round Fee"
-                   Style="{StaticResource HeadingsLabel}"/>
-
-                <controls:CustomEntry Placeholder="Fill the Round Fee"
-                                      Style="{StaticResource RectangleShapeEntryStyle}"
-                                      BackgroundColor="LightGray"
-                                      Margin="20,0,20,0"
-                                      IsEnabled="False"
-                                      Text="{Binding RoundFee ,Mode=TwoWay}"
-                                      FontSize="{StaticResource FontSize18}"
-                                     IsCurvedCornersEnabled="True"/>-->
-
-                <StackLayout Orientation="Horizontal" 
+                    <StackLayout Orientation="Horizontal" 
                          Margin="30,20,30,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:UnderlineLabel TextColor="{StaticResource BlackColor}"

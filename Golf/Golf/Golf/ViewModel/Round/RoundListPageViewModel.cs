@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Input;
@@ -15,6 +16,14 @@ namespace Golf.ViewModel.Round
 {
     public class RoundListPageViewModel : BaseViewModel
     {
+        public RoundListPageViewModel()
+        {
+            //Load the match details list using this api.
+            getRoundList();
+        }
+
+        #region Property Declaration
+
         public ObservableCollection<RoundList> RoundListItems
         {
             get { return _RoundListItems; }
@@ -25,6 +34,8 @@ namespace Golf.ViewModel.Round
             }
         }
         private ObservableCollection<RoundList> _RoundListItems = null;
+
+        private ObservableCollection<RoundList> OriginalRoundsList = new ObservableCollection<RoundList>();
 
         public bool NoRecordsFoundLabel
         {
@@ -48,11 +59,9 @@ namespace Golf.ViewModel.Round
         }
         private bool _ListViewIsVisible = false;
 
-        public RoundListPageViewModel()
-        {
-            //Load the match details list using this api.
-            getRoundList();
-        }
+        #endregion
+
+        #region GetRoundList
 
         async void getRoundList()
         {
@@ -69,6 +78,7 @@ namespace Golf.ViewModel.Round
                     if (response.IsSuccessStatusCode)
                     {
                         RoundListItems = JsonConvert.DeserializeObject<ObservableCollection<RoundList>>(content);
+                        OriginalRoundsList = RoundListItems;
                         if (RoundListItems.Count > 0)
                         {
                             ListViewIsVisible = true;
@@ -100,8 +110,10 @@ namespace Golf.ViewModel.Round
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+        #endregion
 
         #region List ItemTabbed Command Functionality
+
         public ICommand ListItemTabbedCommand => new Command(HandleItemSelected);
 
         private async void HandleItemSelected(object parameter)
@@ -116,6 +128,48 @@ namespace Golf.ViewModel.Round
             await navigationPage.PushAsync(view);
             UserDialogs.Instance.HideLoading();
         }
+
         #endregion List ItemTabbed Command Functionality
+
+        #region Serach Command
+
+        private ObservableCollection<RoundList> RoundsList = new ObservableCollection<RoundList>();
+
+        public ICommand SearchCommand => new Command<string>(Search);
+
+        public async void Search(string keyword)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    RoundListItems = new ObservableCollection<RoundList>();
+
+                    RoundsList = new ObservableCollection<RoundList>();
+
+                    var query = OriginalRoundsList.Where(x => x.roundName.StartsWith(keyword));
+
+                    foreach (var item in query)
+                    {
+                        var value = new RoundList() { roundCode = item.roundCode, roundName = item.roundName, roundStartDate = item.roundStartDate, StartDate = item.StartDate, StartTime = item.StartTime, roundFee = item.roundFee, roundId = item.roundId };
+
+                        RoundsList.Add(value);
+                    }
+
+                    RoundListItems = RoundsList;
+                }
+                else
+                {
+                    RoundListItems = OriginalRoundsList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+
+        #endregion
     }
 }

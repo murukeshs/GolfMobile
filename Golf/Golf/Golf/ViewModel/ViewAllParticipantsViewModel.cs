@@ -4,16 +4,25 @@ using Golf.Services;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Golf.ViewModel
 {
     public class ViewAllParticipantsViewModel : BaseViewModel
     {
+
+        public ViewAllParticipantsViewModel()
+        {
+            GetParticipantsList();
+        }
+
+        #region Property Declaration
+
         public ObservableCollection<AllParticipantsResponse> ParticipantItems
         {
             get { return _ParticipantItems; }
@@ -24,6 +33,8 @@ namespace Golf.ViewModel
             }
         }
         private ObservableCollection<AllParticipantsResponse> _ParticipantItems = null;
+
+        private ObservableCollection<AllParticipantsResponse> OriginalPlayersList = new ObservableCollection<AllParticipantsResponse>();
 
         public bool NoRecordsFoundLabel
         {
@@ -47,10 +58,9 @@ namespace Golf.ViewModel
         }
         private bool _ListViewIsVisible = false;
 
-        public ViewAllParticipantsViewModel()
-        {
-            GetParticipantsList();
-        }
+        #endregion
+
+        #region Getparticipant List
 
         async void GetParticipantsList()
         {
@@ -70,6 +80,8 @@ namespace Golf.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         ParticipantItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        OriginalPlayersList = ParticipantItems;
+
                         if (ParticipantItems.Count > 0)
                         {
                             ListViewIsVisible = true;
@@ -101,5 +113,47 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+        #endregion
+
+        #region Serach Command
+
+        private ObservableCollection<AllParticipantsResponse> PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+
+        public ICommand SearchCommand => new Command<string>(Search);
+
+        public async void Search(string keyword)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    ParticipantItems = new ObservableCollection<AllParticipantsResponse>();
+
+                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+
+                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));
+
+                    foreach (var item in query)
+                    {
+                        var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
+
+                        PlayersListItems.Add(value);
+                    }
+
+                    ParticipantItems = PlayersListItems;
+                }
+                else
+                {
+                    ParticipantItems = OriginalPlayersList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+
+        #endregion
     }
 }

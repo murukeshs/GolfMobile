@@ -21,18 +21,24 @@ namespace Golf.ViewModel.Round
 {
     public class ParticipantSelectionViewModel : BaseViewModel
     {
-        public List<int> TeamPlayersIds = new List<int>();
+       
         public ParticipantSelectionViewModel()
         {
             App.User.PlayersPreviewList.Clear();
+
             LoadPlayerList();
+
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPLAYERLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
             });
+
         }
 
-        #region PlayerList API Functionality
+        #region Property Declaration
+
+        public List<int> TeamPlayersIds = new List<int>();
+
         public ObservableCollection<AllParticipantsResponse> PlayersList
         {
             get { return _PlayersList; }
@@ -43,6 +49,12 @@ namespace Golf.ViewModel.Round
             }
         }
         public ObservableCollection<AllParticipantsResponse> _PlayersList = null;
+
+        private ObservableCollection<AllParticipantsResponse> OriginalPlayersList = new ObservableCollection<AllParticipantsResponse>();
+
+        #endregion
+
+        #region PlayerList API Functionality
 
         async void LoadPlayerList()
         {
@@ -61,6 +73,7 @@ namespace Golf.ViewModel.Round
                     if (response.IsSuccessStatusCode)
                     {
                         PlayersList = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        OriginalPlayersList = PlayersList;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -224,5 +237,46 @@ namespace Golf.ViewModel.Round
         }
         #endregion
 
+        #region Serach Command
+
+        private ObservableCollection<AllParticipantsResponse> PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+
+        public ICommand SearchCommand => new Command<string>(Search);
+
+        public async void Search(string keyword)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    PlayersList = new ObservableCollection<AllParticipantsResponse>();
+
+                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+
+                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));
+
+                    foreach (var item in query)
+                    {
+                        var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
+
+                        PlayersListItems.Add(value);
+                    }
+
+                    PlayersList = PlayersListItems;
+                }
+                else
+                {
+                    PlayersList = OriginalPlayersList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
+
+        #endregion
+
+    }
 }

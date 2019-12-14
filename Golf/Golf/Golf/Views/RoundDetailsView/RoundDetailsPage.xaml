@@ -66,59 +66,6 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
-            <!--<Grid Margin="10"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="StartAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <controls:RoundedButton Margin="0"
-                                        Text="Round Details"
-                                        Grid.Row="0"
-                                        x:Name="RoundDetailsButton"
-                                        Grid.Column="0"
-                                        FontSize="Medium"
-                                        HeightRequest="45"
-                                        BackgroundColor="{Binding RoundDetailsBackground}"
-                                        BorderColor="{Binding RoundDetailsBorder}"
-                                        Command="{Binding RoundDetailsCommand}"
-                                        TextColor="{Binding RoundDetailsBorder}"/>
-
-                <controls:RoundedButton Margin="10,0"
-                                        Text="Teams"
-                                        Grid.Row="0"
-                                        x:Name="TeamsButton"
-                                        Grid.Column="1"
-                                        FontSize="Medium"
-                                        HeightRequest="45"
-                                        BackgroundColor="{Binding TeamListBackground}"
-                                        BorderColor="{Binding TeamListBorder}"
-                                        TextColor="{Binding TeamListBorder}"
-                                        Command="{Binding TeamCommand}"
-                                        />
-
-                <controls:RoundedButton Margin="10,0"
-                                        Text="Round Players"
-                                        Grid.Row="0"
-                                        x:Name="RoundPlayersButton"
-                                        Grid.Column="2"
-                                        FontSize="Medium"
-                                        HeightRequest="45"
-                                        BackgroundColor="{Binding RoundPlayersBackground}"
-                                        BorderColor="{Binding RoundPlayersBorder}"
-                                        TextColor="{Binding RoundPlayersBorder}"
-                                        Command="{Binding RoundPlayersCommand}"
-                                        />
-
-
-            </Grid>-->
 
             <Grid   
                         ColumnSpacing="0"
@@ -207,11 +154,6 @@
                 </Grid>
             </Grid>
 
-            <!--<BoxView HeightRequest="1"
-                     HorizontalOptions="FillAndExpand"
-                     Margin="20,0,20,0"
-                     Color="{StaticResource LightGreenColor}"/>-->
-
             <StackLayout x:Name="RoundDetailsStackLayout"
                          Margin="20,10,20,0"
                          IsVisible="{Binding RoundDetailsTab}"
@@ -254,7 +196,7 @@
                                     Margin="0,5,0,0"
                                     VerticalOptions="Center"
                                     ItemDisplayBinding="{Binding competitionName}" 
-                                    SelectedIndex="{Binding CompetitionTypeID, Mode=TwoWay}" 
+                                    SelectedIndex="{Binding CompetitionTypeIndex}" 
                                     SelectedIndexChanged="CustomPicker_SelectedIndexChanged"
                                     FontSize="{StaticResource FontSize18}"
                                     BorderColor="{StaticResource TextGrayColor}"
@@ -367,6 +309,23 @@
             
             <!--Teams List View Initially it set to be false-->
             <StackLayout IsVisible="{Binding RoundTeamsTab}">
+                
+                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="10"
+                                 HasShadow="True"
+                                 HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Margin="20,0,20,20"
+                                 Padding="15"
+                                 IsVisible="False">
+                    <Label Text="No Teams Found!."
+                       FontSize="{StaticResource FontSize24}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                </plugins:PancakeView> 
+                
                 <ListView Margin="20,10,20,0"
                       x:Name="TeamListView"
                       ItemsSource="{Binding RoundTeamsItemsList}"
@@ -376,7 +335,8 @@
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
                       CachingStrategy="RecycleElement"
-                      ItemTapped="TeamListView_ItemTapped">
+                      ItemTapped="TeamListView_ItemTapped"
+                      IsVisible="{Binding TeamsListVisible}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <controls:UpdateViewCell SelectedBackgroundColor="#ffffff">
@@ -550,6 +510,23 @@
 
                 </StackLayout>
 
+                <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                                 BorderColor="{StaticResource BorderColor}"
+                                 CornerRadius="10"
+                                 HasShadow="True"
+                                 HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand"
+                                 Margin="20,0,20,20"
+                                 Padding="15"
+                                 IsVisible="False"
+                                     >
+                    <Label Text="No Players Found for this Round!."
+                       FontSize="{StaticResource FontSize24}"
+                       TextColor="{StaticResource LightGreenColor}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                </plugins:PancakeView>
+
                 <ListView Margin="20,0,20,0"
                       x:Name="SelectedPartcipants"
                        ItemsSource="{Binding RoundPlayersList}"
@@ -557,7 +534,8 @@
                       HasUnevenRows="True"
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
-                      VerticalScrollBarVisibility="Never">
+                      VerticalScrollBarVisibility="Never"
+                          IsVisible="{Binding RoundPlayersListViewVisible}">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -631,6 +609,7 @@
                 </StackLayout>
 
             </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

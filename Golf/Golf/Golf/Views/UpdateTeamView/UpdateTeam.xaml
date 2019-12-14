@@ -15,55 +15,114 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Converters:BoolOppositeConverter x:Key="BoolOppositeConverter" />
+
+            <Style x:Key="HeaderLabelTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource BlackTextColor}" />
+                <Setter Property="FontSize" Value="{StaticResource FontSize16}" />
+                <Setter Property="VerticalOptions"  Value="Center" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+
+            <!--<Style x:Key="CheckBoxStyle" 
+                   TargetType="Controls:CustomCheckBox"
+                   BasedOn="{StaticResource CustomCheckBoxStyleGray}">
+                <Setter Property="Margin" Value="60,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>-->
+
+            <Style x:Key="TabTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}" />
+                <Setter Property="FontSize" Value="{StaticResource FontSize16}" />
+                <Setter Property="HorizontalTextAlignment"  Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+
+            <Color x:Key="AccentTabColor">#34a574</Color>
+            <Color x:Key="TabSeparatorColor">#50253748</Color>
+
+            <Style x:Key="TabSeparatorStyle" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource TabSeparatorColor}" />
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="VerticalOptions" Value="End" />
+            </Style>
+
+            <Style x:Key="SelectedTabStyle" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentTabColor}" />
+                <Setter Property="HeightRequest" Value="2" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="Margin" Value="24, 1" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
-            <Grid Margin="10"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="StartAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
+                   <Grid BackgroundColor="White"
+                        Margin="0"
+                        Padding="0"
+                        ColumnSpacing="0"
+                        RowSpacing="0"
+                        VerticalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5.0*"/>
-                    <ColumnDefinition Width="5.0*"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-
-                <controls:RoundedButton Margin="0"
-                                        Text="Team Details"
-                                        Grid.Row="0"
-                                        x:Name="TeamDetailsButton"
-                                        Grid.Column="0"
-                                        FontSize="Medium"
-                                        HeightRequest="45"
-                                        BackgroundColor="{Binding TeamDetailsBackground}"
-                                        BorderColor="{Binding TeamDetailsBorder}"
-                                        Command="{Binding TeamDetailsCommand}"
-                                        TextColor="{Binding TeamDetailsBorder}"/>
-
-                <controls:RoundedButton Margin="10,0"
-                                        Text="Team Players"
-                                        Grid.Row="0"
-                                        x:Name="TeamsButton"
-                                        Grid.Column="1"
-                                        FontSize="Medium"
-                                        HeightRequest="45"
-                                        BackgroundColor="{Binding ParticipantListBackground}"
-                                        BorderColor="{Binding ParticipantListBorder}"
-                                        TextColor="{Binding ParticipantListBorder}"
-                                        Command="{Binding ParticipantListCommand}"
-                                        />
-                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="62" />
+                </Grid.RowDefinitions>
+                <Grid
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            BackgroundColor="{StaticResource WhiteColor}">
+                    <Label   
+                                Text="Team Details"
+                                Style="{StaticResource TabTextStyle}"
+                            >
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsVisibleTeamDetails}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Grid 
+                                Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid   
+                                IsVisible="{Binding IsVisibleTeamDetails}"
+                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                    Command="{Binding TeamDetailsCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Grid
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            BackgroundColor="{StaticResource WhiteColor}">
+                    <Label   
+                                Text="Team Players"
+                                Style="{StaticResource TabTextStyle}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsVisibleParticipantsDetails}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Grid Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid  
+                                IsVisible="{Binding IsVisibleParticipantsDetails}"
+                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                    Command="{Binding ParticipantListCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
             </Grid>
-
-            <BoxView HeightRequest="1"
-                     HorizontalOptions="FillAndExpand"
-                     Margin="20,0,20,0"
-                     Color="{StaticResource LightGreenColor}"/>
 
             <StackLayout x:Name="RoundDetailsStackLayout"
                          Margin="20,10,20,0"
@@ -232,8 +291,8 @@
                                                                  HorizontalOptions="Fill"
                                                                  Padding="5"
                                                                  WidthRequest="100"
-                                                                         CornerRadius="25"
-                                                                         Margin="5,0,5,0"
+                                                                 CornerRadius="25"
+                                                                 Margin="5,0,50,0"
                                                                  IsVisible="{Binding isChecked}">
                                                 <Label Text="{Binding RoleType}"
                                                        HorizontalTextAlignment="Center"

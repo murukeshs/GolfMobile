@@ -23,6 +23,8 @@ namespace Golf.ViewModel
             JoinRoundListAPI();
         }
 
+        #region Property Declaration
+
         public string RoundID
         {
             get { return _RoundID; }
@@ -67,8 +69,6 @@ namespace Golf.ViewModel
         }
         private string _ParticipantID = App.User.UserId.ToString();
 
-
-
         public string RoundFee
         {
             get { return _RoundFee; }
@@ -91,10 +91,23 @@ namespace Golf.ViewModel
         }
         private string _RoundName = string.Empty;
 
+        public string TeamName
+        {
+            get { return _TeamName; }
+            set
+            {
+                _TeamName = value;
+                OnPropertyChanged(nameof(TeamName));
+            }
+        }
+        private string _TeamName = string.Empty;
 
+        #endregion
 
-        #region JoinRound Button Command Functionality
+        #region GetJoinRoundList Command Functionality
+
         public ICommand JoinRoundButtonCommand => new AsyncCommand(JoinRoundAsync);
+
         async Task JoinRoundAsync()
         {
             try
@@ -161,6 +174,7 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
+
         #endregion JoinRound Button Command Functionality
 
         #region Round Picker Selected Command Functionality
@@ -174,8 +188,10 @@ namespace Golf.ViewModel
             CompetitionType = Item.CompetitionName;
             ParticipantName = Item.ParticipantName;
             ParticipantID = Item.ParticipantId.ToString();
+            TeamName = Item.teamName;
             RoundFee = Item.roundFee;
         }
+
         #endregion Round Picker Selected Command Functionality
 
         #region JoinRound Button Command Functionality
@@ -207,7 +223,7 @@ namespace Golf.ViewModel
 
                     if (response.IsSuccessStatusCode)
                     {
-                        await UserDialogs.Instance.AlertAsync("Round Joined Successfully.", "Join Round", "Ok");
+                        await UserDialogs.Instance.AlertAsync("Player Joined the Round Successfully.", "Success", "Ok");
                         var view = new MenuPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);

@@ -50,5 +50,10 @@ namespace Golf.Views
              var item = (sender as CustomCheckBox).BindingContext as AllParticipantsResponse;
             ((AddParticipantPageViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((AddParticipantPageViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);
+        }
     }
 }

@@ -4,7 +4,6 @@ using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
 using Golf.Views.CreateRoundView;
-using Golf.Views.MenuView;
 using Golf.Views.PoppupView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -23,9 +22,7 @@ namespace Golf.ViewModel
 {
     public class AddParticipantPageViewModel : BaseViewModel
     {
-        public ObservableCollection<AllParticipantsResponse> PlayersList = new ObservableCollection<AllParticipantsResponse>();
 
-        public int ScoreKeeperId = 0;
         public AddParticipantPageViewModel()
         {
             LoadPlayerListAsync();
@@ -33,13 +30,32 @@ namespace Golf.ViewModel
             TeamName = App.User.TeamName;
             //For Clear the team preview list
             App.User.TeamPreviewList.Clear();
+            App.User.ScoreKeeperId = 0;
 
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                 TeamPlayersIds.Remove(userId);
             });
+
         }
+
+        #region Property Declaration
+
+        public ObservableCollection<AllParticipantsResponse> PlayersListItems
+        {
+            get { return _PlayersListItems; }
+            set
+            {
+                _PlayersListItems = value;
+                OnPropertyChanged("PlayersListItems");
+            }
+        }
+        private ObservableCollection<AllParticipantsResponse> _PlayersListItems;
+
+        private ObservableCollection<AllParticipantsResponse> OriginalPlayersList = new ObservableCollection<AllParticipantsResponse>();
+
+        public int ScoreKeeperId = 0; 
 
         public string TeamName
         {
@@ -63,18 +79,11 @@ namespace Golf.ViewModel
         }
         private string _ProfileImage = string.Empty;
 
+        #endregion
+
         #region PlayerList API Functionality
 
-        public ObservableCollection<AllParticipantsResponse> PlayersListItems
-        {
-            get { return _PlayersListItems; }
-            set
-            {
-                _PlayersListItems = value;
-                OnPropertyChanged("PlayersListItems");
-            }
-        }
-        private ObservableCollection<AllParticipantsResponse> _PlayersListItems;
+        public ObservableCollection<AllParticipantsResponse> PlayersList = new ObservableCollection<AllParticipantsResponse>();
 
         async void LoadPlayerListAsync()
         {
@@ -101,11 +110,8 @@ namespace Golf.ViewModel
                             }
                             PlayersList.Add(value);
                         }
-                        OnPropertyChanged("PlayersList");
-                        //var value = Items.Where(x => x.userId == ).ToList().ForEach(s => s.isChecked = true);
-                        //Assign the Values to Listview
-                        //PlayersList = Items;
                         PlayersListItems = PlayersList;
+                        OriginalPlayersList = PlayersList;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -132,7 +138,9 @@ namespace Golf.ViewModel
         #endregion PlayerList API Functionality
 
         #region TeamPreview Command Functionality
+
         public ICommand TeamPreviewCommand => new AsyncCommand(TeamPreviewButtonAsync);
+
         async Task TeamPreviewButtonAsync()
         {
             try
@@ -146,6 +154,7 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
+
         #endregion TeamPreview Command Functionality
 
         #region CheckBox Selected Command Functionality
@@ -153,6 +162,7 @@ namespace Golf.ViewModel
         public List<int> TeamPlayersIds = new List<int>();
 
         public ObservableCollection<AddPlayersList> TeamPreviewList = new ObservableCollection<AddPlayersList>();
+
         public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
 
         async void CheckboxChangedEvent(object parameter)
@@ -193,7 +203,9 @@ namespace Golf.ViewModel
         #endregion CheckBox Selected Command Functionality
 
         #region Toggle Selected Command Functionality
+
         public ICommand ToggleSelectedCommand => new Command(ToggleChangedEvent);
+
         void ToggleChangedEvent(object parameter)
         {
             try
@@ -218,25 +230,16 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
             }
         }
 
-
-        //To Hide and UnHide Players details Page
-        async void UpdateItems(AllParticipantsResponse Items)
-        {
-            var index = PlayersList.IndexOf(Items);
-            PlayersList.Remove(Items);
-            PlayersList.Insert(index, Items);
-            OnPropertyChanged(nameof(PlayersList));
-        }
         #endregion Toggle Selected Command Functionality
 
         #region CreateTeamPlayers Button Command Functionality
 
         public ICommand CreateTeamButtonCommand => new AsyncCommand(CreateTeamPlayersAsync);
-        //Create Team Players API Function
+
         async Task CreateTeamPlayersAsync()
         {
             try
@@ -312,6 +315,7 @@ namespace Golf.ViewModel
         #endregion CreateTeamPlayers Button Command Functionality
 
         #region AddParticipants Button Selected Command Functionality
+
         public ICommand AddParticipantsCommand => new AsyncCommand(AddParticipantsAsync);
 
         async Task AddParticipantsAsync()
@@ -321,8 +325,49 @@ namespace Golf.ViewModel
             await PopupNavigation.Instance.PushAsync(view);
             UserDialogs.Instance.HideLoading();
         }
+
         #endregion AddParticipants Button Command Functionality
 
+        #region Serach Command
+
+        private ObservableCollection<AllParticipantsResponse> TempPlayersList = new ObservableCollection<AllParticipantsResponse>();
+
+        public ICommand SearchCommand => new Command<string>(Search);
+
+        public async void Search(string keyword)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    TempPlayersList = new ObservableCollection<AllParticipantsResponse>();
+
+                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+
+                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));
+
+                    foreach (var item in query)
+                    {
+                        var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
+
+                        TempPlayersList.Add(value);
+                    }
+
+                    PlayersListItems = TempPlayersList;
+                }
+                else
+                {
+                    PlayersListItems = OriginalPlayersList;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
+
+        #endregion
     }
 
 }

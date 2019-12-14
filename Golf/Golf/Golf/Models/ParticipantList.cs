@@ -8,6 +8,7 @@ namespace Golf.Models
     public class AllParticipants
     {
         public int teamPlayerListId { get; set; }
+
         public int teamId { get; set; }
 
         public string playerName { get; set; }

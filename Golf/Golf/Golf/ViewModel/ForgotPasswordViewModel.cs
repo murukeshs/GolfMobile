@@ -2,9 +2,7 @@
 using Golf.Controls;
 using Golf.Models;
 using Golf.Services;
-using Golf.Utils;
 using Golf.Views;
-using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -18,6 +16,8 @@ namespace Golf.ViewModel
 {
     public class ForgotPasswordViewModel : BaseViewModel
     {
+        #region Property Declaration
+
         public bool IsValid
         {
             get
@@ -114,6 +114,7 @@ namespace Golf.ViewModel
             }
         }
         private bool _IsSms = false;
+         
         public bool OtpGenerateLayout
         {
             get
@@ -142,6 +143,8 @@ namespace Golf.ViewModel
         }
         private bool _UpdatePasswordLayout = false;
 
+        #endregion
+
         #region OtpVia checkbox changed
         public ICommand OtpViaCheckedChangedCommand => new Command<CustomCheckBox>(OtpViaOnChange);
 
@@ -162,7 +165,14 @@ namespace Golf.ViewModel
         }
         #endregion
 
+        #region Resend OTP Command Functionalit
+
+        public ICommand ResendOTPCommand => new Command(ContinueAsync);
+
+        #endregion
+
         #region Continue Clicked Command
+
         public ICommand ContinueClickedCommand => new Command(ContinueAsync);
 
         async void ContinueAsync()

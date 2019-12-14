@@ -19,6 +19,17 @@ namespace Golf.ViewModel
 {
     public class CreateTeamPageViewModel : BaseViewModel
     {
+
+        public CreateTeamPageViewModel()
+        {
+            StartingHoleList = new List<int>
+            {
+                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+            };
+        }
+
+        #region Property Declaration
+
         public List<int> StartingHoleList
         {
             get { return _StartingHoleList; }
@@ -29,13 +40,7 @@ namespace Golf.ViewModel
             }
         }
         private List<int> _StartingHoleList;
-        public CreateTeamPageViewModel()
-        {
-            StartingHoleList = new List<int>
-            {
-                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
-            };
-        }
+       
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
@@ -95,6 +100,8 @@ namespace Golf.ViewModel
         }
         private int _StartingHole = -1;
 
+        #endregion
+
         #region Round Picker Selected Command Functionality
 
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
@@ -107,7 +114,9 @@ namespace Golf.ViewModel
         #endregion Round Picker Selected Command Functionality
 
         #region CreateTeam Procced Button Command Functionality
+
         public ICommand CreateTeamProccedButtonCommand => new AsyncCommand(CreateTeamButtonAsync);
+
         async Task CreateTeamButtonAsync()
         {
             IsValid = Validate();
@@ -149,8 +158,6 @@ namespace Golf.ViewModel
             }
         }
 
-
-        ////Team Creatiation API
         async Task CreateTeamAsync()
         {
             try
@@ -228,9 +235,10 @@ namespace Golf.ViewModel
         }
         #endregion CreateTeam Procced Button Command Functionality
 
-
         #region TakePicture Command Functionality
+
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
+
         async Task CaptureImageButton_Clicked()
         {
             try
@@ -273,12 +281,12 @@ namespace Golf.ViewModel
             }
         }
 
-
         #endregion
 
-
         #region Gallery Command Functionality
+
         public ICommand GalleryCommand => new AsyncCommand(GalleryImageButton_Clicked);
+
         private async Task GalleryImageButton_Clicked()
         {
             try

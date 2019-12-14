@@ -8,15 +8,19 @@
              xmlns:Converters="clr-namespace:Golf.Converters"
              x:Class="Golf.Views.ViewAllParticipantsPage"
              Title="Participant's Listing">
+    
     <ContentPage.BindingContext>
         <ViewModel:ViewAllParticipantsViewModel/>
     </ContentPage.BindingContext>
+    
     <ContentPage.Resources>
 
         <ResourceDictionary>
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
             <Converters:ConvertStringToList x:Key="convertToList"/>
+            <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
         </ResourceDictionary>
+        
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
@@ -34,7 +38,8 @@
                                       HorizontalTextAlignment="Center"
                                       FontSize="{StaticResource FontSize20}"
                                       FontAttributes="Italic" 
-                                      BackgroundColor="{StaticResource WhiteColor}"/>
+                                      BackgroundColor="{StaticResource WhiteColor}"
+                                      TextChanged="SearchBar_TextChanged"/>
             </plugins:PancakeView>
 
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
@@ -54,7 +59,7 @@
             </plugins:PancakeView>
 
             <ListView Margin="20,0,20,5"
-                      x:Name="ListView"
+                      x:Name="ParticipantListView"
                       ItemsSource="{Binding ParticipantItems}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
@@ -96,30 +101,21 @@
                                                Text="{Binding email}"
                                                Margin="0"/>
                                             </StackLayout>
-                                    </StackLayout>
-                                        <!--<Controls:HorizontalList ListOrientation="Horizontal" 
-                                                                 ItemsSource="{Binding userType,Converter={StaticResource convertToList}}" 
-                                                                 Padding="0"
-                                                                 Margin="10,0,0,5"
-                                                                 >
-                                            <Controls:HorizontalList.ItemTemplate>
-                                                <DataTemplate>
-                                                    <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
-                                                                         CornerRadius="25"
-                                                                         Margin="5,0,5,0">
-                                                        <Label Text="{Binding .}"
-                                                               TextColor="{StaticResource WhiteColor}"
-                                                               FontSize="{StaticResource FontSize16}"
-                                                               Margin="10,5,10,5"/>
-                                                    </plugins:PancakeView>
-                                                </DataTemplate>
-                                            </Controls:HorizontalList.ItemTemplate>
-                                        </Controls:HorizontalList>-->
+                                            <Image  
+                                            HeightRequest="40"
+                                            WidthRequest="40"
+                                            Aspect="AspectFit"
+                                                Margin="5,0,0,0"
+                                                Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="End"/>
+                                        </StackLayout>
                                     </StackLayout>
                                 </plugins:PancakeView>
                             </ContentView>
                         </Controls:UpdateViewCell>
                     </DataTemplate>
+                    
                 </ListView.ItemTemplate>
             </ListView>
 

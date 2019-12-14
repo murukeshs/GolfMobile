@@ -23,82 +23,59 @@ namespace Golf.ViewModel
 {
     public class UpdateTeamViewModel : BaseViewModel
     {
-        public int ScoreKeeperId = 0;
-        public int DefaultScoreKeeperId = 0;
+
         public UpdateTeamViewModel()
         {
+            SetTeamDetails();
             StartingHoleList = new List<int>
             {
                 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
             };
             TeamName = App.User.TeamName;
-            LoadTeamDetails();        
+            LoadTeamDetails();
         }
+
+        #region Tab Functionality
+
+        bool isVisibleTeamDetails;
+
+        bool isVisibleParticipantsDetails;
+
         public bool IsVisibleTeamDetails
         {
-            get { return _IsVisibleTeamDetails; }
-            set
-            {
-                _IsVisibleTeamDetails = value;
-                OnPropertyChanged(nameof(IsVisibleTeamDetails));
-            }
+            get => isVisibleTeamDetails;
+            set => SetProperty(ref isVisibleTeamDetails, value);
         }
-        private bool _IsVisibleTeamDetails = true;
 
         public bool IsVisibleParticipantsDetails
         {
-            get { return _IsVisibleParticipantsDetails; }
-            set
-            {
-                _IsVisibleParticipantsDetails = value;
-                OnPropertyChanged(nameof(IsVisibleParticipantsDetails));
-            }
+            get => isVisibleParticipantsDetails;
+            set => SetProperty(ref isVisibleParticipantsDetails, value);
         }
-        private bool _IsVisibleParticipantsDetails = false;
 
-        public Color TeamDetailsBackground
-        {
-            get { return _TeamDetailsBackground; }
-            set
-            {
-                _TeamDetailsBackground = value;
-                OnPropertyChanged(nameof(TeamDetailsBackground));
-            }
-        }
-        private Color _TeamDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
+        public ICommand TeamDetailsCommand => new Command(SetTeamDetails);
 
-        public Color ParticipantListBackground
-        {
-            get { return _ParticipantListBackground; }
-            set
-            {
-                _ParticipantListBackground = value;
-                OnPropertyChanged(nameof(ParticipantListBackground));
-            }
-        }
-        private Color _ParticipantListBackground = Color.White;
+        public ICommand ParticipantListCommand => new Command(SetParticipantList);
 
-        public Color TeamDetailsBorder
+        void SetTeamDetails()
         {
-            get { return _TeamDetailsBorder; }
-            set
-            {
-                _TeamDetailsBorder = value;
-                OnPropertyChanged(nameof(TeamDetailsBorder));
-            }
+            IsVisibleTeamDetails = true;
+            IsVisibleParticipantsDetails = false;
         }
-        private Color _TeamDetailsBorder = Color.White;
 
-        public Color ParticipantListBorder
+        void SetParticipantList()
         {
-            get { return _ParticipantListBorder; }
-            set
-            {
-                _ParticipantListBorder = value;
-                OnPropertyChanged(nameof(ParticipantListBorder));
-            }
+            IsVisibleTeamDetails = false;
+            IsVisibleParticipantsDetails = true;
         }
-        private Color _ParticipantListBorder = (Color)App.Current.Resources["LightGreenColor"];
+
+        #endregion
+
+        #region Property  Declartion
+
+        public int ScoreKeeperId = 0;
+
+        public int DefaultScoreKeeperId = 0;  
 
         public List<int> StartingHoleList
         {
@@ -114,7 +91,7 @@ namespace Golf.ViewModel
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
         public byte[] imageData = null;
-        public bool IsValid { get; set; }
+
         public string TeamNameText
         {
             get
@@ -203,6 +180,8 @@ namespace Golf.ViewModel
         }
         public List<TeamPlayerDetails> _PlayersList = null;
 
+        #endregion
+
         #region Round Picker Selected Command Functionality
 
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
@@ -212,10 +191,15 @@ namespace Golf.ViewModel
             var item = parameter as int?;
             StartingHole = Convert.ToInt16(item);
         }
+
         #endregion Round Picker Selected Command Functionality
 
         #region UpdateTeam Procced Button Command Functionality
+
+        public bool IsValid { get; set; }
+
         public ICommand UpdateTeamProccedButtonCommand => new AsyncCommand(UpdateTeamButtonAsync);
+
         async Task UpdateTeamButtonAsync()
         {
             IsValid = Validate();
@@ -409,6 +393,10 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
+
+        #region SendImageToCloud
+
         async Task SendIssueImageToCloud()
         {
             try
@@ -416,7 +404,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //string RestURL = App.User.BaseUrl + "UploadFile/UploadFile";
                     string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
                     Uri requestUri = new Uri(RestURL);
 
@@ -466,40 +453,9 @@ namespace Golf.ViewModel
                 DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
-
         #endregion
 
-        #region Team Details Button Command Functionality
-        public ICommand TeamDetailsCommand => new AsyncCommand(TeamDetailsAsync);
-
-        async Task TeamDetailsAsync()
-        {
-            IsVisibleTeamDetails = true;
-            IsVisibleParticipantsDetails = false;
-            TeamDetailsBackground = (Color)App.Current.Resources["LightGreenColor"];
-            ParticipantListBorder = (Color)App.Current.Resources["LightGreenColor"];
-            TeamDetailsBorder = Color.White;
-            ParticipantListBackground = Color.White;
-        }
-        #endregion Team Details Button Command Functionality
-
         #region Participant Button Command Functionality
-
-        public ICommand ParticipantListCommand => new AsyncCommand(ParticipantListAsync);
-
-        async Task ParticipantListAsync()
-        {
-            UserDialogs.Instance.ShowLoading();
-            IsVisibleTeamDetails = false;
-            IsVisibleParticipantsDetails = true;
-
-            ParticipantListBackground = (Color)App.Current.Resources["LightGreenColor"];
-            ParticipantListBorder = Color.White;
-            TeamDetailsBackground = Color.White;
-            TeamDetailsBorder = (Color)App.Current.Resources["LightGreenColor"];
-
-            UserDialogs.Instance.HideLoading();
-        }
 
         public List<RoundDetailsListTeamList> roundTeamsItemsList = new List<RoundDetailsListTeamList>();
 
@@ -594,7 +550,8 @@ namespace Golf.ViewModel
                         var Item = JsonConvert.DeserializeObject<TeamDetails>(responJsonText);
                         App.User.CreateTeamId = Item.teamId;
                         TeamNameText = Item.teamName;
-                        DefaultStartingHole = Item.startingHole;
+                        StartingHole = Item.startingHole;
+                        await LoadStartingHole(Item.startingHole);
                         TeamProfilePicture = Item.teamIcon;
                         UserNameText = Item.createdByName;
                         PlayersList = Item.TeamPlayerDetails;
@@ -628,6 +585,12 @@ namespace Golf.ViewModel
                     DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
                 }
             }
+        }
+
+        public async Task LoadStartingHole(int id)
+        {
+            int index = StartingHoleList.FindIndex(c => c == id);
+            DefaultStartingHole = index;
         }
         #endregion
 
@@ -754,6 +717,7 @@ namespace Golf.ViewModel
                             var view = new RoundDetailsPage();
                             var navigationPage = ((NavigationPage)App.Current.MainPage);
                             await navigationPage.PushAsync(view);
+                            await Task.Delay(20);
                         }
                         else
                         {
@@ -789,7 +753,29 @@ namespace Golf.ViewModel
 
         #region RemoveParticipant Command
      
-       public ICommand RemoveParticipantCommand => new Command<TeamPlayerDetails>(RemoveParticipant);
+       public ICommand RemoveParticipantCommand => new Command<TeamPlayerDetails>(RemoveParticipantAsync);
+
+        public async void RemoveParticipantAsync(TeamPlayerDetails item)
+        {
+
+            var confirmdialog = new ConfirmConfig()
+            {
+                CancelText = "No",
+                OkText = "Yes",
+                Message = "Are sure you want to Delete?."
+            };
+
+            var result = await UserDialogs.Instance.ConfirmAsync(confirmdialog);
+
+            if (result)
+            {
+                RemoveParticipant(item);
+            }
+            else
+            {
+                return;
+            }
+        }
 
         public async void RemoveParticipant(TeamPlayerDetails item)
         {

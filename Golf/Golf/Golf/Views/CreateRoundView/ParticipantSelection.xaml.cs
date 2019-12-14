@@ -24,5 +24,10 @@ namespace Golf.Views.CreateRoundView
             var item = (sender as CheckBox).BindingContext as AllParticipantsResponse;
             ((ParticipantSelectionViewModel)BindingContext).CheckBoxSelectedCommand.Execute(item);
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((ParticipantSelectionViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);
+        }
     }
 }

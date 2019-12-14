@@ -21,6 +21,9 @@ namespace Golf.ViewModel
             Email = App.User.OtpEmail;
             GenerateOTP();
         }
+
+        #region Property Declaration
+
         public string OTP
         {
             get
@@ -134,6 +137,18 @@ namespace Golf.ViewModel
         }
         private string _Email = string.Empty;
 
+        #endregion
+
+        #region Resend OTP Command Functionality
+        public ICommand ResendOTPCommand => new AsyncCommand(ResendOTP);
+
+        async Task ResendOTP()
+        {
+            GenerateOTP();
+        }
+
+        #endregion
+
         #region generateOTP
         public async void GenerateOTP()
         {
@@ -181,7 +196,6 @@ namespace Golf.ViewModel
             }
         }
         #endregion
-
 
         #region validateOTP
 
