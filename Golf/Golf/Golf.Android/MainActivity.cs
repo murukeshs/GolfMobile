@@ -1,10 +1,5 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Acr.UserDialogs;
 using Xamarin.Forms;
@@ -12,10 +7,6 @@ using Golf.Services;
 using Plugin.CurrentActivity;
 using Golf.Droid.Services;
 using Plugin.Permissions;
-using Android.Content;
-using Android.Database;
-using Android.Provider;
-using System.Collections.Generic;
 
 namespace Golf.Droid
 {

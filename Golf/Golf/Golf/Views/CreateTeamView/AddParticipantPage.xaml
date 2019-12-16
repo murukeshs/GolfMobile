@@ -42,48 +42,27 @@
                                      />
             </plugins:PancakeView>
 
-                <Grid Margin="20,10,20,10">
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="5.0*"/>
-                        <ColumnDefinition Width="5.0*"/>
-                    </Grid.ColumnDefinitions>
-                
             <Label Text="{Binding TeamName}"
                    TextColor="{StaticResource BlackColor}"
                    FontSize="{StaticResource FontSize28}"
                    FontAttributes="Bold"
                    VerticalOptions="Center"
-                   Margin="0"
+                   HorizontalTextAlignment="Center"
+                   Margin="20,10,20,10"
                    Grid.Row="0"
                    Grid.Column="0"
                    HorizontalOptions="FillAndExpand"/>
 
-            <Controls:RoundedButton Text="Invite Participant"
-                                    Margin="0"
-                                    Grid.Row="0"
-                                    CornerRadius="10"
-                                    VerticalOptions="Center"
-                                    Grid.Column="1"
-                                    FontSize="Medium"
-                                    HorizontalOptions="FillAndExpand"
-                                    Command="{Binding AddParticipantsCommand}"
-                                    Padding="5,5"/>
-                </Grid>
-
             <StackLayout Orientation="Horizontal"
-                         Margin="30,0,20,0">
+                         Margin="30,0,30,5">
 
-                <Label Text="Player Name"
+                <Label Text="Is ScoreKeeper"
                        FontAttributes="Bold"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource LightGreenColor}"
                        HorizontalOptions="StartAndExpand"/>
 
-                <Label Text="Is ScoreKeeper"
+                <Label Text="Player Name"
                        FontAttributes="Bold"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource LightGreenColor}"
@@ -117,18 +96,22 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
-                                                  Grid.Row="0" 
-                                                  Grid.Column="0"
-                                                  Margin="5,0,0,0"
-                                                  Checked="{Binding IsChecked}"
-                                                  HorizontalOptions="Start"
-                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+
+                                    <ImageButton Source="{Binding ImageIcon}"
+                                                         Grid.Row="0"
+                                                         Grid.Column="0"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="40"
+                                                         WidthRequest="40"
+                                                         Aspect="AspectFit"
+                                                         HorizontalOptions="Start"
+                                                         VerticalOptions="Center"
+                                                         Clicked="ImageButton_Clicked"/>
 
                                     <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
                                                               Grid.Row="0" 
@@ -149,17 +132,14 @@
                                             FontAttributes="Bold"
                                                 HorizontalOptions="FillAndExpand"/>
 
-                                    <ImageButton Source="{Binding ImageIcon}"
-                                                         Grid.Row="0"
-                                                         Grid.Column="3"
-                                                         BackgroundColor="Transparent"
-                                                         HeightRequest="40"
-                                                         WidthRequest="40"
-                                                         Aspect="AspectFit"
-                                                         HorizontalOptions="End"
-                                                         VerticalOptions="Center"
-                                                         Clicked="ImageButton_Clicked"
-                                                 />
+
+                                    <Controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
+                                                  Grid.Row="0" 
+                                                  Grid.Column="3"
+                                                  Margin="0,0,0,0"
+                                                  Checked="{Binding IsChecked}"
+                                                  HorizontalOptions="End"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
 
                                 </Grid>
                             </StackLayout>

@@ -131,7 +131,7 @@ namespace Golf.ViewModel
 
                     PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
 
-                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));
+                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword.ToLower()) || x.playerName.ToLower().Contains(keyword.ToLower()));
 
                     foreach (var item in query)
                     {

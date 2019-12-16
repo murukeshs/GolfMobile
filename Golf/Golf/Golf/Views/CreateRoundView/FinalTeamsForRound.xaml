@@ -134,7 +134,7 @@
                                                              Grid.Row="0"
                                                              HorizontalOptions="StartAndExpand"
                                                              Grid.Column="0">
-                                                                        <Label Text="Invitation Approved:"
+                                                                        <Label Text="Invitation Status:"
                                                        Margin="0"
                                                        VerticalOptions="Center"
                                                        FontSize="{StaticResource FontSize12}"/>

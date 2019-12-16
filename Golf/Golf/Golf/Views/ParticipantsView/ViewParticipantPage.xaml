@@ -191,13 +191,15 @@
                 <StackLayout Orientation="Horizontal"
                          Margin="30,0,30,0">
 
-                    <Label Text="Player Name"
+                   
+
+                    <Label Text="Is ScoreKeeper"
                        FontAttributes="Bold"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource LightGreenColor}"
                        HorizontalOptions="StartAndExpand"/>
 
-                    <Label Text="Is ScoreKeeper"
+                    <Label Text="Player Name"
                        FontAttributes="Bold"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource LightGreenColor}"
@@ -237,14 +239,16 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <CheckBox Grid.Row="0" 
-                                                  Grid.Column="0"
-                                                  Margin="10,0,0,0"
-                                                  IsChecked="{Binding IsChecked}"
-                                                  HorizontalOptions="Start"
-                                                  Color="{StaticResource TextGrayColor}"
-                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+                                                <ImageButton Source="{Binding ImageIcon}"
+                                                         Grid.Row="0"
+                                                         Grid.Column="0"
+                                                         BackgroundColor="Transparent"
+                                                         HeightRequest="45"
+                                                         WidthRequest="45"
+                                                         HorizontalOptions="End"
+                                                         Clicked="ImageButton_Clicked"/>
 
+                                          
                                                 <Label  Grid.Row="0"
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
@@ -263,14 +267,14 @@
                                                     HorizontalOptions="End"
                                                 />-->
 
-                                                <ImageButton Source="{Binding ImageIcon}"
-                                                         Grid.Row="0"
-                                                         Grid.Column="2"
-                                                         BackgroundColor="Transparent"
-                                                         HeightRequest="45"
-                                                         WidthRequest="45"
-                                                         HorizontalOptions="End"
-                                                         Clicked="ImageButton_Clicked"/>
+                                                <CheckBox Grid.Row="0" 
+                                                  Grid.Column="2"
+                                                  Margin="10,0,0,0"
+                                                  IsChecked="{Binding IsChecked}"
+                                                  HorizontalOptions="Start"
+                                                  Color="{StaticResource TextGrayColor}"
+                                                  CheckedChanged="CheckBox_CheckedChanged"/>
+
 
                                             </Grid>
                                             <Controls:HorizontalList ListOrientation="Horizontal" 

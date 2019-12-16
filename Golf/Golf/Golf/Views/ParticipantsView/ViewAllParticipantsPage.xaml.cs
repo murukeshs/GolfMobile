@@ -2,6 +2,7 @@
 using Golf.Models;
 using Golf.ViewModel;
 using Golf.Views.ParticipantsView;
+using Golf.Views.RoundDetailsView;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -33,24 +34,21 @@ namespace Golf.Views
         {
             try
             {
-                
-                    if (e.Item == null)
-                        return;
-
+                if (e.Item == null)
+                    return;
+                //Deselect Item
+                ((ListView)sender).SelectedItem = null;
                 var item = (AllParticipantsResponse)e.Item;
                 if (!item.isPublicProfile)
                 {
-                    UserDialogs.Instance.Alert("It is a Private Profile!!!", "Alert", "Ok");
+                    var msg = item.playerName + "a Private Profile!!!";
+                    UserDialogs.Instance.Alert(msg, "Private Profile", "Ok");
                 }
                 else
                 {
-                    var id = item.userId;
-                    var view = new ViewParticipantByIdPage(id);
-                    var navigationPage = ((NavigationPage)App.Current.MainPage);
-                    await navigationPage.PushAsync(view);     
+                    await PopupNavigation.Instance.PushAsync(new RoundPlayerDetailsPopup(item));
                 }
-                    //Deselect Item
-                    ((ListView)sender).SelectedItem = null;
+                   
             }
             catch(Exception ex)
             {

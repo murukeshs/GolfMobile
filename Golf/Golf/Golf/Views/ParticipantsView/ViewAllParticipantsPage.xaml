@@ -19,6 +19,7 @@
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
             <Converters:ConvertStringToList x:Key="convertToList"/>
             <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
+            <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
         </ResourceDictionary>
         
     </ContentPage.Resources>
@@ -82,33 +83,58 @@
                                     <StackLayout>
                                         <StackLayout Orientation="Horizontal"
                                                      Margin="0,5,0,2"
-                                                     Padding="0"
+                                                     Padding="5"
                                                      Spacing="0">
                                             <Controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImagaConverter}}"
-                                                                  HeightRequest="60"
-                                                                  WidthRequest="60"
-                                                                  Aspect="Fill"
-                                                                  Margin="10,0"/>
-                                            <StackLayout Margin="5,0,10,0"
+                                                                  HeightRequest="80"
+                                                                  WidthRequest="80"
+                                                                  Aspect="AspectFill"
+                                                                  Margin="10,0,5,0"/>
+                                            <StackLayout Margin="5,0,0,0"
                                                          HorizontalOptions="FillAndExpand">
-                                                <Label FontSize="{StaticResource FontSize20}"
+                                                  
+                                                    <Label FontSize="{StaticResource FontSize20}"
                                                FontAttributes="Bold"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="FillAndExpand"
                                                TextColor="{StaticResource TextGrayColor}"
-                                               Text="{Binding playerName}"
+                                               Text="{Binding nickName}"
                                                Margin="0"/>
+                                                   
                                                 <Label FontSize="{StaticResource FontSize16}"
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding email}"
                                                Margin="0"/>
+
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                               
+                                                Margin="0"
+                                                Source="{Binding gender, Converter={StaticResource GenderIconConverter}}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="Fill"/>
+
+                                                    <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                                Margin="0"
+                                                Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="End"/>
+                                                </StackLayout>
                                             </StackLayout>
-                                            <Image  
+                                            <!--<Image  
                                             HeightRequest="40"
                                             WidthRequest="40"
                                             Aspect="AspectFit"
                                                 Margin="5,0,0,0"
                                                 Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
                                                 VerticalOptions="Center"
-                                                HorizontalOptions="End"/>
+                                                HorizontalOptions="End"/>-->
                                         </StackLayout>
                                     </StackLayout>
                                 </plugins:PancakeView>

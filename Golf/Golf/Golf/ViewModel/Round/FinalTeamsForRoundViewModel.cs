@@ -2,9 +2,11 @@
 using Golf.Models;
 using Golf.Services;
 using Golf.Views;
+using Golf.Views.CreateRoundView;
 using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -77,11 +79,12 @@ namespace Golf.ViewModel.Round
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        await UserDialogs.Instance.AlertAsync("Notification Send To all Players in the Round", "Success", "Ok");
+                        //await UserDialogs.Instance.AlertAsync("Notification Send To all Players in the Round", "Success", "Ok");
                         UserDialogs.Instance.HideLoading();
-                        var view = new MenuPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
+                        //var view = new MenuPage();
+                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //await navigationPage.PushAsync(view);
+                        await PopupNavigation.Instance.PushAsync(new SendInvitePoppup());
                     }
                     else
                     {

@@ -8,13 +8,13 @@ using Xamarin.Forms.Xaml;
 
 namespace Golf.Views.RoundDetailsView
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RoundDetailsPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class RoundDetailsPage : ContentPage
+    {
 
-        public RoundDetailsPage ()
-		{
-			InitializeComponent ();
+        public RoundDetailsPage()
+        {
+            InitializeComponent();
         }
 
         private void TeamListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -62,7 +62,7 @@ namespace Golf.Views.RoundDetailsView
                 var item = (sender as ImageButton).BindingContext as RoundDetailsListTeamList;
                 ((RoundDetailsPageViewModel)BindingContext).EditTeamCommand.Execute(item);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var a = ex.Message;
             }
@@ -84,6 +84,20 @@ namespace Golf.Views.RoundDetailsView
         {
             var item = (sender as CustomCheckBox).BindingContext as AllParticipantsResponse;
             ((RoundDetailsPageViewModel)BindingContext).UserCheckBoxSelectedCommand.Execute(item);
+        }
+
+        private void ViewprofileParticipantClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
+                ((RoundDetailsPageViewModel)BindingContext).ViewProileCommand.Execute(item);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

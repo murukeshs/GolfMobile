@@ -18,9 +18,11 @@
 
             <Converters:PaymentImageConverter x:Key="PaymentConverter" />
             <Converters:LinkApprovedImageConverter x:Key="LinkApprovedConverter" />
-
             <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
             <Converters:BoolOppositeConverter x:Key="BoolOppositeConverter" />
+            <Converters:ConvertStringToList x:Key="convertToList"/>
+            <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
+            <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
 
             <Style x:Key="CheckBoxStyle" 
                    TargetType="controls:CustomCheckBox"
@@ -109,30 +111,6 @@
                             Grid.Row="0"
                             BackgroundColor="{StaticResource WhiteColor}">
                     <Label   
-                                Text="Teams"
-                                Style="{StaticResource TabTextStyle}">
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding RoundTeamsTab}" Value="true" >
-                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
-                                <Setter Property="FontAttributes" Value="Bold"/>
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
-                    <Grid 
-                                Style="{StaticResource TabSeparatorStyle}"/>
-                    <Grid  
-                                IsVisible="{Binding RoundTeamsTab}"
-                                Style="{StaticResource SelectedTabStyle}"/>
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                                    Command="{Binding RoundTeamsTabCommand}" />
-                    </Grid.GestureRecognizers>
-                </Grid>
-                <Grid
-                            Grid.Column="2"
-                            Grid.Row="0"
-                            BackgroundColor="{StaticResource WhiteColor}">
-                    <Label   
                                 Text="Round Players"
                                 Style="{StaticResource TabTextStyle}">
                         <Label.Triggers>
@@ -152,6 +130,31 @@
                                     Command="{Binding RoundPlayersTabCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
+                <Grid
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            BackgroundColor="{StaticResource WhiteColor}">
+                    <Label   
+                                Text="Teams"
+                                Style="{StaticResource TabTextStyle}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding RoundTeamsTab}" Value="true" >
+                                <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Grid 
+                                Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid  
+                                IsVisible="{Binding RoundTeamsTab}"
+                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                    Command="{Binding RoundTeamsTabCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+               
             </Grid>
 
             <StackLayout x:Name="RoundDetailsStackLayout"
@@ -440,7 +443,7 @@
                                                              Grid.Row="0"
                                                              HorizontalOptions="StartAndExpand"
                                                              Grid.Column="0">
-                                                                        <Label Text="Invitation Approved:"
+                                                                        <Label Text="Invitation Status:"
                                                        Margin="0"
                                                        VerticalOptions="Center"
                                                        FontSize="{StaticResource FontSize12}"/>
@@ -543,50 +546,85 @@
                                 <ContentView Padding="5" >
                                     <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                                      CornerRadius="10"
-                                                     HasShadow="False"
-                                                     BorderColor="{StaticResource LightGrayColor}"
-                                                     Padding="10">
+                                                     HasShadow="True">
                                         <StackLayout>
-                                            <Grid Padding="0"
-                                          RowSpacing="0"
-                                          Margin="0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
+                                            <StackLayout Orientation="Horizontal"
+                                                     Margin="0,5,0,2"
+                                                     Padding="5"
+                                                     Spacing="0">
+                                                <controls:CircleImage Source="{Binding profileImage,Converter={StaticResource ProfileImageConverter}}"
+                                                                  HeightRequest="80"
+                                                                  WidthRequest="80"
+                                                                  Aspect="AspectFill"
+                                                                  Margin="10,0"/>
+                                                <StackLayout Margin="0,0,0,0"
+                                                         HorizontalOptions="FillAndExpand">
+                                                  
+                                                       
+                                                        <Label FontSize="{StaticResource FontSize20}"
+                                               FontAttributes="Bold"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="Fill"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding nickName}"
+                                               Margin="0"/>
 
-                                                <Label  Grid.Row="0"
-                                                Grid.Column="0"
-                                                Margin="10,0,0,0"
-                                                x:Name="playerNameLabel"
-                                                Text="{Binding playerName}"
-                                                FontSize="{StaticResource FontSize20}"
-                                                TextColor="{StaticResource BlackColor}"
+                                                    <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource TextGrayColor}"
+                                               Text="{Binding email}"
+                                               Margin="0"/>
+
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                                Margin="0"
+                                                Source="{Binding gender, Converter={StaticResource GenderIconConverter}}"
                                                 VerticalOptions="Center"
-                                                HorizontalOptions="FillAndExpand"/>
+                                                HorizontalOptions="Fill"/>
 
+                                                        <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                                Margin="0"
+                                                Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="Fill"/>
+
+                                                        <ImageButton HorizontalOptions="End"
+                                                             x:Name="ViewProfile"
+                                                         VerticalOptions="Center"
+                                                         Margin="0"
+                                                         Aspect="AspectFit"
+                                                         BackgroundColor="Transparent"
+                                                         Source="viewprofile.png"
+                                                         HeightRequest="35"
+                                                         WidthRequest="35"
+                                                         Clicked="ViewprofileParticipantClicked"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+
+
+                                               
+                                                
                                                 <ImageButton Source="remove_icon.png"
-                                                         Grid.Row="0"
-                                                         Grid.Column="2"
                                                          BackgroundColor="Transparent"
                                                          HeightRequest="45"
                                                          WidthRequest="45"
                                                          HorizontalOptions="End" 
                                                          IsVisible="{Binding isChecked}"
                                                          Clicked="RemoveParticipantClicked"/>
+                                                
+                                                
 
                                                 <controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
                                                                  HorizontalOptions="End" 
-                                                                 Grid.Row="0"
-                                                                 Grid.Column="2"
                                                                  IsVisible="{Binding isChecked,Converter={StaticResource BoolOppositeConverter}}"
                                                                  Checked="{Binding isChecked}"
                                                                  CheckedChanged="UserCheckBox_CheckedChanged"/>
-
-                                            </Grid>
+                                            </StackLayout>
                                         </StackLayout>
                                     </plugins:PancakeView>
                                 </ContentView>
@@ -602,7 +640,7 @@
                     <controls:RoundedButton Text="Invite Participant"
                                             Command="{Binding InviteParticipantCommand}"/>
 
-                    <controls:RoundedButton Text="Update Round"
+                    <controls:RoundedButton Text="Update Players"
                                             Margin="10,0"
                                             Command="{Binding UpdateRoundPlayersButtonCommand}"
                                                 />

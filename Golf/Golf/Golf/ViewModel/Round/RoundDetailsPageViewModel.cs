@@ -3,6 +3,7 @@ using Golf.Models;
 using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
+using Golf.Views.RoundDetailsView;
 using Golf.Views.UpdateTeamView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -960,6 +961,21 @@ namespace Golf.ViewModel.Round
                     UserDialogs.Instance.HideLoading();
                     DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
                 }
+            }
+        }
+        #endregion
+
+        #region View Profile Command
+        public ICommand ViewProileCommand => new Command<AllParticipantsResponse>(ViewProfileAsync);
+        public async void ViewProfileAsync(AllParticipantsResponse item)
+        {
+            try
+            {
+                await PopupNavigation.Instance.PushAsync(new RoundPlayerDetailsPopup(item));
+            }
+            catch (Exception ex)
+            {
+                var Error = ex.Message;
             }
         }
         #endregion

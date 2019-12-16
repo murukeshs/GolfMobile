@@ -31,23 +31,6 @@
                                         Text="{Binding RoundNameText}"
                                         Margin="20,10,20,0"
                                         />
-            <!--<Label Text="Round Type"
-                   TextColor="{StaticResource BlackColor}"
-                   Margin="20,5,20,0"
-                   FontAttributes="Bold"
-                   FontSize="{StaticResource FontSize18}"/>
-            <StackLayout Orientation="Horizontal"
-                         Margin="20,5,20,0"
-                         HorizontalOptions="CenterAndExpand">
-                <controls:CustomRadioButton Text="Teams" 
-                                            TextColor="{StaticResource TextGrayColor}"
-                                            FontSize="{StaticResource FontSize16}"/>
-
-                <controls:CustomRadioButton Text="Player" 
-                                            Margin="30,0"
-                                            TextColor="{StaticResource TextGrayColor}"
-                                            FontSize="{StaticResource FontSize16}"/>
-            </StackLayout>-->
 
             <controls:CustomPicker  ItemsSource="{Binding CompetitionTypeItems}"
                                     Title="Select Competition Type"
@@ -126,7 +109,6 @@
                          Margin="20,5,20,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="Start Date"
-                                             Format="yyyy/MM/dd"
                                              NullableDate="{Binding NullableStartDate}"
                                              TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
@@ -146,7 +128,6 @@
                          Margin="20,5,20,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="End Date"
-                                             Format="yyyy/MM/dd"
                                               x:Name="RoundEndDatePicker"
                                              NullableDate="{Binding NullableENdDate}"
                                              Date="{Binding RoundEndDate}"
@@ -162,12 +143,6 @@
                                           FontSize="{StaticResource FontSize18}"/>
                     </StackLayout>
 
-            <!--<controls:CustomPicker Title="Choose Location" 
-                                       Image="down_arrow.png"
-                                       Margin="20,5,20,0"
-                                    FontSize="{StaticResource FontSize18}"
-                                       TitleColor="{StaticResource TextGrayColor}"
-                                       TextColor="{StaticResource TextGrayColor}"/>-->
 
                     <Label Text="Round Fee : "
                    FontSize="{StaticResource FontSize18}"

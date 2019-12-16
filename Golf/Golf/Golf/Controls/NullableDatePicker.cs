@@ -105,7 +105,6 @@ namespace Golf.Controls
         {
             NullableDate = Date;
             UpdateDate();
-
         }
     }
 }

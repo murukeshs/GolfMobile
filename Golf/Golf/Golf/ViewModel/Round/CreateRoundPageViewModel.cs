@@ -221,7 +221,17 @@ namespace Golf.ViewModel.Round
 
         bool Validate()
         {
-            if(string.IsNullOrEmpty(RoundNameText))
+            //For Current Date Selection 
+            if(NullableStartDate != null)
+            {
+                RoundStartDate = NullableStartDate;
+            }
+            if (NullableENdDate != null)
+            {
+                RoundEndDate = NullableENdDate;
+            }
+            /////////////
+            if (string.IsNullOrEmpty(RoundNameText))
             {
                 UserDialogs.Instance.AlertAsync("Round Name should not be empty.", "Alert", "Ok");
                 return false;
@@ -304,6 +314,7 @@ namespace Golf.ViewModel.Round
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         UserDialogs.Instance.HideLoading();
+                        Clear();
                     }
                     else
                     {

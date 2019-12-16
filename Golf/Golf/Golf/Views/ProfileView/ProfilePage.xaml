@@ -253,8 +253,7 @@
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Controls:NullableDatePicker
-                                             Format="yyyy/MM/dd"
+                    <Controls:NullableDatePicker PlaceHolder="Date of Birth"
                                              NullableDate="{Binding NullableDob}"
                                              HorizontalOptions="FillAndExpand"
                                              FontSize="{StaticResource FontSize18}"
