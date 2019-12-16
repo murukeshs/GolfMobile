@@ -19,7 +19,7 @@
                                CornerRadius="25"
                                HasShadow="True"
                                Margin="20,20,20,10">
-            <controls:CustomSearchBar Placeholder="Search Roundes..."
+            <controls:CustomSearchBar Placeholder="Search Rounds..."
                                   Margin="0"
                                   CornerRadius="25"
                                   CancelButtonColor="{StaticResource LightGreenColor}"

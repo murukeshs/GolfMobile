@@ -38,7 +38,7 @@
 
                 <StackLayout VerticalOptions="FillAndExpand"
                              HorizontalOptions="FillAndExpand">
-                    <Label Text="Player profile"
+                    <Label Text="Player Profile"
                            TextColor="{StaticResource TextGrayColor}"
                            Margin="20,30,20,20"
                            HorizontalTextAlignment="Center"

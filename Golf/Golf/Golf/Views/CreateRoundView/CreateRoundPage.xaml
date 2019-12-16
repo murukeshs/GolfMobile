@@ -30,6 +30,7 @@
                                         FontSize="{StaticResource FontSize18}"
                                         Text="{Binding RoundNameText}"
                                         Margin="20,10,20,0"
+                                        TextColor="{StaticResource LightGrayColor}"
                                         />
 
             <controls:CustomPicker  ItemsSource="{Binding CompetitionTypeItems}"

@@ -23,6 +23,7 @@
             <Converters:ConvertStringToList x:Key="convertToList"/>
             <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
             <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
+            <Converters:PlayerTypeConverter x:Key="PlayerTypeConverter"/>
 
             <Style x:Key="CheckBoxStyle" 
                    TargetType="controls:CustomCheckBox"
@@ -39,7 +40,7 @@
 
             <Style x:Key="TabTextStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource BlackColor}" />
-                <Setter Property="FontSize" Value="Medium" />
+                <!--<Setter Property="FontSize" Value="{StaticResource FontSize14}" />-->
                 <Setter Property="HorizontalTextAlignment"  Value="Center" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Center" />
@@ -186,8 +187,7 @@
                                               Style="{StaticResource RectangleShapeEntryStyle}"
                                               Margin="0,5,0,0"
                                                IsEnabled="False"
-                                               BackgroundColor="LightGray"
-                                              FontSize="{StaticResource FontSize18}"/>
+                                               BackgroundColor="LightGray"/>
 
                     <Label Text="Competition Type" 
                         Style="{StaticResource HeadingsLabel}"
@@ -421,16 +421,21 @@
 
                                                             <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,5,0,5">
-                                                                <Label FontSize="{StaticResource FontSize18}"
+                                               <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource LightGreenColor}"
-                                               Text="{Binding playerName}"
+                                               Text="{Binding nickName}"
+                                               />
+                                               <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource LightGreenColor}"
+                                               Text="{Binding email}"
                                                />
                                                                 <Grid HorizontalOptions="FillAndExpand">
                                                                     <Grid.RowDefinitions>
                                                                         <RowDefinition Height="*"/>
                                                                     </Grid.RowDefinitions>
                                                                     <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
                                                                         <ColumnDefinition Width="*"/>
                                                                         <ColumnDefinition Width="Auto"/>
 
@@ -456,13 +461,21 @@
                                                        Aspect="AspectFit"/>
                                                                     </StackLayout>
 
+                                                                    <Image Source="{Binding isScoreKeeper , Converter={StaticResource PlayerTypeConverter}}"
+                                                       HeightRequest="25"
+                                                       WidthRequest="25"
+                                                       VerticalOptions="Center"
+                                                       Margin="5,0,0,0"
+                                                       Aspect="AspectFit"
+                                                       Grid.Row="0"
+                                                       Grid.Column="1"/>
                                                                     <StackLayout Orientation="Horizontal"
                                                              Padding="0"
                                                              Margin="0"
                                                              Spacing="0"
                                                              Grid.Row="0"
                                                              HorizontalOptions="End"
-                                                             Grid.Column="1">
+                                                             Grid.Column="2">
                                                                         <Label Text="Fee:"
                                                            Grid.Row="0"
                                                            Grid.Column="2"
@@ -538,7 +551,8 @@
                       CachingStrategy="RecycleElement"
                       SelectionMode="Single"
                       VerticalScrollBarVisibility="Never"
-                          IsVisible="{Binding RoundPlayersListViewVisible}">
+                      IsVisible="{Binding RoundPlayersListViewVisible}"
+                      ItemTapped="RoundPlayers_ItemTapped">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -593,7 +607,7 @@
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="Fill"/>
 
-                                                        <ImageButton HorizontalOptions="End"
+                                                        <!--<ImageButton HorizontalOptions="End"
                                                              x:Name="ViewProfile"
                                                          VerticalOptions="Center"
                                                          Margin="0"
@@ -602,7 +616,7 @@
                                                          Source="viewprofile.png"
                                                          HeightRequest="35"
                                                          WidthRequest="35"
-                                                         Clicked="ViewprofileParticipantClicked"/>
+                                                         Clicked="ViewprofileParticipantClicked"/>-->
                                                     </StackLayout>
                                                 </StackLayout>
 

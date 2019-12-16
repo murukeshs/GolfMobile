@@ -54,7 +54,7 @@ namespace Golf.ViewModel.Round
 
         #endregion
 
-        #region PlayerList API Functionality
+        #region Load PlayerList API Functionality
 
         async void LoadPlayerList()
         {

@@ -1,7 +1,9 @@
-﻿using Golf.Controls;
+﻿using Acr.UserDialogs;
+using Golf.Controls;
 using Golf.Models;
 using Golf.Services;
 using Golf.ViewModel.Round;
+using Rg.Plugins.Popup.Services;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,7 +16,14 @@ namespace Golf.Views.RoundDetailsView
 
         public RoundDetailsPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void TeamListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -86,17 +95,34 @@ namespace Golf.Views.RoundDetailsView
             ((RoundDetailsPageViewModel)BindingContext).UserCheckBoxSelectedCommand.Execute(item);
         }
 
-        private void ViewprofileParticipantClicked(object sender, EventArgs e)
+        //private void ViewprofileParticipantClicked(object sender, EventArgs e)
+        //{
+        //    var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
+        //    ((RoundDetailsPageViewModel)BindingContext).ViewProileCommand.Execute(item);
+        //}
+
+        private async void RoundPlayers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             try
             {
-                var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
-                ((RoundDetailsPageViewModel)BindingContext).ViewProileCommand.Execute(item);
-
+                if (e.Item == null)
+                    return;
+                //Deselect Item
+                ((ListView)sender).SelectedItem = null;
+                var item = (AllParticipantsResponse)e.Item;
+                if (!item.isPublicProfile)
+                {
+                    var msg = item.playerName + " is a Private Profile!!!";
+                    UserDialogs.Instance.Alert(msg, "Private Profile", "Ok");
+                }
+                else
+                {
+                    await PopupNavigation.Instance.PushAsync(new RoundPlayerDetailsPopup(item));
+                }
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
             }
         }
     }

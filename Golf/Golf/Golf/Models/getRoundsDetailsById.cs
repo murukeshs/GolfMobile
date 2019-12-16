@@ -25,6 +25,12 @@ namespace Golf.Models
         public bool isPaymentMade { get; set; }
 
         public string profileImage { get; set; }
+
+        public string nickName { get; set; }
+
+        public string email { get; set; }
+
+        public bool isScoreKeeper { get; set; }
     }
 
     public class RoundDetailsListTeamList : BaseViewModel
