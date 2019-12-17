@@ -4,7 +4,6 @@ using Golf.Models.userModel;
 using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
-using Golf.Views.MenuView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;

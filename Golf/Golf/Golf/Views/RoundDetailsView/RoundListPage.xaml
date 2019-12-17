@@ -41,7 +41,7 @@
                                  Margin="20,0,20,20"
                                  Padding="15"
                                  IsVisible="{Binding NoRecordsFoundLabel ,Mode=TwoWay}">
-                <Label Text="No Roundes Found!."
+                <Label Text="No Rounds Found!."
                        FontSize="{StaticResource FontSize24}"
                        TextColor="{StaticResource LightGreenColor}"
                        HorizontalOptions="Center"

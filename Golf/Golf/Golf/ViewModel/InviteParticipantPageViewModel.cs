@@ -55,6 +55,20 @@ namespace Golf.ViewModel
         }
         private string _LastNameText = string.Empty;
 
+        public string NickNameText
+        {
+            get
+            {
+                return _NickNameText;
+            }
+            set
+            {
+                _NickNameText = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _NickNameText = string.Empty;
+
         public string EmailText
         {
             get
@@ -178,6 +192,7 @@ namespace Golf.ViewModel
                     {
                         firstName = FirstNameText,
                         lastName = LastNameText,
+                        nickName = NickNameText,
                         email = EmailText,
                         gender = GenderText,
                         phoneNumber = PhoneNumber,

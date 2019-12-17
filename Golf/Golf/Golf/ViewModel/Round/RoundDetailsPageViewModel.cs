@@ -881,18 +881,18 @@ namespace Golf.ViewModel.Round
                     if (UserIdAleradyExists)
                     {
                         RoundPlayersIds.Remove(userId);
-                        RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.isChecked = false);
+                        RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                     }
                     else
                     {
                         RoundPlayersIds.Add(userId);
-                        RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.isChecked = true);
+                        RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                     }
                 }
                 else
                 {
                     RoundPlayersIds.Add(userId);
-                    RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.isChecked = true);
+                    RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                 }
             }
             catch (Exception e)

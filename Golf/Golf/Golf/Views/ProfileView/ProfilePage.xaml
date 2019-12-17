@@ -69,8 +69,8 @@
                        FontSize="{StaticResource FontSize24}"
                        TextColor="{StaticResource BlackTextColor}"/>
 
-                <ImageButton Source="signout.png"
-                             HeightRequest="40"
+                <ImageButton Source="user_logout_black.png"
+                             HeightRequest="65"
                              Padding="0"
                              BackgroundColor="Transparent"
                              HorizontalOptions="End"
