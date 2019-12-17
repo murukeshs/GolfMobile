@@ -204,36 +204,43 @@ namespace Golf.ViewModel
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Round/acceptRoundInvitation";
-                    Uri requestUri = new Uri(RestURL);
-
-                    var data = new acceptRoundInvitation
+                    if (string.IsNullOrEmpty(RoundID))
                     {
-                        roundId = Convert.ToInt32(RoundID),
-                        type = "Round",
-                        playerId = App.User.UserId
-                    };
-
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await UserDialogs.Instance.AlertAsync("Player Joined the Round Successfully.", "Success", "Ok");
-                        var view = new MenuPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
-                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert("Please Select Round!", "Alert", "Ok");
                     }
                     else
                     {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        UserDialogs.Instance.ShowLoading();
+                        string RestURL = App.User.BaseUrl + "Round/acceptRoundInvitation";
+                        Uri requestUri = new Uri(RestURL);
+
+                        var data = new acceptRoundInvitation
+                        {
+                            roundId = Convert.ToInt32(RoundID),
+                            type = "Round",
+                            playerId = App.User.UserId
+                        };
+
+                        string json = JsonConvert.SerializeObject(data);
+                        var httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            await UserDialogs.Instance.AlertAsync("Player Joined the Round Successfully.", "Success", "Ok");
+                            var view = new MenuPage();
+                            var navigationPage = ((NavigationPage)App.Current.MainPage);
+                            await navigationPage.PushAsync(view);
+                            UserDialogs.Instance.HideLoading();
+                        }
+                        else
+                        {
+                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                            UserDialogs.Instance.HideLoading();
+                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        }
                     }
                 }
                 else
