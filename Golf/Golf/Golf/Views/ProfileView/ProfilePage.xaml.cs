@@ -86,7 +86,5 @@ namespace Golf.Views
             var date = DOBDatePicker.Date.ToString("yyyy/MM/dd");
             ((ProfilePageViewModel)BindingContext).DateChangedEventCommand.Execute(date);
         }
-
-       
     }
 }
