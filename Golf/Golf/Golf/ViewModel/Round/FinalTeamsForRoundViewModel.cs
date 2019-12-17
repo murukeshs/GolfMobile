@@ -79,11 +79,7 @@ namespace Golf.ViewModel.Round
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        //await UserDialogs.Instance.AlertAsync("Notification Send To all Players in the Round", "Success", "Ok");
                         UserDialogs.Instance.HideLoading();
-                        //var view = new MenuPage();
-                        //var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //await navigationPage.PushAsync(view);
                         await PopupNavigation.Instance.PushAsync(new SendInvitePoppup());
                     }
                     else
@@ -97,8 +93,6 @@ namespace Golf.ViewModel.Round
                 {
                     DependencyService.Get<IToast>().Show("Please check internet connection");
                 }
-
-
             }
             catch (Exception ex)
             {

@@ -110,11 +110,11 @@
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="Start Date"
                                              NullableDate="{Binding NullableStartDate}"
-                                             TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
                                              FontSize="{StaticResource FontSize18}"
                                              Date="{Binding RoundStartDate}"
-                                              x:Name="RoundStartDatePicker"
+                                             x:Name="RoundStartDatePicker"
+                                             TextColor="{StaticResource TextGrayColor}"
                                              DateSelected="NullableDatePicker_DateSelected"/>
 
                         <TimePicker       TextColor="{StaticResource TextGrayColor}"
@@ -131,8 +131,8 @@
                                               x:Name="RoundEndDatePicker"
                                              NullableDate="{Binding NullableENdDate}"
                                              Date="{Binding RoundEndDate}"
-                                             TextColor="{StaticResource TextGrayColor}"
                                              HorizontalOptions="FillAndExpand"
+                                             TextColor="{StaticResource TextGrayColor}"
                                              FontSize="{StaticResource FontSize18}"
                                              DateSelected="NullableDatePicker_DateSelected_1"/>
 

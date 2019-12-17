@@ -32,6 +32,14 @@ namespace Golf.Droid.CustomRenderer
             Control.Click += OnPickerClick;
             Control.Text = !entry.NullableDate.HasValue ? entry.PlaceHolder : Element.Date.ToString(Element.Format);
             //To check the control has contain place holder text if its have set the Gray color or set date to black color
+            //if (Element.Format == entry.PlaceHolder)
+            //{
+            //    Control.SetTextColor(Color.LightGray.ToAndroid());
+            //}
+            //else
+            //{
+            //    Control.SetTextColor(entry.TextColor.ToAndroid());
+            //}
             Control.SetTextColor(entry.TextColor.ToAndroid());
             Control.KeyListener = null;
             Control.FocusChange += OnPickerFocusChange;
@@ -49,6 +57,10 @@ namespace Golf.Droid.CustomRenderer
                     Control.Text = entry.PlaceHolder;
                     Control.SetTextColor(entry.TextColor.ToAndroid());
                     return;
+                }
+                else
+                {
+                    Control.SetTextColor(entry.TextColor.ToAndroid());
                 }
             }
 

@@ -23,7 +23,7 @@ namespace Golf.Models
 
         public int scoreKeeperId { get; set; }
 
-        public List<TeamPlayerDetails> TeamPlayerDetails { get; set; }
+        public List<AllParticipantsResponse> TeamPlayerDetails { get; set; }
     }
 
     public class TeamPlayerDetails : BaseViewModel
@@ -44,6 +44,12 @@ namespace Golf.Models
 
         public string nickName { get; set; }
 
+        public bool isScoreKeeper { get; set; }
+
+        public bool isPublicProfile { get; set; }
+
+        public int userId { get; set; }
+
         public bool isChecked
         {
             get { return _isChecked; }
@@ -54,8 +60,6 @@ namespace Golf.Models
             }
         }
         private bool _isChecked { get; set; }
-
-        public int userId { get; set; }
 
         public string ImageIcon
         {

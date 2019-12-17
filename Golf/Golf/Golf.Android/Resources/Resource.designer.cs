@@ -5313,97 +5313,103 @@ namespace Golf.Droid
 			public const int phone_white = 2131165539;
 			
 			// aapt resource value: 0x7F070164
-			public const int playericon = 2131165540;
+			public const int player = 2131165540;
 			
 			// aapt resource value: 0x7F070165
-			public const int profile = 2131165541;
-			
-			// aapt resource value: 0x7F070168
-			public const int Profileenvelope = 2131165544;
-			
-			// aapt resource value: 0x7F070169
-			public const int Profilegender = 2131165545;
-			
-			// aapt resource value: 0x7F07016A
-			public const int Profilephoneno = 2131165546;
+			public const int playericon = 2131165541;
 			
 			// aapt resource value: 0x7F070166
-			public const int profile_defalut_pic = 2131165542;
+			public const int profile = 2131165542;
 			
-			// aapt resource value: 0x7F070167
-			public const int profile_pic = 2131165543;
+			// aapt resource value: 0x7F070169
+			public const int Profileenvelope = 2131165545;
+			
+			// aapt resource value: 0x7F07016A
+			public const int Profilegender = 2131165546;
 			
 			// aapt resource value: 0x7F07016B
-			public const int refresh_gray = 2131165547;
+			public const int Profilephoneno = 2131165547;
+			
+			// aapt resource value: 0x7F070167
+			public const int profile_defalut_pic = 2131165543;
+			
+			// aapt resource value: 0x7F070168
+			public const int profile_pic = 2131165544;
 			
 			// aapt resource value: 0x7F07016C
-			public const int refresh_orange = 2131165548;
+			public const int refresh_gray = 2131165548;
 			
 			// aapt resource value: 0x7F07016D
-			public const int registration = 2131165549;
+			public const int refresh_orange = 2131165549;
 			
 			// aapt resource value: 0x7F07016E
-			public const int remove_icon = 2131165550;
+			public const int registration = 2131165550;
 			
 			// aapt resource value: 0x7F07016F
-			public const int roundedbg = 2131165551;
+			public const int remove_icon = 2131165551;
 			
 			// aapt resource value: 0x7F070170
-			public const int roundedbgdark = 2131165552;
+			public const int roundedbg = 2131165552;
 			
 			// aapt resource value: 0x7F070171
-			public const int signout = 2131165553;
+			public const int roundedbgdark = 2131165553;
 			
 			// aapt resource value: 0x7F070172
-			public const int skeepericon = 2131165554;
+			public const int scorekeeper = 2131165554;
 			
 			// aapt resource value: 0x7F070173
-			public const int SplashScreen = 2131165555;
+			public const int signout = 2131165555;
 			
 			// aapt resource value: 0x7F070174
-			public const int success = 2131165556;
+			public const int skeepericon = 2131165556;
 			
 			// aapt resource value: 0x7F070175
-			public const int team = 2131165557;
+			public const int SplashScreen = 2131165557;
 			
 			// aapt resource value: 0x7F070176
-			public const int tooltip_frame_dark = 2131165558;
+			public const int success = 2131165558;
 			
 			// aapt resource value: 0x7F070177
-			public const int tooltip_frame_light = 2131165559;
+			public const int team = 2131165559;
 			
 			// aapt resource value: 0x7F070178
-			public const int unchecked_icon = 2131165560;
+			public const int tooltip_frame_dark = 2131165560;
 			
 			// aapt resource value: 0x7F070179
-			public const int unlock = 2131165561;
+			public const int tooltip_frame_light = 2131165561;
 			
 			// aapt resource value: 0x7F07017A
-			public const int unlock_green = 2131165562;
-			
-			// aapt resource value: 0x7F07017D
-			public const int usertype_green = 2131165565;
-			
-			// aapt resource value: 0x7F07017E
-			public const int usertype_white = 2131165566;
+			public const int unchecked_icon = 2131165562;
 			
 			// aapt resource value: 0x7F07017B
-			public const int user_green = 2131165563;
+			public const int unlock = 2131165563;
 			
 			// aapt resource value: 0x7F07017C
-			public const int user_white = 2131165564;
+			public const int unlock_green = 2131165564;
 			
 			// aapt resource value: 0x7F07017F
-			public const int viewparticipant = 2131165567;
+			public const int usertype_green = 2131165567;
 			
 			// aapt resource value: 0x7F070180
-			public const int viewprofile = 2131165568;
+			public const int usertype_white = 2131165568;
+			
+			// aapt resource value: 0x7F07017D
+			public const int user_green = 2131165565;
+			
+			// aapt resource value: 0x7F07017E
+			public const int user_white = 2131165566;
 			
 			// aapt resource value: 0x7F070181
-			public const int woman_gray = 2131165569;
+			public const int viewparticipant = 2131165569;
 			
 			// aapt resource value: 0x7F070182
-			public const int woman_green = 2131165570;
+			public const int viewprofile = 2131165570;
+			
+			// aapt resource value: 0x7F070183
+			public const int woman_gray = 2131165571;
+			
+			// aapt resource value: 0x7F070184
+			public const int woman_green = 2131165572;
 			
 			static Drawable()
 			{

@@ -4,6 +4,7 @@ using Golf.Services;
 using Golf.Utils;
 using Golf.Views;
 using Golf.Views.PoppupView;
+using Golf.Views.RoundDetailsView;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
@@ -54,7 +55,7 @@ namespace Golf.ViewModel.Round
 
         #endregion
 
-        #region PlayerList API Functionality
+        #region Load PlayerList API Functionality
 
         async void LoadPlayerList()
         {
@@ -276,6 +277,33 @@ namespace Golf.ViewModel.Round
             }
         }
 
+        #endregion
+
+        #region viewplayerdetails command
+
+        public ICommand ViewPlayerDetailsCommand => new Command(ViewPlayerDetails);
+
+        public async void ViewPlayerDetails(object obj)
+        {
+            try
+            {
+                var item = obj as AllParticipantsResponse;
+                if (!item.isPublicProfile)
+                {
+                    var msg = item.nickName + " is a Private Profile!!!";
+                    UserDialogs.Instance.Alert(msg, "Private Profile", "Ok");
+                }
+                else
+                {
+                    await PopupNavigation.Instance.PushAsync(new RoundPlayerDetailsPopup(item));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
         #endregion
 
     }

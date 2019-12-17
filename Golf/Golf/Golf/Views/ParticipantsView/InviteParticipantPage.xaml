@@ -46,25 +46,13 @@
 
                 <StackLayout Margin="0">
 
-                <StackLayout Margin="20,10,20,0"
-                             Orientation="Horizontal">
                 <Label Text="Invite Participant"
+                       Margin="20,20,20,10"
                    TextColor="{StaticResource BlackColor}"
-                   Margin="0"
                    HorizontalTextAlignment="Center"
                    FontSize="{StaticResource FontSize24}"
                    FontAttributes="Bold"
                    HorizontalOptions="FillAndExpand" />
-
-                    <ImageButton Source="close_icon.png"
-                             HorizontalOptions="End"
-                             HeightRequest="40"
-                             WidthRequest="40"
-                             BackgroundColor="Transparent"
-                             Margin="0"
-                             Clicked="ImageButton_Clicked"/>
-
-                </StackLayout>
 
                 <ScrollView>
                         <StackLayout Margin="0" HorizontalOptions="FillAndExpand"
@@ -137,14 +125,24 @@
                         </StackLayout>
 
                     </ScrollView>
-
+                <StackLayout Orientation="Horizontal"
+                             Margin="20,20,20,20">
                     <Controls:RoundedButton Text="Send Invite"
                                         VerticalOptions="EndAndExpand"
-                                    Margin="40,20,40,20"
+                                    Margin="0"
+                                            CornerRadius="10"
                                               HorizontalOptions="FillAndExpand"
                                     x:Name="SendInviteButton"
                                     Command="{Binding InviteParticipantCommand}"/>
+                    <Controls:RoundedButton Text="Close"
+                                        VerticalOptions="EndAndExpand"
+                                    Margin="0"
+                                            CornerRadius="10"
+                                            Clicked="ImageButton_Clicked"
+                                              HorizontalOptions="FillAndExpand"
+                                    />
                 </StackLayout>
+            </StackLayout>
 
             </plugins:PancakeView>
     </StackLayout>

@@ -29,7 +29,7 @@ namespace Golf.iOS.CustomRenderer
                 if (!entry.NullableDate.HasValue)
                 {
                     Control.Text = entry.PlaceHolder;
-                    Control.TextColor = entry.TextColor.ToUIColor();
+                    Control.TextColor = UIColor.LightGray; ;
                 }
                 else
                 {
