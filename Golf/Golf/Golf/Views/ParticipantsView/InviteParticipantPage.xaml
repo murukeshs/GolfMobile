@@ -41,7 +41,7 @@
                                  CornerRadius="15"
                                  HasShadow="True"
                                  Margin="0"
-                                 HorizontalOptions="FillAndExpand"
+                                 HorizontalOptions="FillAndExpand" 
                                  VerticalOptions="FillAndExpand">
 
                 <StackLayout Margin="0">

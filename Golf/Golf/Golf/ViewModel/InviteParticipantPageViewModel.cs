@@ -183,6 +183,7 @@ namespace Golf.ViewModel
                         phoneNumber = PhoneNumber,
                         isEmailNotification = IsEmailNotification,
                         isSMSNotification = IsSMSNotification,
+                        userTypeId = "1"
                     };
 
                     string json = JsonConvert.SerializeObject(data);

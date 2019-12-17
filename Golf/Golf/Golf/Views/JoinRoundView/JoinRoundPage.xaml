@@ -22,8 +22,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
-            <ScrollView>
+        <StackLayout>
+            
+        <ScrollView>
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
 
@@ -126,10 +127,11 @@
             </StackLayout>
         </StackLayout>
             </ScrollView>
-            <controls:RoundedButton Margin="40,20,40,20"
+            
+        <controls:RoundedButton Margin="40,20,40,20"
                                     Text="Join Round"
                                     VerticalOptions="EndAndExpand"
                                     Command="{Binding JoinRoundCommand}"/>
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
