@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
             <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
+            <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -77,7 +78,9 @@
                                                  Padding="0"
                                                  Margin="20,0,20,0"
                                                  BackgroundColor="Transparent"
-                                                 ItemsSource="{Binding PlayersList}">
+                                                 ItemsSource="{Binding PlayersList}"
+                                                 SelectedCommand="{Binding ViewPlayerDetailsCommand}"
+                                                 >
                 <Controls:HorizontalList.ItemTemplate>
                     <DataTemplate>
 
@@ -113,7 +116,6 @@
                                     <StackLayout Grid.Row="0"
                                                  Grid.Column="1"
                                                  Margin="5,0,0,0">
-                                        <StackLayout Orientation="Horizontal">
                                         <Label  
                                                 Margin="0"
                                                 Text="{Binding nickName}"
@@ -122,6 +124,14 @@
                                                 VerticalOptions="Center"
                                                 FontAttributes="Bold"
                                                />
+
+                                         <Label Margin="0"
+                                                Text="{Binding email}"
+                                                FontSize="{StaticResource FontSize16}"
+                                                TextColor="{StaticResource BlackColor}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+                                        <StackLayout Orientation="Horizontal">
                                             <Image  
                                             HeightRequest="30"
                                             WidthRequest="30"
@@ -131,14 +141,16 @@
                                                 Source="{Binding gender, Converter={StaticResource GenderIconConverter}}"
                                                 VerticalOptions="Center"
                                                />
+                                            <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                                Margin="0"
+                                                Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="End"/>
                                         </StackLayout>
 
-                                         <Label Margin="0"
-                                                Text="{Binding email}"
-                                                FontSize="{StaticResource FontSize16}"
-                                                TextColor="{StaticResource BlackColor}"
-                                                VerticalOptions="Center"
-                                                HorizontalOptions="FillAndExpand"/>
                                     </StackLayout>
 
                                     <CheckBox Grid.Row="0" 

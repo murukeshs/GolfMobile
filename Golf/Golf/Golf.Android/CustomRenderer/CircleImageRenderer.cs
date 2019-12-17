@@ -42,13 +42,13 @@ namespace Golf.Droid.CustomRenderer
                 canvas.Restore();
                 path = new Path();
                 path.AddCircle(Width / 2, Height / 2, radius, Path.Direction.Ccw);
-                var paint = new Paint();
-                paint.AntiAlias = true;
-                paint.StrokeWidth = 5;
-                paint.SetStyle(Paint.Style.Stroke);
-                paint.Color = global::Android.Graphics.Color.White;
-                canvas.DrawPath(path, paint);
-                paint.Dispose();
+                //var paint = new Paint();
+                //paint.AntiAlias = true;
+                //paint.StrokeWidth = 0x;
+                //paint.SetStyle(Paint.Style.Stroke);
+                //paint.Color = global::Android.Graphics.Color.White;
+                //canvas.DrawPath(path, paint);
+                //paint.Dispose();
                 path.Dispose();
                 return result;
             }

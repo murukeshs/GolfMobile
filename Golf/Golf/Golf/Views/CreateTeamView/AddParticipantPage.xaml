@@ -13,6 +13,8 @@
         <ResourceDictionary>
             <Converters:ConvertStringToList x:Key="convertToList"/>
             <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
+            <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
+            <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -62,7 +64,7 @@
                        TextColor="{StaticResource LightGreenColor}"
                        HorizontalOptions="StartAndExpand"/>
 
-                <Label Text="Player Name"
+                <Label Text="Is Player"
                        FontAttributes="Bold"
                        FontSize="{StaticResource FontSize20}"
                        TextColor="{StaticResource LightGreenColor}"
@@ -71,13 +73,14 @@
             </StackLayout>
 
             <Controls:HorizontalList ListOrientation="Vertical"
-                                                 Padding="0"
-                                                 Margin="20,0,20,0"
+                                     Padding="0"
+                                     Margin="20,0,20,0"
                                      HorizontalOptions="FillAndExpand"
                                      VerticalOptions="FillAndExpand"
                                      ItemsSource="{Binding PlayersListItems}"
-                                                 BackgroundColor="Transparent"
-                                                 x:Name="PlayerListForTeam">
+                                     BackgroundColor="Transparent"
+                                     x:Name="PlayerListForTeam"
+                                     SelectedCommand="{Binding ViewPlayerDetailsCommand}">
                 <Controls:HorizontalList.ItemTemplate>
                     <DataTemplate>
 
@@ -120,19 +123,45 @@
                                                               WidthRequest="70"
                                                               Aspect="Fill"
                                                               Margin="0"/>
-
-                                    <Label  Grid.Row="0"
-                                                Grid.Column="2"
-                                                Margin="0,0,0,0"
+                                    <StackLayout Grid.Row="0"
+                                                 Grid.Column="2"
+                                                 Margin="5,0,0,0">
+                                       
+                                            <Label Margin="0"
                                                 x:Name="firstNameLabel"
-                                                Text="{Binding playerName}"
+                                                Text="{Binding nickName}"
                                                 FontSize="{StaticResource FontSize16}"
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"
-                                            FontAttributes="Bold"
+                                                FontAttributes="Bold"/>
+
+                                   
+                                        <Label Margin="0"
+                                                Text="{Binding email}"
+                                                FontSize="{StaticResource FontSize16}"
+                                                TextColor="{StaticResource BlackColor}"
+                                                VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>
-
-
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                               
+                                                Margin="5,0,0,0"
+                                                Source="{Binding gender, Converter={StaticResource GenderIconConverter}}"
+                                                VerticalOptions="Center"
+                                               />
+                                            <Image  
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Aspect="AspectFit"
+                                                Margin="0"
+                                                Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="End"/>
+                                        </StackLayout>
+                                    </StackLayout>
                                     <Controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
                                                   Grid.Row="0" 
                                                   Grid.Column="3"

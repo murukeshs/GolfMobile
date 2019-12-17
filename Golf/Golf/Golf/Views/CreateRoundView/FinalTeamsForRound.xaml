@@ -15,6 +15,7 @@
         <Converters:PaymentImageConverter x:Key="PaymentConverter" />
         <Converters:LinkApprovedImageConverter x:Key="LinkApprovedConverter" />
         <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
+        <Converters:PlayerTypeConverter x:Key="PlayerTypeConverter"/>
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -107,24 +108,35 @@
                                                       VerticalOptions="Center"
                                                       WidthRequest="60"
                                                       HeightRequest="60"
-                                                                                  
-                                                                                  Aspect="Fill"/>
+                                                      Aspect="Fill"/>
 
                                                             <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,5,0,5">
+                                                                <StackLayout Orientation="Horizontal">
                                                                 <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource LightGreenColor}"
-                                               Text="{Binding playerName}"
+                                               Text="{Binding nickName}"
+                                               />
+                                                                    <Image Source="{Binding isScoreKeeper , Converter={StaticResource PlayerTypeConverter}}"
+                                                       HeightRequest="25"
+                                                       WidthRequest="25"
+                                                       VerticalOptions="Center"
+                                                       Margin="5,0,0,0"
+                                                       Aspect="AspectFit"
+                                                       />
+                                                                </StackLayout>
+                                                                <Label FontSize="{StaticResource FontSize16}"
+                                               TextColor="{StaticResource LightGreenColor}"
+                                               Text="{Binding email}"
                                                />
                                                                 <Grid HorizontalOptions="FillAndExpand">
                                                                     <Grid.RowDefinitions>
                                                                         <RowDefinition Height="*"/>
                                                                     </Grid.RowDefinitions>
                                                                     <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="*"/>
                                                                         <ColumnDefinition Width="Auto"/>
-
+                                                                        <ColumnDefinition Width="*"/>
                                                                     </Grid.ColumnDefinitions>
 
                                                                     <StackLayout Orientation="Horizontal"
@@ -139,20 +151,21 @@
                                                        VerticalOptions="Center"
                                                        FontSize="{StaticResource FontSize12}"/>
 
-                                                                        <Image Source="{Binding isInvitationAccept , Converter={StaticResource LinkApprovedConverter}}"
+                                                        <Image Source="{Binding isInvitationAccept , Converter={StaticResource LinkApprovedConverter}}"
                                                        HeightRequest="25"
                                                        WidthRequest="25"
+                                                               HorizontalOptions="Start"
                                                        VerticalOptions="Center"
                                                        Margin="5,0,0,0"
                                                        Aspect="AspectFit"/>
                                                                     </StackLayout>
-
+                                                      
                                                                     <StackLayout Orientation="Horizontal"
                                                              Padding="0"
                                                              Margin="0"
                                                              Spacing="0"
                                                              Grid.Row="0"
-                                                             HorizontalOptions="End"
+                                                             HorizontalOptions="EndAndExpand"
                                                              Grid.Column="1">
                                                                         <Label Text="Fee:"
                                                            Grid.Row="0"

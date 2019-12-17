@@ -92,15 +92,15 @@
                                                                   Margin="10,0,5,0"/>
                                             <StackLayout Margin="5,0,0,0"
                                                          HorizontalOptions="FillAndExpand">
-                                                  
-                                                    <Label FontSize="{StaticResource FontSize20}"
+
+                                                <Label FontSize="{StaticResource FontSize20}"
                                                FontAttributes="Bold"
                                                        VerticalOptions="Center"
                                                        HorizontalOptions="FillAndExpand"
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding nickName}"
                                                Margin="0"/>
-                                                   
+
                                                 <Label FontSize="{StaticResource FontSize16}"
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding email}"
@@ -127,14 +127,6 @@
                                                 HorizontalOptions="End"/>
                                                 </StackLayout>
                                             </StackLayout>
-                                            <!--<Image  
-                                            HeightRequest="40"
-                                            WidthRequest="40"
-                                            Aspect="AspectFit"
-                                                Margin="5,0,0,0"
-                                                Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
-                                                VerticalOptions="Center"
-                                                HorizontalOptions="End"/>-->
                                         </StackLayout>
                                     </StackLayout>
                                 </plugins:PancakeView>

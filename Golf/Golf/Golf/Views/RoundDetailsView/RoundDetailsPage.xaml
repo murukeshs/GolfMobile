@@ -421,12 +421,26 @@
 
                                                             <StackLayout HorizontalOptions="FillAndExpand"
                                                      Margin="10,5,0,5">
-                                               <Label FontSize="{StaticResource FontSize18}"
+                                                <StackLayout Orientation="Horizontal">
+                                                
+                                                    <Label FontSize="{StaticResource FontSize18}"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource LightGreenColor}"
                                                Text="{Binding nickName}"
                                                />
-                                               <Label FontSize="{StaticResource FontSize16}"
+                                                                 
+                                                <Image Source="{Binding isScoreKeeper , Converter={StaticResource PlayerTypeConverter}}"
+                                                       HeightRequest="25"
+                                                       WidthRequest="25"
+                                                       VerticalOptions="Center"
+                                                       Margin="5,0,0,0"
+                                                       Aspect="AspectFit"
+                                                       Grid.Row="0"
+                                                       Grid.Column="1"/>
+                                                    
+                                               </StackLayout>
+                                                                
+                                                                <Label FontSize="{StaticResource FontSize16}"
                                                TextColor="{StaticResource LightGreenColor}"
                                                Text="{Binding email}"
                                                />
@@ -461,14 +475,7 @@
                                                        Aspect="AspectFit"/>
                                                                     </StackLayout>
 
-                                                                    <Image Source="{Binding isScoreKeeper , Converter={StaticResource PlayerTypeConverter}}"
-                                                       HeightRequest="25"
-                                                       WidthRequest="25"
-                                                       VerticalOptions="Center"
-                                                       Margin="5,0,0,0"
-                                                       Aspect="AspectFit"
-                                                       Grid.Row="0"
-                                                       Grid.Column="1"/>
+                                                                    
                                                                     <StackLayout Orientation="Horizontal"
                                                              Padding="0"
                                                              Margin="0"

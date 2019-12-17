@@ -169,7 +169,7 @@ namespace Golf.ViewModel
         }
         private string _TeamName = string.Empty;
 
-        public List<TeamPlayerDetails> PlayersList
+        public List<AllParticipantsResponse> PlayersList
         {
             get { return _PlayersList; }
             set
@@ -178,7 +178,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(PlayersList));
             }
         }
-        public List<TeamPlayerDetails> _PlayersList = null;
+        public List<AllParticipantsResponse> _PlayersList = new List<AllParticipantsResponse>();
 
         #endregion
 
@@ -602,7 +602,7 @@ namespace Golf.ViewModel
 
         async void CheckboxChangedEvent(object parameter)
         {
-            var item = parameter as TeamPlayerDetails;
+            var item = parameter as AllParticipantsResponse;
             var userId = item.userId;
             if (ScoreKeeperId != userId)
             {
@@ -649,7 +649,7 @@ namespace Golf.ViewModel
         {
             try
             {
-                var Item = parameter as TeamPlayerDetails;
+                var Item = parameter as AllParticipantsResponse;
                 if (DefaultScoreKeeperId == 0)
                 {
                     bool UserIdAleradyExists = TeamPlayersIds.Contains(Item.userId);
@@ -753,9 +753,9 @@ namespace Golf.ViewModel
 
         #region RemoveParticipant Command
      
-       public ICommand RemoveParticipantCommand => new Command<TeamPlayerDetails>(RemoveParticipantAsync);
+       public ICommand RemoveParticipantCommand => new Command<AllParticipantsResponse>(RemoveParticipantAsync);
 
-        public async void RemoveParticipantAsync(TeamPlayerDetails item)
+        public async void RemoveParticipantAsync(AllParticipantsResponse item)
         {
 
             var confirmdialog = new ConfirmConfig()
@@ -777,7 +777,7 @@ namespace Golf.ViewModel
             }
         }
 
-        public async void RemoveParticipant(TeamPlayerDetails item)
+        public async void RemoveParticipant(AllParticipantsResponse item)
         {
             try
             {
