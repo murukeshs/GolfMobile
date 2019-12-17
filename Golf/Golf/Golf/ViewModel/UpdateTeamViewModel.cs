@@ -422,7 +422,7 @@ namespace Golf.ViewModel
                     var objClint = new HttpClient();
                     objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     objClint.Timeout = TimeSpan.FromMilliseconds(360000);
-                    objClint.MaxResponseContentBufferSize = 5000000000;
+                    objClint.MaxResponseContentBufferSize = 2147483647;
                     HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
                     string responJsonText = await response.Content.ReadAsStringAsync();
 
