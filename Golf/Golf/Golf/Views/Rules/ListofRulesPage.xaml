@@ -15,7 +15,7 @@
                                  BorderColor="{StaticResource BorderColor}"
                                  CornerRadius="25"
                                  HasShadow="True"
-                                 Margin="20,20,20,10">
+                                 Margin="20,20,20,5">
                 <controls:CustomSearchBar Placeholder="Search Rules..."
                                       Margin="0"
                                       CornerRadius="25"
@@ -33,7 +33,7 @@
                                      HorizontalOptions="FillAndExpand"
                                      VerticalOptions="FillAndExpand"
                                                  Padding="10"
-                                                 Margin="20,20,20,5"
+                                                 Margin="20,0,20,5"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
                 <controls:HorizontalList.ItemTemplate>

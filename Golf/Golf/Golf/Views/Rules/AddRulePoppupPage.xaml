@@ -13,8 +13,8 @@
 
     <Page:PopupPage.Animation>
         <animations:ScaleAnimation
-      PositionIn="Right"
-      PositionOut="Left"
+      PositionIn="Left"
+      PositionOut="Bottom"
       ScaleIn="1"
       ScaleOut="0.7"
       DurationIn="700"
@@ -36,13 +36,12 @@
     </Page:PopupPage.Resources>
 
     <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="FillAndExpand" 
-                 Margin="20,50,20,50" 
+                 Margin="30,50,30,50" 
                  BackgroundColor="Transparent">
         <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
                              BorderColor="{StaticResource LightGreenColor}"
-                             BorderThickness="4"
-                             BorderIsDashed="True"
-                             CornerRadius="15"
+                             BorderThickness="3"
+                             CornerRadius="5"
                              HasShadow="True"
                              Margin="0"
                              HorizontalOptions="FillAndExpand"
@@ -51,25 +50,16 @@
             <StackLayout Margin="0"
                          HorizontalOptions="FillAndExpand">
 
-                <StackLayout Margin="20,10,20,0"
-                             Orientation="Horizontal">
+                
                     <Label Text="Add Rule"
                    TextColor="{StaticResource BlackColor}"
-                   Margin="0"
+                   Margin="20,25,20,20"
                    HorizontalTextAlignment="Center"
                    FontSize="{StaticResource FontSize24}"
                    FontAttributes="Bold"
                    HorizontalOptions="FillAndExpand" />
 
-                    <ImageButton Source="close_icon.png"
-                             HorizontalOptions="End"
-                             HeightRequest="40"
-                             WidthRequest="40"
-                             BackgroundColor="Transparent"
-                             Margin="0"
-                             Clicked="ImageButton_Clicked"/>
-
-                </StackLayout>
+                    
 
                 <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
                                  BorderColor="{StaticResource BorderColor}"
@@ -86,12 +76,21 @@
                             VerticalOptions="FillAndExpand"/>
                 </plugins:PancakeView>
 
-
+                <StackLayout Margin="20,20,20,20"
+                             Orientation="Horizontal">
                 <Controls:RoundedButton Text="Add Rule"
                                         VerticalOptions="EndAndExpand"
-                                        Margin="20,10,20,20"
+                                        Margin="0"
+                                        CornerRadius="10"
                                         HorizontalOptions="FillAndExpand"
                                         Clicked="RoundedButton_Clicked"/>
+                    <Controls:RoundedButton Text="Close"
+                                        VerticalOptions="EndAndExpand"
+                                        Margin="0"
+                                            CornerRadius="10"
+                                        HorizontalOptions="FillAndExpand"
+                                        Clicked="ImageButton_Clicked"/>
+                </StackLayout>
             </StackLayout>
 
         </plugins:PancakeView>

@@ -544,7 +544,9 @@ namespace Golf.ViewModel
                         FirstName = User.firstName;
                         LastName = User.lastName;
                         Dob =User.dob;
+                        await Task.Delay(10);
                         NullableDob = User.dob;
+                        await Task.Delay(10);
                         Gender = User.gender;
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
