@@ -117,10 +117,11 @@
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource LightGreenColor}"
                                                Text="{Binding nickName}"
+                                               VerticalOptions="Center"              
                                                />
                                                                     <Image Source="{Binding isScoreKeeper , Converter={StaticResource PlayerTypeConverter}}"
-                                                       HeightRequest="25"
-                                                       WidthRequest="25"
+                                                       HeightRequest="35"
+                                                       WidthRequest="35"
                                                        VerticalOptions="Center"
                                                        Margin="5,0,0,0"
                                                        Aspect="AspectFit"
