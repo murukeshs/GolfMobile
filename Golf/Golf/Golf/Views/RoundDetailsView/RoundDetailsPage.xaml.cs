@@ -112,7 +112,7 @@ namespace Golf.Views.RoundDetailsView
                 var item = (AllParticipantsResponse)e.Item;
                 if (!item.isPublicProfile)
                 {
-                    var msg = item.playerName + " is a Private Profile!!!";
+                    var msg = item.nickName + " is a Private Profile!!!";
                     UserDialogs.Instance.Alert(msg, "Private Profile", "Ok");
                 }
                 else

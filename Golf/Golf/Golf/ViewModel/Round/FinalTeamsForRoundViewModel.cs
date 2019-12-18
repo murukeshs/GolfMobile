@@ -84,9 +84,12 @@ namespace Golf.ViewModel.Round
                     }
                     else
                     {
-                        var error = JsonConvert.DeserializeObject<error>(content);
                         UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        await PopupNavigation.Instance.PushAsync(new SendInvitePoppup());
+
+                        //var error = JsonConvert.DeserializeObject<error>(content);
+                        //UserDialogs.Instance.HideLoading();
+                        //UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
                 }
                 else
