@@ -30,6 +30,16 @@
                    BasedOn="{StaticResource CustomCheckBoxStyleGray}">
                 <Setter Property="Margin" Value="80,0,0,0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize14}"/>
+            </Style>
+            <Style x:Key="InviteParticipantEntryStyle" TargetType="{x:Type Controls:ExtendedEntry}">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}"/>
+                <Setter Property="ImageAlignment" Value="Left"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="LineColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="ImageHeight" Value="40"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize14}"/>
             </Style>
         </ResourceDictionary>
     </Page:PopupPage.Resources>
@@ -37,7 +47,8 @@
     <StackLayout VerticalOptions="Center"  HorizontalOptions="FillAndExpand" 
                  Margin="20,50,20,50" >
             <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
-                                 BorderColor="{StaticResource BorderColor}"
+                                 BorderColor="{StaticResource LightGreenColor}"
+                                 BorderThickness="3"
                                  CornerRadius="15"
                                  HasShadow="True"
                                  Margin="0"
@@ -59,22 +70,29 @@
                                  VerticalOptions="FillAndExpand">
                             <Controls:ExtendedEntry Placeholder="First Name"
                                     Image="user_green.png"
-                                    Style="{StaticResource EntryStyleGray}"
+                                    Style="{StaticResource InviteParticipantEntryStyle}"
                                     Margin="20,0,20,0"
                                     Text="{Binding FirstNameText, Mode = TwoWay}"
                                                     HorizontalOptions="FillAndExpand"/>
 
                             <Controls:ExtendedEntry Placeholder="Last Name"
                                     Image="user_green.png"
-                                    Style="{StaticResource EntryStyleGray}"
-                                    Margin="20,10,20,0"
+                                    Style="{StaticResource InviteParticipantEntryStyle}"
+                                    Margin="20,5,20,0"
                                     Text="{Binding LastNameText, Mode = TwoWay}"
-                                                      HorizontalOptions="FillAndExpand"/>
+                                    HorizontalOptions="FillAndExpand"/>
 
-                            <Controls:ExtendedEntry Placeholder="E-mail"
+                        <Controls:ExtendedEntry Placeholder="Nick Name"
+                                    Image="user_green.png"
+                                    Style="{StaticResource InviteParticipantEntryStyle}"
+                                    Margin="20,5,20,0"
+                                    Text="{Binding NickNameText, Mode = TwoWay}"
+                                    HorizontalOptions="FillAndExpand"/>
+
+                        <Controls:ExtendedEntry Placeholder="E-mail"
                                     Image="email_green.png"
-                                    Style="{StaticResource EntryStyleGray}"
-                                    Margin="20,10,20,0"
+                                    Style="{StaticResource InviteParticipantEntryStyle}"
+                                    Margin="20,5,20,0"
                                     Text="{Binding EmailText, Mode = TwoWay}"
                                                       HorizontalOptions="FillAndExpand"/>
 
@@ -83,14 +101,15 @@
                                    TextColor="{StaticResource TextGrayColor}"
                                    TitleColor="{StaticResource TextGrayColor}"
                                    Image="down_arrow_gray.png"
-                                   Margin="20,10,20,0"
+                                   Margin="20,5,20,0"
+                                   FontSize="{StaticResource FontSize14}"
                                    SelectedIndexChanged="GenderOnchange"
-                                                     HorizontalOptions="FillAndExpand"/>
+                                   HorizontalOptions="FillAndExpand"/>
 
                             <Controls:ExtendedEntry Placeholder="Phone Number"
                                     Image="phone_green.png"
-                                    Style="{StaticResource EntryStyleGray}"
-                                    Margin="20,10,20,0"
+                                    Style="{StaticResource InviteParticipantEntryStyle}"
+                                    Margin="20,5,20,0"
                                     Text="{Binding PhoneNumber, Mode = TwoWay}"
                                                       HorizontalOptions="FillAndExpand"/>
 
@@ -105,24 +124,38 @@
                                 <Label Text="Communication Via" 
                        Margin="10,0"
                        VerticalOptions="Center"
-                       FontSize="{StaticResource FontSize20}"
+                       FontSize="{StaticResource FontSize14}"
                        TextColor="{StaticResource TextGrayColor}"/>
 
                             </StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        
                             <Controls:CustomCheckBox DefaultText="Email"
+                                     Grid.Row="0"
+                                     Grid.Column="0"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="CommunicationViaChanged"
                                      DefaultValue ="Email"
                                      HorizontalOptions="FillAndExpand"/>
 
                             <Controls:CustomCheckBox DefaultText="SMS"
+                                                      Grid.Row="0"
+                                     Grid.Column="1"
                                      Style="{StaticResource CheckBoxStyle}"
                                      CheckedChanged="CommunicationViaChanged"
                                      DefaultValue ="SMS"
+                                                     Margin="40,0"
                                      HorizontalOptions="FillAndExpand"/>
+                        </Grid>
 
-                         
-                        </StackLayout>
+                    </StackLayout>
 
                     </ScrollView>
                 <StackLayout Orientation="Horizontal"

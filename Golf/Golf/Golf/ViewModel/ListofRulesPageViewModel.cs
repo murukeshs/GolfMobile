@@ -127,7 +127,7 @@ namespace Golf.ViewModel
 
                     RulesListItems = new ObservableCollection<RoundRules>();
 
-                    var query = OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()));
+                    var query = OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()) || x.ruleName.ToLower().Contains(keyword.ToLower()));
 
                     foreach (var item in query)
                     {

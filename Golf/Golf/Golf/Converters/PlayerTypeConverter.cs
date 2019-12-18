@@ -11,7 +11,7 @@ namespace Golf.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value == true)
-                return "scorekeeper.png";
+                return "scorekeeper_black.png";
             else
             {
                 return "player.png";
@@ -21,7 +21,7 @@ namespace Golf.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value == true)
-                return "scorekeeper.png";
+                return "scorekeeper_black.png";
             else
             {
                 return "player.png";

@@ -450,7 +450,6 @@
                                                                     </Grid.RowDefinitions>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="*"/>
-                                                                        <ColumnDefinition Width="*"/>
                                                                         <ColumnDefinition Width="Auto"/>
 
                                                                     </Grid.ColumnDefinitions>
@@ -482,10 +481,8 @@
                                                              Spacing="0"
                                                              Grid.Row="0"
                                                              HorizontalOptions="End"
-                                                             Grid.Column="2">
+                                                             Grid.Column="1">
                                                                         <Label Text="Fee:"
-                                                           Grid.Row="0"
-                                                           Grid.Column="2"
                                                            Margin="0"
                                                            VerticalOptions="Center"
                                                            FontSize="{StaticResource FontSize12}"/>
@@ -643,7 +640,7 @@
                                                 <controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
                                                                  HorizontalOptions="End" 
                                                                  IsVisible="{Binding isChecked,Converter={StaticResource BoolOppositeConverter}}"
-                                                                 Checked="{Binding isChecked}"
+                                                                 Checked="{Binding IsChecked}"
                                                                  CheckedChanged="UserCheckBox_CheckedChanged"/>
                                             </StackLayout>
                                         </StackLayout>

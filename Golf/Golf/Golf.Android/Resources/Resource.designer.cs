@@ -5358,58 +5358,67 @@ namespace Golf.Droid
 			public const int scorekeeper = 2131165554;
 			
 			// aapt resource value: 0x7F070173
-			public const int signout = 2131165555;
+			public const int scorekeeper_black = 2131165555;
 			
 			// aapt resource value: 0x7F070174
-			public const int skeepericon = 2131165556;
+			public const int signout = 2131165556;
 			
 			// aapt resource value: 0x7F070175
-			public const int SplashScreen = 2131165557;
+			public const int skeepericon = 2131165557;
 			
 			// aapt resource value: 0x7F070176
-			public const int success = 2131165558;
+			public const int SplashScreen = 2131165558;
 			
 			// aapt resource value: 0x7F070177
-			public const int team = 2131165559;
+			public const int success = 2131165559;
 			
 			// aapt resource value: 0x7F070178
-			public const int tooltip_frame_dark = 2131165560;
+			public const int team = 2131165560;
 			
 			// aapt resource value: 0x7F070179
-			public const int tooltip_frame_light = 2131165561;
+			public const int tooltip_frame_dark = 2131165561;
 			
 			// aapt resource value: 0x7F07017A
-			public const int unchecked_icon = 2131165562;
+			public const int tooltip_frame_light = 2131165562;
 			
 			// aapt resource value: 0x7F07017B
-			public const int unlock = 2131165563;
+			public const int unchecked_icon = 2131165563;
 			
 			// aapt resource value: 0x7F07017C
-			public const int unlock_green = 2131165564;
-			
-			// aapt resource value: 0x7F07017F
-			public const int usertype_green = 2131165567;
-			
-			// aapt resource value: 0x7F070180
-			public const int usertype_white = 2131165568;
+			public const int unlock = 2131165564;
 			
 			// aapt resource value: 0x7F07017D
-			public const int user_green = 2131165565;
-			
-			// aapt resource value: 0x7F07017E
-			public const int user_white = 2131165566;
-			
-			// aapt resource value: 0x7F070181
-			public const int viewparticipant = 2131165569;
+			public const int unlock_green = 2131165565;
 			
 			// aapt resource value: 0x7F070182
-			public const int viewprofile = 2131165570;
+			public const int usertype_green = 2131165570;
 			
 			// aapt resource value: 0x7F070183
-			public const int woman_gray = 2131165571;
+			public const int usertype_white = 2131165571;
+			
+			// aapt resource value: 0x7F07017E
+			public const int user_green = 2131165566;
+			
+			// aapt resource value: 0x7F07017F
+			public const int user_logout_black = 2131165567;
+			
+			// aapt resource value: 0x7F070180
+			public const int user_logout_green = 2131165568;
+			
+			// aapt resource value: 0x7F070181
+			public const int user_white = 2131165569;
 			
 			// aapt resource value: 0x7F070184
-			public const int woman_green = 2131165572;
+			public const int viewparticipant = 2131165572;
+			
+			// aapt resource value: 0x7F070185
+			public const int viewprofile = 2131165573;
+			
+			// aapt resource value: 0x7F070186
+			public const int woman_gray = 2131165574;
+			
+			// aapt resource value: 0x7F070187
+			public const int woman_green = 2131165575;
 			
 			static Drawable()
 			{
