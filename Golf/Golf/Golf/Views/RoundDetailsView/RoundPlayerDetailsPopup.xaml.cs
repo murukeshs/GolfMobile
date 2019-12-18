@@ -54,7 +54,7 @@ namespace Golf.Views.RoundDetailsView
             PlayerName.Text = item.playerName;
             Gender.Text = item.gender;
             Email.Text = item.email;
-            PhoneNumber.Text = "999-444-0000";
+            PhoneNumber.Text = item.phoneNumber;
             HCP = "10";
             NickName = item.nickName;
         }

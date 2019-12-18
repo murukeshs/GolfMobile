@@ -110,7 +110,7 @@
                                                                Grid.Column="0"    
                                                               HeightRequest="60"
                                                                   WidthRequest="60"
-                                                                  Aspect="AspectFit"
+                                                                  Aspect="AspectFill"
                                                                   Margin="5,0"/>
 
                                     <StackLayout Grid.Row="0"

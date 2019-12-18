@@ -44,12 +44,13 @@
         </ResourceDictionary>
     </Page:PopupPage.Resources>
 
-    <StackLayout VerticalOptions="Center"  HorizontalOptions="FillAndExpand" 
-                 Margin="20,50,20,50" >
+    <StackLayout VerticalOptions="CenterAndExpand"  HorizontalOptions="FillAndExpand" 
+                 Margin="20,0,20,0" 
+                 >
             <plugins:PancakeView BackgroundColor="{StaticResource AppBackgroundColor}"
                                  BorderColor="{StaticResource LightGreenColor}"
                                  BorderThickness="3"
-                                 CornerRadius="15"
+                                 CornerRadius="10"
                                  HasShadow="True"
                                  Margin="0"
                                  HorizontalOptions="FillAndExpand" 
@@ -163,6 +164,7 @@
                     <Controls:RoundedButton Text="Send Invite"
                                         VerticalOptions="EndAndExpand"
                                     Margin="0"
+                                            HeightRequest="40"
                                             CornerRadius="10"
                                               HorizontalOptions="FillAndExpand"
                                     x:Name="SendInviteButton"
@@ -170,6 +172,7 @@
                     <Controls:RoundedButton Text="Close"
                                         VerticalOptions="EndAndExpand"
                                     Margin="0"
+                                            HeightRequest="40"
                                             CornerRadius="10"
                                             Clicked="ImageButton_Clicked"
                                               HorizontalOptions="FillAndExpand"

@@ -35,7 +35,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(UserNameText));
             }
         }
-        private string _UserNameText = "swathit@apptomate.co";
+        private string _UserNameText = string.Empty;
 
         public string PasswordText
         {
@@ -49,7 +49,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(PasswordText));
             }
         }
-        private string _PasswordText = "123";
+        private string _PasswordText = string.Empty;
 
         #endregion
 

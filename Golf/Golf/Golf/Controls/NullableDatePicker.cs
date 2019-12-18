@@ -27,7 +27,7 @@ namespace Golf.Controls
 
 
         public static readonly BindableProperty NullableDateProperty =
-        BindableProperty.Create(nameof(NullableDate), typeof(DateTime?), typeof(NullableDatePicker), null, defaultBindingMode: BindingMode.TwoWay);
+        BindableProperty.Create(nameof(NullableDate), typeof(DateTime?), typeof(NullableDatePicker), null, defaultBindingMode: BindingMode.TwoWay,propertyChanged:OnPropertyChanged);
 
         public DateTime? NullableDate
         {

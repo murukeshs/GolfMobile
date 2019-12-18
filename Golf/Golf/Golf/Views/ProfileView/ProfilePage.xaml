@@ -249,15 +249,14 @@
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Controls:NullableDatePicker PlaceHolder="Date of Birth"
+                    <Controls:NullableDatePicker  Margin="20,0,20,0" PlaceHolder="Date of Birth"
+                                              x:Name="DOBDatePicker"
                                              NullableDate="{Binding NullableDob}"
+                                             Date="{Binding Dob}"
                                              HorizontalOptions="FillAndExpand"
+                                             TextColor="{StaticResource TextGrayColor}"
                                              FontSize="{StaticResource FontSize18}"
-                                                 Margin="20,0,20,0"
-                                                 x:Name="DOBDatePicker"
-                                                 TextColor="{StaticResource TextGrayColor}"
-                                                 Date="{Binding Dob}"
-                                                 DateSelected="DOBDatePicker_DateSelected"/>
+                                             DateSelected="DOBDatePicker_DateSelected"/>
 
                     <Label Text="Gender" 
                            Margin="20,0,20,0"

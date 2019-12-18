@@ -55,6 +55,8 @@ namespace Golf.Models
         public int teamId { get; set; }
 
         public string RoleType { get; set; }
+
+        public string phoneNumber { get; set; }
     }
 
     public class userTypeList

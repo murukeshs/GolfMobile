@@ -79,6 +79,7 @@
                 <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
                                         Margin="20,10,20,0"
                                         Placeholder="Phone Number"
+                                        Keyboard="Numeric"
                                         Image="phone_white.png"
                                         Text="{Binding PhoneNumber, Mode = TwoWay}"/>
 

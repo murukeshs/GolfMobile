@@ -258,6 +258,7 @@ namespace Golf.ViewModel
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
+                    var DateofBirth = dob.Value.ToString("yyyy/MM/dd");
                     UserDialogs.Instance.ShowLoading();
                     string RestURL = App.User.BaseUrl + "User/createUser";
                     Uri requestUri = new Uri(RestURL);
@@ -270,7 +271,7 @@ namespace Golf.ViewModel
                         nickName = NickNameText,
                         email = EmailText,
                         gender= GenderText,
-                        dob= dob.ToString(),
+                        dob= DateofBirth,
                         phoneNumber= PhoneNumber,
                         password= Password,
                         userTypeId = "1"           //Player

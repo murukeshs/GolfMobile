@@ -145,7 +145,7 @@ namespace Golf.ViewModel
         }
         private string _NickName = string.Empty;
 
-        public string Dob
+        public DateTime? Dob
         {
             get { return _Dob; }
             set
@@ -154,9 +154,9 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(Dob));
             }
         }
-        private string _Dob = null;
+        private DateTime? _Dob = null;
 
-        public string NullableDob
+        public DateTime? NullableDob
         {
             get { return _NullableDob; }
             set
@@ -165,7 +165,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(NullableDob));
             }
         }
-        private string _NullableDob = null;
+        private DateTime? _NullableDob = null;
 
         public string Gender
         {
@@ -529,6 +529,7 @@ namespace Golf.ViewModel
         {
             try
             {
+                
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
@@ -543,10 +544,9 @@ namespace Golf.ViewModel
                         Email = User.email;
                         FirstName = User.firstName;
                         LastName = User.lastName;
-                        Dob =User.dob;
-                        await Task.Delay(10);
-                        NullableDob = User.dob;
-                        await Task.Delay(10);
+                        Dob = Convert.ToDateTime(User.dob);
+                        NullableDob = Convert.ToDateTime(User.dob);
+                        await Task.Delay(500);
                         Gender = User.gender;
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
@@ -604,7 +604,7 @@ namespace Golf.ViewModel
         void DateChanged(object parameter)
         {
             var item = parameter as string;
-            Dob = item;
+            Dob = Convert.ToDateTime(item);
         }
 
         #endregion
@@ -908,6 +908,7 @@ namespace Golf.ViewModel
         {
             try
             {
+                var dob = Dob.Value.ToString("yyyy/MM/dd");
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
@@ -929,7 +930,7 @@ namespace Golf.ViewModel
                         email = EmailName,
                         profileImage = ProfileImage,
                         gender = Gender,
-                        dob = Dob,
+                        dob = dob,
                         phoneNumber = PhoneNumber,
                     };
 

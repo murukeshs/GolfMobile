@@ -60,6 +60,7 @@ namespace Golf.Droid.CustomRenderer
                 }
                 else
                 {
+                    Control.Text = Element.Date.ToString(Element.Format); 
                     Control.SetTextColor(entry.TextColor.ToAndroid());
                 }
             }
