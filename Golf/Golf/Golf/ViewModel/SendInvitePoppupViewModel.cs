@@ -17,9 +17,9 @@ namespace Golf.ViewModel
 
         async Task InviteOkayButtonAsync()
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
-                UserDialogs.Instance.ShowLoading();
                 var page = new SendInvitePoppup();
                 await PopupNavigation.Instance.RemovePageAsync(page);
                 var view = new MenuPage();

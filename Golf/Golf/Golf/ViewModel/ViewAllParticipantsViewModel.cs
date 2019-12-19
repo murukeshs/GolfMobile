@@ -69,7 +69,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
                     var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
@@ -109,8 +108,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion

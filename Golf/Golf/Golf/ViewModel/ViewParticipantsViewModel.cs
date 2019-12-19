@@ -20,24 +20,17 @@ namespace Golf.ViewModel
 
         public ViewParticipantsViewModel()
         {
-            try
-            {
                 LoadPlayerListAsync();
-                ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
+               // ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
                 GetParticipantsList();
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
-            }
         }
 
-        async void GetViewParticipantsDetails(AllParticipantsResponse obj)
-        {
+        //async void GetViewParticipantsDetails(AllParticipantsResponse obj)
+        //{
 
-        }
+        //}
 
-        public ICommand ItemTappedCommand { get; private set; }
+        //public ICommand ItemTappedCommand { get; private set; }
 
         #region Property Declaraion
 
@@ -171,8 +164,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -180,29 +181,35 @@ namespace Golf.ViewModel
 
         #region CheckBox Selected Command Functionality
         public List<int> TeamPlayersIds = new List<int>();
-        // string joined = string.Join(",", TeamPlayersIds);
         public ObservableCollection<AddPlayersList> TeamPreviewList = new ObservableCollection<AddPlayersList>();
         public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
 
         async void CheckboxChangedEvent(object parameter)
         {
-            var item = parameter as user;
-            var userId = item.userId;
-            if (TeamPlayersIds.Count > 0)
+            try
             {
-                bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
-                if (UserIdAleradyExists)
+                var item = parameter as user;
+                var userId = item.userId;
+                if (TeamPlayersIds.Count > 0)
                 {
-                    TeamPlayersIds.Remove(userId);
+                    bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
+                    if (UserIdAleradyExists)
+                    {
+                        TeamPlayersIds.Remove(userId);
+                    }
+                    else
+                    {
+                        TeamPlayersIds.Add(userId);
+                    }
                 }
                 else
                 {
                     TeamPlayersIds.Add(userId);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TeamPlayersIds.Add(userId);
+                var a = ex.Message;
             }
         }
         #endregion CheckBox Selected Command Functionality
@@ -254,8 +261,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 

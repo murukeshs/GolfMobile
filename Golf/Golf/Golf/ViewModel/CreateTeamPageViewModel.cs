@@ -104,13 +104,13 @@ namespace Golf.ViewModel
 
         #region Round Picker Selected Command Functionality
 
-        public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
+        public ICommand PickerSelectedCommand => new Command<int>(SelectedIndexChangedEvent);
 
-        void SelectedIndexChangedEvent(object parameter)
+        void SelectedIndexChangedEvent(int shole)
         {
-            var item = parameter as int?;
-            StartingHole = Convert.ToInt16(item);
+                StartingHole = Convert.ToInt16(shole);
         }
+
         #endregion Round Picker Selected Command Functionality
 
         #region CreateTeam Procced Button Command Functionality
@@ -276,8 +276,6 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
 
@@ -318,9 +316,9 @@ namespace Golf.ViewModel
                 if (file == null)
                     return;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                var a = ex.Message;
             }
         }
 
@@ -331,7 +329,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //string RestURL = App.User.BaseUrl + "UploadFile/UploadFile";
                     string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
                     Uri requestUri = new Uri(RestURL);
 
@@ -377,8 +374,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 

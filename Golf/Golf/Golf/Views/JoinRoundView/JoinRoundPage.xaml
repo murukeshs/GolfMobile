@@ -19,6 +19,16 @@
                 <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
                 <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
             </Style>
+
+            <Style x:Key="DisabledCustomEntryStyle" 
+                   TargetType="controls:CustomEntry"
+                   BasedOn="{StaticResource RectangleShapeEntryStyle}">
+                <Setter Property="Margin" Value="20,0,20,0" />
+                <Setter Property="BackgroundColor" Value="LightGray"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+                <Setter Property="IsEnabled" Value="False"/>
+            </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -48,59 +58,39 @@
                    Style="{StaticResource HeadingsLabel}"/>
             
             <controls:CustomEntry Placeholder="Round Id"
-                                  Style="{StaticResource RectangleShapeEntryStyle}"
-                                  Margin="20,0,20,0"
-                                  IsEnabled="False"
-                                  Text="{Binding RoundID,Mode=TwoWay}"
-                                  BackgroundColor="LightGray"
-                                  FontSize="{StaticResource FontSize18}"/>
+                                  Style="{StaticResource DisabledCustomEntryStyle}"
+                                  Text="{Binding RoundID,Mode=TwoWay}"/>
             
             <Label Text="Competition Type"
                    Style="{StaticResource HeadingsLabel}"/>
             
             <controls:CustomEntry Placeholder="Competition Type"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
-                                  Margin="20,0,20,0"
                                   IsEnabled="False"
                                   Text="{Binding CompetitionType,Mode=TwoWay}"
-                                  BackgroundColor="LightGray"
-                                  FontSize="{StaticResource FontSize18}"/>
+                                  />
 
                     <Label Text="Team Name"
                    Style="{StaticResource HeadingsLabel}"/>
 
                     <controls:CustomEntry Placeholder="Team Name"
-                                  Style="{StaticResource RectangleShapeEntryStyle}"
-                                  Margin="20,0,20,0"
-                                  IsEnabled="False"
-                                  Text="{Binding TeamName}"
-                                  BackgroundColor="LightGray"
-                                  FontSize="{StaticResource FontSize18}"/>
+                                          Style="{StaticResource DisabledCustomEntryStyle}"
+                                          Text="{Binding TeamName}"/>
 
                     <Label Text="Participant Name"
                    Style="{StaticResource HeadingsLabel}"
                    />
 
             <controls:CustomEntry Placeholder="Participant Name"
-                                  Style="{StaticResource RectangleShapeEntryStyle}"
-                                  BackgroundColor="LightGray"
-                                  Margin="20,0,20,0"
-                                  IsEnabled="False"
-                                  Text="{Binding ParticipantName ,Mode=TwoWay}"
-                                  FontSize="{StaticResource FontSize18}"
-                                  IsCurvedCornersEnabled="True"/>
+                                  Style="{StaticResource DisabledCustomEntryStyle}"
+                                  Text="{Binding ParticipantName ,Mode=TwoWay}"/>
 
             <Label Text="Participant ID"
                    Style="{StaticResource HeadingsLabel}"/>
 
                     <controls:CustomEntry Placeholder="Participant Id"
-                                  Style="{StaticResource RectangleShapeEntryStyle}"
-                                  BackgroundColor="LightGray"
-                                  Margin="20,0,20,0"
-                                  IsEnabled="False"
-                                     Text="{Binding ParticipantID ,Mode=TwoWay}"
-                                  FontSize="{StaticResource FontSize18}"
-                                  IsCurvedCornersEnabled="True"/>
+                                          Style="{StaticResource DisabledCustomEntryStyle}"
+                                          Text="{Binding ParticipantID ,Mode=TwoWay}"/>
 
                     <StackLayout Orientation="Horizontal" 
                          Margin="30,20,30,0"

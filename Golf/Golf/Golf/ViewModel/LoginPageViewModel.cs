@@ -35,7 +35,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(UserNameText));
             }
         }
-        private string _UserNameText = string.Empty;
+        private string _UserNameText = "swathit@apptomate.co";
 
         public string PasswordText
         {
@@ -49,7 +49,7 @@ namespace Golf.ViewModel
                 OnPropertyChanged(nameof(PasswordText));
             }
         }
-        private string _PasswordText = string.Empty;
+        private string _PasswordText = "123";
 
         #endregion
 
@@ -186,9 +186,9 @@ namespace Golf.ViewModel
 
         async Task RegisterAsync()
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
-                UserDialogs.Instance.ShowLoading();
                 var view = new RegistrationPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
@@ -196,6 +196,7 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }

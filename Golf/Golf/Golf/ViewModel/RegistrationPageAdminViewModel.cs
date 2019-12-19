@@ -164,8 +164,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -207,8 +215,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -318,6 +334,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 

@@ -204,19 +204,11 @@ namespace Golf.ViewModel.Round
 
         async Task ProceedAsync()
         {
-            IsValid = Validate();
-            if (IsValid)
-            {
-                await CreateRoundAsync();
-                try
+                IsValid = Validate();
+                if (IsValid)
                 {
-
+                    await CreateRoundAsync();
                 }
-                catch (Exception ex)
-                {
-                    var a = ex.Message;
-                }
-            }
         }
 
         bool Validate()
@@ -230,7 +222,6 @@ namespace Golf.ViewModel.Round
             {
                 RoundEndDate = NullableENdDate;
             }
-            /////////////
             if (string.IsNullOrEmpty(RoundNameText))
             {
                 UserDialogs.Instance.AlertAsync("Round Name should not be empty.", "Alert", "Ok");
@@ -383,9 +374,18 @@ namespace Golf.ViewModel.Round
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
-                    CompetitionTypeItems = Items;
-                    UserDialogs.Instance.HideLoading();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
+                        CompetitionTypeItems = Items;
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
                 }
                 else
                 {
@@ -395,8 +395,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -428,9 +436,18 @@ namespace Golf.ViewModel.Round
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
-                    var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
-                    RulesItems = Items;
-                    UserDialogs.Instance.HideLoading();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
+                        RulesItems = Items;
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    else
+                    {
+                        var error = JsonConvert.DeserializeObject<error>(content);
+                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    }
                 }
                 else
                 {
@@ -440,8 +457,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -449,27 +474,34 @@ namespace Golf.ViewModel.Round
 
         #region RoundRule CheckBox Clicked Command Functionality
 
-        public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
+        public ICommand CheckBoxSelectedCommand => new Command<RoundRules>(CheckboxChangedEvent);
+
         public List<string> ListofRules = new List<string>();
-        void CheckboxChangedEvent(object parameter)
+        void CheckboxChangedEvent(RoundRules item)
         {
-            var item = parameter as RoundRules;
-            var RoundRuleId = item.roundRuleId;
-            if (ListofRules.Count > 0)
-            {
-                bool UserIdAleradyExists = ListofRules.Contains(RoundRuleId);
-                if (UserIdAleradyExists)
+            try 
+            { 
+                var RoundRuleId = item.roundRuleId;
+                if (ListofRules.Count > 0)
                 {
-                    ListofRules.Remove(RoundRuleId);
+                    bool UserIdAleradyExists = ListofRules.Contains(RoundRuleId);
+                    if (UserIdAleradyExists)
+                    {
+                        ListofRules.Remove(RoundRuleId);
+                    }
+                    else
+                    {
+                        ListofRules.Add(RoundRuleId);
+                    }
                 }
                 else
                 {
                     ListofRules.Add(RoundRuleId);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ListofRules.Add(RoundRuleId);
+                var a = ex.Message;
             }
         }
 
@@ -477,59 +509,32 @@ namespace Golf.ViewModel.Round
 
         #region CompetitionType SelectedIndex Changes Command Functionality
 
-        public ICommand CompetitionTypeSelectedCommand => new Command(CompetitionTypeChangedEvent);
-        void CompetitionTypeChangedEvent(object parameter)
+        public ICommand CompetitionTypeSelectedCommand => new Command<CompetitionType>(CompetitionTypeChangedEvent);
+        void CompetitionTypeChangedEvent(CompetitionType item)
         {
-            var item = parameter as CompetitionType;
-            CompetitionTypeId = item.competitionTypeId;
+                CompetitionTypeId = item.competitionTypeId;
         }
-        #endregion CompetitionType SelectedIndex Changes Command Functionality
 
-        //#region Round Start Date
-
-        //public ICommand RoundStartCommand => new Command(RoundStartCommandChangedEvent);
-
-        //public string Roundstartdate;
-
-        //void RoundStartCommandChangedEvent(object parameter)
-        //{
-        //    var item = parameter as DateTime?;
-        //    RoundStartDate = item;
-        //}
-
-        //#endregion
-
-        //#region Round StartEnd Date
-
-        //public ICommand RoundStartEndCommand => new Command(RoundStartENdCommandChangedEvent);
-
-        //public string RoundstartEnddate;
-
-        //void RoundStartENdCommandChangedEvent(object parameter)
-        //{
-        //    var item = parameter as DateTime?;
-        //    RoundEndDate = item;
-        //}
-
-        //#endregion
+        #endregion CompetitionType SelectedIndex Changes Command Functionality      
 
         #region Round Start Date
-        public ICommand RoundStartCommand => new Command(RoundStartCommandChangedEvent);
+        public ICommand RoundStartCommand => new Command<string>(RoundStartCommandChangedEvent);
+
         public string Roundstartdate;
-        void RoundStartCommandChangedEvent(object parameter)
+        void RoundStartCommandChangedEvent(string parameter)
         {
-            var item = parameter as string;
             Roundstartdate = NullableStartDate.ToString();
         }
+
         #endregion
 
         #region Round StartEnd Date
-        public ICommand RoundStartEndCommand => new Command(RoundStartENdCommandChangedEvent);
+        public ICommand RoundStartEndCommand => new Command<string>(RoundStartENdCommandChangedEvent);
+
         public string RoundstartEnddate;
-        void RoundStartENdCommandChangedEvent(object parameter)
+        void RoundStartENdCommandChangedEvent(string parameter)
         {
-            var item = parameter as string;
-            RoundstartEnddate = NullableENdDate.ToString();
+                RoundstartEnddate = NullableENdDate.ToString();
         }
         #endregion
 

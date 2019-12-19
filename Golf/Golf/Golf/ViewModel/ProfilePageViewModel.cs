@@ -377,8 +377,6 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
 
@@ -418,9 +416,9 @@ namespace Golf.ViewModel
                 if (file == null)
                     return;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                var a = ex.Message;
             }
         }
 
@@ -481,8 +479,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -517,9 +523,16 @@ namespace Golf.ViewModel
         }
         async void LogoutFunction()
         {
-            var LoginView = new LoginPage();
-            var navigationPage = ((NavigationPage)App.Current.MainPage);
-            await navigationPage.PushAsync(LoginView);
+            try
+            {
+                var LoginView = new LoginPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(LoginView);
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
         #endregion
 
@@ -529,7 +542,6 @@ namespace Golf.ViewModel
         {
             try
             {
-                
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
@@ -550,7 +562,7 @@ namespace Golf.ViewModel
                         Gender = User.gender;
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
-                        LoadGender();
+                        LoadGender();    
                         IsEmailNotification = User.isEmailNotification;
                         IsSmsNotification = User.isSMSNotification;
                         Address = User.address;
@@ -578,8 +590,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -603,20 +623,26 @@ namespace Golf.ViewModel
 
         void DateChanged(object parameter)
         {
-            var item = parameter as string;
-            Dob = Convert.ToDateTime(item);
+            try
+            {
+                var item = parameter as string;
+                Dob = Convert.ToDateTime(item);
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         #endregion
 
         #region Round Picker Selected Command Functionality
 
-        public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
+        public ICommand PickerSelectedCommand => new Command<int>(SelectedIndexChangedEvent);
 
-        void SelectedIndexChangedEvent(object parameter)
+        void SelectedIndexChangedEvent(int gender)
         {
-            var item = parameter as int?;
-            if (item == 0)
+            if (gender == 0)
             {
                 GenderId = 0;
                 Gender = "Male";
@@ -674,8 +700,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -719,8 +753,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -836,6 +878,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -965,6 +1017,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion     

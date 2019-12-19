@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
+using Golf.Services;
 using Golf.Utils;
 using Golf.Views.CreateRoundView;
 using System;
@@ -44,6 +45,7 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
             }
         }
 

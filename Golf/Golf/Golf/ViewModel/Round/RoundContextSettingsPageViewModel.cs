@@ -43,7 +43,8 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-            }
+                UserDialogs.Instance.HideLoading();
+            } 
         }
 
         #endregion Submit Button Command Functionality

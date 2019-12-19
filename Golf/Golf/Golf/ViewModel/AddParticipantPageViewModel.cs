@@ -36,6 +36,7 @@ namespace Golf.ViewModel
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                 TeamPlayersIds.Remove(userId);
             });
 
@@ -131,8 +132,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -144,15 +153,16 @@ namespace Golf.ViewModel
 
         async Task TeamPreviewButtonAsync()
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
-                UserDialogs.Instance.ShowLoading();
                 await PopupNavigation.Instance.PushAsync(new TeamPreviewPage());
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
                 var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -168,18 +178,27 @@ namespace Golf.ViewModel
 
         async void CheckboxChangedEvent(object parameter)
         {
+            try
+            {
                 var item = parameter as AllParticipantsResponse;
                 var userId = item.userId;
-            if (App.User.ScoreKeeperId != userId)
-            {
-                if (TeamPlayersIds.Count > 0)
+                if (App.User.ScoreKeeperId != userId)
                 {
-                    bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
-                    if (UserIdAleradyExists)
+                    if (TeamPlayersIds.Count > 0)
                     {
-                        TeamPlayersIds.Remove(userId);
-                        var itemToRemove = App.User.TeamPreviewList.Single(r => r.UserId == userId);
-                        App.User.TeamPreviewList.Remove(itemToRemove);
+                        bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
+                        if (UserIdAleradyExists)
+                        {
+                            TeamPlayersIds.Remove(userId);
+                            var itemToRemove = App.User.TeamPreviewList.Single(r => r.UserId == userId);
+                            App.User.TeamPreviewList.Remove(itemToRemove);
+                        }
+                        else
+                        {
+                            TeamPlayersIds.Add(userId);
+                            var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                            App.User.TeamPreviewList.Add(list);
+                        }
                     }
                     else
                     {
@@ -190,15 +209,14 @@ namespace Golf.ViewModel
                 }
                 else
                 {
-                    TeamPlayersIds.Add(userId);
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
-                    App.User.TeamPreviewList.Add(list);
+                    UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
+                    PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                    OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
-                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                var a = ex.Message;
             }
         }
         #endregion CheckBox Selected Command Functionality
@@ -217,12 +235,13 @@ namespace Golf.ViewModel
                 if (UserIdAleradyExists)
                 {
                     UserDialogs.Instance.Alert("Player can't be added as a score keeper.","Alert","Ok");
-                    
                 }
                 else
                 {
                     PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
                     PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
+                    OriginalPlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
+                    OriginalPlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
                     ScoreKeeperId = Item.userId;
                     App.User.ScoreKeeperId = ScoreKeeperId;
                     App.User.TeamPreviewScoreKeeperName = Item.playerName;
@@ -322,9 +341,17 @@ namespace Golf.ViewModel
         async Task AddParticipantsAsync()
         {
             UserDialogs.Instance.ShowLoading();
-            var view = new InviteParticipantPage();
-            await PopupNavigation.Instance.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
+            try
+            {
+                var view = new InviteParticipantPage();
+                await PopupNavigation.Instance.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+            }
         }
 
         #endregion AddParticipants Button Command Functionality

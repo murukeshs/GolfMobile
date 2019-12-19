@@ -59,29 +59,35 @@ namespace Golf.ViewModel.Round
 
         private async Task SaveTeamButtonCLicked()
         {
-            //ViewModelNavigation.PushAsync(new ItemPageViewModel() { Item = parameter as RssItem });
             await CreateRoundplayersAsync();
         }
+
         #endregion SaveTeamButtonCLicked Command Functionality
 
         #region checkbox command
 
         public List<int> TeamIdList = new List<int>();
 
-        public ICommand CheckBoxSelectedCommand => new Command(CheckBoxChanged);
+        public ICommand CheckBoxSelectedCommand => new Command<RoundTeamWithPlayers>(CheckBoxChanged);
 
-        async void CheckBoxChanged(object parameter)
+        async void CheckBoxChanged(RoundTeamWithPlayers item)
         {
-            var item = parameter as RoundTeamWithPlayers;
-            var teamId = item.teamId;
-            if (item.noOfPlayers > 0)
+            try
             {
-                if (TeamIdList.Count > 0)
+                var teamId = item.teamId;
+                if (item.noOfPlayers > 0)
                 {
-                    bool UserIdAleradyExists = TeamIdList.Contains(teamId);
-                    if (UserIdAleradyExists)
+                    if (TeamIdList.Count > 0)
                     {
-                        TeamIdList.Remove(teamId);
+                        bool UserIdAleradyExists = TeamIdList.Contains(teamId);
+                        if (UserIdAleradyExists)
+                        {
+                            TeamIdList.Remove(teamId);
+                        }
+                        else
+                        {
+                            TeamIdList.Add(teamId);
+                        }
                     }
                     else
                     {
@@ -90,16 +96,16 @@ namespace Golf.ViewModel.Round
                 }
                 else
                 {
-                    TeamIdList.Add(teamId);
+                    if (item.IsChecked == true)
+                    {
+                        await UserDialogs.Instance.AlertAsync("No Players available for your selected team.", "Alert", "Ok");
+                        RoundTeamsItemsList.Where(w => w.teamId == teamId).ToList().ForEach(s => s.IsChecked = false);
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                if (item.IsChecked == true)
-                {
-                    await UserDialogs.Instance.AlertAsync("No Players available for your selected team.", "Alert", "Ok");
-                    RoundTeamsItemsList.Where(w => w.teamId == teamId).ToList().ForEach(s => s.IsChecked = false);
-                }
+                var a = ex.Message;
             }
         }
 
@@ -114,7 +120,6 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    //player type is 1 to get player list
                     var RestURL = App.User.BaseUrl + "Team/listTeam";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
@@ -162,8 +167,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -198,11 +211,8 @@ namespace Golf.ViewModel.Round
 
                     if (response.IsSuccessStatusCode)
                     {
-                        //var Item = JsonConvert.DeserializeObject<createRoundResponse>(responJsonText);
                         var view = new SendInvitePoppup();
                         await PopupNavigation.Instance.PushAsync(view);
-                        //After the success full api process clear all the values
-                        //Clear();
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -245,34 +255,48 @@ namespace Golf.ViewModel.Round
 
         async void HideorShowItems(object parameter)
         {
-            var Item = parameter as RoundTeamWithPlayers;
+            try
+            {
+                var Item = parameter as RoundTeamWithPlayers;
 
-            if (_LastSelectedItem == Item)
-            {
-                Item.Expanded = !Item.Expanded;
-                await UpdateItems(Item);
-            }
-            else
-            {
-                if (_LastSelectedItem != null)
+                if (_LastSelectedItem == Item)
                 {
-                    //hide the previous selected item
-                    _LastSelectedItem.Expanded = false;
-                    await UpdateItems(_LastSelectedItem);
+                    Item.Expanded = !Item.Expanded;
+                    await UpdateItems(Item);
                 }
-                //Or show the selected item
-                Item.Expanded = true;
-                await UpdateItems(Item);
+                else
+                {
+                    if (_LastSelectedItem != null)
+                    {
+                        //hide the previous selected item
+                        _LastSelectedItem.Expanded = false;
+                        await UpdateItems(_LastSelectedItem);
+                    }
+                    //Or show the selected item
+                    Item.Expanded = true;
+                    await UpdateItems(Item);
+                }
+                _LastSelectedItem = Item;
             }
-            _LastSelectedItem = Item;
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         async Task UpdateItems(RoundTeamWithPlayers Items)
         {
-            var index = RoundTeamsItemsList.IndexOf(Items);
-            RoundTeamsItemsList.Remove(Items);
-            RoundTeamsItemsList.Insert(index, Items);
-            OnPropertyChanged(nameof(RoundTeamsItemsList));
+            try 
+            { 
+                var index = RoundTeamsItemsList.IndexOf(Items);
+                RoundTeamsItemsList.Remove(Items);
+                RoundTeamsItemsList.Insert(index, Items);
+                OnPropertyChanged(nameof(RoundTeamsItemsList));
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         #endregion Team Item Tabbed Command Functionality

@@ -188,8 +188,15 @@ namespace Golf.ViewModel
 
         void SelectedIndexChangedEvent(object parameter)
         {
-            var item = parameter as int?;
-            StartingHole = Convert.ToInt16(item);
+            try
+            {
+                var item = parameter as int?;
+                StartingHole = Convert.ToInt16(item);
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         #endregion Round Picker Selected Command Functionality
@@ -346,8 +353,6 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
 
@@ -387,9 +392,9 @@ namespace Golf.ViewModel
                 if (file == null)
                     return;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                var a = ex.Message;
             }
         }
 
@@ -449,8 +454,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -522,8 +535,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -589,8 +610,15 @@ namespace Golf.ViewModel
 
         public async Task LoadStartingHole(int id)
         {
-            int index = StartingHoleList.FindIndex(c => c == id);
-            DefaultStartingHole = index;
+            try
+            {
+                int index = StartingHoleList.FindIndex(c => c == id);
+                DefaultStartingHole = index;
+            }
+            catch(Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
         #endregion
 
@@ -602,16 +630,23 @@ namespace Golf.ViewModel
 
         async void CheckboxChangedEvent(object parameter)
         {
-            var item = parameter as AllParticipantsResponse;
-            var userId = item.userId;
-            if (ScoreKeeperId != userId)
+            try
             {
-                if (TeamPlayersIds.Count > 0)
+                var item = parameter as AllParticipantsResponse;
+                var userId = item.userId;
+                if (ScoreKeeperId != userId)
                 {
-                    bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
-                    if (UserIdAleradyExists)
+                    if (TeamPlayersIds.Count > 0)
                     {
-                        TeamPlayersIds.Remove(userId);
+                        bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
+                        if (UserIdAleradyExists)
+                        {
+                            TeamPlayersIds.Remove(userId);
+                        }
+                        else
+                        {
+                            TeamPlayersIds.Add(userId);
+                        }
                     }
                     else
                     {
@@ -620,13 +655,13 @@ namespace Golf.ViewModel
                 }
                 else
                 {
-                    TeamPlayersIds.Add(userId);
+                    UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
+                    PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
-                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                var a = ex.Message;
             }
         }
         #endregion CheckBox Selected Command Functionality
@@ -636,10 +671,18 @@ namespace Golf.ViewModel
 
         async Task AddParticipantsAsync()
         {
-            UserDialogs.Instance.ShowLoading();
-            var view = new InviteParticipantPage();
-            await PopupNavigation.Instance.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var view = new InviteParticipantPage();
+                await PopupNavigation.Instance.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                UserDialogs.Instance.HideLoading();
+                var a = ex.Message;
+            }
         }
         #endregion AddParticipants Button Command Functionality
 
@@ -671,7 +714,7 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
             }
         }
 

@@ -150,17 +150,24 @@ namespace Golf.ViewModel
 
         public void OtpViaOnChange(CustomCheckBox OtpViaValues)
         {
-            var Type = OtpViaValues.DefaultValue;
-            var Value = OtpViaValues.Checked;
-            if (Type == "1")
+            try
             {
-                IsEmail = Value;
-                IsSms = !Value;
+                var Type = OtpViaValues.DefaultValue;
+                var Value = OtpViaValues.Checked;
+                if (Type == "1")
+                {
+                    IsEmail = Value;
+                    IsSms = !Value;
+                }
+                else
+                {
+                    IsSms = Value;
+                    IsEmail = !Value;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                IsSms = Value;
-                IsEmail = !Value;
+                var a = ex.Message;
             }
         }
         #endregion
@@ -252,11 +259,19 @@ namespace Golf.ViewModel
                     DependencyService.Get<IToast>().Show("Please check internet connection");
                 }
             }
-            catch (Exception ex)
+           catch(Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -344,11 +359,19 @@ namespace Golf.ViewModel
                     DependencyService.Get<IToast>().Show("Please check internet connection");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion

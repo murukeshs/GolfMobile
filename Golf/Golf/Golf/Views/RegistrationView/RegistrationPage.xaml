@@ -19,6 +19,14 @@
                 <Setter Property="Margin" Value="60,0,0,0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             </Style>
+
+            <!--<Style x:Key="EntryStyle" 
+                   TargetType="Controls:ExtendedEntry"
+                   BasedOn="{StaticResource EntryStyleWhite}">
+                <Setter Property="Margin" Value="60,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>-->
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
