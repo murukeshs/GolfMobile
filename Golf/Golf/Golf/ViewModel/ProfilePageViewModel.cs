@@ -16,6 +16,7 @@ using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Golf.Views;
+using System.Globalization;
 
 namespace Golf.ViewModel
 {
@@ -544,8 +545,10 @@ namespace Golf.ViewModel
                         Email = User.email;
                         FirstName = User.firstName;
                         LastName = User.lastName;
-                        Dob = Convert.ToDateTime(User.dob);
-                        NullableDob = Convert.ToDateTime(User.dob);
+                       //Date Time Issue
+                        var format = "MM/dd/yyyy hh:mm:ss tt";
+                        var dateTime = DateTime.ParseExact(User.dob, format, CultureInfo.InvariantCulture);
+                        Dob = dateTime;
                         await Task.Delay(500);
                         Gender = User.gender;
                         EmailName = User.email;

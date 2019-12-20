@@ -25,9 +25,9 @@
     </Page:PopupPage.Animation>
 
     <Page:PopupPage.Content>
-        <StackLayout VerticalOptions="Center"  
+        <StackLayout VerticalOptions="CenterAndExpand"  
                      HorizontalOptions="FillAndExpand" 
-                     Margin="25,50,25,50" 
+                     Margin="25,0,25,0" 
                      BackgroundColor="Transparent">
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource LightGreenColor}"
@@ -49,27 +49,14 @@
                     <StackLayout Margin="0">
                         
 
-                            <StackLayout Margin="20,10,20,0"
-                             Orientation="Horizontal">
                                 <Label Text="Round Code"
-                               TextColor="{StaticResource BlackColor}"
-                               FontSize="{StaticResource FontSize20}"
-                               Margin="0"
+                               TextColor="White"
+                               FontSize="{StaticResource FontSize28}"
+                              Margin="20,20,20,20"
                                    FontAttributes="Bold"
                                     HorizontalTextAlignment="Center"
                                HorizontalOptions="CenterAndExpand"
                                VerticalOptions="Center"/>
-
-                                <ImageButton Source="close_icon.png"
-                             HorizontalOptions="End"
-                             HeightRequest="40"
-                             WidthRequest="40"
-                                             x:Name="CloseButton"
-                             BackgroundColor="Transparent"
-                             Margin="0"
-                             Clicked="CloseButton_Clicked"/>
-
-                            </StackLayout>
 
                             <Label TextColor="{StaticResource WhiteColor}"
                            FontSize="{StaticResource FontSize18}"
@@ -79,11 +66,11 @@
                            VerticalOptions="Center">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="New round of the competition type &quot; "/>
+                                    <Span Text="New round of the competition type &quot;"/>
                                     <Span Text="{Binding RoundCodeText}"
                                       FontAttributes="Bold"
                                           FontSize="{StaticResource FontSize24}"/>
-                                    <Span Text=" &quot; is successfully scheduled.Here is the Round participation code"/>
+                                    <Span Text="&quot; is successfully scheduled.Here is the Round participation code"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
