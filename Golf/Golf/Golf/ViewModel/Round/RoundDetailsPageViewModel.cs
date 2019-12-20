@@ -251,8 +251,15 @@ namespace Golf.ViewModel.Round
         public ICommand CompetitionTypeSelectedCommand => new Command(CompetitionTypeChangedEvent);
         void CompetitionTypeChangedEvent(object parameter)
         {
-            var item = parameter as CompetitionType;
-            CompetitionTypeID = item.competitionTypeId;
+            try
+            {
+                var item = parameter as CompetitionType;
+                CompetitionTypeID = item.competitionTypeId;
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
         #endregion CompetitionType SelectedIndex Changes Command Functionality
 
@@ -321,8 +328,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -337,34 +352,48 @@ namespace Golf.ViewModel.Round
 
         async void HideorShowItems(object parameter)
         {
-            var Item = parameter as RoundDetailsListTeamList;
+            try
+            {
+                var Item = parameter as RoundDetailsListTeamList;
 
-            if (_LastSelectedItem == Item)
-            {
-                Item.Expanded = !Item.Expanded;
-                await UpdateItems(Item);
-            }
-            else
-            {
-                if (_LastSelectedItem != null)
+                if (_LastSelectedItem == Item)
                 {
-                    //hide the previous selected item
-                    _LastSelectedItem.Expanded = false;
-                    await UpdateItems(_LastSelectedItem);
+                    Item.Expanded = !Item.Expanded;
+                    await UpdateItems(Item);
                 }
-                //Or show the selected item
-                Item.Expanded = true;
-                await UpdateItems(Item);
+                else
+                {
+                    if (_LastSelectedItem != null)
+                    {
+                        //hide the previous selected item
+                        _LastSelectedItem.Expanded = false;
+                        await UpdateItems(_LastSelectedItem);
+                    }
+                    //Or show the selected item
+                    Item.Expanded = true;
+                    await UpdateItems(Item);
+                }
+                _LastSelectedItem = Item;
             }
-            _LastSelectedItem = Item;
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         async Task UpdateItems(RoundDetailsListTeamList Items)
         {
-            var index = RoundTeamsItemsList.IndexOf(Items);
-            RoundTeamsItemsList.Remove(Items);
-            RoundTeamsItemsList.Insert(index, Items);
-            OnPropertyChanged(nameof(RoundTeamsItemsList));
+            try
+            {
+                var index = RoundTeamsItemsList.IndexOf(Items);
+                RoundTeamsItemsList.Remove(Items);
+                RoundTeamsItemsList.Insert(index, Items);
+                OnPropertyChanged(nameof(RoundTeamsItemsList));
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
 
@@ -414,8 +443,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -470,8 +507,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -599,24 +644,46 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
         public async Task LoadRulesType(string Rules)
         {
-            List<string> result = Rules.Split(',').ToList();
-            foreach (string item in result)
+            try
             {
-                RulesItems.Where(w => w.roundRuleId == item).ToList().ForEach(s => s.Checked = true);
+                List<string> result = Rules.Split(',').ToList();
+                foreach (string item in result)
+                {
+                    RulesItems.Where(w => w.roundRuleId == item).ToList().ForEach(s => s.Checked = true);
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
             }
         }
 
         public async Task LoadCompetitionType(int id)
         {
-            int index = CompetitionTypeItems.FindIndex(c => c.competitionTypeId == id);
-            CompetitionTypeIndex = index;
+            try
+            {
+                int index = CompetitionTypeItems.FindIndex(c => c.competitionTypeId == id);
+                CompetitionTypeIndex = index;
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         #endregion
@@ -657,8 +724,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -667,46 +742,56 @@ namespace Golf.ViewModel.Round
         #region Rule CheckBox Clicked Command Functionality
 
         public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
+
         public List<string> ListofRules = new List<string>();
         void CheckboxChangedEvent(object parameter)
         {
-            var item = parameter as RoundRules;
-            var RoundRuleId = item.roundRuleId;
-            if (ListofRules.Count > 0)
+            try
             {
-                bool UserIdAleradyExists = ListofRules.Contains(RoundRuleId);
-                if (UserIdAleradyExists)
+                var item = parameter as RoundRules;
+                var RoundRuleId = item.roundRuleId;
+                if (ListofRules.Count > 0)
                 {
-                    ListofRules.Remove(RoundRuleId);
+                    bool UserIdAleradyExists = ListofRules.Contains(RoundRuleId);
+                    if (UserIdAleradyExists)
+                    {
+                        ListofRules.Remove(RoundRuleId);
+                    }
+                    else
+                    {
+                        ListofRules.Add(RoundRuleId);
+                    }
                 }
                 else
                 {
                     ListofRules.Add(RoundRuleId);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ListofRules.Add(RoundRuleId);
+                var a = ex.Message;
             }
         }
 
         #endregion RoundRule CheckBox Clicked Command Functionality
 
         #region TeamEdit Command
-        public ICommand EditTeamCommand => new Command(EditTeam);
+        public ICommand EditTeamCommand => new Command<RoundDetailsListTeamList>(EditTeam);
 
-        async void EditTeam(object parameter)
+        async void EditTeam(RoundDetailsListTeamList Item)
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
-                var Item = parameter as RoundDetailsListTeamList;
                 App.User.CreateTeamId = Item.teamId;
                 var view = new UpdateTeam();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }
@@ -718,16 +803,18 @@ namespace Golf.ViewModel.Round
 
         async void AddNewTeam()
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
                 var view = new CreateTeamPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
-                var a = ex.Message;
                 UserDialogs.Instance.HideLoading();
+                var a = ex.Message;
             }
         }
         #endregion
@@ -768,8 +855,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -780,10 +875,18 @@ namespace Golf.ViewModel.Round
 
         async Task InviteParticipantsAsync()
         {
-            UserDialogs.Instance.ShowLoading();
-            var view = new InviteParticipantPage();
-            await PopupNavigation.Instance.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var view = new InviteParticipantPage();
+                await PopupNavigation.Instance.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+            }
         }
         #endregion InviteParticipant Button Command Functionality
 
@@ -867,11 +970,10 @@ namespace Golf.ViewModel.Round
 
         #region User Checkbox Command
 
-        public ICommand UserCheckBoxSelectedCommand => new Command(UserCheckboxChangedEvent);
+        public ICommand UserCheckBoxSelectedCommand => new Command<AllParticipantsResponse>(UserCheckboxChangedEvent);
       
-        void UserCheckboxChangedEvent(object parameter)
+        void UserCheckboxChangedEvent(AllParticipantsResponse item)
         {
-            var item = parameter as AllParticipantsResponse;
             var userId = item.userId;
             try
             {
@@ -895,9 +997,9 @@ namespace Golf.ViewModel.Round
                     RoundPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                var message = e.Message;
+                var a = ex.Message;
             }
         }
         #endregion
@@ -969,14 +1071,7 @@ namespace Golf.ViewModel.Round
         public ICommand ViewProileCommand => new Command<AllParticipantsResponse>(ViewProfileAsync);
         public async void ViewProfileAsync(AllParticipantsResponse item)
         {
-            try
-            {
-                await PopupNavigation.Instance.PushAsync(new RoundPlayerDetailsPopup(item));
-            }
-            catch (Exception ex)
-            {
-                var Error = ex.Message;
-            }
+            await PopupNavigation.Instance.PushAsync(new RoundPlayerDetailsPopup(item));
         }
         #endregion
 

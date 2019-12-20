@@ -226,8 +226,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion Send Invite Button Command Functionality
@@ -256,11 +264,10 @@ namespace Golf.ViewModel
         }
         private bool _IsSMSNotification = false;
 
-        public ICommand CommunicationViaCheckBoxCommand => new Command(CommunicationViaCheckBox);
+        public ICommand CommunicationViaCheckBoxCommand => new Command<string>(CommunicationViaCheckBox);
 
-        public void CommunicationViaCheckBox(object parameter)
+        public void CommunicationViaCheckBox(string type)
         {
-            var type =  parameter as string;
             if(type == "Email")
             {
                 IsEmailNotification = true;

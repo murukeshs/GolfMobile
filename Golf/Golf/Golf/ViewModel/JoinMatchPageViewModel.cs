@@ -120,6 +120,7 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }
@@ -170,8 +171,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -183,13 +192,20 @@ namespace Golf.ViewModel
 
         void SelectedIndexChangedEvent(object parameter)
         {
-            var Item = parameter as roundJoinlist;
-            RoundID = Item.roundId.ToString();
-            CompetitionType = Item.CompetitionName;
-            ParticipantName = Item.ParticipantName;
-            ParticipantID = Item.ParticipantId.ToString();
-            TeamName = Item.teamName;
-            RoundFee = Item.roundFee;
+            try
+            {
+                var Item = parameter as roundJoinlist;
+                RoundID = Item.roundId.ToString();
+                CompetitionType = Item.CompetitionName;
+                ParticipantName = Item.ParticipantName;
+                ParticipantID = Item.ParticipantId.ToString();
+                TeamName = Item.teamName;
+                RoundFee = Item.roundFee;
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         #endregion Round Picker Selected Command Functionality

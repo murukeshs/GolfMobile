@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Golf.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,12 +9,6 @@ namespace Golf.ViewModel
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-
-        public BaseViewModel()
-        {
-            
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName]string propertyName = "", Action onChanged = null)
@@ -32,6 +27,7 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 //ExceptionHandlerService.HandleException(ex);
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
             return isNewValueDifferent;
         }
@@ -46,6 +42,7 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 //ExceptionHandlerService.HandleException(ex);
+                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
             }
         }
         #endregion

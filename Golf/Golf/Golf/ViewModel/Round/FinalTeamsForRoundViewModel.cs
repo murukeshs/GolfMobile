@@ -47,15 +47,18 @@ namespace Golf.ViewModel.Round
         public ICommand CreateAnotherTeamCommand => new Command(CreateAnotherTeam);
         public async void CreateAnotherTeam()
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
                 var view = new CreateTeamPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
-
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
             }
         }
         #endregion
@@ -166,8 +169,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -182,34 +193,48 @@ namespace Golf.ViewModel.Round
 
         async void HideorShowItems(object parameter)
         {
-            var Item = parameter as RoundDetailsListTeamList;
+            try
+            {
+                var Item = parameter as RoundDetailsListTeamList;
 
-            if (_LastSelectedItem == Item)
-            {
-                Item.Expanded = !Item.Expanded;
-                await UpdateItems(Item);
-            }
-            else
-            {
-                if (_LastSelectedItem != null)
+                if (_LastSelectedItem == Item)
                 {
-                    //hide the previous selected item
-                    _LastSelectedItem.Expanded = false;
-                    await UpdateItems(_LastSelectedItem);
+                    Item.Expanded = !Item.Expanded;
+                    await UpdateItems(Item);
                 }
-                //Or show the selected item
-                Item.Expanded = true;
-                await UpdateItems(Item);
+                else
+                {
+                    if (_LastSelectedItem != null)
+                    {
+                        //hide the previous selected item
+                        _LastSelectedItem.Expanded = false;
+                        await UpdateItems(_LastSelectedItem);
+                    }
+                    //Or show the selected item
+                    Item.Expanded = true;
+                    await UpdateItems(Item);
+                }
+                _LastSelectedItem = Item;
             }
-            _LastSelectedItem = Item;
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
         async Task UpdateItems(RoundDetailsListTeamList Items)
         {
-            var index = RoundTeamsItemsList.IndexOf(Items);
-            RoundTeamsItemsList.Remove(Items);
-            RoundTeamsItemsList.Insert(index, Items);
-            OnPropertyChanged(nameof(RoundTeamsItemsList));
+            try
+            {
+                var index = RoundTeamsItemsList.IndexOf(Items);
+                RoundTeamsItemsList.Remove(Items);
+                RoundTeamsItemsList.Insert(index, Items);
+                OnPropertyChanged(nameof(RoundTeamsItemsList));
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
         }
 
 
@@ -241,6 +266,7 @@ namespace Golf.ViewModel.Round
                     if (response.IsSuccessStatusCode)
                     {
                         RoundTeamsItemsWithPlayers = JsonConvert.DeserializeObject<ObservableCollection<RoundTeamItems>>(content);
+                        UserDialogs.Instance.HideLoading();
                     }
                     else
                     {
@@ -248,8 +274,6 @@ namespace Golf.ViewModel.Round
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
                     }
-
-                    UserDialogs.Instance.HideLoading();
                 }
                 else
                 {
@@ -259,8 +283,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 

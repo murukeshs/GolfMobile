@@ -32,6 +32,7 @@ namespace Golf.ViewModel.Round
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPLAYERLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
                 PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
             });
 
         }
@@ -92,8 +93,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
@@ -116,6 +125,7 @@ namespace Golf.ViewModel.Round
                     {
                         TeamPlayersIds.Remove(userId);
                         PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+                        OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                         var itemToRemove = App.User.PlayersPreviewList.Single(r => r.UserId == userId);
                         App.User.PlayersPreviewList.Remove(itemToRemove);
                     }
@@ -123,6 +133,7 @@ namespace Golf.ViewModel.Round
                     {
                         TeamPlayersIds.Add(userId);
                         PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
+                        OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                         var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
                         App.User.PlayersPreviewList.Add(list);
                     }
@@ -131,13 +142,14 @@ namespace Golf.ViewModel.Round
                 {
                     TeamPlayersIds.Add(userId);
                     PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
+                    OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                     var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
                     App.User.PlayersPreviewList.Add(list);
                 }
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
-                var message = e.Message;
+                var a = ex.Message;
             }
         }
         #endregion CheckBox Selected Command Functionality
@@ -213,10 +225,18 @@ namespace Golf.ViewModel.Round
 
         async Task InviteParticipantsAsync()
         {
-            UserDialogs.Instance.ShowLoading();
-            var view = new InviteParticipantPage();
-            await PopupNavigation.Instance.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var view = new InviteParticipantPage();
+                await PopupNavigation.Instance.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+            }
         }
         #endregion InviteParticipant Button Command Functionality
 
@@ -234,6 +254,7 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
             }
         }
         #endregion
@@ -248,10 +269,10 @@ namespace Golf.ViewModel.Round
         {
             try
             {
+                PlayersList = new ObservableCollection<AllParticipantsResponse>();
+
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    PlayersList = new ObservableCollection<AllParticipantsResponse>();
-
                     PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
 
                     var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));

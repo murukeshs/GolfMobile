@@ -106,8 +106,16 @@ namespace Golf.ViewModel.Round
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
         #endregion
@@ -118,15 +126,22 @@ namespace Golf.ViewModel.Round
 
         private async void HandleItemSelected(object parameter)
         {
-            //ViewModelNavigation.PushAsync(new ItemPageViewModel() { Item = parameter as RssItem });
-            UserDialogs.Instance.ShowLoading();
-            var Item = parameter as RoundList;
-            var name = Item.roundName;
-            App.User.CreateRoundId = Item.roundId;
-            var view = new RoundDetailsPage();
-            var navigationPage = ((NavigationPage)App.Current.MainPage);
-            await navigationPage.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var Item = parameter as RoundList;
+                var name = Item.roundName;
+                App.User.CreateRoundId = Item.roundId;
+                var view = new RoundDetailsPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                UserDialogs.Instance.HideLoading();
+                var a = ex.Message;
+            }
         }
 
         #endregion List ItemTabbed Command Functionality

@@ -36,7 +36,6 @@ namespace Golf.ViewModel
         #endregion      
 
         #region Join Round Command Functionality
-        //Join Round Command
         public ICommand JoinRoundCommand => new AsyncCommand(JoinRoundAsync);
         async Task JoinRoundAsync()
         {
@@ -50,6 +49,7 @@ namespace Golf.ViewModel
             }
             catch(Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }
@@ -62,14 +62,15 @@ namespace Golf.ViewModel
         {
             try
             {
-                //UserDialogs.Instance.ShowLoading();
+                UserDialogs.Instance.ShowLoading();
                 var view = new CreateRoundPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
-                //UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }
@@ -82,14 +83,15 @@ namespace Golf.ViewModel
         {
             try
             {
-                //UserDialogs.Instance.ShowLoading();
+                UserDialogs.Instance.ShowLoading();
                 var view = new ListOfTeamsPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
-                //UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
             
@@ -111,6 +113,7 @@ namespace Golf.ViewModel
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }

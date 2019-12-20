@@ -60,21 +60,23 @@ namespace Golf.ViewModel
 
         #region Register Command Functionality
 
-        public ICommand TeamListItemsTabbedCommand => new Command(TeamListItemsTabbed);
+        public ICommand TeamListItemsTabbedCommand => new Command<RoundTeamItems>(TeamListItemsTabbed);
 
-        async void TeamListItemsTabbed(object parameter)
+        async void TeamListItemsTabbed(RoundTeamItems item)
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
-                var item = parameter as RoundTeamItems;
                 App.User.TeamIdforPlayerListing = item.teamId;
                 App.User.TeamName = item.teamName;
                 var view = new ViewParticipantPage();
                 var navigationPage = ((NavigationPage)App.Current.MainPage);
                 await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {
+                UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
         }
@@ -85,11 +87,11 @@ namespace Golf.ViewModel
 
         async void LoadTeamListAsync()
         {
+            UserDialogs.Instance.ShowLoading();
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
-                    UserDialogs.Instance.ShowLoading();
                     var RestURL = App.User.BaseUrl + "Team/listTeam";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
@@ -127,8 +129,16 @@ namespace Golf.ViewModel
             catch (Exception ex)
             {
                 var a = ex.Message;
-                UserDialogs.Instance.HideLoading();
-                DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                if (a == "System.Net.WebException")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Something went wrong, please try again later");
+                }
             }
         }
 
