@@ -67,6 +67,7 @@
             <controls:CustomEntry Placeholder="Competition Type"
                                   Style="{StaticResource RectangleShapeEntryStyle}"
                                   IsEnabled="False"
+                                  Margin="20,0,20,0"
                                   Text="{Binding CompetitionType,Mode=TwoWay}"
                                   />
 

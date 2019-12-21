@@ -50,7 +50,7 @@ namespace Golf.ViewModel.Round
                 OnPropertyChanged(nameof(PlayersList));
             }
         }
-        public ObservableCollection<AllParticipantsResponse> _PlayersList = null;
+        public ObservableCollection<AllParticipantsResponse> _PlayersList;
 
         private ObservableCollection<AllParticipantsResponse> OriginalPlayersList = new ObservableCollection<AllParticipantsResponse>();
 

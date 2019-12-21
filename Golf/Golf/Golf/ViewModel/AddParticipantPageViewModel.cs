@@ -94,26 +94,26 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Round/GetRoundPlayers?roundId=" + App.User.CreateRoundId;
+                    var RestURL = App.User.BaseUrl + "Round/GetRoundPlayers?roundId=" + App.User.CreateRoundId + "&action=team";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
                     var response = await httpClient.GetAsync(RestURL);
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
-                        ObservableCollection<AllParticipantsResponse> Items = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                       PlayersListItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
 
-                        foreach (var item in Items.Where(w => w.isChecked == true))
-                        {
-                            var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
-                            if (item.roleType == "ScoreKeeper")
-                            {
-                                ScoreKeeperId = item.userId;
-                            }
-                            PlayersList.Add(value);
-                        }
-                        PlayersListItems = PlayersList;
-                        OriginalPlayersList = PlayersList;
+                        //foreach (var item in Items.Where(w => w.isChecked == true))
+                        //{
+                        //    var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
+                        //    if (item.roleType == "ScoreKeeper")
+                        //    {
+                        //        ScoreKeeperId = item.userId;
+                        //    }
+                        //    PlayersList.Add(value);
+                        //}
+
+                        OriginalPlayersList = PlayersListItems;
                         UserDialogs.Instance.HideLoading();
                     }
                     else

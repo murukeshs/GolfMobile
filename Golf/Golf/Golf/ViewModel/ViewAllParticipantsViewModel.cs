@@ -1,8 +1,10 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
+using Golf.Views;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -161,6 +163,27 @@ namespace Golf.ViewModel
             }
         }
 
+        #endregion
+
+        #region Invite Participant 
+        public ICommand InviteParticipantCommand => new Command<string>(InviteParticipant);
+
+        public async void InviteParticipant(string keyword)
+        {
+            try
+            {
+                UserDialogs.Instance.ShowLoading();
+                var view = new InviteParticipantPage();
+                await PopupNavigation.Instance.PushAsync(view);
+                GetParticipantsList();
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+                UserDialogs.Instance.HideLoading();
+            }
+        }
         #endregion
     }
 }
