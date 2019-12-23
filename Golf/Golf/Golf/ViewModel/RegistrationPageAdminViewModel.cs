@@ -189,6 +189,7 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
+                    CountryID = country.countryId;
                     var RestURL = App.User.BaseUrl + "Country/GetStateList/"+ country.countryId;
                     HttpClient client = new HttpClient();
                     client.BaseAddress = new Uri(RestURL);
@@ -356,6 +357,35 @@ namespace Golf.ViewModel
             IsSMSNotification = false;
             IsEmailNotification = false;
         }
+        #endregion
+
+        #region StateChangedCommand 
+
+        public ICommand StateChangedCommand => new Command<State>(StateChanged);
+
+        public void StateChanged(State state)
+        {
+            StateID = state.stateId;
+        }
+
+        #endregion
+
+        #region NotificationTypeChangedCommand
+
+        public ICommand NotificationTypeChangedCommand => new Command<string>(NotificationTypeChanged);
+
+        public void NotificationTypeChanged(string item)
+        {
+            if (item == "Email")
+            {
+                IsEmailNotification = true;
+            }
+            if (item == "SMS")
+            {
+                IsSMSNotification = true;
+            }
+        }
+
         #endregion
 
     }

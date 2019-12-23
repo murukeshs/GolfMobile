@@ -113,17 +113,7 @@ namespace Golf.ViewModel
                         //    PlayersList.Add(value);
                         //}
 
-                        foreach (var item in Items.Where(w => w.isChecked == true))
-                        {
-                            var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType ,phoneNumber=item.phoneNumber};
-                            if (item.roleType == "ScoreKeeper")
-                            {
-                                ScoreKeeperId = item.userId;
-                            }
-                            PlayersList.Add(value);
-                        }
-                        PlayersListItems = PlayersList;
-                        OriginalPlayersList = PlayersList;
+                        OriginalPlayersList = PlayersListItems;
                         UserDialogs.Instance.HideLoading();
                     }
                     else
@@ -200,7 +190,7 @@ namespace Golf.ViewModel
                         if (UserIdAleradyExists)
                         {
                             TeamPlayersIds.Remove(userId);
-                            var itemToRemove = App.User.TeamPreviewList.Single(r => r.UserId == userId);
+                            var itemToRemove = App.User.TeamPreviewList.SingleOrDefault(r => r.UserId == userId);
                             App.User.TeamPreviewList.Remove(itemToRemove);
                         }
                         else

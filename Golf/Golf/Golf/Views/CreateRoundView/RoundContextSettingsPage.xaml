@@ -12,6 +12,25 @@
         <viewModels:RoundContextSettingsPageViewModel/>
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="HeadingLabelStyle" TargetType="Label" BasedOn="{StaticResource TextLabelStyleGrayColor20}">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+            </Style>
+
+            <Style x:Key="CustomPickerStyle" TargetType="controls:CustomPicker">
+                <Setter Property="Image" Value="down_arrow_gray.png"/>
+                <Setter Property="Margin" Value="20,5,20,0" />
+                <Setter Property="TitleColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout>
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
@@ -24,31 +43,19 @@
                                  Padding="10">
                 <StackLayout>
                     <Label Text="Round Settings:"
-                           Style="{StaticResource TextLabelStyleGrayColor20}"
-                           Margin="20,30,20,0"
-                           TextColor="{StaticResource BlackColor}"
-                           FontSize="{StaticResource FontSize18}"/>
+                           Style="{StaticResource HeadingLabelStyle}"
+                           Margin="20,30,20,0"/>
 
                     <controls:CustomPicker Title="Select Round Settings" 
-                                           Image="down_arrow_gray.png"
-                                           Margin="20,5,20,0"
-                                           TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"
-                                           FontSize="{StaticResource FontSize18}"
+                                           Style="{StaticResource CustomPickerStyle}"
                                            ItemsSource="{Binding SettingsList}"/>
 
                     <Label Text="Round Extras:"
-                           Style="{StaticResource TextLabelStyleGrayColor20}"
-                           Margin="20,20,20,0"
-                           TextColor="{StaticResource BlackColor}"
-                           FontSize="{StaticResource FontSize18}"/>
+                           Style="{StaticResource HeadingLabelStyle}"
+                           Margin="20,20,20,0"/>
 
                     <controls:CustomPicker Title="Select Round Extras" 
-                                           Image="down_arrow_gray.png"
-                                           Margin="20,5,20,0"
-                                           TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"
-                                           FontSize="{StaticResource FontSize18}"
+                                           Style="{StaticResource CustomPickerStyle}"
                                            ItemsSource="{Binding RoundExtrasList}"/>
 
                     <controls:RoundedButton Text="Proceed"

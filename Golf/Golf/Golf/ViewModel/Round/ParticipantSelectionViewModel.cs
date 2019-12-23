@@ -126,7 +126,7 @@ namespace Golf.ViewModel.Round
                         TeamPlayersIds.Remove(userId);
                         PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
                         OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                        var itemToRemove = App.User.PlayersPreviewList.Single(r => r.UserId == userId);
+                        var itemToRemove = App.User.PlayersPreviewList.SingleOrDefault(r => r.UserId == userId);
                         App.User.PlayersPreviewList.Remove(itemToRemove);
                     }
                     else

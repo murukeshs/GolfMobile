@@ -279,5 +279,16 @@ namespace Golf.ViewModel
         }
 
         #endregion
+
+        #region GenderOnchange Command
+
+        public ICommand GenderOnChangeCommand => new Command<string>(GenderOnChange);
+
+        public void GenderOnChange(string gender)
+        {
+                GenderText = gender;
+        }
+
+        #endregion
     }
 }

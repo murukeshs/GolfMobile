@@ -10,7 +10,7 @@
              Title="Participant's Listing"
              BackgroundColor="{StaticResource AppBackgroundColor}">
 
-    <!--Bind Your View Model Class heer to access his properties,functions and fields etc...-->
+    <!--Bind Your View Model Class here to access his properties,functions and fields etc...-->
     <ContentPage.BindingContext>
         <ViewModel:ViewParticipantsViewModel/>
     </ContentPage.BindingContext>
@@ -21,7 +21,6 @@
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
             <Converters:ConvertStringToList x:Key="convertToList"/>
             <Converters:RadioButtonConverter x:Key="radioButtonConvertre"/>
-            <!--<Converters: x:Key="radioButtonConverter"/>-->
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -122,27 +121,6 @@
                                                TextColor="{StaticResource TextGrayColor}"
                                                Text="{Binding email}"
                                                Margin="0"/>
-                                                <!--<Controls:HorizontalList ListOrientation="Horizontal" 
-                                                                 ItemsSource="{Binding roleType,Converter={StaticResource convertToList}}" 
-                                                                 Padding="0"
-                                                                 Margin="0,5,5,5"
-                                                                 >
-                                                    <Controls:HorizontalList.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <plugins:PancakeView BackgroundColor="{StaticResource LightGreenColor}"
-                                                                         CornerRadius="25"
-                                                                         Margin="5,0,5,0"
-                                                                         Padding="5">
-                                                                <Label Text="{Binding .}"
-                                                                   Margin="10,5,10,5"
-                                                               TextColor="{StaticResource WhiteColor}"
-                                                               FontSize="{StaticResource FontSize12}"
-                                                               HorizontalTextAlignment="Center"
-                                                               />
-                                                            </plugins:PancakeView>
-                                                        </DataTemplate>
-                                                    </Controls:HorizontalList.ItemTemplate>
-                                                </Controls:HorizontalList>-->
                                             </StackLayout>
 
                                         </StackLayout>
@@ -155,39 +133,6 @@
             </StackLayout>
 
             <StackLayout x:Name="UpdateParticpantsStackLayout" IsVisible="False">
-
-                <!--<Grid Margin="20,10,20,10">
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="5.0*"/>
-                        <ColumnDefinition Width="5.0*"/>
-                    </Grid.ColumnDefinitions>-->
-
-                <!--<Label Text="{Binding TeamName}"
-                   TextColor="{StaticResource BlackColor}"
-                   FontSize="{StaticResource FontSize28}"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                   Margin="0"
-                   Grid.Row="0"
-                   Grid.Column="0"
-                   HorizontalOptions="FillAndExpand"/>-->
-
-                <!--<Controls:RoundedButton Text="Invite Participant"
-                                    Margin="0"
-                                    Grid.Row="0"
-                                    CornerRadius="10"
-                                    VerticalOptions="Center"
-                                    Grid.Column="1"
-                                    FontSize="Medium"
-                                    HorizontalOptions="FillAndExpand"
-                                    Command="{Binding AddParticipantsCommand}"
-                                    Padding="5,5"/>
-                </Grid>-->
                 <StackLayout Orientation="Horizontal"
                          Margin="30,0,30,0">
 
@@ -248,7 +193,7 @@
                                                          HorizontalOptions="End"
                                                          Clicked="ImageButton_Clicked"/>
 
-                                          
+
                                                 <Label  Grid.Row="0"
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
@@ -258,14 +203,6 @@
                                                 TextColor="{StaticResource BlackColor}"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>
-
-                                                <!--<Switch IsToggled="{Binding IsToggled}"
-                                                    OnColor="{StaticResource LightGreenColor}"
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    Toggled="Switch_Toggled"
-                                                    HorizontalOptions="End"
-                                                />-->
 
                                                 <CheckBox Grid.Row="0" 
                                                   Grid.Column="2"

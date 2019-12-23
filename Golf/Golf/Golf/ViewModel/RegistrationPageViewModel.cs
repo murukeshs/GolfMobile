@@ -334,5 +334,27 @@ namespace Golf.ViewModel
             ConfirmPassword = string.Empty;
         }
         #endregion Register Command Functionality
+
+        #region GenderOnChange Command
+
+        public ICommand GenderOnChangeCommand => new Command<string>(GenderOnChange);
+
+        public void GenderOnChange(string gender)
+        {
+            GenderText = gender;
+        }
+
+        #endregion
+
+        #region DateOnChange Command
+
+        public ICommand DOBSelectedCommand => new Command<string>(DOBSelected);
+
+        public void DOBSelected(string value)
+        {
+            dob = Convert.ToDateTime(value);
+        }
+
+        #endregion
     }
 }

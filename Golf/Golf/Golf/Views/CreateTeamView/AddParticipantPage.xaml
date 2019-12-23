@@ -15,6 +15,22 @@
             <Converters:TeamProfileConverter x:Key="ProfileImageConverter" />
             <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
             <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
+
+
+            <Style x:Key="SideHeadingStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize20}" />
+                <Setter Property="TextColor" Value="{StaticResource LightGreenColor}"/>
+            </Style>
+
+
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="HeightRequest" Value="30"/>
+                <Setter Property="WidthRequest" Value="30" />
+                <Setter Property="Aspect" Value="AspectFit"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -59,15 +75,11 @@
                          Margin="30,0,30,5">
 
                 <Label Text="Is ScoreKeeper"
-                       FontAttributes="Bold"
-                       FontSize="{StaticResource FontSize20}"
-                       TextColor="{StaticResource LightGreenColor}"
+                       Style="{StaticResource SideHeadingStyle}"
                        HorizontalOptions="StartAndExpand"/>
 
                 <Label Text="Is Player"
-                       FontAttributes="Bold"
-                       FontSize="{StaticResource FontSize20}"
-                       TextColor="{StaticResource LightGreenColor}"
+                       Style="{StaticResource SideHeadingStyle}"
                        HorizontalOptions="EndAndExpand"/>
 
             </StackLayout>
@@ -143,22 +155,13 @@
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>
                                         <StackLayout Orientation="Horizontal">
-                                            <Image  
-                                            HeightRequest="30"
-                                            WidthRequest="30"
-                                            Aspect="AspectFit"
-                                               
+                                            <Image Style="{StaticResource ImageStyle}"
                                                 Margin="5,0,0,0"
                                                 Source="{Binding gender, Converter={StaticResource GenderIconConverter}}"
-                                                VerticalOptions="Center"
                                                />
-                                            <Image  
-                                            HeightRequest="30"
-                                            WidthRequest="30"
-                                            Aspect="AspectFit"
+                                            <Image Style="{StaticResource ImageStyle}"
                                                 Margin="0"
                                                 Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
-                                                VerticalOptions="Center"
                                                 HorizontalOptions="End"/>
                                         </StackLayout>
                                     </StackLayout>

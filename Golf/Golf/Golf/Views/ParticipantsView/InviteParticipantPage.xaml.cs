@@ -12,11 +12,9 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InviteParticipantPage : PopupPage
     {
-        InviteParticipantPageViewModel vm;
         public InviteParticipantPage ()
 		{
-			InitializeComponent ();
-            vm = BindingContext as InviteParticipantPageViewModel;
+			InitializeComponent();
         }
 
         #region screen adjusting
@@ -60,7 +58,7 @@ namespace Golf.Views
         private void GenderOnchange(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;
-            vm.GenderText = picker.SelectedItem.ToString();
+            ((InviteParticipantPageViewModel)BindingContext).GenderOnChangeCommand.Execute(picker.SelectedItem.ToString());
         }
 
         private async void ImageButton_Clicked(object sender, EventArgs e)

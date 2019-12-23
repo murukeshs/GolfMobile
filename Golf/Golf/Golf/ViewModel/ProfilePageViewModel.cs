@@ -1032,6 +1032,23 @@ namespace Golf.ViewModel
                 }
             }
         }
-        #endregion     
+        #endregion
+
+        #region Notification Change Functionality
+        public ICommand NotificationTypeChangedCommand => new Command<string>(NotificationTypeChanged);
+
+        void NotificationTypeChanged(string type)
+        {
+            if (type == "Email")
+            {
+                IsEmailNotification = true;
+            }
+            if (type == "SMS")
+            {
+                IsSmsNotification = true;
+            }
+        }
+
+        #endregion
     }
 }

@@ -11,7 +11,17 @@
     
          <pages:PopupPage.Resources>
         <ResourceDictionary>
+            
             <Converters:TeamProfileConverter x:Key="profileconverter"/>
+
+            <Style x:Key="NoDataMessageLabel" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="{StaticResource LightGreenColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+
         </ResourceDictionary>
         </pages:PopupPage.Resources>
 
@@ -74,11 +84,7 @@
                                Margin="10,0,0,0"
                                HorizontalOptions="FillAndExpand"
                                VerticalOptions="Center"/>
-                        <!--<ImageButton Source="remove_icon.png"
-                                     HorizontalOptions="End"
-                                     BackgroundColor="Transparent"
-                                     Clicked="ImageButton_Clicked_1"
-                                     HeightRequest="40"/>-->
+                
                     </StackLayout>
                 </plugins:PancakeView>
 
@@ -90,11 +96,7 @@
                                      IsVisible="False"
                                      x:Name="NoScoreKeeperCard">
                     <Label Text="No Score Keeper Available."
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource LightGreenColor}"
-                           HorizontalOptions="FillAndExpand"
-                           Margin="10"
-                           FontAttributes="Bold"/>
+                          Style="{StaticResource NoDataMessageLabel}"/>
                 </plugins:PancakeView>
 
                 <Label Text="Players:"
@@ -110,11 +112,7 @@
                                      IsVisible="False"
                                      x:Name="NoPlayerCard">
                     <Label Text="No Player Selected."
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource LightGreenColor}"
-                           HorizontalOptions="FillAndExpand"
-                           Margin="10"
-                           FontAttributes="Bold"/>
+                           Style="{StaticResource NoDataMessageLabel}"/>
                 </plugins:PancakeView>
                 
                 <ListView Margin="20,10,20,20"

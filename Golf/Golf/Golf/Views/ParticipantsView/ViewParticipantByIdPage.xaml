@@ -14,6 +14,24 @@
                 <Setter Property="Margin" Value="60,0,0,0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             </Style>
+
+            <Style x:Key="HeadingLabelStyle" TargetType="Label">
+                <Setter Property="Margin" Value="20,0,20,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="{StaticResource FontSize16}"/>
+                <Setter Property="TextColor" Value="Gray"/>
+            </Style>
+
+            <Style x:Key="CustomEntryStyle" TargetType="Controls:CustomEntry">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin" Value="20,0,20,0"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextGrayColor}" />
+                <Setter Property="BorderColor" Value="{StaticResource BorderColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
         
@@ -27,111 +45,50 @@
                                               HeightRequest="160"
                                               WidthRequest="160"
                                               Source="{Binding }"/>
-            
-                <Label Text="First Name" 
-                           Margin="20,10,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize16}"
-                           TextColor="Gray"/>
 
-                <Controls:CustomEntry HorizontalOptions="FillAndExpand"
-                                  Margin="20,0,20,0"
+                <Label Text="First Name" Style="{StaticResource HeadingLabelStyle}"/>
+
+                <Controls:CustomEntry Style="{StaticResource CustomEntryStyle}"
                                   x:Name="FirstName"
                                   Placeholder="First Name"
-                                  PlaceholderColor="{StaticResource TextGrayColor}"
-                                  BorderColor="{StaticResource BorderColor}"
-                                  TextColor="{StaticResource TextGrayColor}"
-                                      IsReadOnly="True"
                                   Text="{Binding FirstName, Mode = TwoWay}"
                                   />
 
-                <Label Text="Last Name" 
-                   
-                           Margin="20,0,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize16}"
-                           TextColor="Gray"/>
+                <Label Text="Last Name" Style="{StaticResource HeadingLabelStyle}"/>
 
-            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
-                                  Margin="20,0,20,0"
+                <Controls:CustomEntry Style="{StaticResource CustomEntryStyle}"
                                   x:Name="LastName"
-                                   IsReadOnly="True"
                                   Placeholder="Last Name"
-                                  PlaceholderColor="{StaticResource TextGrayColor}"
-                                  BorderColor="{StaticResource BorderColor}"
-                                  TextColor="{StaticResource TextGrayColor}"
                                   Text="{Binding FirstName, Mode = TwoWay}"
                                   />
 
-            <Label Text="Gender" 
-                           Margin="20,0,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize16}"
-                           TextColor="Gray"/>
+                <Label Text="Gender" Style="{StaticResource HeadingLabelStyle}"/>
 
-            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
-                                  Margin="20,0,20,0"
+                <Controls:CustomEntry Style="{StaticResource CustomEntryStyle}"
                                   x:Name="Gender"
                                   Placeholder="Gender"
-                                   IsReadOnly="True"
-                                  PlaceholderColor="{StaticResource TextGrayColor}"
-                                            BorderColor="{StaticResource BorderColor}"
-                                          TextColor="{StaticResource TextGrayColor}"
-                                            Text="{Binding FirstName, Mode = TwoWay}"
+                                  Text="{Binding FirstName, Mode = TwoWay}"
                                             />
 
-            <Label Text="Email" 
-                           Margin="20,0,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize16}"
-                           TextColor="Gray"/>
+                <Label Text="Email" Style="{StaticResource HeadingLabelStyle}"/>
 
-            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
-                                  Margin="20,0,20,0"
+                <Controls:CustomEntry Style="{StaticResource CustomEntryStyle}"
                                   Placeholder="Email"
                                   x:Name="Email"
-                                   IsReadOnly="True"
-                                  PlaceholderColor="{StaticResource TextGrayColor}"
-                                            BorderColor="{StaticResource BorderColor}"
-                                          TextColor="{StaticResource TextGrayColor}"
-                                            Text="{Binding FirstName, Mode = TwoWay}"
+                                  Text="{Binding FirstName, Mode = TwoWay}"
                                             />
 
-            <Label Text="Phone Number" 
-                           Margin="20,0,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize16}"
-                           TextColor="Gray"/>
+                <Label Text="Phone Number" Style="{StaticResource HeadingLabelStyle}"/>
 
-            <Controls:CustomEntry HorizontalOptions="FillAndExpand"
-                                  Margin="20,0,20,0"
+                <Controls:CustomEntry Style="{StaticResource CustomEntryStyle}"
                                   x:Name="Phone"
                                   Placeholder="Phone Number"
-                                   IsReadOnly="True"
-                                  PlaceholderColor="{StaticResource TextGrayColor}"
-                                            BorderColor="{StaticResource BorderColor}"
-                                           TextColor="{StaticResource TextGrayColor}"
-                                            Text="{Binding FirstName, Mode = TwoWay}"
+                                  Text="{Binding FirstName, Mode = TwoWay}"
                                             />
-                <Label Text="HCP" 
-                           Margin="20,0,20,0"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize16}"
-                           TextColor="Gray"/>
+                <Label Text="HCP" Style="{StaticResource HeadingLabelStyle}"/>
 
-                <Controls:CustomEntry HorizontalOptions="FillAndExpand"
-                                      Margin="20,0,20,20"
-                                       IsReadOnly="True"
-                                      Placeholder="Phone Number"
-                                      PlaceholderColor="{StaticResource TextGrayColor}"
-                                      BorderColor="{StaticResource BorderColor}"
-                                      TextColor="{StaticResource TextGrayColor}"
+                <Controls:CustomEntry Style="{StaticResource CustomEntryStyle}"
+                                      Placeholder="HCP"
                                       Text="10"/>
             </StackLayout>
         </ScrollView>

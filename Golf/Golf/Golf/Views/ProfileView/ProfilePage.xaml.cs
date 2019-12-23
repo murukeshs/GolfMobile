@@ -11,10 +11,8 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ProfilePage : ContentPage
 	{
-        ProfilePageViewModel vm;
 		public ProfilePage ()
 		{
-            vm = BindingContext as ProfilePageViewModel;
             InitializeComponent ();
 		}
 
@@ -42,15 +40,7 @@ namespace Golf.Views
         private void NotificationTypeChanged(object sender, bool e)
         {
             var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            if (item == "Email")
-            {
-                vm.IsEmailNotification = true;
-            }
-            if (item == "SMS")
-            {
-                vm.IsSmsNotification = true;
-            }
+            ((ProfilePageViewModel)BindingContext).NotificationTypeChangedCommand.Execute(value.DefaultValue);
         }
         private void GenderOnchange(object sender, EventArgs e)
         {
