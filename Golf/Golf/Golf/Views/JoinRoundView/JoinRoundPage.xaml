@@ -65,10 +65,8 @@
                    Style="{StaticResource HeadingsLabel}"/>
             
             <controls:CustomEntry Placeholder="Competition Type"
-                                  Style="{StaticResource RectangleShapeEntryStyle}"
-                                  IsEnabled="False"
-                                  Text="{Binding CompetitionType,Mode=TwoWay}"
-                                  />
+                                  Style="{StaticResource DisabledCustomEntryStyle}"
+                                  Text="{Binding CompetitionType,Mode=TwoWay}"/>
 
                     <Label Text="Team Name"
                    Style="{StaticResource HeadingsLabel}"/>
