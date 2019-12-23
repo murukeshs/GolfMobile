@@ -13,19 +13,12 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key="CheckBoxStyle" 
-                   TargetType="Controls:CustomCheckBox"
-                   BasedOn="{StaticResource CustomCheckBoxStyleWhite}">
-                <Setter Property="Margin" Value="60,0,0,0" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-            </Style>
-
-            <!--<Style x:Key="EntryStyle" 
+            
+            <Style x:Key="EntryStyle" 
                    TargetType="Controls:ExtendedEntry"
                    BasedOn="{StaticResource EntryStyleWhite}">
-                <Setter Property="Margin" Value="60,0,0,0" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-            </Style>-->
+                <Setter Property="Margin" Value="20,10,20,0" />
+            </Style>
             
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -45,26 +38,22 @@
                        Margin="20,0,20,0"
                        Style="{StaticResource HeaderLabelStyleWhite28}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
-                                        Margin="20,10,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}"
                                         Placeholder="First Name"
                                         Text="{Binding FirstNameText, Mode = TwoWay}"
                                         Image="user_white.png"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
-                                        Margin="20,10,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}"
                                         Placeholder="Last Name"
                                         Text="{Binding LastNameText, Mode = TwoWay}"
                                         Image="user_white.png"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
-                                        Margin="20,10,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}"
                                         Placeholder="Nick Name"
                                         Text="{Binding NickNameText, Mode = TwoWay}"
                                         Image="user_white.png"/>
 
-                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
-                                        Margin="20,10,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}"
                                         Placeholder="E-mail"
                                         Text="{Binding EmailText, Mode = TwoWay}"
                                         Image="gmail.png"/>
@@ -84,22 +73,19 @@
                                              x:Name="DobPicker"    
                                              Date="{Binding dob}"/>
 
-                <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}"
-                                        Margin="20,10,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}"
                                         Placeholder="Phone Number"
                                         Keyboard="Numeric"
                                         Image="phone_white.png"
                                         Text="{Binding PhoneNumber, Mode = TwoWay}"/>
 
-                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}" 
-                                        Margin="20,10,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}" 
                                         Placeholder="Password"
                                         IsPassword="True"
                                         Image="key.png"
                                         Text="{Binding Password, Mode = TwoWay}"/>
-                
-                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleWhite}" 
-                                        Margin="20,10,20,0"
+
+                    <Controls:ExtendedEntry Style="{StaticResource EntryStyle}" 
                                         Placeholder="Confirm Password"
                                         IsPassword="True"
                                         Image="key.png"

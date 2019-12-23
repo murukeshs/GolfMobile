@@ -56,12 +56,6 @@ namespace Golf.Views
             }
         }
 
-        private async void InviteParticipantButton_Clicked(object sender, System.EventArgs e)
-        {
-            var view = new InviteParticipantPage();
-            await PopupNavigation.Instance.PushAsync(view);
-        }
-
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
                 ((ViewAllParticipantsViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);

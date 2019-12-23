@@ -112,6 +112,7 @@
                                     Style="{StaticResource InviteParticipantEntryStyle}"
                                     Margin="20,5,20,0"
                                     Text="{Binding PhoneNumber, Mode = TwoWay}"
+                                                    Keyboard="Numeric"
                                                       HorizontalOptions="FillAndExpand"/>
 
                             <StackLayout Orientation="Horizontal" 

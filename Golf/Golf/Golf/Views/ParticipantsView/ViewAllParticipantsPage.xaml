@@ -141,7 +141,7 @@
                                     Margin="40,0,40,10"
                                     VerticalOptions="EndAndExpand"
                                     x:Name="InviteParticipantButton"
-                                    Clicked="InviteParticipantButton_Clicked"/>
+                                    Command="{Binding InviteParticipantCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
