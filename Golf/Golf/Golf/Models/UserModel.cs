@@ -15,6 +15,8 @@ namespace Golf.Models
 
         internal string ISPARTICIPANTLISTREFRESH = "false";
 
+        internal bool FromUpdateRound = false;
+
         internal string AccessToken { get; set; } = string.Empty;
 
         internal string UserName { get; set; } = string.Empty;

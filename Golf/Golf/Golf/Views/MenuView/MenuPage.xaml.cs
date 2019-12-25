@@ -29,8 +29,18 @@ namespace Golf.Views.MenuView
                 var item = e.SelectedItem as MenuPageMenuItem;
                 if (item == null)
                     return;
-                
-                var page = (Page)Activator.CreateInstance(item.TargetType);
+
+                Page page;
+
+                if (item.TargetType == typeof(InviteParticipantPage))
+                {
+                     page = (Page)Activator.CreateInstance(item.TargetType, "sidebar");
+                }
+                else
+                {
+                     page = (Page)Activator.CreateInstance(item.TargetType);
+                }
+               
                 page.Title = item.Title;
                 
                 if (item.Title == "Home")
@@ -40,7 +50,9 @@ namespace Golf.Views.MenuView
                 }
                 else if (item.Title == "Invite a Participant")
                 {
-                    DependencyService.Get<IShowPoppup>().ShowPoppupPage();
+                    var view = new InviteParticipantPage("viewallparticipantspage");
+                    await PopupNavigation.Instance.PushAsync(view);
+                    // DependencyService.Get<IShowPoppup>().ShowPoppupPage();
                     IsPresented = false;
                 }
                 else if (item.Title == "Logout")

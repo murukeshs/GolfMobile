@@ -117,14 +117,14 @@ namespace Golf.ViewModel
 
         public bool IsValid { get; set; }
 
-        public ICommand InviteParticipantCommand => new AsyncCommand(SendInviteAsync);
+        public ICommand InviteParticipantCommand => new Command<string>(SendInviteAsync);
 
-        async Task SendInviteAsync()
+        void SendInviteAsync(string page)
         {
             IsValid = Validate();
             if (IsValid)
             {
-                await SendInviteByEmail();
+                SendInviteByEmail(page);          
             }
         }
 
@@ -178,7 +178,7 @@ namespace Golf.ViewModel
             }
         }
 
-        async Task SendInviteByEmail()
+        async Task SendInviteByEmail(string page)
         {
             try
             {
@@ -207,6 +207,10 @@ namespace Golf.ViewModel
                     var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
+                        if (page == "viewallparticipantspage")
+                        {
+                            MessagingCenter.Send<App>((App)Application.Current, "VIEWALLPARTICIPANTSPAGEREFRESH");
+                        }
                         UserDialogs.Instance.HideLoading();
                         await UserDialogs.Instance.AlertAsync("Invitation Sent", "Invites", "Ok");
                         await PopupNavigation.Instance.PopAsync();

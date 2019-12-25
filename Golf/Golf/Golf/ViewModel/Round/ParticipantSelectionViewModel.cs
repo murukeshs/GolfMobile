@@ -65,25 +65,36 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
 
-                    //Assign the Values to Listview
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.GetParticipantsList();
+
+                    if (result != null)
                     {
-                        PlayersList = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        PlayersList = result;
                         OriginalPlayersList = PlayersList;
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+
+                    ////Assign the Values to Listview
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    PlayersList = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                    //    OriginalPlayersList = PlayersList;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -228,7 +239,7 @@ namespace Golf.ViewModel.Round
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                var view = new InviteParticipantPage();
+                var view = new InviteParticipantPage("participantselectionpage");
                 await PopupNavigation.Instance.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
             }

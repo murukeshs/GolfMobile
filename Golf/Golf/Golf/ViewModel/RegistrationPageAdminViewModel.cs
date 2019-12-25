@@ -139,22 +139,32 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Country/GetCountryList";
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(RestURL);
-                    HttpResponseMessage response = await client.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetCountryList();
+
+                    if (result != null)
                     {
-                        CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
-                        UserDialogs.Instance.HideLoading();
+                        CountryList = result;
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Country/GetCountryList";
+                    //HttpClient client = new HttpClient();
+                    //client.BaseAddress = new Uri(RestURL);
+                    //HttpResponseMessage response = await client.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -190,23 +200,32 @@ namespace Golf.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading();
                     CountryID = country.countryId;
-                    var RestURL = App.User.BaseUrl + "Country/GetStateList/"+ country.countryId;
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(RestURL);
-                    HttpResponseMessage response = await client.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.GetStateList(country.countryId);
+                    if (result != null)
                     {
+                        StateList = result;
                         StateID = 0;
-                        StateList = JsonConvert.DeserializeObject<List<State>>(content);
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Country/GetStateList/"+ country.countryId;
+                    //HttpClient client = new HttpClient();
+                    //client.BaseAddress = new Uri(RestURL);
+                    //HttpResponseMessage response = await client.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    StateID = 0;
+                    //    StateList = JsonConvert.DeserializeObject<List<State>>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

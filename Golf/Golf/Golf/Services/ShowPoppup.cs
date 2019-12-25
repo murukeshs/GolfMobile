@@ -9,7 +9,7 @@ namespace Golf.Services
     {
         public void ShowPoppupPage()
         {
-            PopupNavigation.Instance.PushAsync(new InviteParticipantPage());
+            PopupNavigation.Instance.PushAsync(new InviteParticipantPage(null));
         }
     }
 }

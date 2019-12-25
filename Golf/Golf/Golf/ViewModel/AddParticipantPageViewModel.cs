@@ -94,35 +94,33 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Round/GetRoundPlayers?roundId=" + App.User.CreateRoundId + "&action=team";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetRoundPlayersList(App.User.CreateRoundId, "team");
+                    if(result != null)
                     {
-                       PlayersListItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
-
-                        //foreach (var item in Items.Where(w => w.isChecked == true))
-                        //{
-                        //    var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
-                        //    if (item.roleType == "ScoreKeeper")
-                        //    {
-                        //        ScoreKeeperId = item.userId;
-                        //    }
-                        //    PlayersList.Add(value);
-                        //}
-
+                        PlayersListItems = result;
                         OriginalPlayersList = PlayersListItems;
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
-                  
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Round/GetRoundPlayers?roundId=" + App.User.CreateRoundId + "&action=team";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    PlayersListItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                    //    OriginalPlayersList = PlayersListItems;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -343,7 +341,7 @@ namespace Golf.ViewModel
             UserDialogs.Instance.ShowLoading();
             try
             {
-                var view = new InviteParticipantPage();
+                var view = new InviteParticipantPage("addparticipantpage");
                 await PopupNavigation.Instance.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
             }

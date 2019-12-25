@@ -1,15 +1,9 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.ViewModel;
-using Golf.Views.ParticipantsView;
 using Golf.Views.RoundDetailsView;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -60,5 +54,6 @@ namespace Golf.Views
         {
                 ((ViewAllParticipantsViewModel)BindingContext).SearchCommand.Execute(e.NewTextValue);
         }
+
     }
-}
+}                      

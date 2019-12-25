@@ -1,4 +1,5 @@
 ﻿using Golf.Models;
+using Golf.Services;
 using Golf.Views;
 using Golf.Views.MenuView;
 using System;
@@ -11,6 +12,9 @@ namespace Golf
     public partial class App : Application
     {
         internal static UserModel User { get; set; } = new UserModel();
+
+        internal static IAPIClient ApiClient { get; set; } = new APIClient();
+
         public App()
         {
             InitializeComponent();

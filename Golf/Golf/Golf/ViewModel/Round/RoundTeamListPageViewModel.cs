@@ -120,16 +120,12 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Team/listTeam";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                   
-                    //Assign the Values to Listview
-                    if(response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetTeamsList();
+
+                    if (result != null)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundTeamItems>>(content);
+                        var Items = result;
                         foreach (var item in Items)
                         {
                             RoundTeamsPlayerList = JsonConvert.DeserializeObject<List<teamplayerList>>(item.teamplayerList);
@@ -150,14 +146,47 @@ namespace Golf.ViewModel.Round
                         }
                         RoundTeamsItemsList = roundTeamsItemsList;
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
-                    
+
                     UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Team/listTeam";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+
+                    ////Assign the Values to Listview
+                    //if(response.IsSuccessStatusCode)
+                    //{
+                    //    var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundTeamItems>>(content);
+                    //    foreach (var item in Items)
+                    //    {
+                    //        RoundTeamsPlayerList = JsonConvert.DeserializeObject<List<teamplayerList>>(item.teamplayerList);
+                    //        roundTeamsItemsList.Add(new RoundTeamWithPlayers
+                    //        {
+                    //            teamId = item.teamId,
+                    //            teamplayerList = RoundTeamsPlayerList,
+                    //            createdBy = item.createdBy,
+                    //            createdName = item.createdName,
+                    //            createdOn = item.createdOn,
+                    //            noOfPlayers = item.noOfPlayers,
+                    //            scoreKeeperID = item.scoreKeeperID,
+                    //            startingHole = item.startingHole,
+                    //            teamIcon = item.teamIcon,
+                    //            teamName = item.teamName,
+                    //            Expanded = false
+                    //        });
+                    //    }
+                    //    RoundTeamsItemsList = roundTeamsItemsList;
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
+
+                    //UserDialogs.Instance.HideLoading();
                 }
                 else
                 {

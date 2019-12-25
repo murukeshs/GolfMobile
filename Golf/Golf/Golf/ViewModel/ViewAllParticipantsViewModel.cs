@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
+using Golf.Utils;
 using Golf.Views;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -10,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -21,6 +23,9 @@ namespace Golf.ViewModel
         public ViewAllParticipantsViewModel()
         {
             GetParticipantsList();
+            MessagingCenter.Subscribe<App>((App)Application.Current, "VIEWALLPARTICIPANTSPAGEREFRESH", (sender) => {
+                GetParticipantsList();
+            });
         }
 
         #region Property Declaration
@@ -64,24 +69,22 @@ namespace Golf.ViewModel
 
         #region Getparticipant List
 
-        async void GetParticipantsList()
+        public ICommand GetParticipantsListCommand => new AsyncCommand(GetParticipantsList);
+
+        public async Task GetParticipantsList()
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
 
-                    //Assign the Values to Listview
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.GetParticipantsList();
+
+                    if(result != null)
                     {
-                        ParticipantItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
-                        OriginalPlayersList = ParticipantItems;
+                        ParticipantItems = result;
+                        OriginalPlayersList = result;
 
                         if (ParticipantItems.Count > 0)
                         {
@@ -95,12 +98,39 @@ namespace Golf.ViewModel
                         }
                         UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    
+
+                    //var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+
+                    ////Assign the Values to Listview
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    ParticipantItems = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                    //    OriginalPlayersList = ParticipantItems;
+
+                    //    if (ParticipantItems.Count > 0)
+                    //    {
+                    //        ListViewIsVisible = true;
+                    //        NoRecordsFoundLabel = false;
+                    //    }
+                    //    else
+                    //    {
+                    //        ListViewIsVisible = false;
+                    //        NoRecordsFoundLabel = true;
+                    //    }
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -173,9 +203,8 @@ namespace Golf.ViewModel
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                var view = new InviteParticipantPage();
+                var view = new InviteParticipantPage("viewallparticipantspage");
                 await PopupNavigation.Instance.PushAsync(view);
-                GetParticipantsList();
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)

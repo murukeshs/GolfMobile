@@ -23,6 +23,9 @@ namespace Golf.ViewModel.Round
 
         public CreateRoundPageViewModel()
         {
+
+            App.User.FromUpdateRound = false;
+
             MessagingCenter.Subscribe<App>((App)Application.Current, "OnCategoryCreated", (sender) => {
                 GetRoundRulesList();
             });
@@ -369,23 +372,33 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Round/getCompetitionType";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetCompetitionTypeList();
+                    if (result != null)
                     {
-                        var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
-                        CompetitionTypeItems = Items;
-                        UserDialogs.Instance.HideLoading();
+                        CompetitionTypeItems = result;
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+
+                    //var RestURL = App.User.BaseUrl + "Round/getCompetitionType";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var Items = JsonConvert.DeserializeObject<List<CompetitionType>>(content);
+                    //    CompetitionTypeItems = Items;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -431,23 +444,33 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Round/getRoundRulesList";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetRulesList();
+
+                    if (result != null)
                     {
-                        var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
-                        RulesItems = Items;
-                        UserDialogs.Instance.HideLoading();
+                        RulesItems = result;
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Round/getRoundRulesList";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var Items = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
+                    //    RulesItems = Items;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

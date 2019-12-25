@@ -12,9 +12,12 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InviteParticipantPage : PopupPage
     {
-        public InviteParticipantPage ()
+        private string FromPage;
+        public InviteParticipantPage (string page)
 		{
 			InitializeComponent();
+            FromPage = page;
+
         }
 
         #region screen adjusting
@@ -71,6 +74,11 @@ namespace Golf.Views
             var value = (CustomCheckBox)sender;
             var item = value.DefaultValue;
             ((InviteParticipantPageViewModel)BindingContext).CommunicationViaCheckBoxCommand.Execute(item);
+        }
+
+        private void SendInviteButton_Clicked(object sender, EventArgs e)
+        {
+            ((InviteParticipantPageViewModel)BindingContext).InviteParticipantCommand.Execute(FromPage);
         }
     }
 }

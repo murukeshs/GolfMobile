@@ -168,7 +168,7 @@
                                             CornerRadius="10"
                                               HorizontalOptions="FillAndExpand"
                                     x:Name="SendInviteButton"
-                                    Command="{Binding InviteParticipantCommand}"/>
+                                    Clicked="SendInviteButton_Clicked"/>
                     <Controls:RoundedButton Text="Close"
                                         VerticalOptions="EndAndExpand"
                                     Margin="0"
