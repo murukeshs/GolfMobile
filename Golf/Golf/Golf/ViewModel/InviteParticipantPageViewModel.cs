@@ -185,8 +185,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/inviteParticipant";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new createUser
                     {
@@ -201,26 +199,42 @@ namespace Golf.ViewModel
                         userTypeId = "1"
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.InviteParticipant(data);
+
+                    if (result != null)
                     {
                         if (page == "viewallparticipantspage")
                         {
                             MessagingCenter.Send<App>((App)Application.Current, "VIEWALLPARTICIPANTSPAGEREFRESH");
                         }
-                        UserDialogs.Instance.HideLoading();
                         await UserDialogs.Instance.AlertAsync("Invitation Sent", "Invites", "Ok");
                         await PopupNavigation.Instance.PopAsync();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "User/inviteParticipant";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    if (page == "viewallparticipantspage")
+                    //    {
+                    //        MessagingCenter.Send<App>((App)Application.Current, "VIEWALLPARTICIPANTSPAGEREFRESH");
+                    //    }
+                    //    UserDialogs.Instance.HideLoading();
+                    //    await UserDialogs.Instance.AlertAsync("Invitation Sent", "Invites", "Ok");
+                    //    await PopupNavigation.Instance.PopAsync();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

@@ -145,7 +145,7 @@ namespace Golf.ViewModel.Round
                         TeamPlayersIds.Add(userId);
                         PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                         OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
-                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
+                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage, NickName = item.nickName };
                         App.User.PlayersPreviewList.Add(list);
                     }
                 }
@@ -154,7 +154,7 @@ namespace Golf.ViewModel.Round
                     TeamPlayersIds.Add(userId);
                     PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
                     OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
+                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage, NickName = item.nickName };
                     App.User.PlayersPreviewList.Add(list);
                 }
             }
@@ -175,8 +175,7 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Round/SaveRoundPlayer";
-                    Uri requestUri = new Uri(RestURL);
+                    
 
                     var data = new RoundPlayers
                     {
@@ -184,16 +183,11 @@ namespace Golf.ViewModel.Round
                         roundId = App.User.CreateRoundId
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.AddRoundPlayer(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         await UserDialogs.Instance.AlertAsync("Round Players Successfully Added", "Success", "Ok");
-                        UserDialogs.Instance.HideLoading();
                         App.User.TeamPreviewList.Clear();
                         App.User.TeamPreviewScoreKeeperName = string.Empty;
                         App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
@@ -201,12 +195,34 @@ namespace Golf.ViewModel.Round
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "Round/SaveRoundPlayer";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    await UserDialogs.Instance.AlertAsync("Round Players Successfully Added", "Success", "Ok");
+                    //    UserDialogs.Instance.HideLoading();
+                    //    App.User.TeamPreviewList.Clear();
+                    //    App.User.TeamPreviewScoreKeeperName = string.Empty;
+                    //    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
+                    //    var view = new CreateTeamPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

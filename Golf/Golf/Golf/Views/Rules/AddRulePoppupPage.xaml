@@ -33,8 +33,7 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             </Style>
 
-            <Style x:Key="RoundedButtonStyle" TargetType="Controls:RoundedButton"
-                   BasedOn="{StaticResource CustomCheckBoxStyleGray}">
+            <Style x:Key="RoundedButtonStyle" TargetType="Controls:RoundedButton">
                 <Setter Property="VerticalOptions" Value="EndAndExpand" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="Margin" Value="0"/>

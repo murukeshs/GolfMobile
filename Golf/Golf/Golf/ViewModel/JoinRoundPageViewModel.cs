@@ -4,12 +4,9 @@ using Golf.Services;
 using Golf.Utils;
 using Golf.Views.MenuView;
 using Golf.Views.RoundDetailsView;
-using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -235,8 +232,6 @@ namespace Golf.ViewModel
                     else
                     {
                         UserDialogs.Instance.ShowLoading();
-                        string RestURL = App.User.BaseUrl + "Round/acceptRoundInvitation";
-                        Uri requestUri = new Uri(RestURL);
 
                         var data = new acceptRoundInvitation
                         {
@@ -245,34 +240,48 @@ namespace Golf.ViewModel
                             playerId = App.User.UserId
                         };
 
-                        string json = JsonConvert.SerializeObject(data);
-                        var httpClient = new HttpClient();
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                        var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                        string responJsonText = await response.Content.ReadAsStringAsync();
+                        var result = await App.ApiClient.JoinRound(data);
 
-                        if (response.IsSuccessStatusCode)
+                        if (result != null)
                         {
                             await UserDialogs.Instance.AlertAsync("Player Joined the Round Successfully.", "Success", "Ok");
                             var view = new MenuPage();
                             var navigationPage = ((NavigationPage)App.Current.MainPage);
                             await navigationPage.PushAsync(view);
-                            UserDialogs.Instance.HideLoading();
                         }
-                        else
-                        {
-                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                            UserDialogs.Instance.HideLoading();
-                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                        }
+
+                        UserDialogs.Instance.HideLoading();
+
+                        //        string RestURL = App.User.BaseUrl + "Round/acceptRoundInvitation";
+                        //        Uri requestUri = new Uri(RestURL);
+                        //        string json = JsonConvert.SerializeObject(data);
+                        //        var httpClient = new HttpClient();
+                        //        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        //        var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        //        string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        //        if (response.IsSuccessStatusCode)
+                        //        {
+                        //            await UserDialogs.Instance.AlertAsync("Player Joined the Round Successfully.", "Success", "Ok");
+                        //            var view = new MenuPage();
+                        //            var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //            await navigationPage.PushAsync(view);
+                        //            UserDialogs.Instance.HideLoading();
+                        //        }
+                        //        else
+                        //        {
+                        //            var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        //            UserDialogs.Instance.HideLoading();
+                        //            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        //        }
+                    }
+                    }
+                else
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        DependencyService.Get<IToast>().Show("Please check internet connection");
                     }
                 }
-                else
-                {
-                    UserDialogs.Instance.HideLoading();
-                    DependencyService.Get<IToast>().Show("Please check internet connection");
-                }
-            }
             catch (Exception ex)
             {
                 var a = ex.Message;

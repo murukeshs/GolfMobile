@@ -78,7 +78,7 @@
                                                  CornerRadius="10"
                                                  Padding="2"
                                                  Margin="0"
-                                                         HasShadow="True"
+                                                 HasShadow="True"
                                                  HorizontalOptions="FillAndExpand">
                                         <StackLayout Margin="10,10"
                                                      Orientation="Horizontal">
@@ -89,7 +89,7 @@
                                                                   WidthRequest="45"
                                                                   Aspect="Fill"/>
 
-                                            <Label Text="{Binding PlayerName}"
+                                            <Label Text="{Binding NickName}"
                                                    TextColor="{StaticResource TextGrayColor}"
                                                    FontSize="{StaticResource FontSize20}"
                                                    Margin="10,0,0,0"

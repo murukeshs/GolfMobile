@@ -277,8 +277,6 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Round/createRound";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new CreateRound
                     {
@@ -292,30 +290,48 @@ namespace Golf.ViewModel.Round
                         isSaveAndNotify = false,
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.CreateRound(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
-                        var Item = JsonConvert.DeserializeObject<createRoundResponse>(responJsonText);
+                        var Item = result;
                         App.User.CreateRoundId = Item.roundId;
                         App.User.RoundCode = Item.roundCode;
                         App.User.CompetitionType = Item.competitionTypeName;
                         var view = new RoundContextSettingsPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
-                        UserDialogs.Instance.HideLoading();
                         Clear();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "Round/createRound";
+                    //Uri requestUri = new Uri(RestURL);   
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var Item = JsonConvert.DeserializeObject<createRoundResponse>(responJsonText);
+                    //    App.User.CreateRoundId = Item.roundId;
+                    //    App.User.RoundCode = Item.roundCode;
+                    //    App.User.CompetitionType = Item.competitionTypeName;
+                    //    var view = new RoundContextSettingsPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    Clear();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

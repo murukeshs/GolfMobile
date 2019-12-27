@@ -254,8 +254,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Team/updateTeam";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new UpdateTeamModel
                     {
@@ -266,23 +264,34 @@ namespace Golf.ViewModel
                         teamId = App.User.CreateTeamId
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.UpdateTeam(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         UserDialogs.Instance.Alert("TeamDetails Successfully Updated", "Alert", "Ok");
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "Team/updateTeam";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    UserDialogs.Instance.Alert("TeamDetails Successfully Updated", "Alert", "Ok");
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -409,42 +418,49 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
-                    Uri requestUri = new Uri(RestURL);
 
                     //convert image into bytes
-                    string FileName = string.Empty;
                     Stream stream = file.GetStream();
                     using (MemoryStream ms = new MemoryStream())
                     {
                         stream.CopyTo(ms);
                         imageData = ms.ToArray();
                     }
+                    var result = await App.ApiClient.UploadFile(imageData);
 
-                    var formDataContent = new MultipartFormDataContent();
-                    formDataContent.Add(new ByteArrayContent(imageData), "files", "Image.png");
-
-                    var objClint = new HttpClient();
-                    objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    objClint.Timeout = TimeSpan.FromMilliseconds(360000);
-                    objClint.MaxResponseContentBufferSize = 2147483647;
-                    HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
-                    string responJsonText = await response.Content.ReadAsStringAsync();
-
-
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         //Asign the Image URL repsonse to the Image
-                        TeamProfilePicture = responJsonText;
+                        TeamProfilePicture = result;
                         CheckProfilePicture();
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+
+                    //string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
+                    //Uri requestUri = new Uri(RestURL);
+                    //var formDataContent = new MultipartFormDataContent();
+                    //formDataContent.Add(new ByteArrayContent(imageData), "files", "Image.png");
+                    //var objClint = new HttpClient();
+                    //objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //objClint.Timeout = TimeSpan.FromMilliseconds(360000);
+                    //objClint.MaxResponseContentBufferSize = 2147483647;
+                    //HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    //Asign the Image URL repsonse to the Image
+                    //    TeamProfilePicture = responJsonText;
+                    //    CheckProfilePicture();
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -775,9 +791,8 @@ namespace Golf.ViewModel
                         UserDialogs.Instance.Alert("Please Select ScoreKeeperID", "Alert", "Ok");
                     }
                     else {
+
                         UserDialogs.Instance.ShowLoading();
-                        string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
-                        Uri requestUri = new Uri(RestURL);
 
                         var data = new TeamPlayer
                         {
@@ -787,27 +802,41 @@ namespace Golf.ViewModel
                             roundId = App.User.CreateRoundId
                         };
 
-                        string json = JsonConvert.SerializeObject(data);
-                        var httpClient = new HttpClient();
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                        var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                        string responJsonText = await response.Content.ReadAsStringAsync();
+                        var result = await App.ApiClient.CreateTeamPlayers(data);
 
-                        if (response.IsSuccessStatusCode)
+                        if (result != null)
                         {
                             await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
-                            UserDialogs.Instance.HideLoading();
                             var view = new RoundDetailsPage();
                             var navigationPage = ((NavigationPage)App.Current.MainPage);
                             await navigationPage.PushAsync(view);
-                            await Task.Delay(20);
                         }
-                        else
-                        {
-                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                            UserDialogs.Instance.HideLoading();
-                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                        }
+
+                        UserDialogs.Instance.HideLoading();
+
+                        //string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
+                        //Uri requestUri = new Uri(RestURL);
+                        //string json = JsonConvert.SerializeObject(data);
+                        //var httpClient = new HttpClient();
+                        //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        //var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        //if (response.IsSuccessStatusCode)
+                        //{
+                        //    await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
+                        //    UserDialogs.Instance.HideLoading();
+                        //    var view = new RoundDetailsPage();
+                        //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //    await navigationPage.PushAsync(view);
+                        //    await Task.Delay(20);
+                        //}
+                        //else
+                        //{
+                        //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        //    UserDialogs.Instance.HideLoading();
+                        //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        //}
                     }
                 }
                 else

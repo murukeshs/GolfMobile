@@ -157,8 +157,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/generateOTP";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new GenerateOTPEmail
                     {
@@ -167,21 +165,32 @@ namespace Golf.ViewModel
                         sourceType = "Email"
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.GenerateOTP(data);
+
+                    if (result != null)
                     {
-                        UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Alert("OTP Successfully Generated", "OTP Verification", "Ok");
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "User/generateOTP";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert("OTP Successfully Generated", "OTP Verification", "Ok");
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -215,9 +224,7 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/verifyOTP";
-                    Uri requestUri = new Uri(RestURL);
-
+                    
                     var data = new VerifyOTP
                     {
                         otpValue=FirstDigit + SecondDigit + ThirdDigit + FourthDigit + FifthDigit + SixthDigit,
@@ -226,15 +233,12 @@ namespace Golf.ViewModel
                         sourceType="Email"
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.VerifyOTP(data);
+
+                    if (result != null)
                     {
-                        UserDialogs.Instance.HideLoading();
                         await UserDialogs.Instance.AlertAsync("OTP Verified successfully.", "Success", "Ok");
-                        if(App.User.FromEmailNotValid)
+                        if (App.User.FromEmailNotValid)
                         {
                             var view = new LoginPage();
                             var navigationPage = ((NavigationPage)App.Current.MainPage);
@@ -247,12 +251,38 @@ namespace Golf.ViewModel
                             await navigationPage.PushAsync(view);
                         }
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "User/verifyOTP";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    UserDialogs.Instance.HideLoading();
+                    //    await UserDialogs.Instance.AlertAsync("OTP Verified successfully.", "Success", "Ok");
+                    //    if(App.User.FromEmailNotValid)
+                    //    {
+                    //        var view = new LoginPage();
+                    //        var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //        await navigationPage.PushAsync(view);
+                    //    }
+                    //    else
+                    //    {
+                    //        var view = new RegistrationPageAdmin();
+                    //        var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //        await navigationPage.PushAsync(view);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

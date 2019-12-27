@@ -6,15 +6,12 @@ using Golf.Views;
 using Golf.Views.CreateRoundView;
 using Golf.Views.PoppupView;
 using Golf.Views.RoundDetailsView;
-using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -194,14 +191,14 @@ namespace Golf.ViewModel
                         else
                         {
                             TeamPlayersIds.Add(userId);
-                            var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                            var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage, NickName = item.nickName };
                             App.User.TeamPreviewList.Add(list);
                         }
                     }
                     else
                     {
                         TeamPlayersIds.Add(userId);
-                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage };
+                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage, NickName = item.nickName };
                         App.User.TeamPreviewList.Add(list);
                     }
                 }
@@ -242,7 +239,7 @@ namespace Golf.ViewModel
                     OriginalPlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
                     ScoreKeeperId = Item.userId;
                     App.User.ScoreKeeperId = ScoreKeeperId;
-                    App.User.TeamPreviewScoreKeeperName = Item.playerName;
+                    App.User.TeamPreviewScoreKeeperName = Item.nickName;
                     App.User.TeamPreviewScoreKeeperProfilePicture = Item.profileImage;
                 }
             }
@@ -268,8 +265,6 @@ namespace Golf.ViewModel
                             if (ScoreKeeperId != 0)
                             {
                                 UserDialogs.Instance.ShowLoading();
-                                string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
-                                Uri requestUri = new Uri(RestURL);
 
                                 var data = new TeamPlayer
                                 {
@@ -279,16 +274,11 @@ namespace Golf.ViewModel
                                     roundId = App.User.CreateRoundId
                                 };
 
-                                string json = JsonConvert.SerializeObject(data);
-                                var httpClient = new HttpClient();
-                                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                                var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                                string responJsonText = await response.Content.ReadAsStringAsync();
+                                var result = await App.ApiClient.CreateTeamPlayers(data);
 
-                                if (response.IsSuccessStatusCode)
+                                if (result != null)
                                 {
                                     await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
-                                    UserDialogs.Instance.HideLoading();
                                     App.User.TeamPreviewList.Clear();
                                     App.User.TeamPreviewScoreKeeperName = string.Empty;
                                     App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
@@ -296,13 +286,35 @@ namespace Golf.ViewModel
                                     var navigationPage = ((NavigationPage)App.Current.MainPage);
                                     await navigationPage.PushAsync(view);
                                 }
-                                else
-                                {
-                                    var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                                    UserDialogs.Instance.HideLoading();
-                                    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                                }
-                            }
+
+                                UserDialogs.Instance.HideLoading();
+
+                        //string RestURL = App.User.BaseUrl + "Team/createTeamPlayers";
+                        //Uri requestUri = new Uri(RestURL);
+                        //string json = JsonConvert.SerializeObject(data);
+                        //var httpClient = new HttpClient();
+                        //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        //var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                        //if (response.IsSuccessStatusCode)
+                        //{
+                        //    await UserDialogs.Instance.AlertAsync("Team Players Successfully Added", "Success", "Ok");
+                        //    UserDialogs.Instance.HideLoading();
+                        //    App.User.TeamPreviewList.Clear();
+                        //    App.User.TeamPreviewScoreKeeperName = string.Empty;
+                        //    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
+                        //    var view = new FinalTeamsForRound();
+                        //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                        //    await navigationPage.PushAsync(view);
+                        //}
+                        //else
+                        //{
+                        //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        //    UserDialogs.Instance.HideLoading();
+                        //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        //}
+                    }
                             else
                             {
                                 UserDialogs.Instance.Alert("Please Select ScoreKeeper !", "Alert", "Ok");

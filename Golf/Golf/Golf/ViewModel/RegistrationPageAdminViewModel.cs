@@ -309,8 +309,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new createUser
                     {
@@ -324,26 +322,37 @@ namespace Golf.ViewModel
                         isPublicProfile= IsPublicProfile
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.UpdateUserCommunicationInfo(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
-                        await UserDialogs.Instance.AlertAsync("Registration successfully completed.","Success","Ok");
-                        var view = new LoginPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
-                        resetFormValues();
-                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert("Communication Info Updated Successfully", "Success", "Ok");
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    await UserDialogs.Instance.AlertAsync("Registration successfully completed.","Success","Ok");
+                    //    var view = new LoginPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //    resetFormValues();
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {

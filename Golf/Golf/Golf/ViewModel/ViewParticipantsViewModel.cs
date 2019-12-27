@@ -21,16 +21,9 @@ namespace Golf.ViewModel
         public ViewParticipantsViewModel()
         {
                 LoadPlayerListAsync();
-               // ItemTappedCommand = new Command<AllParticipantsResponse>(GetViewParticipantsDetails);
                 GetParticipantsList();
         }
 
-        //async void GetViewParticipantsDetails(AllParticipantsResponse obj)
-        //{
-
-        //}
-
-        //public ICommand ItemTappedCommand { get; private set; }
 
         #region Property Declaraion
 

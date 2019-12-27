@@ -1,4 +1,5 @@
 ﻿using Golf.Models;
+using Golf.Models.userModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace Golf.Services
 {
     public interface IAPIClient
     {
+        // Get API Methods
         Task<ObservableCollection<AllParticipantsResponse>> GetParticipantsList();
 
         Task<ObservableCollection<RoundRules>> GetRulesList();
@@ -34,5 +36,46 @@ namespace Golf.Services
         Task<getRoundById> GetRoundByRoundId(int roundId);
 
         Task<TeamDetails> GetTeamByTeamId(int TeamId);
+
+        // Put API Methods
+
+        Task<string> JoinRound(acceptRoundInvitation data);
+
+        Task<string> UpdateUserCommunicationInfo(createUser data);
+
+        Task<string> UpdateUser(createUser data);
+
+        Task<string> CreateTeamPlayers(TeamPlayer data);
+
+        Task<string> GenerateOTP(GenerateOTPEmail data);
+
+        Task<string> UpdatePassword(UpdatePassword data);
+
+        Task<string> VerifyOTP(VerifyOTP data);
+
+        Task<string> UpdateRound(CreateRound data);
+
+        Task<string> UpdateTeam(UpdateTeamModel data);
+
+        // Post API Methods
+
+        Task<string> InviteParticipant(createUser data);
+
+        Task<string> AddRoundRule(Rule data);
+
+        Task<CreateTeamResponse> CreateTeam(TeamModel data);
+
+        Task<LoginResponse> Login(Login data);
+
+        Task<RegisterResponse> CreateUser(createUser data);
+
+        Task<createRoundResponse> CreateRound(CreateRound data);
+
+        Task<string> AddRoundPlayer(RoundPlayers data);
+
+        Task<string> CreateRoundPlayer(CreateRoundPlayers data);
+
+        Task<string> UploadFile(byte[] data);
+
     } 
 }
