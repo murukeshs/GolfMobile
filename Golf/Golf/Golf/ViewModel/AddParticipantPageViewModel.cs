@@ -9,7 +9,6 @@ using Golf.Views.RoundDetailsView;
 using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,15 +25,16 @@ namespace Golf.ViewModel
             LoadPlayerListAsync();
 
             TeamName = App.User.TeamName;
-            //For Clear the team preview list
-            App.User.TeamPreviewList.Clear();
             App.User.ScoreKeeperId = 0;
 
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPARTICIPANTLISTREFRESH, (sender, arg) => {
                 int userId = Int32.Parse(arg);
-                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                TeamPlayersIds.Remove(userId);
+
+                var item = PlayersListItems.FirstOrDefault(i => i.userId == userId);
+                if (item != null)
+                {
+                    item.IsChecked = false;
+                }
             });
 
         }
@@ -81,8 +81,6 @@ namespace Golf.ViewModel
         #endregion
 
         #region PlayerList API Functionality
-
-        public ObservableCollection<AllParticipantsResponse> PlayersList = new ObservableCollection<AllParticipantsResponse>();
 
         async void LoadPlayerListAsync()
         {
@@ -151,7 +149,7 @@ namespace Golf.ViewModel
             UserDialogs.Instance.ShowLoading();
             try
             {
-                await PopupNavigation.Instance.PushAsync(new TeamPreviewPage());
+                await PopupNavigation.Instance.PushAsync(new TeamPreviewPage(new ObservableCollection<AllParticipantsResponse>(OriginalPlayersList.Where(p => p.IsChecked == true))));
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
@@ -163,58 +161,54 @@ namespace Golf.ViewModel
 
         #endregion TeamPreview Command Functionality
 
-        #region CheckBox Selected Command Functionality
+        //#region CheckBox Selected Command Functionality
 
-        public List<int> TeamPlayersIds = new List<int>();
+        //public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
 
-        public ObservableCollection<AddPlayersList> TeamPreviewList = new ObservableCollection<AddPlayersList>();
-
-        public ICommand CheckBoxSelectedCommand => new Command(CheckboxChangedEvent);
-
-        async void CheckboxChangedEvent(object parameter)
-        {
-            try
-            {
-                var item = parameter as AllParticipantsResponse;
-                var userId = item.userId;
-                if (App.User.ScoreKeeperId != userId)
-                {
-                    if (TeamPlayersIds.Count > 0)
-                    {
-                        bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
-                        if (UserIdAleradyExists)
-                        {
-                            TeamPlayersIds.Remove(userId);
-                            var itemToRemove = App.User.TeamPreviewList.SingleOrDefault(r => r.UserId == userId);
-                            App.User.TeamPreviewList.Remove(itemToRemove);
-                        }
-                        else
-                        {
-                            TeamPlayersIds.Add(userId);
-                            var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage, NickName = item.nickName };
-                            App.User.TeamPreviewList.Add(list);
-                        }
-                    }
-                    else
-                    {
-                        TeamPlayersIds.Add(userId);
-                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage, NickName = item.nickName };
-                        App.User.TeamPreviewList.Add(list);
-                    }
-                }
-                else
-                {
-                    UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
-                    PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                    OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
-            }
-        }
-        #endregion CheckBox Selected Command Functionality
+        //async void CheckboxChangedEvent(object parameter)
+        //{
+        //    try
+        //    {
+        //        var item = parameter as AllParticipantsResponse;
+        //        var userId = item.userId;
+        //        if (App.User.ScoreKeeperId != userId)
+        //        {
+        //            if (TeamPlayersIds.Count > 0)
+        //            {
+        //                bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
+        //                if (UserIdAleradyExists)
+        //                {
+        //                    TeamPlayersIds.Remove(userId);
+        //                    var itemToRemove = App.User.TeamPreviewList.SingleOrDefault(r => r.UserId == userId);
+        //                    App.User.TeamPreviewList.Remove(itemToRemove);
+        //                }
+        //                else
+        //                {
+        //                    TeamPlayersIds.Add(userId);
+        //                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage, NickName = item.nickName };
+        //                    App.User.TeamPreviewList.Add(list);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                TeamPlayersIds.Add(userId);
+        //                var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerHCP = "5", PlayerType = item.userType, IsStoreKeeper = true, PlayerImage = item.profileImage, NickName = item.nickName };
+        //                App.User.TeamPreviewList.Add(list);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            UserDialogs.Instance.Alert("score keeper can't be a Player .", "Alert", "Ok");
+        //            PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+        //            OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var a = ex.Message;
+        //    }
+        //}
+        //#endregion CheckBox Selected Command Functionality
 
         #region Toggle Selected Command Functionality
 
@@ -225,20 +219,17 @@ namespace Golf.ViewModel
             try
             {
                 var Item = parameter as AllParticipantsResponse;
-
-                bool UserIdAleradyExists = TeamPlayersIds.Contains(Item.userId);
+                var userId = Item.userId;
+                bool UserIdAleradyExists = (PlayersListItems.Where(x => x.IsChecked == true && x.userId == userId)).Count() > 0;
                 if (UserIdAleradyExists)
                 {
                     UserDialogs.Instance.Alert("Player can't be added as a score keeper.","Alert","Ok");
                 }
                 else
                 {
-                    PlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
-                    PlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
-                    OriginalPlayersList.Where(x => x.userId == Item.userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
-                    OriginalPlayersList.Where(x => x.userId != Item.userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
-                    ScoreKeeperId = Item.userId;
-                    App.User.ScoreKeeperId = ScoreKeeperId;
+                    PlayersListItems.Where(x => x.userId == userId).ToList().ForEach(s => s.ImageIcon = "checked_icon.png");
+                    PlayersListItems.Where(x => x.userId != userId).ToList().ForEach(s => s.ImageIcon = "unchecked_icon.png");
+                    App.User.ScoreKeeperId = userId;
                     App.User.TeamPreviewScoreKeeperName = Item.nickName;
                     App.User.TeamPreviewScoreKeeperProfilePicture = Item.profileImage;
                 }
@@ -259,17 +250,18 @@ namespace Golf.ViewModel
         {
             try
             {
-                    var PlayerId = string.Join(",", TeamPlayersIds);
-                    if (CrossConnectivity.Current.IsConnected)
+                    var PlayerId = string.Join(",", PlayersListItems.Where(p => p.IsChecked == true)
+                                .Select(p => p.userId.ToString()));
+                if (CrossConnectivity.Current.IsConnected)
                     {
-                            if (ScoreKeeperId != 0)
+                            if (App.User.ScoreKeeperId != 0)
                             {
                                 UserDialogs.Instance.ShowLoading();
 
                                 var data = new TeamPlayer
                                 {
                                     teamId = App.User.CreateTeamId,
-                                    scoreKeeperID = ScoreKeeperId,
+                                    scoreKeeperID = App.User.ScoreKeeperId,
                                     playerId = PlayerId,
                                     roundId = App.User.CreateRoundId
                                 };
@@ -368,30 +360,17 @@ namespace Golf.ViewModel
 
         #region Serach Command
 
-        private ObservableCollection<AllParticipantsResponse> TempPlayersList = new ObservableCollection<AllParticipantsResponse>();
-
         public ICommand SearchCommand => new Command<string>(Search);
 
         public async void Search(string keyword)
         {
             try
             {
+                PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    TempPlayersList = new ObservableCollection<AllParticipantsResponse>();
-
-                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
-
-                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));
-
-                    foreach (var item in query)
-                    {
-                        var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
-
-                        TempPlayersList.Add(value);
-                    }
-
-                    PlayersListItems = TempPlayersList;
+                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>(OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower())));
                 }
                 else
                 {
@@ -432,6 +411,7 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
+
         #endregion
     }
 

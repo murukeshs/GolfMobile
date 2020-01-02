@@ -168,30 +168,18 @@ namespace Golf.ViewModel.Round
 
         #region Serach Command
 
-        private ObservableCollection<RoundList> RoundsList = new ObservableCollection<RoundList>();
-
         public ICommand SearchCommand => new Command<string>(Search);
 
         public async void Search(string keyword)
         {
             try
             {
-                if (!string.IsNullOrEmpty(keyword))
-                {
                     RoundListItems = new ObservableCollection<RoundList>();
 
-                    RoundsList = new ObservableCollection<RoundList>();
+                if (!string.IsNullOrEmpty(keyword))
+                {
 
-                    var query = OriginalRoundsList.Where(x => x.roundName.StartsWith(keyword));
-
-                    foreach (var item in query)
-                    {
-                        var value = new RoundList() { roundCode = item.roundCode, roundName = item.roundName, roundStartDate = item.roundStartDate, StartDate = item.StartDate, StartTime = item.StartTime, roundFee = item.roundFee, roundId = item.roundId };
-
-                        RoundsList.Add(value);
-                    }
-
-                    RoundListItems = RoundsList;
+                    RoundListItems = new ObservableCollection<RoundList>(OriginalRoundsList.Where(x => x.roundName.StartsWith(keyword)));
                 }
                 else
                 {

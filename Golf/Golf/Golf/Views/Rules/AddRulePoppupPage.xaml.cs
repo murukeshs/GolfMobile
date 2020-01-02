@@ -107,12 +107,14 @@ namespace Golf.Views.Rules
                         if (result != null)
                         {
                             AddNewRuleText = string.Empty;
+                            UserDialogs.Instance.HideLoading();
                             MessagingCenter.Send<App>((App)Application.Current, "OnCategoryCreated");
                             UserDialogs.Instance.Alert("New Rule Successfully Added!", "Success", "Ok");
                             await PopupNavigation.Instance.PopAsync();
+                          
                         }
 
-                        UserDialogs.Instance.HideLoading();
+                       
 
 
                         //string RestURL = App.User.BaseUrl + "Round/roundRules";

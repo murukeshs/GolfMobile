@@ -196,7 +196,8 @@ namespace Golf.ViewModel
                         phoneNumber = PhoneNumber,
                         isEmailNotification = IsEmailNotification,
                         isSMSNotification = IsSMSNotification,
-                        userTypeId = "1"
+                        userTypeId = "1",
+                        roundId = App.User.CreateRoundId
                     };
 
                     var result = await App.ApiClient.InviteParticipant(data);

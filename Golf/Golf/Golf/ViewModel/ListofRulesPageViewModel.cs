@@ -131,30 +131,17 @@ namespace Golf.ViewModel
 
         #region Serach Command
 
-        private ObservableCollection<RoundRules> RulesListItems = new ObservableCollection<RoundRules>();
-
-        public ICommand SearchCommand => new Command<string>(Search);
+        public ICommand  SearchCommand => new Command<string>(Search);
 
         public async void Search(string keyword)
-        {
+        { 
             try
             {
+                RulesItems = new ObservableCollection<RoundRules>();
+
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    RulesItems = new ObservableCollection<RoundRules>();
-
-                    RulesListItems = new ObservableCollection<RoundRules>();
-
-                    var query = OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()) || x.ruleName.ToLower().Contains(keyword.ToLower()));
-
-                    foreach (var item in query)
-                    {
-                        var value = new RoundRules() { roundRuleId = item.roundRuleId, ruleName = item.ruleName, Checked = item.Checked };
-
-                        RulesListItems.Add(value);
-                    }
-
-                    RulesItems = RulesListItems;
+                    RulesItems = new ObservableCollection<RoundRules>(OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()) || x.ruleName.ToLower().Contains(keyword.ToLower())));
                 }
                 else
                 {

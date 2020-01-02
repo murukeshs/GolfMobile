@@ -156,30 +156,17 @@ namespace Golf.ViewModel
 
         #region Serach Command
 
-        private ObservableCollection<AllParticipantsResponse> PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
-
         public ICommand SearchCommand => new Command<string>(Search);
 
         public async void Search(string keyword)
         {
             try
             {
+                ParticipantItems = new ObservableCollection<AllParticipantsResponse>();
+
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    ParticipantItems = new ObservableCollection<AllParticipantsResponse>();
-
-                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
-
-                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword.ToLower()) || x.playerName.ToLower().Contains(keyword.ToLower()));
-
-                    foreach (var item in query)
-                    {
-                        var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
-
-                        PlayersListItems.Add(value);
-                    }
-
-                    ParticipantItems = PlayersListItems;
+                    ParticipantItems = new ObservableCollection<AllParticipantsResponse>(OriginalPlayersList.Where(x => x.email.StartsWith(keyword.ToLower()) || x.playerName.ToLower().Contains(keyword.ToLower())));
                 }
                 else
                 {

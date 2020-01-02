@@ -20,6 +20,8 @@ namespace Golf.ViewModel
             UserDialogs.Instance.ShowLoading();
             try
             {
+                App.User.CreateRoundId = 0;
+                App.User.CreateTeamId = 0;
                 var page = new SendInvitePoppup();
                 await PopupNavigation.Instance.RemovePageAsync(page);
                 var view = new MenuPage();
