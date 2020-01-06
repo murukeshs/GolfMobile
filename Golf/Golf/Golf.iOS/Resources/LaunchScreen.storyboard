@@ -22,9 +22,11 @@
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.20392156862745098" green="0.59607843137254901" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="23" firstAttribute="centerY" secondItem="yd7-JS-zBw" secondAttribute="centerY" priority="1" id="39"/>
-                            <constraint firstItem="23" firstAttribute="centerX" secondItem="yd7-JS-zBw" secondAttribute="centerX" priority="1" id="41"/>
+                         <constraints>
+                            <constraint firstItem="x4U-4A-dnO" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="Fbz-zy-Ix3"/>
+                            <constraint firstItem="x4U-4A-dnO" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="JzV-G4-IIc"/>
+                            <constraint firstItem="x4U-4A-dnO" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-5" id="Peo-VD-rFW"/>
+                            <constraint firstItem="x4U-4A-dnO" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="yKt-Nv-F5L"/>
                         </constraints>
                     </view>
                 </viewController>
