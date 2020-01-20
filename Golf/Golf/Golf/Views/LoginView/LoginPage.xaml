@@ -88,10 +88,12 @@
                                                 Margin="0"
                                                 BackgroundColor="{StaticResource FaceBookBlueColor}"
                                                 Image="facebook.png"
-                                                Padding="0"/>
+                                                Padding="0"
+                                                Command="{Binding FacebookSignInCommand}"/>
                         <Controls:RoundedButton Text="Google"
                                                 Grid.Row="0"
                                                 Grid.Column="1"
+                                                Command="{Binding GoogleSignInCommand}"
                                                 Margin="10,0,0,0"
                                                 BackgroundColor="{StaticResource WhiteColor}"
                                                 TextColor="{StaticResource TextGrayColor}"

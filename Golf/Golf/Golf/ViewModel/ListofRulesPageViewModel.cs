@@ -46,7 +46,6 @@ namespace Golf.ViewModel
         #endregion
 
         #region LoadRulesCommand
-
         public async void getRoundRulesList()
         {
             try
@@ -62,27 +61,7 @@ namespace Golf.ViewModel
                         RulesItems = result;
                         OriginalRulesList = RulesItems;
                     }
-
                     UserDialogs.Instance.HideLoading();
-
-
-                    //var RestURL = App.User.BaseUrl + "Round/getRoundRulesList";
-                    //var httpClient = new HttpClient();
-                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    //var response = await httpClient.GetAsync(RestURL);
-                    //var content = await response.Content.ReadAsStringAsync();
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
-                    //    OriginalRulesList = RulesItems;
-                    //    UserDialogs.Instance.HideLoading();
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(content);
-                    //    UserDialogs.Instance.HideLoading();
-                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //}
                 }
                 else
                 {
@@ -104,11 +83,9 @@ namespace Golf.ViewModel
                 }
             }
         }
-
         #endregion
 
         #region AddRule Command
-
         public ICommand AddRuleCommand => new AsyncCommand(AddRuleCommandAsync);
 
         async Task AddRuleCommandAsync()
@@ -130,9 +107,7 @@ namespace Golf.ViewModel
         #endregion
 
         #region Serach Command
-
         public ICommand  SearchCommand => new Command<string>(Search);
-
         public async void Search(string keyword)
         { 
             try
@@ -154,7 +129,6 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-
         #endregion
     }
 }

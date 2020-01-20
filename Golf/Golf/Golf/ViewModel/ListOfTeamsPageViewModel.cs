@@ -23,7 +23,6 @@ namespace Golf.ViewModel
         }
 
         #region Property Declaration
-
         public ObservableCollection<RoundTeamItems> TeamItems
         {
             get { return _TeamItem; }
@@ -56,7 +55,6 @@ namespace Golf.ViewModel
             }
         }
         private bool _ListViewIsVisible = false;
-
         #endregion
 
         #region Register Command Functionality
@@ -83,7 +81,6 @@ namespace Golf.ViewModel
         #endregion Register Command Functionality
 
         #region Load TeamList Functionality
-
         async void LoadTeamListAsync()
         {
             try
@@ -141,7 +138,6 @@ namespace Golf.ViewModel
                 }
             }
         }
-
         #endregion
     }
 }

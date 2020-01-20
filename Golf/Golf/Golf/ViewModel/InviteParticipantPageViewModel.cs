@@ -20,12 +20,11 @@ namespace Golf.ViewModel
     {
         public InviteParticipantPageViewModel()
         {
-            GenderList = new List<string>(new[] {"Male", "Female"});
+
         }
 
         #region Property Declaration
-
-        public IList<string> GenderList { get; set; }
+        public IList<string> GenderList { get; set; } = new List<string>(new[] { "Male", "Female" });
 
         public string FirstNameText
         {
@@ -110,7 +109,6 @@ namespace Golf.ViewModel
             }
         }
         private string _PhoneNumber = string.Empty;
-
         #endregion
 
         #region Send Invite Button Command Functionality
@@ -260,7 +258,6 @@ namespace Golf.ViewModel
         #endregion Send Invite Button Command Functionality
 
         #region CommunicationVia Functionality
-
         public bool IsEmailNotification
         {
             get { return _IsEmailNotification; }
@@ -305,9 +302,8 @@ namespace Golf.ViewModel
 
         public void GenderOnChange(string gender)
         {
-                GenderText = gender;
+           GenderText = gender;
         }
-
         #endregion
     }
 }

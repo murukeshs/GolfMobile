@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Golf</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.companyname.Golf</string>
+	<string>com.apptomate.Golf.Ios</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
@@ -36,5 +36,38 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>URL Type 1</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>com.googleusercontent.apps.1025176948085-ndcjdon4fdmfakubpfu20kirj5skcpev</string>
+      </array>
+    </dict>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>URL Type 2</string>
+    </dict>
+  </array>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fb1036432036689831</string>
+      </array>
+    </dict>
+  </array>
+  <key>FacebookAppID</key>
+  <string>1036432036689831</string>
+  <key>FacebookDisplayName</key>
+  <string>GolfFacebookLogIn</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>fbapi</string>
+    <string>fb-messenger-api</string>
+    <string>fbauth2</string>
+    <string>fbshareextension</string>
+  </array>
 </dict>
 </plist>

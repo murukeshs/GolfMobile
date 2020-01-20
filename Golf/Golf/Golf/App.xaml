@@ -4,6 +4,7 @@
              xmlns:styles="clr-namespace:Golf.Styles"
              x:Class="Golf.App"
              xmlns:Controls="clr-namespace:Golf.Controls">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -76,8 +77,6 @@
                 <Setter Property="FontSize" Value="{x:StaticResource FontSize20}"/>
                 <Setter Property="TextColor" Value="{x:StaticResource TextGrayColor}"/>
             </Style>
-
-          
 
         </ResourceDictionary>
     </Application.Resources>

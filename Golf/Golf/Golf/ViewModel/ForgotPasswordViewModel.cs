@@ -17,7 +17,6 @@ namespace Golf.ViewModel
     public class ForgotPasswordViewModel : BaseViewModel
     {
         #region Property Declaration
-
         public bool IsValid
         {
             get
@@ -142,12 +141,10 @@ namespace Golf.ViewModel
             }
         }
         private bool _UpdatePasswordLayout = false;
-
         #endregion
 
         #region OtpVia checkbox changed
         public ICommand OtpViaCheckedChangedCommand => new Command<CustomCheckBox>(OtpViaOnChange);
-
         public void OtpViaOnChange(CustomCheckBox OtpViaValues)
         {
             try
@@ -173,15 +170,12 @@ namespace Golf.ViewModel
         #endregion
 
         #region Resend OTP Command Functionalit
-
         public ICommand ResendOTPCommand => new Command(ContinueAsync);
 
         #endregion
 
         #region Continue Clicked Command
-
         public ICommand ContinueClickedCommand => new Command(ContinueAsync);
-
         async void ContinueAsync()
         {
             IsValid = Validate();
@@ -190,7 +184,7 @@ namespace Golf.ViewModel
                 await ContinueOnClick();
             }
         }
-
+        
         bool Validate()
         { 
             if (!IsEmail && !IsSms)
@@ -226,8 +220,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                   
-
                     var data = new GenerateOTPEmail
                     {
                         emailorphone = EmailOrPhone,
@@ -243,28 +235,7 @@ namespace Golf.ViewModel
                         OtpGenerateLayout = false;
                         UpdatePasswordLayout = true;
                     }
-
                     UserDialogs.Instance.HideLoading();
-
-                    //var RestURL = App.User.BaseUrl + "User/generateOTP";
-                    //Uri requestUri = new Uri(RestURL);
-                    //string json = JsonConvert.SerializeObject(data);
-                    //var httpClient = new HttpClient();
-                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    //var content = await response.Content.ReadAsStringAsync();
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    UserDialogs.Instance.HideLoading();
-                    //    await UserDialogs.Instance.AlertAsync("OTP Successfully Generated", "OTP Verification", "Ok");
-                    //    OtpGenerateLayout = false;
-                    //    UpdatePasswordLayout = true;
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(content);
-                    //    UserDialogs.Instance.HideLoading();
-                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //}
                 }
                 else
                 {
@@ -289,7 +260,6 @@ namespace Golf.ViewModel
         #endregion
 
         #region Validate Otp Command
-
         public ICommand UpdatePasswordCommand => new Command(UpdatePasswordAsync);
 
         async void UpdatePasswordAsync()
@@ -336,7 +306,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-
                     var data = new UpdatePassword
                     {
                         otpValue = Otp,
@@ -346,7 +315,6 @@ namespace Golf.ViewModel
                     };
 
                     var result = await App.ApiClient.UpdatePassword(data);
-
                     if (result != null)
                     {
                         await UserDialogs.Instance.AlertAsync("Password Updated Successfully.", "Success", "Ok");
@@ -354,29 +322,7 @@ namespace Golf.ViewModel
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                     }
-
                     UserDialogs.Instance.HideLoading();
-
-                    //var RestURL = App.User.BaseUrl + "User/updatePassword";
-                    //Uri requestUri = new Uri(RestURL);
-                    //string json = JsonConvert.SerializeObject(data);
-                    //var httpClient = new HttpClient();
-                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    //var content = await response.Content.ReadAsStringAsync();
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    UserDialogs.Instance.HideLoading();
-                    //    await UserDialogs.Instance.AlertAsync("Password Updated Successfully.", "Success", "Ok");
-                    //    var view = new LoginPage();
-                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
-                    //    await navigationPage.PushAsync(view);
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(content);
-                    //    UserDialogs.Instance.HideLoading();
-                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //}
                 }
                 else
                 {

@@ -22,7 +22,10 @@ namespace Golf.Services
         public APIClient()
         {
             _httpClient = new HttpClient();
-            _httpClient.MaxResponseContentBufferSize = 256000;
+            _httpClient.Timeout = TimeSpan.FromMilliseconds(360000);
+            _httpClient.MaxResponseContentBufferSize = 2147483647;
+
+           // _httpClient.MaxResponseContentBufferSize = 256000;
             //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
         }
 
@@ -1044,8 +1047,6 @@ namespace Golf.Services
                 var formDataContent = new MultipartFormDataContent();
                 formDataContent.Add(new ByteArrayContent(data), "files", "Image.png");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                _httpClient.Timeout = TimeSpan.FromMilliseconds(360000);
-                _httpClient.MaxResponseContentBufferSize = 2147483647;
                 var httpResponse = await _httpClient.PostAsync(requestUri, formDataContent);
                 var stringResponse = await httpResponse.Content.ReadAsStringAsync();
 

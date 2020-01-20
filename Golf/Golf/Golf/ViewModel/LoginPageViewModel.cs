@@ -18,6 +18,115 @@ namespace Golf.ViewModel
 {
     public class LoginPageViewModel : BaseViewModel
     {
+        //Google Login Authentication 
+        public IGoogleManager _googleManager;
+        public GoogleUser GoogleUser;
+        public bool IsLogedIn;
+
+        //Facebook Authentication
+        private readonly IFacebookManager _facebookManager;
+        private FacebookUser _facebookUser;
+        public FacebookUser FacebookUser
+        {
+            get { return _facebookUser; }
+            set { SetProperty(ref _facebookUser, value); }
+        }
+
+        public LoginPageViewModel()
+        {
+            try
+            {
+                IFacebookManager facebookManager = DependencyService.Get<IFacebookManager>();
+                _facebookManager = facebookManager;
+            }
+            catch(Exception ex)
+            {
+                var Error = ex.Message;
+            }
+        }
+
+        #region Facebook Login Command
+
+        public ICommand FacebookSignInCommand => new Command(FacebookLogin);
+
+        private void FacebookLogout()
+        {
+            _facebookManager.Logout();
+            IsLogedIn = false;
+        }
+
+        private void FacebookLogin()
+        {
+            _facebookManager.Login(OnLoginComplete);
+        }
+
+        private async void OnLoginComplete(FacebookUser facebookUser, string message)
+        {
+            if (facebookUser != null)
+            {
+                FacebookUser = facebookUser;
+                IsLogedIn = true;
+                FacebookLogout();
+                var view = new MenuPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+            }
+            else
+            {
+                UserDialogs.Instance.Alert(message, "Error", "Ok");
+            }
+        }
+        #endregion
+
+        #region Google Sign In Command
+        public ICommand GoogleSignInCommand => new AsyncCommand(GoogleSignInAsync);
+
+        async Task GoogleSignInAsync()
+        {
+            IGoogleManager googlemanager = DependencyService.Get<IGoogleManager>();
+            _googleManager = googlemanager;
+            GoogleLogout();
+            if (_googleManager == null)
+            {
+                _googleManager = DependencyService.Get<IGoogleManager>();
+
+                _googleManager.Login(OnLoginComplete);
+            }
+            else
+            {
+                _googleManager = DependencyService.Get<IGoogleManager>();
+
+                _googleManager.Login(OnLoginComplete);
+            }
+        }
+
+        private async void OnLoginComplete(GoogleUser googleUser, string message)
+        {
+            if (googleUser != null)
+            {
+                GoogleUser = googleUser;
+                var id = googleUser.Id;
+                IsLogedIn = true;
+                // UserDialogs.Instance.ShowLoading();
+                //await Task.Delay(5);
+                GoogleLogout();
+                //UserDialogs.Instance.HideLoading();
+                var view = new MenuPage();
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+            }
+            else
+            {
+               UserDialogs.Instance.Alert(message, "Error", "Ok");
+            }
+        }
+
+        private void GoogleLogout()
+        {
+            _googleManager.Logout();
+            IsLogedIn = false;
+        }
+        #endregion
 
         #region Property Declaration
 
@@ -100,7 +209,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                 
                     var data = new Login
                     {
                         email = UserNameText,
@@ -124,51 +232,7 @@ namespace Golf.ViewModel
                         await navigationPage.PushAsync(view);
                         resetFormValues();
                     }
-
                     UserDialogs.Instance.HideLoading();
-
-                    //string RestURL = App.User.BaseUrl + "JWTAuthentication/login";
-                    //Uri requestUri = new Uri(RestURL);
-                    //string json = JsonConvert.SerializeObject(data);
-                    //var httpClient = new HttpClient();
-                    //HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    //string responJsonText = await response.Content.ReadAsStringAsync();
-
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responJsonText);
-                    //    App.User.AccessToken = loginResponse.token;
-                    //    App.User.UserProfileImage = loginResponse.user.profileImage;
-                    //    var lastname = (string.IsNullOrEmpty(loginResponse.user.lastName)) ? "" : " " + loginResponse.user.lastName;
-                    //    App.User.UserName = loginResponse.user.firstName + lastname;
-                    //    App.User.UserId = loginResponse.user.userId;
-                    //    App.User.UserEmail = loginResponse.user.email;
-                    //    App.User.IsModerator = loginResponse.user.isModerator;
-                    //    var view = new MenuPage();
-                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
-                    //    await navigationPage.PushAsync(view);
-                    //    resetFormValues();
-                    //    UserDialogs.Instance.HideLoading();
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                    //    if (error.errorMessage == "Email is not verified")
-                    //    {
-                    //        App.User.OtpEmail = UserNameText;
-                    //        App.User.FromEmailNotValid = true;
-                    //        UserDialogs.Instance.HideLoading();
-                    //        await UserDialogs.Instance.AlertAsync("Email is Not Verified", "Alert", "Ok");
-                    //        var view = new OtpVerificationPage();
-                    //        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                    //        await navigationPage.PushAsync(view);
-                    //    }
-                    //    else
-                    //    {
-                    //        UserDialogs.Instance.HideLoading();
-                    //        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //    }
-                    //}
                 }
                 else
                 {
@@ -201,7 +265,6 @@ namespace Golf.ViewModel
         #endregion LogIn Command Functionality
 
         #region Register Command Functionality
-
         public ICommand RegisterCommand => new AsyncCommand(RegisterAsync);
 
         async Task RegisterAsync()
@@ -220,7 +283,6 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-
         #endregion Register Command Functionality
 
     }

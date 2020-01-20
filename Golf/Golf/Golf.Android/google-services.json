@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1025176948085",
+    "firebase_url": "https://golf-264515.firebaseio.com",
+    "project_id": "golf-264515",
+    "storage_bucket": "golf-264515.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025176948085:android:9bcb0199b17bdd6d06573c",
+        "android_client_info": {
+          "package_name": "com.apptomate.Golf.Android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025176948085-tgu2lso7c5qe8dc4e5noki29eqtregh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apptomate.Golf.Android",
+            "certificate_hash": "2d4005220cede83c8f0f34019d3e2c3e638bd275"
+          }
+        },
+        {
+          "client_id": "1025176948085-qjgspnla2hn04oan606uc2d3mipifqc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiJ_YYbJIQ9Q4oDWE5S1FvuxbqPePIA7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025176948085-qjgspnla2hn04oan606uc2d3mipifqc4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1025176948085-ndcjdon4fdmfakubpfu20kirj5skcpev.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.apptomate.Golf.Ios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

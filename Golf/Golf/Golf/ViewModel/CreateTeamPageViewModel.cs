@@ -19,13 +19,9 @@ namespace Golf.ViewModel
 {
     public class CreateTeamPageViewModel : BaseViewModel
     {
-
         public CreateTeamPageViewModel()
         {
-            StartingHoleList = new List<int>
-            {
-                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
-            };
+            
         }
 
         #region Property Declaration
@@ -39,7 +35,11 @@ namespace Golf.ViewModel
                 OnPropertyChanged("StartingHoleList");
             }
         }
-        private List<int> _StartingHoleList;
+
+        private List<int> _StartingHoleList = new List<int>
+        {
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+        };
        
         public Plugin.Media.Abstractions.MediaFile file = null;
         ImageSource srcThumb = null;
@@ -108,15 +108,13 @@ namespace Golf.ViewModel
 
         void SelectedIndexChangedEvent(int shole)
         {
-                StartingHole = Convert.ToInt16(shole);
+           StartingHole = Convert.ToInt16(shole);
         }
 
         #endregion Round Picker Selected Command Functionality
 
         #region CreateTeam Procced Button Command Functionality
-
         public ICommand CreateTeamProccedButtonCommand => new AsyncCommand(CreateTeamButtonAsync);
-
         async Task CreateTeamButtonAsync()
         {
             IsValid = Validate();
@@ -133,7 +131,6 @@ namespace Golf.ViewModel
             {
                 TeamIcon = string.Empty;
             }
-            
             else
             {
                 TeamIcon = TeamProfilePicture;
@@ -165,7 +162,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-
                     var data = new TeamModel
                     {
                         createdBy = App.User.UserId,
@@ -176,7 +172,6 @@ namespace Golf.ViewModel
                     };
 
                     var result = await App.ApiClient.CreateTeam(data);
-
                     if (result != null)
                     {
                         var Item = result;
@@ -191,38 +186,7 @@ namespace Golf.ViewModel
                         App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
                         Clear();
                     }
-
                     UserDialogs.Instance.HideLoading();
-
-                    //string RestURL = App.User.BaseUrl + "Team/createTeam";
-                    //Uri requestUri = new Uri(RestURL);
-                    //string json = JsonConvert.SerializeObject(data);
-                    //var httpClient = new HttpClient();
-                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    //var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    //string responJsonText = await response.Content.ReadAsStringAsync();
-
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    var Item = JsonConvert.DeserializeObject<CreateTeamResponse>(responJsonText);
-                    //    App.User.CreateTeamId = Item.teamId;
-                    //    App.User.TeamName = TeamNameText;
-                    //    var view = new AddParticipantPage();
-                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
-                    //    await navigationPage.PushAsync(view);
-                    //    //After the success full api process clear all the values
-                    //    App.User.TeamPreviewList.Clear();
-                    //    App.User.TeamPreviewScoreKeeperName = string.Empty;
-                    //    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
-                    //    Clear();
-                    //    UserDialogs.Instance.HideLoading();
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                    //    UserDialogs.Instance.HideLoading();
-                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //}
                 }
                 else
                 {
@@ -255,7 +219,6 @@ namespace Golf.ViewModel
         #endregion CreateTeam Procced Button Command Functionality
 
         #region TakePicture Command Functionality
-
         public ICommand TakeCaptureCommand => new AsyncCommand(CaptureImageButton_Clicked);
 
         async Task CaptureImageButton_Clicked()
@@ -297,13 +260,10 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-
         #endregion
 
         #region Gallery Command Functionality
-
         public ICommand GalleryCommand => new AsyncCommand(GalleryImageButton_Clicked);
-
         private async Task GalleryImageButton_Clicked()
         {
             try
@@ -348,7 +308,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-
                     //convert image into bytes
                     Stream stream = file.GetStream();
                     using (MemoryStream ms = new MemoryStream())
@@ -356,41 +315,14 @@ namespace Golf.ViewModel
                         stream.CopyTo(ms);
                         imageData = ms.ToArray();
                     }
-
                     var result = await App.ApiClient.UploadFile(imageData);
-
                     if (result != null)
                     {
                         //Asign the Image URL repsonse to the Image
                         TeamProfilePicture = result;
                         CheckProfilePicture();
                     }
-
                     UserDialogs.Instance.HideLoading();
-
-                    //string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
-                    //Uri requestUri = new Uri(RestURL);
-                    //var formDataContent = new MultipartFormDataContent();
-                    //formDataContent.Add(new ByteArrayContent(imageData), "files", "Image.png");
-                    //var objClint = new HttpClient();
-                    //objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    //objClint.Timeout = TimeSpan.FromMilliseconds(360000);
-                    //objClint.MaxResponseContentBufferSize = 2147483647;
-                    //HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
-                    //string responJsonText = await response.Content.ReadAsStringAsync();
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    //Asign the Image URL repsonse to the Image
-                    //    TeamProfilePicture = responJsonText;
-                    //    CheckProfilePicture();
-                    //    UserDialogs.Instance.HideLoading();
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                    //    UserDialogs.Instance.HideLoading();
-                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //}
                 }
                 else
                 {
@@ -412,7 +344,6 @@ namespace Golf.ViewModel
                 }
             }
         }
-
         #endregion
     }
 }

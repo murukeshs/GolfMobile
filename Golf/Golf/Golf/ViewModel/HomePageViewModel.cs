@@ -57,7 +57,6 @@ namespace Golf.ViewModel
 
         #region New Round Command Functionality
         public ICommand NewRoundCommand => new AsyncCommand(NewRoundAsync);
-
         async Task NewRoundAsync()
         {
             try
@@ -78,7 +77,6 @@ namespace Golf.ViewModel
 
         #region Teams Command Functionality
         public ICommand TeamsCommand => new AsyncCommand(TeamsAsync);
-
         async Task TeamsAsync()
         {
             try
@@ -94,13 +92,11 @@ namespace Golf.ViewModel
                 UserDialogs.Instance.HideLoading();
                 var a = ex.Message;
             }
-            
         }
         #endregion Teams Command Functionality
 
         #region Participants Command Functionality
         public ICommand ParticipantsCommand => new AsyncCommand(ParticipantsAsync);
-
         async Task ParticipantsAsync()
         {
             try

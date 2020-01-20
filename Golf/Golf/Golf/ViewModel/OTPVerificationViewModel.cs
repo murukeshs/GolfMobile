@@ -1,4 +1,4 @@
-﻿using Acr.UserDialogs;
+﻿  using Acr.UserDialogs;
 using Golf.Models;
 using Golf.Services;
 using Golf.Utils;

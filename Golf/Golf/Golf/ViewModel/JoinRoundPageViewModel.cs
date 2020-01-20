@@ -21,7 +21,6 @@ namespace Golf.ViewModel
         }
 
         #region Property Declaration
-
         public string RoundID
         {
             get { return _RoundID; }
@@ -46,7 +45,7 @@ namespace Golf.ViewModel
 
         public string ParticipantName
         {
-            get { return _ParticipantName;}
+            get { return _ParticipantName; }
             set
             {
                 _ParticipantName = value;
@@ -98,13 +97,10 @@ namespace Golf.ViewModel
             }
         }
         private string _TeamName = string.Empty;
-
         #endregion
 
         #region GetJoinRoundList Command Functionality
-
         public ICommand JoinRoundButtonCommand => new AsyncCommand(JoinRoundAsync);
-
         async Task JoinRoundAsync()
         {
             try
@@ -141,32 +137,12 @@ namespace Golf.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading();
 
-                    var result = await App.ApiClient.GetJoinRoundsList(0,App.User.UserId);
-                    if(result != null)
+                    var result = await App.ApiClient.GetJoinRoundsList(0, App.User.UserId);
+                    if (result != null)
                     {
                         RoundList = result;
                         UserDialogs.Instance.HideLoading();
                     }
-
-                    //var RestURL = App.User.BaseUrl + "Round/getRoundJoinList?roundId=0&userId=" + App.User.UserId;
-                    //var httpClient = new HttpClient();
-                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    //var response = await httpClient.GetAsync(RestURL);
-                    //var content = await response.Content.ReadAsStringAsync();
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    if(content != "Please Enter RoundId")
-                    //    { 
-                    //      RoundList = JsonConvert.DeserializeObject<ObservableCollection<roundJoinlist>>(content);
-                    //    }
-                    //    UserDialogs.Instance.HideLoading();
-                    //}
-                    //else
-                    //{
-                    //    var error = JsonConvert.DeserializeObject<error>(content);
-                    //    UserDialogs.Instance.HideLoading();
-                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    //}
                 }
                 else
                 {
@@ -192,7 +168,6 @@ namespace Golf.ViewModel
         #endregion JoinRound Button Command Functionality
 
         #region Round Picker Selected Command Functionality
-
         public ICommand PickerSelectedCommand => new Command(SelectedIndexChangedEvent);
 
         void SelectedIndexChangedEvent(object parameter)
@@ -212,11 +187,9 @@ namespace Golf.ViewModel
                 var a = ex.Message;
             }
         }
-
         #endregion Round Picker Selected Command Functionality
 
         #region JoinRound Button Command Functionality
-
         public ICommand JoinRoundCommand => new AsyncCommand(JoinRoundButtonAsync);
 
         async Task JoinRoundButtonAsync()
@@ -232,7 +205,6 @@ namespace Golf.ViewModel
                     else
                     {
                         UserDialogs.Instance.ShowLoading();
-
                         var data = new acceptRoundInvitation
                         {
                             roundId = Convert.ToInt32(RoundID),
@@ -249,39 +221,16 @@ namespace Golf.ViewModel
                             var navigationPage = ((NavigationPage)App.Current.MainPage);
                             await navigationPage.PushAsync(view);
                         }
-
                         UserDialogs.Instance.HideLoading();
 
-                        //        string RestURL = App.User.BaseUrl + "Round/acceptRoundInvitation";
-                        //        Uri requestUri = new Uri(RestURL);
-                        //        string json = JsonConvert.SerializeObject(data);
-                        //        var httpClient = new HttpClient();
-                        //        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                        //        var response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                        //        string responJsonText = await response.Content.ReadAsStringAsync();
-
-                        //        if (response.IsSuccessStatusCode)
-                        //        {
-                        //            await UserDialogs.Instance.AlertAsync("Player Joined the Round Successfully.", "Success", "Ok");
-                        //            var view = new MenuPage();
-                        //            var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        //            await navigationPage.PushAsync(view);
-                        //            UserDialogs.Instance.HideLoading();
-                        //        }
-                        //        else
-                        //        {
-                        //            var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        //            UserDialogs.Instance.HideLoading();
-                        //            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                        //        }
-                    }
-                    }
-                else
-                    {
-                        UserDialogs.Instance.HideLoading();
-                        DependencyService.Get<IToast>().Show("Please check internet connection");
                     }
                 }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    DependencyService.Get<IToast>().Show("Please check internet connection");
+                }
+            }
             catch (Exception ex)
             {
                 var a = ex.Message;
