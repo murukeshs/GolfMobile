@@ -24,7 +24,7 @@ namespace Golf.Views
 
         private async void InviteParticipantButton_Clicked(object sender, System.EventArgs e)
         {
-            var view = new InviteParticipantPage();
+            var view = new InviteParticipantPage("viewparticipantpage");
             await PopupNavigation.Instance.PushAsync(view);
         }
 

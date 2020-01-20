@@ -10,6 +10,8 @@ namespace Golf.Models
 
         public string PlayerName { get; set; }
 
+        public string NickName { get; set; }
+
         public string PlayerHCP { get; set; }
 
         public string PlayerImage { get; set; }

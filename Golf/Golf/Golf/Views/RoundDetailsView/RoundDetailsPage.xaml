@@ -40,7 +40,6 @@
 
             <Style x:Key="TabTextStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource BlackColor}" />
-                <!--<Setter Property="FontSize" Value="{StaticResource FontSize14}" />-->
                 <Setter Property="HorizontalTextAlignment"  Value="Center" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Center" />
@@ -70,10 +69,9 @@
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand">
 
-            <Grid   
-                        ColumnSpacing="0"
-                        RowSpacing="0"
-                        VerticalOptions="FillAndExpand">
+            <Grid ColumnSpacing="0"
+                  RowSpacing="0"
+                  VerticalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -82,14 +80,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="62" />
                 </Grid.RowDefinitions>
-                <Grid
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            BackgroundColor="{StaticResource WhiteColor}">
-                    <Label   
-                                Text="Round Details"
-                                Style="{StaticResource TabTextStyle}"
-                            >
+                <Grid Grid.Column="0"
+                      Grid.Row="0"
+                      BackgroundColor="{StaticResource WhiteColor}">
+                    <Label Text="Round Details" Style="{StaticResource TabTextStyle}">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding RoundDetailsTab}" Value="true" >
                                 <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
@@ -97,23 +91,17 @@
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
-                    <Grid 
-                                Style="{StaticResource TabSeparatorStyle}"/>
-                    <Grid   
-                                IsVisible="{Binding RoundDetailsTab}"
-                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid IsVisible="{Binding RoundDetailsTab}"
+                          Style="{StaticResource SelectedTabStyle}"/>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                                    Command="{Binding RoundDetailsTabCommand}" />
+                        <TapGestureRecognizer Command="{Binding RoundDetailsTabCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
-                <Grid
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            BackgroundColor="{StaticResource WhiteColor}">
-                    <Label   
-                                Text="Round Players"
-                                Style="{StaticResource TabTextStyle}">
+                <Grid Grid.Column="1"
+                      Grid.Row="0"
+                      BackgroundColor="{StaticResource WhiteColor}">
+                    <Label Text="Round Players" Style="{StaticResource TabTextStyle}">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding RoundPlayersTab}" Value="true" >
                                 <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
@@ -121,23 +109,17 @@
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
-                    <Grid 
-                                Style="{StaticResource TabSeparatorStyle}"/>
-                    <Grid  
-                                IsVisible="{Binding RoundPlayersTab}"
-                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid IsVisible="{Binding RoundPlayersTab}"
+                          Style="{StaticResource SelectedTabStyle}"/>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                                    Command="{Binding RoundPlayersTabCommand}" />
+                        <TapGestureRecognizer Command="{Binding RoundPlayersTabCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
-                <Grid
-                            Grid.Column="2"
-                            Grid.Row="0"
-                            BackgroundColor="{StaticResource WhiteColor}">
-                    <Label   
-                                Text="Teams"
-                                Style="{StaticResource TabTextStyle}">
+                <Grid Grid.Column="2"
+                      Grid.Row="0"
+                      BackgroundColor="{StaticResource WhiteColor}">
+                    <Label Text="Teams" Style="{StaticResource TabTextStyle}">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding RoundTeamsTab}" Value="true" >
                                 <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
@@ -145,14 +127,10 @@
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
-                    <Grid 
-                                Style="{StaticResource TabSeparatorStyle}"/>
-                    <Grid  
-                                IsVisible="{Binding RoundTeamsTab}"
-                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid IsVisible="{Binding RoundTeamsTab}" Style="{StaticResource SelectedTabStyle}"/>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                                    Command="{Binding RoundTeamsTabCommand}" />
+                        <TapGestureRecognizer Command="{Binding RoundTeamsTabCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
                
@@ -165,33 +143,33 @@
                          VerticalOptions="CenterAndExpand">
                 
                 <ScrollView HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand">
+                            VerticalOptions="FillAndExpand">
                     <StackLayout>
                     
                     <Label Text="Round Name"
-                               Style="{StaticResource HeadingsLabel}"
-                               FontSize="{StaticResource FontSize18}"/>
+                           Style="{StaticResource HeadingsLabel}"
+                           FontSize="{StaticResource FontSize18}"/>
 
                     <controls:CustomEntry Text="{Binding RoundName,Mode=TwoWay}"
-                                              Style="{StaticResource RectangleShapeEntryStyle}"
-                                              FontSize="{StaticResource FontSize18}"
-                                              Margin="0,5,0,0"
-                                               IsEnabled="False"
-                                               BackgroundColor="LightGray"/>
+                                          Style="{StaticResource RectangleShapeEntryStyle}"
+                                          FontSize="{StaticResource FontSize18}"
+                                          Margin="0,5,0,0"
+                                          IsEnabled="False"
+                                          BackgroundColor="LightGray"/>
 
                     <Label Text="Round Code"
-                               Style="{StaticResource HeadingsLabel}"
-                               FontSize="{StaticResource FontSize18}"/>
+                           Style="{StaticResource HeadingsLabel}"
+                           FontSize="{StaticResource FontSize18}"/>
 
                     <controls:CustomEntry Text="{Binding RoundCode,Mode=TwoWay}"
-                                              Style="{StaticResource RectangleShapeEntryStyle}"
-                                              Margin="0,5,0,0"
-                                               IsEnabled="False"
-                                               BackgroundColor="LightGray"/>
+                                          Style="{StaticResource RectangleShapeEntryStyle}"
+                                          Margin="0,5,0,0"
+                                          IsEnabled="False"
+                                          BackgroundColor="LightGray"/>
 
                     <Label Text="Competition Type" 
-                        Style="{StaticResource HeadingsLabel}"
-                               FontSize="{StaticResource FontSize18}"/>
+                           Style="{StaticResource HeadingsLabel}"
+                           FontSize="{StaticResource FontSize18}"/>
 
                     <controls:BoxPicker ItemsSource="{Binding CompetitionTypeItems}"
                                     Title="Select Competition Type"
@@ -211,51 +189,41 @@
                                Style="{StaticResource HeadingsLabel}"
                                FontSize="{StaticResource FontSize18}"/>
 
-                    <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
+                        <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                          BorderColor="{StaticResource BorderColor}"
                                          CornerRadius="10"
                                          HasShadow="True"
                                          Margin="5,5,5,0"
                                         >
-                        <controls:HorizontalList ListOrientation="Vertical"
+                            <controls:HorizontalList ListOrientation="Vertical"
                                                  HeightRequest="200"
                                                  Padding="0"
                                                  Margin="0"
                                                  BackgroundColor="Transparent"
                                                  ItemsSource="{Binding RulesItems}">
-                            <controls:HorizontalList.ItemTemplate>
-                                <DataTemplate>
+                                <controls:HorizontalList.ItemTemplate>
+                                    <DataTemplate>
 
-                                    <StackLayout Orientation="Horizontal"
+                                        <StackLayout Orientation="Horizontal"
                                                      Margin="10,10,10,5"
                                                      Padding="0"
                                                      Spacing="0">
 
-                                        <CheckBox Color="{StaticResource TextGrayColor}"
+                                            <CheckBox Color="{StaticResource TextGrayColor}"
                                                   Margin="20,0"
                                                   IsChecked="{Binding Checked}"
                                                   CheckedChanged="CheckBox_CheckedChanged"/>
-                                        <Label Text="{Binding ruleName}"
+                                            <Label Text="{Binding ruleName}"
                                                FontSize="Small"
                                                TextColor="{StaticResource TextGrayColor}"
                                                Margin="0,0"/>
-                                    </StackLayout>
-                                </DataTemplate>
-                            </controls:HorizontalList.ItemTemplate>
-                        </controls:HorizontalList>
-                    </plugins:PancakeView>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </controls:HorizontalList.ItemTemplate>
+                            </controls:HorizontalList>
+                        </plugins:PancakeView>
 
-                    <!--<Label Text="Round Location"
-                               Style="{StaticResource HeadingsLabel}"
-                               FontSize="{StaticResource FontSize18}"/>
-
-                        <controls:CustomEntry Text="{Binding RoundLocation,Mode=TwoWay}"
-                                              Style="{StaticResource RectangleShapeEntryStyle}"
-                                              Margin="0,5,0,0"
-                                              IsCurvedCornersEnabled="True"
-                                              FontSize="{StaticResource FontSize18}"/>-->
-
-                    <Label Text="Round Settings:"
+                        <Label Text="Round Settings:"
                            Style="{StaticResource TextLabelStyleGrayColor20}"
                            Margin="0,10,0,0"
                            TextColor="{StaticResource BlackColor}"
@@ -612,22 +580,9 @@
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="Fill"/>
 
-                                                        <!--<ImageButton HorizontalOptions="End"
-                                                             x:Name="ViewProfile"
-                                                         VerticalOptions="Center"
-                                                         Margin="0"
-                                                         Aspect="AspectFit"
-                                                         BackgroundColor="Transparent"
-                                                         Source="viewprofile.png"
-                                                         HeightRequest="35"
-                                                         WidthRequest="35"
-                                                         Clicked="ViewprofileParticipantClicked"/>-->
                                                     </StackLayout>
                                                 </StackLayout>
 
-
-                                               
-                                                
                                                 <ImageButton Source="remove_icon.png"
                                                          BackgroundColor="Transparent"
                                                          HeightRequest="45"
@@ -635,8 +590,6 @@
                                                          HorizontalOptions="End" 
                                                          IsVisible="{Binding isChecked}"
                                                          Clicked="RemoveParticipantClicked"/>
-                                                
-                                                
 
                                                 <controls:CustomCheckBox Style="{StaticResource CustomCheckBoxStyleGray}"
                                                                  HorizontalOptions="End" 
@@ -653,16 +606,15 @@
                 </ListView>
 
                 <StackLayout Orientation="Horizontal" 
-                         VerticalOptions="End" 
-                         Margin="20,10,20,10">
+                             VerticalOptions="End" 
+                             Margin="20,10,20,10">
 
                     <controls:RoundedButton Text="Invite Participant"
                                             Command="{Binding InviteParticipantCommand}"/>
 
                     <controls:RoundedButton Text="Update Players"
                                             Margin="10,0"
-                                            Command="{Binding UpdateRoundPlayersButtonCommand}"
-                                                />
+                                            Command="{Binding UpdateRoundPlayersButtonCommand}"/>
                 </StackLayout>
 
             </StackLayout>

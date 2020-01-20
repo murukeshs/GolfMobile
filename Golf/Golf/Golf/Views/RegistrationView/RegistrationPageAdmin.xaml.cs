@@ -12,11 +12,9 @@ namespace Golf.Views.MenuView
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class RegistrationPageAdmin : ContentPage
 	{
-        RegistrationPageAdminViewModel vm;
         public RegistrationPageAdmin ()
 		{
 			InitializeComponent ();
-            vm = BindingContext as RegistrationPageAdminViewModel;
         }
 
         private async void RegisterButton_Clicked(object sender, EventArgs e)
@@ -32,7 +30,6 @@ namespace Golf.Views.MenuView
         {
             Picker picker = sender as Picker;
             Country country = (Country)picker.SelectedItem;
-            vm.CountryID = country.countryId;
             ((RegistrationPageAdminViewModel)BindingContext).CountryChangedCommand.Execute(country);
         }
 
@@ -40,7 +37,7 @@ namespace Golf.Views.MenuView
         {
             Picker picker = sender as Picker;
             State state = (State)picker.SelectedItem;
-            vm.StateID = state.stateId;
+            ((RegistrationPageAdminViewModel)BindingContext).StateChangedCommand.Execute(state);
         }
 
         #region screen adjusting
@@ -67,15 +64,7 @@ namespace Golf.Views.MenuView
         private void NotificationTypeChanged(object sender, bool e)
         {
             var value = (CustomCheckBox)sender;
-            var item = value.DefaultValue;
-            if(item == "Email")
-            {
-                vm.IsEmailNotification = true;
-            }
-            if(item == "SMS")
-            {
-                vm.IsSMSNotification = true;
-            }
+            ((RegistrationPageAdminViewModel)BindingContext).NotificationTypeChangedCommand.Execute(value.DefaultValue);
         }
     }
 }

@@ -2,7 +2,7 @@
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Linq;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,20 +11,21 @@ namespace Golf.Views.PoppupView
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PreviewPlayersPage : PopupPage
     {
+        ObservableCollection<AllParticipantsResponse> PlayersList;
 
-        public PreviewPlayersPage()
+        public PreviewPlayersPage(ObservableCollection<AllParticipantsResponse> ParticipantsList)
         {
             InitializeComponent();
             BindingContext = this;
-          
-            if(App.User.PlayersPreviewList.Count == 0)
+            PlayersList = ParticipantsList;
+            if (PlayersList.Count == 0)
             {
                 NoPlayersCard.IsVisible = true;
                 PlayersListView.IsVisible = false;
             }
             else
             {
-                PlayersListView.ItemsSource = App.User.PlayersPreviewList;
+                PlayersListView.ItemsSource = PlayersList;
                 NoPlayersCard.IsVisible = false;
                 PlayersListView.IsVisible = true;
             }
@@ -64,15 +65,15 @@ namespace Golf.Views.PoppupView
                 }
                 else
                 {
-                    var item = (sender as ImageButton).BindingContext as AddPlayersList;
+                    var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
 
-                    var userId = item.UserId;
+                    var userId = item.userId;
 
-                    App.User.PlayersPreviewList.Remove(item);
+                    PlayersList.Remove(item);
 
-                    PlayersListView.ItemsSource = App.User.PlayersPreviewList;
+                    PlayersListView.ItemsSource = PlayersList;
 
-                    if (App.User.PlayersPreviewList.Count == 0)
+                    if (PlayersList.Count == 0)
                     {
                         NoPlayersCard.IsVisible = true;
                         PlayersListView.IsVisible = false;

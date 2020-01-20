@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 
 namespace Golf.Models
 {
@@ -14,6 +11,8 @@ namespace Golf.Models
         internal string ISPLAYERLISTREFRESH = "false";
 
         internal string ISPARTICIPANTLISTREFRESH = "false";
+
+        internal bool FromUpdateRound = false;
 
         internal string AccessToken { get; set; } = string.Empty;
 

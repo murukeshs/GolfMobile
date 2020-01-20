@@ -95,12 +95,6 @@ namespace Golf.Views.RoundDetailsView
             ((RoundDetailsPageViewModel)BindingContext).UserCheckBoxSelectedCommand.Execute(item);
         }
 
-        //private void ViewprofileParticipantClicked(object sender, EventArgs e)
-        //{
-        //    var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
-        //    ((RoundDetailsPageViewModel)BindingContext).ViewProileCommand.Execute(item);
-        //}
-
         private async void RoundPlayers_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             try

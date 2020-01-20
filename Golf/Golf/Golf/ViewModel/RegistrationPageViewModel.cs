@@ -260,8 +260,6 @@ namespace Golf.ViewModel
                 {
                     var DateofBirth = dob.Value.ToString("yyyy/MM/dd");
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "User/createUser";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new createUser
                     {
@@ -277,28 +275,45 @@ namespace Golf.ViewModel
                         userTypeId = "1"           //Player
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
-                    
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.CreateUser(data);
+
+                    if (result != null)
                     {
-                        RegisterResponse res = JsonConvert.DeserializeObject<RegisterResponse>(responJsonText);
+                        RegisterResponse res = result;
                         App.User.UserId = res.userId;
                         App.User.OtpEmail = EmailText;
                         var view = new OtpVerificationPage();
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         resetFormValues();
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "User/createUser";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    RegisterResponse res = JsonConvert.DeserializeObject<\z>(responJsonText);
+                    //    App.User.UserId = res.userId;
+                    //    App.User.OtpEmail = EmailText;
+                    //    var view = new OtpVerificationPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //    resetFormValues();
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -334,5 +349,27 @@ namespace Golf.ViewModel
             ConfirmPassword = string.Empty;
         }
         #endregion Register Command Functionality
+
+        #region GenderOnChange Command
+
+        public ICommand GenderOnChangeCommand => new Command<string>(GenderOnChange);
+
+        public void GenderOnChange(string gender)
+        {
+            GenderText = gender;
+        }
+
+        #endregion
+
+        #region DateOnChange Command
+
+        public ICommand DOBSelectedCommand => new Command<string>(DOBSelected);
+
+        public void DOBSelected(string value)
+        {
+            dob = Convert.ToDateTime(value);
+        }
+
+        #endregion
     }
 }

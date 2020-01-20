@@ -22,5 +22,6 @@
         public bool? isPublicProfile { get; set; }
         public string userTypeId { get; set; }
         public string nickName { get; set; }
+        public int roundId { get; set; }
     }
 }

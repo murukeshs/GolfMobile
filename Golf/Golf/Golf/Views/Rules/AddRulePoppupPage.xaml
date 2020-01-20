@@ -32,6 +32,14 @@
                 <Setter Property="Margin" Value="80,0,0,0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             </Style>
+
+            <Style x:Key="RoundedButtonStyle" TargetType="Controls:RoundedButton">
+                <Setter Property="VerticalOptions" Value="EndAndExpand" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
         </ResourceDictionary>
     </Page:PopupPage.Resources>
 
@@ -79,16 +87,10 @@
                 <StackLayout Margin="20,20,20,20"
                              Orientation="Horizontal">
                 <Controls:RoundedButton Text="Add Rule"
-                                        VerticalOptions="EndAndExpand"
-                                        Margin="0"
-                                        CornerRadius="10"
-                                        HorizontalOptions="FillAndExpand"
+                                        Style="{StaticResource RoundedButtonStyle}"
                                         Clicked="RoundedButton_Clicked"/>
                     <Controls:RoundedButton Text="Close"
-                                        VerticalOptions="EndAndExpand"
-                                        Margin="0"
-                                            CornerRadius="10"
-                                        HorizontalOptions="FillAndExpand"
+                                        Style="{StaticResource RoundedButtonStyle}"
                                         Clicked="ImageButton_Clicked"/>
                 </StackLayout>
             </StackLayout>

@@ -100,23 +100,18 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "JWTAuthentication/login";
-                    Uri requestUri = new Uri(RestURL);
-
+                 
                     var data = new Login
                     {
                         email = UserNameText,
                         password = PasswordText
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.Login(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
-                        var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responJsonText);
+                        var loginResponse = result;
                         App.User.AccessToken = loginResponse.token;
                         App.User.UserProfileImage = loginResponse.user.profileImage;
                         var lastname = (string.IsNullOrEmpty(loginResponse.user.lastName)) ? "" : " " + loginResponse.user.lastName;
@@ -128,27 +123,52 @@ namespace Golf.ViewModel
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                         resetFormValues();
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        if(error.errorMessage == "Email is not verified")
-                        {
-                            App.User.OtpEmail = UserNameText;
-                            App.User.FromEmailNotValid = true;
-                            UserDialogs.Instance.HideLoading();
-                            await UserDialogs.Instance.AlertAsync("Email is Not Verified", "Alert", "Ok");
-                            var view = new OtpVerificationPage();
-                            var navigationPage = ((NavigationPage)App.Current.MainPage);
-                            await navigationPage.PushAsync(view);
-                        }
-                        else
-                        {
-                            UserDialogs.Instance.HideLoading();
-                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                        }
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "JWTAuthentication/login";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responJsonText);
+                    //    App.User.AccessToken = loginResponse.token;
+                    //    App.User.UserProfileImage = loginResponse.user.profileImage;
+                    //    var lastname = (string.IsNullOrEmpty(loginResponse.user.lastName)) ? "" : " " + loginResponse.user.lastName;
+                    //    App.User.UserName = loginResponse.user.firstName + lastname;
+                    //    App.User.UserId = loginResponse.user.userId;
+                    //    App.User.UserEmail = loginResponse.user.email;
+                    //    App.User.IsModerator = loginResponse.user.isModerator;
+                    //    var view = new MenuPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //    resetFormValues();
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    if (error.errorMessage == "Email is not verified")
+                    //    {
+                    //        App.User.OtpEmail = UserNameText;
+                    //        App.User.FromEmailNotValid = true;
+                    //        UserDialogs.Instance.HideLoading();
+                    //        await UserDialogs.Instance.AlertAsync("Email is Not Verified", "Alert", "Ok");
+                    //        var view = new OtpVerificationPage();
+                    //        var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //        await navigationPage.PushAsync(view);
+                    //    }
+                    //    else
+                    //    {
+                    //        UserDialogs.Instance.HideLoading();
+                    //        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //    }
+                    //}
                 }
                 else
                 {

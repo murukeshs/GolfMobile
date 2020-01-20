@@ -54,14 +54,38 @@
                 <Setter Property="VerticalOptions" Value="End" />
                 <Setter Property="Margin" Value="24, 1" />
             </Style>
+
+            <Style x:Key="RoundedButtonStyle" TargetType="Controls:RoundedButton">
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize16}"/>
+            </Style>
+
+            <Style x:Key="ExtentedEntryStyle" TargetType="Controls:ExtendedEntry">
+            <Setter Property="Margin" Value="20,0,20,0" />
+            <Setter Property="PlaceholderColor" Value="{StaticResource TextGrayColor}"/>
+            <Setter Property="LineColor" Value="{StaticResource BorderColor}"/>
+            <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+
+            <Style x:Key="CustomPickerStyle" TargetType="Controls:CustomPicker">
+                <Setter Property="Image" Value="down_arrow_gray.png" />
+                <Setter Property="Margin" Value="20,0,20,0"/>
+                <Setter Property="TitleColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="FillAndExpand"
                          VerticalOptions="FillAndExpand">
+            
             <StackLayout Orientation="Horizontal"
                          Margin="20,10,20,0"
                          Padding="0">
+                
             <Label Text="My Account"
                        HorizontalOptions="StartAndExpand"
                        Margin="0"
@@ -79,8 +103,7 @@
                                         Margin="0,0,0,0"/>
             </StackLayout>
 
-            <Grid   BackgroundColor="White"
-                       >
+            <Grid BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -88,14 +111,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="62" />
                 </Grid.RowDefinitions>
-                <Grid
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            BackgroundColor="{StaticResource WhiteColor}">
-                    <Label   
-                                Text="Personal Info"
-                                Style="{StaticResource TabTextStyle}"
-                            >
+                <Grid Grid.Column="0"
+                      Grid.Row="0"
+                      BackgroundColor="{StaticResource WhiteColor}">
+                    <Label Text="Personal Info"
+                           Style="{StaticResource TabTextStyle}">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding PersonalInfo}" Value="true" >
                                 <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
@@ -103,23 +123,18 @@
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
-                    <Grid 
-                                Style="{StaticResource TabSeparatorStyle}"/>
-                    <Grid   
-                                IsVisible="{Binding PersonalInfo}"
-                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid Style="{StaticResource TabSeparatorStyle}"/>
+                    <Grid IsVisible="{Binding PersonalInfo}"
+                          Style="{StaticResource SelectedTabStyle}"/>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                                    Command="{Binding PersonalInfoCommand}" />
+                        <TapGestureRecognizer Command="{Binding PersonalInfoCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
-                <Grid
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            BackgroundColor="{StaticResource WhiteColor}">
-                    <Label   
-                                Text="Communication Info"
-                                Style="{StaticResource TabTextStyle}">
+                <Grid Grid.Column="1"
+                      Grid.Row="0"
+                      BackgroundColor="{StaticResource WhiteColor}">
+                    <Label Text="Communication Info"
+                           Style="{StaticResource TabTextStyle}">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding CommunicationInfo}" Value="true" >
                                 <Setter Property="TextColor" Value="{StaticResource AccentTabColor}" />
@@ -128,12 +143,10 @@
                         </Label.Triggers>
                     </Label>
                     <Grid Style="{StaticResource TabSeparatorStyle}"/>
-                    <Grid  
-                                IsVisible="{Binding CommunicationInfo}"
-                                Style="{StaticResource SelectedTabStyle}"/>
+                    <Grid IsVisible="{Binding CommunicationInfo}"
+                          Style="{StaticResource SelectedTabStyle}"/>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                                    Command="{Binding CommunicationInfoCommand}" />
+                        <TapGestureRecognizer Command="{Binding CommunicationInfoCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
             </Grid>
@@ -163,14 +176,6 @@
                                               HeightRequest="160"
                                               WidthRequest="160"
                                               Grid.Row="0"/>
-
-                        <!--<Controls:CircleImage HorizontalOptions="Center"
-                                              Grid.Row="0"
-                                              Margin="100,125,0,0"
-                                              Grid.ColumnSpan="1"
-                                              Source="camera.png"
-                                              WidthRequest="50"   
-                                              HeightRequest="50"/>-->
                     </Grid>
 
                     <StackLayout Orientation="Horizontal"
@@ -179,16 +184,12 @@
 
                         <Controls:RoundedButton Text="Take Picture"
                                             Margin="0"
-                                            CornerRadius="10"
-                                                HeightRequest="40"
-                                            FontSize="{StaticResource FontSize16}"
+                                            Style="{StaticResource RoundedButtonStyle}"
                                             Command="{Binding TakeCaptureCommand}"/>
 
                         <Controls:RoundedButton Text="Gallery"
                                             Margin="10,0"
-                                            CornerRadius="10"
-                                                    HeightRequest="40"
-                                            FontSize="{StaticResource FontSize16}"
+                                            Style="{StaticResource RoundedButtonStyle}"
                                             Command="{Binding GalleryCommand}"/>
 
                     </StackLayout>
@@ -197,25 +198,16 @@
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
                     
-                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,0,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                             Placeholder="First Name"
-                                            PlaceholderColor="{StaticResource TextGrayColor}"
-                                            LineColor="{StaticResource BorderColor}"
-                                            TextColor="{StaticResource TextGrayColor}"
-                                            Text="{Binding FirstName, Mode = TwoWay}"
-                                            />
+                                            Text="{Binding FirstName, Mode = TwoWay}"/>
 
                     <Label Text="Last Name" 
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
                     
-                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,0,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                             Placeholder="Last Name"
-                                            PlaceholderColor="{StaticResource TextGrayColor}"
-                                            LineColor="{StaticResource BorderColor}"
-                                            TextColor="{StaticResource TextGrayColor}"
                                             Text="{Binding LastName, Mode = TwoWay}"
                                             />
 
@@ -223,12 +215,8 @@
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,0,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                             Placeholder="Nick Name"
-                                            PlaceholderColor="{StaticResource TextGrayColor}"
-                                            LineColor="{StaticResource BorderColor}"
-                                            TextColor="{StaticResource TextGrayColor}"
                                             Text="{Binding NickName, Mode = TwoWay}"
                                             />
                     
@@ -236,27 +224,14 @@
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,0,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                             Placeholder="Email"
-                                            PlaceholderColor="{StaticResource TextGrayColor}"
-                                            LineColor="{StaticResource BorderColor}"
-                                            TextColor="{StaticResource TextGrayColor}"
                                             Text="{Binding EmailName, Mode = TwoWay}"
                                             />
 
                     <Label Text="Date of Birth" 
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
-
-                    <!--<Controls:NullableDatePicker  Margin="20,0,20,0" PlaceHolder="Date of Birth"
-                                              x:Name="DOBDatePicker"
-                                             NullableDate="{Binding NullableDob}"
-                                             Date="{Binding Dob}"
-                                             HorizontalOptions="FillAndExpand"
-                                             TextColor="{StaticResource TextGrayColor}"
-                                             FontSize="{StaticResource FontSize18}"
-                                             DateSelected="DOBDatePicker_DateSelected"/>-->
 
                     <DatePicker DateSelected="DOBDatePicker_DateSelected" 
                                 Date="{Binding Dob}"
@@ -286,13 +261,9 @@
                            Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Controls:ExtendedEntry HorizontalOptions="FillAndExpand"
-                                            Margin="20,0,20,0"
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                             Placeholder="Phone Number"
                                             Keyboard="Numeric"
-                                            PlaceholderColor="{StaticResource TextGrayColor}"
-                                            LineColor="{StaticResource BorderColor}"
-                                            TextColor="{StaticResource TextGrayColor}"
                                             Text="{Binding PhoneNumber, Mode = TwoWay}"
                                             />
                     
@@ -343,49 +314,40 @@
                     <Label Text="Address" 
                         Margin="20,0,20,0"
                       Style="{StaticResource HeaderLabelTextStyle}"/>
-                    <Controls:ExtendedEntry Style="{StaticResource EntryStyleGray}"
-                                             Margin="20,0,20,0"
+
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                             Placeholder="Address"
-                                        Text="{Binding Address, Mode = TwoWay}"
+                                            Text="{Binding Address, Mode = TwoWay}"
                                             />
 
                     <Label Text="Country" 
                             Margin="20,0,20,0"
                        Style="{StaticResource HeaderLabelTextStyle}"/>
                     <Controls:CustomPicker Title="Country" 
-                                           Image="down_arrow_gray.png"
-                                            Margin="20,0,20,0"
-                                           TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"
-                                       ItemsSource="{Binding CountryList}"
-                                       SelectedIndexChanged="CountryIndexChanged"
-                                       ItemDisplayBinding="{Binding countryName}" 
-                                       SelectedIndex="{Binding countryID, Mode=TwoWay}" />
+                                           Style="{StaticResource CustomPickerStyle}"
+                                           ItemsSource="{Binding CountryList}"
+                                           SelectedIndexChanged="CountryIndexChanged"
+                                           ItemDisplayBinding="{Binding countryName}" 
+                                           SelectedIndex="{Binding countryID, Mode=TwoWay}" />
 
 
                     <Label Text="State" 
                             Margin="20,0,20,0"
                            Style="{StaticResource HeaderLabelTextStyle}"/>
                     <Controls:CustomPicker Title="State" 
-                                           Image="down_arrow_gray.png"
-                                            Margin="20,0,20,0"
-                                           TitleColor="{StaticResource TextGrayColor}"
-                                           TextColor="{StaticResource TextGrayColor}"
+                                           Style="{StaticResource CustomPickerStyle}"
                                            ItemsSource="{Binding StateList}"
-                                       SelectedIndexChanged="StateIndexChanged"
-                                       ItemDisplayBinding="{Binding stateName}" 
-                                       SelectedIndex="{Binding stateID, Mode=TwoWay}" 
+                                           SelectedIndexChanged="StateIndexChanged"
+                                           ItemDisplayBinding="{Binding stateName}" 
+                                           SelectedIndex="{Binding stateID, Mode=TwoWay}" 
                                          />
 
                     <Label Text="City" 
                             Margin="20,0,20,0"
                        Style="{StaticResource HeaderLabelTextStyle}"/>
 
-                    <Controls:ExtendedEntry
+                    <Controls:ExtendedEntry Style="{StaticResource ExtentedEntryStyle}"
                                         Placeholder="City"
-                                        Margin="20,0,20,0"
-                                        TextColor="{StaticResource TextGrayColor}"
-                                        PlaceholderColor="{StaticResource WhiteColor}"
                                         Text="{Binding City, Mode = TwoWay}"/>
 
                     <StackLayout Orientation="Horizontal"

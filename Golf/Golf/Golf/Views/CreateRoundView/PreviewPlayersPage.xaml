@@ -78,18 +78,18 @@
                                                  CornerRadius="10"
                                                  Padding="2"
                                                  Margin="0"
-                                                         HasShadow="True"
+                                                 HasShadow="True"
                                                  HorizontalOptions="FillAndExpand">
                                         <StackLayout Margin="10,10"
                                                      Orientation="Horizontal">
                                             <Controls:CircleImage HorizontalOptions="Center"
                                                                   Margin="0"
-                                                                  Source="{Binding PlayerImage,Converter={StaticResource profileconverter}}"
+                                                                  Source="{Binding profileImage,Converter={StaticResource profileconverter}}"
                                                                   HeightRequest="45"
                                                                   WidthRequest="45"
                                                                   Aspect="Fill"/>
 
-                                            <Label Text="{Binding PlayerName}"
+                                            <Label Text="{Binding nickName}"
                                                    TextColor="{StaticResource TextGrayColor}"
                                                    FontSize="{StaticResource FontSize20}"
                                                    Margin="10,0,0,0"

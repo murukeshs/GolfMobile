@@ -5,15 +5,11 @@ using Golf.Utils;
 using Golf.Views;
 using Golf.Views.PoppupView;
 using Golf.Views.RoundDetailsView;
-using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -25,21 +21,23 @@ namespace Golf.ViewModel.Round
        
         public ParticipantSelectionViewModel()
         {
-            App.User.PlayersPreviewList.Clear();
 
             LoadPlayerList();
 
             MessagingCenter.Subscribe<App, string>(this, App.User.ISPLAYERLISTREFRESH, (sender, arg) => {
+
                 int userId = Int32.Parse(arg);
-                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-            });
+
+                var item = PlayersList.FirstOrDefault(i => i.userId == userId);
+                if (item != null)
+                {
+                    item.IsChecked = false;
+                }
+            }); 
 
         }
 
         #region Property Declaration
-
-        public List<int> TeamPlayersIds = new List<int>();
 
         public ObservableCollection<AllParticipantsResponse> PlayersList
         {
@@ -65,25 +63,36 @@ namespace Golf.ViewModel.Round
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
 
-                    //Assign the Values to Listview
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.GetParticipantsList();
+
+                    if (result != null)
                     {
-                        PlayersList = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                        PlayersList = result;
                         OriginalPlayersList = PlayersList;
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "User/getPlayerList?SearchTerm=";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+
+                    ////Assign the Values to Listview
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    PlayersList = JsonConvert.DeserializeObject<ObservableCollection<AllParticipantsResponse>>(content);
+                    //    OriginalPlayersList = PlayersList;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -108,64 +117,53 @@ namespace Golf.ViewModel.Round
 
         #endregion PlayerList API Functionality
 
-        #region CheckBox Selected Command Functionality
+        //#region CheckBox Selected Command Functionality
 
-        public ICommand CheckBoxSelectedCommand => new Command<AllParticipantsResponse>(CheckboxChangedEvent);
+        //public ICommand CheckBoxSelectedCommand => new AsyncCommand(CheckboxChangedEvent);
 
-        void CheckboxChangedEvent(AllParticipantsResponse item)
-        {
-            try
-            {
-                var userId = item.userId;
+        //public async Task CheckboxChangedEvent(object item)
+        //{
+        //    try
+        //    {
+        //        AllParticipantsResponse user = item as AllParticipantsResponse;
+        //        int userId = user.userId;
 
-                if (TeamPlayersIds.Count > 0)
-                {
-                    bool UserIdAleradyExists = TeamPlayersIds.Contains(userId);
-                    if (UserIdAleradyExists)
-                    {
-                        TeamPlayersIds.Remove(userId);
-                        PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                        OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
-                        var itemToRemove = App.User.PlayersPreviewList.Single(r => r.UserId == userId);
-                        App.User.PlayersPreviewList.Remove(itemToRemove);
-                    }
-                    else
-                    {
-                        TeamPlayersIds.Add(userId);
-                        PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
-                        OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
-                        var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
-                        App.User.PlayersPreviewList.Add(list);
-                    }
-                }
-                else
-                {
-                    TeamPlayersIds.Add(userId);
-                    PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
-                    OriginalPlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
-                    var list = new AddPlayersList { UserId = item.userId, PlayerName = item.playerName, PlayerImage = item.profileImage };
-                    App.User.PlayersPreviewList.Add(list);
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message;
-            }
-        }
-        #endregion CheckBox Selected Command Functionality
+        //        if (PlayersList.Where(p => p.IsChecked == true).Count() > 0)
+        //        {
+        //            bool UserIdAleradyExists = (PlayersList.Where(x => x.IsChecked == true && x.teamPlayerListId == userId)).Count() > 0;
+        //            if (UserIdAleradyExists)
+        //            {
+        //                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = false);
+        //            }
+        //            else
+        //            {
+        //                PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            PlayersList.Where(x => x.userId == userId).ToList().ForEach(s => s.IsChecked = true);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var a = ex.Message;
+        //    }
+        //}
+        //#endregion CheckBox Selected Command Functionality
 
         #region  Proceed Button Command Functionality
         public ICommand ProccedCommand => new AsyncCommand(ProceedAsync);
         async Task ProceedAsync()
         {
             try
-            {
-                var PlayerId = string.Join(",", TeamPlayersIds);
+            {                          
+                var PlayerId = string.Join(",", OriginalPlayersList.Where(p => p.IsChecked == true)
+                                .Select(p => p.userId.ToString()));
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "Round/SaveRoundPlayer";
-                    Uri requestUri = new Uri(RestURL);
+                    
 
                     var data = new RoundPlayers
                     {
@@ -173,16 +171,11 @@ namespace Golf.ViewModel.Round
                         roundId = App.User.CreateRoundId
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.AddRoundPlayer(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         await UserDialogs.Instance.AlertAsync("Round Players Successfully Added", "Success", "Ok");
-                        UserDialogs.Instance.HideLoading();
                         App.User.TeamPreviewList.Clear();
                         App.User.TeamPreviewScoreKeeperName = string.Empty;
                         App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
@@ -190,12 +183,34 @@ namespace Golf.ViewModel.Round
                         var navigationPage = ((NavigationPage)App.Current.MainPage);
                         await navigationPage.PushAsync(view);
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "Round/SaveRoundPlayer";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    await UserDialogs.Instance.AlertAsync("Round Players Successfully Added", "Success", "Ok");
+                    //    UserDialogs.Instance.HideLoading();
+                    //    App.User.TeamPreviewList.Clear();
+                    //    App.User.TeamPreviewScoreKeeperName = string.Empty;
+                    //    App.User.TeamPreviewScoreKeeperProfilePicture = string.Empty;
+                    //    var view = new CreateTeamPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -228,7 +243,7 @@ namespace Golf.ViewModel.Round
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                var view = new InviteParticipantPage();
+                var view = new InviteParticipantPage("participantselectionpage");
                 await PopupNavigation.Instance.PushAsync(view);
                 UserDialogs.Instance.HideLoading();
             }
@@ -248,7 +263,7 @@ namespace Golf.ViewModel.Round
             try
             {
                 UserDialogs.Instance.ShowLoading();
-                await PopupNavigation.Instance.PushAsync(new PreviewPlayersPage());
+                await PopupNavigation.Instance.PushAsync(new PreviewPlayersPage(new ObservableCollection<AllParticipantsResponse>(OriginalPlayersList.Where(p => p.IsChecked == true))));
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
@@ -261,30 +276,17 @@ namespace Golf.ViewModel.Round
 
         #region Serach Command
 
-        private ObservableCollection<AllParticipantsResponse> PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
-
         public ICommand SearchCommand => new Command<string>(Search);
 
         public async void Search(string keyword)
         {
             try
             {
-                PlayersList = new ObservableCollection<AllParticipantsResponse>();
-
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    PlayersListItems = new ObservableCollection<AllParticipantsResponse>();
+                    PlayersList = new ObservableCollection<AllParticipantsResponse>();
 
-                    var query = OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower()));
-
-                    foreach (var item in query)
-                    {
-                        var value = new AllParticipantsResponse() { email = item.email, gender = item.gender, ImageIcon = item.ImageIcon, isChecked = item.isChecked, IsChecked = item.IsChecked, isPublicProfile = item.isPublicProfile, isScoreKeeper = item.isScoreKeeper, nickName = item.nickName, playerName = item.playerName, profileImage = item.profileImage, roleType = item.roleType, userId = item.userId, userType = item.userType };
-
-                        PlayersListItems.Add(value);
-                    }
-
-                    PlayersList = PlayersListItems;
+                    PlayersList = new ObservableCollection<AllParticipantsResponse>(OriginalPlayersList.Where(x => x.email.StartsWith(keyword) || x.playerName.ToLower().Contains(keyword.ToLower())));
                 }
                 else
                 {

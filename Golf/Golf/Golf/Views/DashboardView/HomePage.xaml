@@ -9,7 +9,32 @@
     <ContentPage.BindingContext>
         <viewModels:HomePageViewModel/>
     </ContentPage.BindingContext>
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PancakeViewStyle" TargetType="plugins:PancakeView">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="CornerRadius" Value="15"/>
+                <Setter Property="HeightRequest" Value="70"/>
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="50,0"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <!--<ScrollView>-->
             <Grid>
@@ -39,12 +64,8 @@
                            HorizontalTextAlignment="Center"/>
                 </StackLayout>
                 <StackLayout Grid.Row="1" Margin="30,-50,30,30">
-                    
-                    <plugins:PancakeView BackgroundColor="White" 
-                                         HasShadow="True"
-                                         CornerRadius="15"
-                                         Margin="10"
-                                         HeightRequest="70"
+
+                <plugins:PancakeView Style="{StaticResource PancakeViewStyle}"
                                          IsVisible="{Binding IsModerator}">
 
                         <plugins:PancakeView.GestureRecognizers>
@@ -52,80 +73,41 @@
                         </plugins:PancakeView.GestureRecognizers>
 
                         <StackLayout Orientation="Horizontal">
-                            <Image HorizontalOptions="Start"
-                                   Source="new_match.png"
-                                   Margin="0"/>
+                            <Image Style="{StaticResource ImageStyle}"
+                                   Source="new_match.png"/>
                             <Label Text="New Round" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   Margin="50,0"/>
+                                   Style="{StaticResource LabelStyle}"/>
                         </StackLayout>
 
                     </plugins:PancakeView>
 
-                    <plugins:PancakeView BackgroundColor="White" 
-                                         HasShadow="True"
-                                         CornerRadius="15"
-                                         Margin="10"
-                                         HeightRequest="70">
-                        
-                        <plugins:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding JoinRoundCommand}"/>
-                        </plugins:PancakeView.GestureRecognizers>
-                        
-                        <StackLayout Orientation="Horizontal">
-                            <Image HorizontalOptions="Start"
-                                   Source="join_match.png"
-                                    Margin="0"/>
-                            
-                            <Label Text="Join Round" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   Margin="50,0"/>
-                        </StackLayout>
-                    </plugins:PancakeView>
-                    
-                    <!--<plugins:PancakeView BackgroundColor="White" 
-                                         HasShadow="True"
-                                         CornerRadius="15"
-                                         Margin="10"
-                                         HeightRequest="70">
+                <plugins:PancakeView Style="{StaticResource PancakeViewStyle}">
 
-                        <plugins:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding TeamsCommand}"/>
-                        </plugins:PancakeView.GestureRecognizers>
+                    <plugins:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding JoinRoundCommand}"/>
+                    </plugins:PancakeView.GestureRecognizers>
 
-                        <StackLayout Orientation="Horizontal">
-                            <Image HorizontalOptions="Start"
-                                   Source="team.png"
-                                    Margin="0"/>
-                            
-                            <Label Text="Teams" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   Margin="50,0"/>
-                        </StackLayout>
-                    </plugins:PancakeView>-->
+                    <StackLayout Orientation="Horizontal">
+                        <Image Style="{StaticResource ImageStyle}"
+                                   Source="join_match.png"/>
 
-                    <plugins:PancakeView BackgroundColor="White" 
-                                         HasShadow="True"
-                                         CornerRadius="15"
-                                         Margin="10"
-                                         HeightRequest="70">
+                        <Label Text="Join Round" 
+                                   Style="{StaticResource LabelStyle}"/>
+                    </StackLayout>
+                </plugins:PancakeView>
+
+                <plugins:PancakeView Style="{StaticResource PancakeViewStyle}">
 
                         <plugins:PancakeView.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ParticipantsCommand}"/>
                         </plugins:PancakeView.GestureRecognizers>
 
                         <StackLayout Orientation="Horizontal">
-                            <Image HorizontalOptions="Start"
-                                   Source="participants.png"
-                                    Margin="0"/>
+                            <Image Style="{StaticResource ImageStyle}"
+                                   Source="participants.png"/>
                             
                             <Label Text="Participants" 
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   Margin="50,0"/>
+                                   Style="{StaticResource LabelStyle}"/>
                         </StackLayout>
                     </plugins:PancakeView>
                     

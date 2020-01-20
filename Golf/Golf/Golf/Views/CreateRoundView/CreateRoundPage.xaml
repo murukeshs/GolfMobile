@@ -15,6 +15,27 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             
+            <Style x:Key="DatePickerStyle" TargetType="controls:NullableDatePicker">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+            </Style>
+
+            <Style x:Key="TimePickerStyle" TargetType="TimePicker">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+                <Setter Property="Format" Value="hh:mm tt"/>
+            </Style>
+
+            <Style x:Key="HeadingLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource BlackColor}"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -48,12 +69,10 @@
                                  Orientation="Horizontal"
                                  Spacing="0"
                                  Padding="0">
+                            
                             <Label Text="Rule :"
-                           TextColor="{StaticResource BlackColor}"
-                           FontAttributes="Bold"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="{StaticResource FontSize18}"/>
+                                   Style="{StaticResource HeadingLabelStyle}"/>
+                            
                             <ImageButton Source="add_rule.png"
                                      HeightRequest="45"
                                      WidthRequest="45"
@@ -100,27 +119,20 @@
                     </plugins:PancakeView>
 
                     <Label Text="Choose Date and Time :"
-                   TextColor="{StaticResource BlackColor}"
-                   Margin="20,5,20,0"
-                   FontSize="{StaticResource FontSize18}"
-                   FontAttributes="Bold"/>
+                           Margin="20,5,20,0"
+                           Style="{StaticResource HeadingLabelStyle}"/>
 
             <StackLayout Orientation="Horizontal"
                          Margin="20,5,20,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="Start Date"
                                              NullableDate="{Binding NullableStartDate}"
-                                             HorizontalOptions="FillAndExpand"
-                                             FontSize="{StaticResource FontSize18}"
                                              Date="{Binding RoundStartDate}"
                                              x:Name="RoundStartDatePicker"
-                                             TextColor="{StaticResource TextGrayColor}"
-                                             DateSelected="NullableDatePicker_DateSelected"/>
+                                             DateSelected="NullableDatePicker_DateSelected"
+                                             Style="{StaticResource DatePickerStyle}"/>
 
-                        <TimePicker       TextColor="{StaticResource TextGrayColor}"
-                                          HorizontalOptions="FillAndExpand"
-                                          Format="hh:mm tt"
-                                          FontSize="{StaticResource FontSize18}"
+                        <TimePicker  Style="{StaticResource TimePickerStyle}"
                                           Time="{Binding RoundEndTime}"/>
                     </StackLayout>
 
@@ -128,27 +140,20 @@
                          Margin="20,5,20,0"
                          HorizontalOptions="FillAndExpand">
                 <controls:NullableDatePicker PlaceHolder="End Date"
-                                              x:Name="RoundEndDatePicker"
+                                             x:Name="RoundEndDatePicker"
                                              NullableDate="{Binding NullableENdDate}"
                                              Date="{Binding RoundEndDate}"
-                                             HorizontalOptions="FillAndExpand"
-                                             TextColor="{StaticResource TextGrayColor}"
-                                             FontSize="{StaticResource FontSize18}"
-                                             DateSelected="NullableDatePicker_DateSelected_1"/>
+                                             DateSelected="NullableDatePicker_DateSelected_1"
+                                             Style="{StaticResource DatePickerStyle}"/>
 
-                        <TimePicker       TextColor="{StaticResource TextGrayColor}"
-                                          HorizontalOptions="FillAndExpand"
-                                          Time="{Binding RoundStartTime}"
-                                           Format="hh:mm tt"
-                                          FontSize="{StaticResource FontSize18}"/>
+                              <TimePicker Style="{StaticResource TimePickerStyle}"
+                                          Time="{Binding RoundStartTime}"/>
                     </StackLayout>
 
 
                     <Label Text="Round Fee : "
-                   FontSize="{StaticResource FontSize18}"
-                   TextColor="{StaticResource BlackColor}"
-                   FontAttributes="Bold"
-                   Margin="20,5,20,0"/>
+                           Margin="20,5,20,0"
+                           Style="{StaticResource HeadingLabelStyle}"/>
 
             <controls:CustomEntry IsCurvedCornersEnabled="True"
                                   CornerRadius="25"

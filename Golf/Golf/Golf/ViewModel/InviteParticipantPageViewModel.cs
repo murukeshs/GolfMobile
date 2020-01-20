@@ -117,14 +117,14 @@ namespace Golf.ViewModel
 
         public bool IsValid { get; set; }
 
-        public ICommand InviteParticipantCommand => new AsyncCommand(SendInviteAsync);
+        public ICommand InviteParticipantCommand => new Command<string>(SendInviteAsync);
 
-        async Task SendInviteAsync()
+        void SendInviteAsync(string page)
         {
             IsValid = Validate();
             if (IsValid)
             {
-                await SendInviteByEmail();
+                SendInviteByEmail(page);          
             }
         }
 
@@ -178,15 +178,13 @@ namespace Golf.ViewModel
             }
         }
 
-        async Task SendInviteByEmail()
+        async Task SendInviteByEmail(string page)
         {
             try
             {
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/inviteParticipant";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new createUser
                     {
@@ -198,25 +196,46 @@ namespace Golf.ViewModel
                         phoneNumber = PhoneNumber,
                         isEmailNotification = IsEmailNotification,
                         isSMSNotification = IsSMSNotification,
-                        userTypeId = "1"
+                        userTypeId = "1",
+                        roundId = App.User.CreateRoundId
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+                    var result = await App.ApiClient.InviteParticipant(data);
+
+                    if (result != null)
                     {
-                        UserDialogs.Instance.HideLoading();
+                        if (page == "viewallparticipantspage")
+                        {
+                            MessagingCenter.Send<App>((App)Application.Current, "VIEWALLPARTICIPANTSPAGEREFRESH");
+                        }
                         await UserDialogs.Instance.AlertAsync("Invitation Sent", "Invites", "Ok");
                         await PopupNavigation.Instance.PopAsync();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "User/inviteParticipant";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    if (page == "viewallparticipantspage")
+                    //    {
+                    //        MessagingCenter.Send<App>((App)Application.Current, "VIEWALLPARTICIPANTSPAGEREFRESH");
+                    //    }
+                    //    UserDialogs.Instance.HideLoading();
+                    //    await UserDialogs.Instance.AlertAsync("Invitation Sent", "Invites", "Ok");
+                    //    await PopupNavigation.Instance.PopAsync();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -276,6 +295,17 @@ namespace Golf.ViewModel
             {
                 IsSMSNotification = true;
             }
+        }
+
+        #endregion
+
+        #region GenderOnchange Command
+
+        public ICommand GenderOnChangeCommand => new Command<string>(GenderOnChange);
+
+        public void GenderOnChange(string gender)
+        {
+                GenderText = gender;
         }
 
         #endregion

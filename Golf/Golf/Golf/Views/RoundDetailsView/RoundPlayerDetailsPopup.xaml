@@ -22,6 +22,20 @@
       EasingIn="BounceOut"/>
     </Page:PopupPage.Animation>
 
+    <Page:PopupPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource BlackTextColor}"/>
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize18}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Page:PopupPage.Resources>
+
     <Page:PopupPage.Content>
         <StackLayout VerticalOptions="Center"  
                      HorizontalOptions="FillAndExpand" 
@@ -66,14 +80,14 @@
                                      Margin="10,10">
                             <Label Text="{Binding PlayerName}"
                                    x:Name="PlayerName"
-                                    TextColor="{StaticResource BlackTextColor}"
-                                       Margin="10,0,0,0"
-                                       HorizontalOptions="FillAndExpand"
-                                       FontAttributes="Bold"
-                                       FontSize="{StaticResource FontSize20}"/>
+                                   TextColor="{StaticResource BlackTextColor}"
+                                   Margin="10,0,0,0"
+                                   HorizontalOptions="FillAndExpand"
+                                   FontAttributes="Bold"
+                                   FontSize="{StaticResource FontSize20}"/>
 
                             <Label TextColor="{StaticResource BlackTextColor}"
-                                      Margin="10,0,0,0"
+                                   Margin="10,0,0,0"
                                    x:Name="nickName"
                                    HorizontalOptions="FillAndExpand"
                                    FontSize="{StaticResource FontSize16}">
@@ -117,11 +131,7 @@
                                    Aspect="AspectFit"/>
                         <Label Text="{Binding Email}"
                                x:Name="Email"
-                               VerticalOptions="Center"
-                                   TextColor="{StaticResource BlackTextColor}"
-                                   Margin="10,0,0,0"
-                                   HorizontalOptions="FillAndExpand"
-                                   FontSize="{StaticResource FontSize18}"/>
+                               Style="{StaticResource LabelStyle}"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal"
                                  Margin="30,10,10,0">
@@ -132,11 +142,7 @@
                                    Aspect="AspectFit"/>
                         <Label Text="{Binding PhoneNumber}"
                                x:Name="PhoneNumber"
-                               VerticalOptions="Center"
-                                   TextColor="{StaticResource BlackTextColor}"
-                                   Margin="10,0,0,0"
-                                   HorizontalOptions="FillAndExpand"
-                                   FontSize="{StaticResource FontSize18}"/>
+                               Style="{StaticResource LabelStyle}"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal"
                                  Margin="30,10,10,10">
@@ -147,11 +153,7 @@
                                    Aspect="AspectFit"/>
                         <Label Text="{Binding Gender}"
                                x:Name="Gender"
-                               VerticalOptions="Center"
-                                   TextColor="{StaticResource BlackTextColor}"
-                                   Margin="10,0,0,0"
-                                   HorizontalOptions="FillAndExpand"
-                                   FontSize="{StaticResource FontSize18}"/>
+                              Style="{StaticResource LabelStyle}"/>
                     </StackLayout>
 
                     <controls:RoundedButton Text="Close"

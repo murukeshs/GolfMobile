@@ -2,7 +2,7 @@
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Linq;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -53,13 +53,16 @@ namespace Golf.Views.PoppupView
         }
         private string _ScoreKeeperProfileImage = string.Empty;
 
-        public TeamPreviewPage ()
+        ObservableCollection<AllParticipantsResponse> PlayersList;
+
+        public TeamPreviewPage (ObservableCollection<AllParticipantsResponse> ParticipantsList)
 		{
 			InitializeComponent ();
             BindingContext = this;
             TeamPreviewName = App.User.TeamName;
             ScoreKeeperName = App.User.TeamPreviewScoreKeeperName;
-            if(!string.IsNullOrEmpty(ScoreKeeperName))
+            PlayersList = ParticipantsList;
+            if (!string.IsNullOrEmpty(ScoreKeeperName))
             {
                 ScoreKeeperCard.IsVisible = true;
                 NoScoreKeeperCard.IsVisible = false;
@@ -77,14 +80,14 @@ namespace Golf.Views.PoppupView
             {
                 ScoreKeeperProfileImage = "profile_defalut_pic.png";
             }
-            if(App.User.TeamPreviewList.Count == 0)
+            if(ParticipantsList.Count == 0)
             {
                 NoPlayerCard.IsVisible = true;
                 ListView.IsVisible = false;
             }
             else
             {
-                ListView.ItemsSource = App.User.TeamPreviewList;
+                ListView.ItemsSource = PlayersList;
                 ListView.IsVisible = true;
                 NoPlayerCard.IsVisible = false;
             }
@@ -103,15 +106,15 @@ namespace Golf.Views.PoppupView
                 }
                 else
                 {
-                    var item = (sender as ImageButton).BindingContext as AddPlayersList;
+                    var item = (sender as ImageButton).BindingContext as AllParticipantsResponse;
 
-                    var userId = item.UserId;
+                    var userId = item.userId;
 
-                    App.User.TeamPreviewList.Remove(item);
+                    PlayersList.Remove(item);
 
-                    ListView.ItemsSource = App.User.TeamPreviewList;
+                    ListView.ItemsSource = PlayersList;
 
-                    if (App.User.TeamPreviewList.Count == 0)
+                    if (PlayersList.Count == 0)
                     {
                         NoPlayerCard.IsVisible = true;
                         ListView.IsVisible = false;

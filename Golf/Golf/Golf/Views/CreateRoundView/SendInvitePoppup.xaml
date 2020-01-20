@@ -13,6 +13,20 @@
         <viewModels:SendInvitePoppupViewModel/>
     </Page:PopupPage.BindingContext>
 
+    <Page:PopupPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="HeadingLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextGrayColor}"/>
+                <Setter Property="Margin" Value="20" />
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="{StaticResource FontSize20}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Page:PopupPage.Resources>
+
     <Page:PopupPage.Animation>
         <animations:ScaleAnimation
       PositionIn="Right"
@@ -40,12 +54,9 @@
                 <StackLayout VerticalOptions="CenterAndExpand"
                              HorizontalOptions="CenterAndExpand">
                     <Label Text="Invitation"
-                           TextColor="{StaticResource TextGrayColor}"
-                           Margin="20"
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center"
                            FontAttributes="Bold"
-                           FontSize="{StaticResource FontSize20}"/>
+                           Style="{StaticResource HeadingLabelStyle}"/>
+                    
                     <Image Source="invite_email_icon.png"
                            Margin="20"
                            HeightRequest="200"
@@ -53,11 +64,7 @@
                            HorizontalOptions="CenterAndExpand"/>
 
                     <Label Text="Round Invitation has sent to all the players/teams chosen for this round"
-                           TextColor="{StaticResource TextGrayColor}"
-                           Margin="20"
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center"
-                           FontSize="{StaticResource FontSize20}"/>
+                           Style="{StaticResource HeadingLabelStyle}"/>
 
                     <controls:RoundedButton Text="Okay"
                                             HorizontalOptions="Center"

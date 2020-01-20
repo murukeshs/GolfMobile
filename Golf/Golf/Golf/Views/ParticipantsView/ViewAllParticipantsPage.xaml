@@ -16,10 +16,20 @@
     <ContentPage.Resources>
 
         <ResourceDictionary>
+            
             <Converters:TeamProfileConverter x:Key="ProfileImagaConverter" />
             <Converters:ConvertStringToList x:Key="convertToList"/>
             <Converters:ProfileIconConverter x:Key="ProfileIconConverter"/>
             <Converters:GenderToIconConverter x:Key="GenderIconConverter" />
+
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="HeightRequest" Value="30"/>
+                <Setter Property="WidthRequest" Value="30"/>
+                <Setter Property="Aspect" Value="AspectFit"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
         </ResourceDictionary>
         
     </ContentPage.Resources>
@@ -107,23 +117,12 @@
                                                Margin="0"/>
 
                                                 <StackLayout Orientation="Horizontal">
-                                                    <Image  
-                                            HeightRequest="30"
-                                            WidthRequest="30"
-                                            Aspect="AspectFit"
-                                               
-                                                Margin="0"
+                                                    <Image  Style="{StaticResource ImageStyle}"
                                                 Source="{Binding gender, Converter={StaticResource GenderIconConverter}}"
-                                                VerticalOptions="Center"
                                                 HorizontalOptions="Fill"/>
 
-                                                    <Image  
-                                            HeightRequest="30"
-                                            WidthRequest="30"
-                                            Aspect="AspectFit"
-                                                Margin="0"
+                                                    <Image  Style="{StaticResource ImageStyle}"
                                                 Source="{Binding isPublicProfile, Converter={StaticResource ProfileIconConverter}}"
-                                                VerticalOptions="Center"
                                                 HorizontalOptions="End"/>
                                                 </StackLayout>
                                             </StackLayout>

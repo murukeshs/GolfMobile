@@ -15,6 +15,7 @@
     
     <ContentPage.Resources>
         <ResourceDictionary>
+            
             <Style x:Key="HeaderLabelCellTemplate" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="Center"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
@@ -47,53 +48,6 @@
                                   BackgroundColor="{StaticResource WhiteColor}"/>
           </plugins:PancakeView>
 
-
-            <!--<Grid Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"
-                                   />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Controls:CircleImage Source="profile_pic.png"
-                                      IsVisible="False"
-                                      VerticalOptions="Center"
-                                      WidthRequest="80"
-                                      HeightRequest="80"
-                                                              Margin="10,0"
-                                                              Grid.Row="0"
-                                                              Grid.Column="0"/>
-
-                <Label FontSize="{StaticResource FontSize16}"
-                                               TextColor="{StaticResource BlackColor}"
-                                               Text="Team Name"
-                                               VerticalOptions="Center"
-                                               Grid.Row="0"
-                                               Margin="5,0"
-                                               FontAttributes="Bold"
-                                               Grid.Column="1"/>
-
-                <Label FontSize="{StaticResource FontSize16}"
-                                               TextColor="{StaticResource BlackColor}"
-                                               Text="No of Players"
-                                               VerticalOptions="Center"
-                                                Grid.Row="0"
-                                               FontAttributes="Bold"
-                                                              Grid.Column="2"/>
-
-                <Label FontSize="{StaticResource FontSize16}"
-                                                FontAttributes="Bold"
-                                               TextColor="{StaticResource BlackColor}"
-                                               Text="Created By"
-                                               VerticalOptions="Center"
-                                                Grid.Row="0"
-                                                Grid.Column="3"/>
-            </Grid>-->
             <plugins:PancakeView BackgroundColor="{StaticResource WhiteColor}"
                                  BorderColor="{StaticResource BorderColor}"
                                  CornerRadius="10"
@@ -122,11 +76,8 @@
                       ItemTapped="TeamsListView_ItemTapped"
                       VerticalScrollBarVisibility="Never"
                       IsVisible="{Binding ListViewIsVisible,Mode=TwoWay}">
-                <!--<ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="ItemSelected" 
-                                                      Command="{Binding ItemTappedCommand}"
-                                                      Converter="{StaticResource itemTappedEventArgsConverter}" />
-                </ListView.Behaviors>-->
+
+                
                 <ListView.ItemTemplate>
 
                     <DataTemplate>

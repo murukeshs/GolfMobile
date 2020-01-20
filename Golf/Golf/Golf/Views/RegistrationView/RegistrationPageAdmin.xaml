@@ -14,15 +14,12 @@
     <ContentPage.Resources>
         <ResourceDictionary>
 
-            <Style x:Key="CheckBoxStyle" 
-                   TargetType="Controls:CustomCheckBox"
-                   BasedOn="{StaticResource CustomCheckBoxStyleWhite}">
+            <Style x:Key="CheckBoxStyle" TargetType="Controls:CustomCheckBox" BasedOn="{StaticResource CustomCheckBoxStyleWhite}">
                 <Setter Property="Margin" Value="60,0,0,0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             </Style>
 
-            <Style x:Key="PickerStyle" 
-                   TargetType="Controls:CustomPicker">
+            <Style x:Key="PickerStyle" TargetType="Controls:CustomPicker">
                 <Setter Property="Margin" Value="20,10,20,0" />
                 <Setter Property="TitleColor" Value="{StaticResource WhiteColor}"/>
                 <Setter Property="TextColor" Value="{StaticResource WhiteColor}"/>

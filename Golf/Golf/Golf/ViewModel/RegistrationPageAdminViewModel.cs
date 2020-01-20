@@ -139,22 +139,32 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Country/GetCountryList";
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(RestURL);
-                    HttpResponseMessage response = await client.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetCountryList();
+
+                    if (result != null)
                     {
-                        CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
-                        UserDialogs.Instance.HideLoading();
+                        CountryList = result;
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Country/GetCountryList";
+                    //HttpClient client = new HttpClient();
+                    //client.BaseAddress = new Uri(RestURL);
+                    //HttpResponseMessage response = await client.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -189,23 +199,33 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Country/GetStateList/"+ country.countryId;
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(RestURL);
-                    HttpResponseMessage response = await client.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+                    CountryID = country.countryId;
+                    var result = await App.ApiClient.GetStateList(country.countryId);
+                    if (result != null)
                     {
+                        StateList = result;
                         StateID = 0;
-                        StateList = JsonConvert.DeserializeObject<List<State>>(content);
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Country/GetStateList/"+ country.countryId;
+                    //HttpClient client = new HttpClient();
+                    //client.BaseAddress = new Uri(RestURL);
+                    //HttpResponseMessage response = await client.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    StateID = 0;
+                    //    StateList = JsonConvert.DeserializeObject<List<State>>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -289,8 +309,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
-                    Uri requestUri = new Uri(RestURL);
 
                     var data = new createUser
                     {
@@ -304,26 +322,37 @@ namespace Golf.ViewModel
                         isPublicProfile= IsPublicProfile
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.UpdateUserCommunicationInfo(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
-                        await UserDialogs.Instance.AlertAsync("Registration successfully completed.","Success","Ok");
-                        var view = new LoginPage();
-                        var navigationPage = ((NavigationPage)App.Current.MainPage);
-                        await navigationPage.PushAsync(view);
-                        resetFormValues();
-                        UserDialogs.Instance.HideLoading();
+                        UserDialogs.Instance.Alert("Communication Info Updated Successfully", "Success", "Ok");
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    await UserDialogs.Instance.AlertAsync("Registration successfully completed.","Success","Ok");
+                    //    var view = new LoginPage();
+                    //    var navigationPage = ((NavigationPage)App.Current.MainPage);
+                    //    await navigationPage.PushAsync(view);
+                    //    resetFormValues();
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -356,6 +385,35 @@ namespace Golf.ViewModel
             IsSMSNotification = false;
             IsEmailNotification = false;
         }
+        #endregion
+
+        #region StateChangedCommand 
+
+        public ICommand StateChangedCommand => new Command<State>(StateChanged);
+
+        public void StateChanged(State state)
+        {
+            StateID = state.stateId;
+        }
+
+        #endregion
+
+        #region NotificationTypeChangedCommand
+
+        public ICommand NotificationTypeChangedCommand => new Command<string>(NotificationTypeChanged);
+
+        public void NotificationTypeChanged(string item)
+        {
+            if (item == "Email")
+            {
+                IsEmailNotification = true;
+            }
+            if (item == "SMS")
+            {
+                IsSMSNotification = true;
+            }
+        }
+
         #endregion
 
     }

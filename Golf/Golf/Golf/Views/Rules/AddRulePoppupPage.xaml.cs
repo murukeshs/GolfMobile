@@ -1,20 +1,12 @@
 ﻿using Acr.UserDialogs;
 using Golf.Services;
-using Newtonsoft.Json;
 using Plugin.Connectivity;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using Golf.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Golf.ViewModel;
 
 namespace Golf.Views.Rules
 {
@@ -103,33 +95,49 @@ namespace Golf.Views.Rules
                     if (CrossConnectivity.Current.IsConnected)
                     {
                         UserDialogs.Instance.ShowLoading();
-                        string RestURL = App.User.BaseUrl + "Round/roundRules";
-                        Uri requestUri = new Uri(RestURL);
+                       
 
                         var data = new Rule
                         {
                             roundRules = AddNewRuleText
                         };
 
-                        string json = JsonConvert.SerializeObject(data);
-                        var httpClient = new HttpClient();
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                        var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                        string responJsonText = await response.Content.ReadAsStringAsync();
-                        if (response.IsSuccessStatusCode)
+                        var result = await App.ApiClient.AddRoundRule(data);
+
+                        if (result != null)
                         {
-                            AddNewRuleText = string.Empty;                           
+                            AddNewRuleText = string.Empty;
                             UserDialogs.Instance.HideLoading();
                             MessagingCenter.Send<App>((App)Application.Current, "OnCategoryCreated");
                             UserDialogs.Instance.Alert("New Rule Successfully Added!", "Success", "Ok");
                             await PopupNavigation.Instance.PopAsync();
+                          
                         }
-                        else
-                        {
-                            var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                            UserDialogs.Instance.HideLoading();
-                            UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                        }
+
+                       
+
+
+                        //string RestURL = App.User.BaseUrl + "Round/roundRules";
+                        //Uri requestUri = new Uri(RestURL);
+                        //string json = JsonConvert.SerializeObject(data);
+                        //var httpClient = new HttpClient();
+                        //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                        //var response = await httpClient.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                        //string responJsonText = await response.Content.ReadAsStringAsync();
+                        //if (response.IsSuccessStatusCode)
+                        //{
+                        //    AddNewRuleText = string.Empty;                           
+                        //    UserDialogs.Instance.HideLoading();
+                        //    MessagingCenter.Send<App>((App)Application.Current, "OnCategoryCreated");
+                        //    UserDialogs.Instance.Alert("New Rule Successfully Added!", "Success", "Ok");
+                        //    await PopupNavigation.Instance.PopAsync();
+                        //}
+                        //else
+                        //{
+                        //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                        //    UserDialogs.Instance.HideLoading();
+                        //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                        //}
                     }
                     else
                     {

@@ -54,23 +54,35 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Round/getRoundRulesList";
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetRulesList();
+
+                    if (result != null)
                     {
-                        RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
+                        RulesItems = result;
                         OriginalRulesList = RulesItems;
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+
+                    //var RestURL = App.User.BaseUrl + "Round/getRoundRulesList";
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    RulesItems = JsonConvert.DeserializeObject<ObservableCollection<RoundRules>>(content);
+                    //    OriginalRulesList = RulesItems;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -119,30 +131,17 @@ namespace Golf.ViewModel
 
         #region Serach Command
 
-        private ObservableCollection<RoundRules> RulesListItems = new ObservableCollection<RoundRules>();
-
-        public ICommand SearchCommand => new Command<string>(Search);
+        public ICommand  SearchCommand => new Command<string>(Search);
 
         public async void Search(string keyword)
-        {
+        { 
             try
             {
+                RulesItems = new ObservableCollection<RoundRules>();
+
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    RulesItems = new ObservableCollection<RoundRules>();
-
-                    RulesListItems = new ObservableCollection<RoundRules>();
-
-                    var query = OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()) || x.ruleName.ToLower().Contains(keyword.ToLower()));
-
-                    foreach (var item in query)
-                    {
-                        var value = new RoundRules() { roundRuleId = item.roundRuleId, ruleName = item.ruleName, Checked = item.Checked };
-
-                        RulesListItems.Add(value);
-                    }
-
-                    RulesItems = RulesListItems;
+                    RulesItems = new ObservableCollection<RoundRules>(OriginalRulesList.Where(x => x.ruleName.ToLower().StartsWith(keyword.ToLower()) || x.ruleName.ToLower().Contains(keyword.ToLower())));
                 }
                 else
                 {

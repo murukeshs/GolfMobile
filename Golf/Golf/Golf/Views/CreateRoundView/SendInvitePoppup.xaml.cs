@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Golf.Services;
 using Golf.Views.MenuView;
+using Golf.Views.RoundDetailsView;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -43,17 +44,26 @@ namespace Golf.Views.CreateRoundView
             base.OnBackgroundClicked();
             return false;
         }
-
+        private Page view;
         private async void RoundedButton_Clicked(object sender, System.EventArgs e)
         {
             try
             {
                 UserDialogs.Instance.ShowLoading();
-            await PopupNavigation.Instance.RemovePageAsync(this);
-            var view = new MenuPage();
-            var navigationPage = ((NavigationPage)App.Current.MainPage);
-            await navigationPage.PushAsync(view);
-            UserDialogs.Instance.HideLoading();
+                await PopupNavigation.Instance.RemovePageAsync(this);
+                
+                if (App.User.FromUpdateRound)
+                {
+                    view = new RoundDetailsPage();
+                }
+                else
+                {
+                    view = new MenuPage();
+                }
+            
+                var navigationPage = ((NavigationPage)App.Current.MainPage);
+                await navigationPage.PushAsync(view);
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {

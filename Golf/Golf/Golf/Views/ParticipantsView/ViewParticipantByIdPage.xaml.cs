@@ -46,7 +46,7 @@ namespace Golf.Views.ParticipantsView
                     LastName.Text = Items.lastName;
                     Gender.Text = Items.gender;
                     Email.Text = Items.email;
-                    Phone.Text = Items.phoneNumber;
+                    Phone.Text = Items.phoneNumber; 
                     var profile = Items.profileImage;
                     if(!string.IsNullOrEmpty(profile) || profile != null)
                     {

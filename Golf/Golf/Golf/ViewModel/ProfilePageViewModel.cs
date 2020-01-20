@@ -435,11 +435,8 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
-                    Uri requestUri = new Uri(RestURL);
 
                     //convert image into bytes
-                    string FileName = string.Empty;
                     Stream stream = file.GetStream();
                     using (MemoryStream ms = new MemoryStream())
                     {
@@ -447,30 +444,41 @@ namespace Golf.ViewModel
                         imageData = ms.ToArray();
                     }
 
-                    var formDataContent = new MultipartFormDataContent();
-                    formDataContent.Add(new ByteArrayContent(imageData), "files", "Image.png");
+                    var result = await App.ApiClient.UploadFile(imageData);
 
-                    var objClint = new HttpClient();
-                    objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    objClint.Timeout = TimeSpan.FromMilliseconds(360000);
-                    objClint.MaxResponseContentBufferSize = 2147483647;
-                    HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
-                    string responJsonText = await response.Content.ReadAsStringAsync();
-
-
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         //Asign the Image URL repsonse to the Image
-                        ProfileImage = responJsonText;
-                        MessagingCenter.Send<App, string>((App)Application.Current, App.User.EVENT_REFRESH_PROFILE_ICON, responJsonText);
-                        UserDialogs.Instance.HideLoading();
+                        ProfileImage = result;
+                        MessagingCenter.Send<App, string>((App)Application.Current, App.User.EVENT_REFRESH_PROFILE_ICON, result);
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "UploadFile/UploadFileBytes";
+                    //Uri requestUri = new Uri(RestURL);
+                    //var formDataContent = new MultipartFormDataContent();
+                    //formDataContent.Add(new ByteArrayContent(imageData), "files", "Image.png");
+                    //var objClint = new HttpClient();
+                    //objClint.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //objClint.Timeout = TimeSpan.FromMilliseconds(360000);
+                    //objClint.MaxResponseContentBufferSize = 2147483647;
+                    //HttpResponseMessage response = await objClint.PostAsync(requestUri, formDataContent);
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    //Asign the Image URL repsonse to the Image
+                    //    ProfileImage = responJsonText;
+                    //    MessagingCenter.Send<App, string>((App)Application.Current, App.User.EVENT_REFRESH_PROFILE_ICON, responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -546,18 +554,15 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "User/selectUserById/" + App.User.UserId;
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    var response = await httpClient.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetUserByUserId(App.User.UserId);
+                    if (result != null)
                     {
-                      UserData User = JsonConvert.DeserializeObject<UserData>(content);
+                        UserData User = result;
                         Email = User.email;
                         FirstName = User.firstName;
                         LastName = User.lastName;
-                       //Date Time Issue
+                        //Date Time Issue
                         var format = "MM/dd/yyyy hh:mm:ss tt";
                         var dateTime = DateTime.ParseExact(User.dob, format, CultureInfo.InvariantCulture);
                         Dob = dateTime;
@@ -565,7 +570,7 @@ namespace Golf.ViewModel
                         Gender = User.gender;
                         EmailName = User.email;
                         PhoneNumber = User.phoneNumber;
-                        LoadGender();    
+                        LoadGender();
                         IsEmailNotification = User.isEmailNotification;
                         IsSmsNotification = User.isSMSNotification;
                         Address = User.address;
@@ -578,12 +583,46 @@ namespace Golf.ViewModel
                         CountryOnChange(CountryID);
                         UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+
+                    //var RestURL = App.User.BaseUrl + "User/selectUserById/" + App.User.UserId;
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //var response = await httpClient.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //  UserData User = JsonConvert.DeserializeObject<UserData>(content);
+                    //    Email = User.email;
+                    //    FirstName = User.firstName;
+                    //    LastName = User.lastName;
+                    //   //Date Time Issue
+                    //    var format = "MM/dd/yyyy hh:mm:ss tt";
+                    //    var dateTime = DateTime.ParseExact(User.dob, format, CultureInfo.InvariantCulture);
+                    //    Dob = dateTime;
+                    //    await Task.Delay(500);
+                    //    Gender = User.gender;
+                    //    EmailName = User.email;
+                    //    PhoneNumber = User.phoneNumber;
+                    //    LoadGender();    
+                    //    IsEmailNotification = User.isEmailNotification;
+                    //    IsSmsNotification = User.isSMSNotification;
+                    //    Address = User.address;
+                    //    CountryID = User.countryId;
+                    //    loadCountry();
+                    //    City = User.city;
+                    //    IsPublicProfile = User.isPublicProfile;
+                    //    NickName = User.nickName;
+                    //    StateID = User.stateId;
+                    //    CountryOnChange(CountryID);
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -666,14 +705,12 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Country/GetCountryList";
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(RestURL);
-                    HttpResponseMessage response = await client.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetCountryList();
+
+                    if (result != null)
                     {
-                        CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
+                        CountryList = result;
 
                         foreach (var a in CountryList) //CountryID
                         {
@@ -685,15 +722,38 @@ namespace Golf.ViewModel
                                 countryID = index;
                             }
                         }
+                    }
 
-                        UserDialogs.Instance.HideLoading();
-                    }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Country/GetCountryList";
+                    //HttpClient client = new HttpClient();
+                    //client.BaseAddress = new Uri(RestURL);
+                    //HttpResponseMessage response = await client.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    CountryList = JsonConvert.DeserializeObject<List<Country>>(content);
+
+                    //    foreach (var a in CountryList) //CountryID
+                    //    {
+                    //        var countryIdValue = a.countryId;
+                    //        if (countryIdValue == CountryID)
+                    //        {
+                    //            CountryID = a.countryId;
+                    //            int index = CountryList.FindIndex(aa => aa.countryId == CountryID);
+                    //            countryID = index;
+                    //        }
+                    //    }
+
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -729,24 +789,35 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    var RestURL = App.User.BaseUrl + "Country/GetStateList/" + countryId;
-                    HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri(RestURL);
-                    HttpResponseMessage response = await client.GetAsync(RestURL);
-                    var content = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
+
+                    var result = await App.ApiClient.GetStateList(countryId);
+                    if (result != null)
                     {
-                        StateList = JsonConvert.DeserializeObject<List<State>>(content);
+                        StateList = result;
                         int index = StateList.FindIndex(a => a.stateId == StateID);
                         stateID = index;
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(content);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //var RestURL = App.User.BaseUrl + "Country/GetStateList/" + countryId;
+                    //HttpClient client = new HttpClient();
+                    //client.BaseAddress = new Uri(RestURL);
+                    //HttpResponseMessage response = await client.GetAsync(RestURL);
+                    //var content = await response.Content.ReadAsStringAsync();
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    StateList = JsonConvert.DeserializeObject<List<State>>(content);
+                    //    int index = StateList.FindIndex(a => a.stateId == StateID);
+                    //    stateID = index;
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(content);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -839,8 +910,7 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
-                    Uri requestUri = new Uri(RestURL);
+                    
 
                     var data = new createUser
                     {
@@ -854,23 +924,34 @@ namespace Golf.ViewModel
                         isPublicProfile = IsPublicProfile
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.UpdateUserCommunicationInfo(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         UserDialogs.Instance.Alert("Communication Info Updated Successfully", "Success", "Ok");
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "User/updateUserCommunicationinfo";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    UserDialogs.Instance.Alert("Communication Info Updated Successfully", "Success", "Ok");
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -967,8 +1048,6 @@ namespace Golf.ViewModel
                 if (CrossConnectivity.Current.IsConnected)
                 {
                     UserDialogs.Instance.ShowLoading();
-                    string RestURL = App.User.BaseUrl + "User/updateUser";
-                    Uri requestUri = new Uri(RestURL);
 
                     if(string.IsNullOrEmpty(ProfileImage) || ProfileImage == null || ProfileImage == "profile_defalut_pic.png")
                     {
@@ -989,27 +1068,42 @@ namespace Golf.ViewModel
                         phoneNumber = PhoneNumber,
                     };
 
-                    string json = JsonConvert.SerializeObject(data);
-                    var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
-                    HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                    string responJsonText = await response.Content.ReadAsStringAsync();
+                    var result = await App.ApiClient.UpdateUser(data);
 
-                    if (response.IsSuccessStatusCode)
+                    if (result != null)
                     {
                         UserDialogs.Instance.Alert("ProfileInfo SuccessFully Updated", "Alert", "Ok");
                         if (ProfileImage != null)
                         {
                             App.User.UserProfileImage = ProfileImage;
                         }
-                        UserDialogs.Instance.HideLoading();
                     }
-                    else
-                    {
-                        var error = JsonConvert.DeserializeObject<error>(responJsonText);
-                        UserDialogs.Instance.HideLoading();
-                        UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
-                    }
+
+                    UserDialogs.Instance.HideLoading();
+
+                    //string RestURL = App.User.BaseUrl + "User/updateUser";
+                    //Uri requestUri = new Uri(RestURL);
+                    //string json = JsonConvert.SerializeObject(data);
+                    //var httpClient = new HttpClient();
+                    //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", App.User.AccessToken);
+                    //HttpResponseMessage response = await httpClient.PutAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                    //string responJsonText = await response.Content.ReadAsStringAsync();
+
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    UserDialogs.Instance.Alert("ProfileInfo SuccessFully Updated", "Alert", "Ok");
+                    //    if (ProfileImage != null)
+                    //    {
+                    //        App.User.UserProfileImage = ProfileImage;
+                    //    }
+                    //    UserDialogs.Instance.HideLoading();
+                    //}
+                    //else
+                    //{
+                    //    var error = JsonConvert.DeserializeObject<error>(responJsonText);
+                    //    UserDialogs.Instance.HideLoading();
+                    //    UserDialogs.Instance.Alert(error.errorMessage, "Alert", "Ok");
+                    //}
                 }
                 else
                 {
@@ -1032,6 +1126,23 @@ namespace Golf.ViewModel
                 }
             }
         }
-        #endregion     
+        #endregion
+
+        #region Notification Change Functionality
+        public ICommand NotificationTypeChangedCommand => new Command<string>(NotificationTypeChanged);
+
+        void NotificationTypeChanged(string type)
+        {
+            if (type == "Email")
+            {
+                IsEmailNotification = true;
+            }
+            if (type == "SMS")
+            {
+                IsSmsNotification = true;
+            }
+        }
+
+        #endregion
     }
 }

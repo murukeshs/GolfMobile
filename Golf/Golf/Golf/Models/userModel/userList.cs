@@ -1,7 +1,7 @@
 ﻿namespace Golf.Models.userModel
 {
-    public class userList : getUser
+    public class UserList : getUser
     {
-        public string userType { get; set; }
+        public string UserType { get; set; }
     }
 }

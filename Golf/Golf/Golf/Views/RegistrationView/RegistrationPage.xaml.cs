@@ -12,22 +12,20 @@ namespace Golf.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class RegistrationPage : ContentPage
 	{
-        RegistrationPageViewModel vm;
         public RegistrationPage ()
 		{
 			InitializeComponent ();
-            vm = BindingContext as RegistrationPageViewModel;
         }
 
         private void GenderOnchange(object sender, EventArgs e)
         {
             Picker picker = sender as Picker;
-            vm.GenderText = picker.SelectedItem.ToString();
+            ((RegistrationPageViewModel)BindingContext).GenderOnChangeCommand.Execute(picker.SelectedItem.ToString());
         }
 
         private void DobPickerSelected(object sender, DateChangedEventArgs e)
         {
-            vm.dob = DobPicker.Date;
+            ((RegistrationPageViewModel)BindingContext).DOBSelectedCommand.Execute(DobPicker.Date.ToString());
         }
 
         #region screen adjusting
